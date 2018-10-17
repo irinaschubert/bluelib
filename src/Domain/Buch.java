@@ -4,10 +4,10 @@ import java.util.List;
 
 /**
  * @version 0.1 16.10.2018
- * @author BlueLib
+ * @author irina
  *
  */
-public class Buch {
+public class Buch extends Medium {
 	
 	List<Autor> autoren;
 	Verlag verlag;

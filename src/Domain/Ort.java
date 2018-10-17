@@ -2,10 +2,9 @@ package Domain;
 
 /**
  * @version 0.1 16.10.2018
- * @author BlueLib
+ * @author irina
  *
  */
-
 public class Ort {
     int id;
     int plz;
