@@ -7,4 +7,10 @@ package Services;
  */
 public class LoginService {
 
+	public LoginService() {}
+	
+	public Verifikation loginPruefen(String name, String pw) {
+		Verifikation v = new Verifikation();
+		return v;
+	}
 }

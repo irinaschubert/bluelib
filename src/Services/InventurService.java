@@ -1,7 +1,7 @@
 package Services;
 
 import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 import Domain.Person;
 import Domain.Medium;
 import Domain.Inventur;
@@ -16,15 +16,18 @@ public class InventurService {
 	public InventurService() {}
 	
 	public Verifikation neueInventur(Date datum, String bezeichnung, Person mitarbeiter) {
-		return Verifikation;
+		Verifikation v = new Verifikation();
+		return v;
 	}
 	
-	public List<Medium> inventurdifferenz(Inventur inventur){
-		return List;
+	public ArrayList<Medium> inventurdifferenz(Inventur inventur){
+		ArrayList<Medium> list = new ArrayList<>();
+		return list;
 	}
 	
 	public Verifikation mediumBuchen(Medium medium) {
-		return Verifikation;
+		Verifikation v = new Verifikation();
+		return v;
 	}
 
 }
