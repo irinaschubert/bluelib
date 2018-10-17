@@ -1,0 +1,11 @@
+/ca-cert.pem
+/ca-key.pem
+/ca-truststore
+/certs_howto.txt
+/client-cert.pem
+/client-key.pem
+/client-keystore
+/mykey.pem
+/mykey.pub
+/server-cert.pem
+/server-key.pem
