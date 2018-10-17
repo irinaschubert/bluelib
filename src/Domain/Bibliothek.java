@@ -7,12 +7,12 @@ package Domain;
  */
 public class Bibliothek{
 	
-	String name;
-	String email;
-	String telefon;
-	String oeffnungszeiten;
-	Adresse adresse;
-	int leihdauer; // Anz. Tage
+	private String name;
+	private String email;
+	private String telefon;
+	private String oeffnungszeiten;
+	private Adresse adresse;
+	private int leihdauer; // Anz. Tage
 	
 	public Bibliothek() {
 		

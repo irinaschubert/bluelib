@@ -12,11 +12,11 @@ import Domain.InventurPosition;
  */
 public class Inventur {
 	
-	int id;
-	String inventurBezeichnung;
-	Date inventurDatum;
-	Person inventurMitarbeiter;
-	List<InventurPosition> positionen;
+	private int id;
+	private String inventurBezeichnung;
+	private Date inventurDatum;
+	private Person inventurMitarbeiter;
+	private List<InventurPosition> positionen;
 	
 	public Inventur() {
 		

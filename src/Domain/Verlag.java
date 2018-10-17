@@ -9,10 +9,10 @@ import java.util.Date;
  */
 public class Verlag {
 	
-	int id;
-	String name;
-	Date gruendungsDatum;
-	Date endDatum;
+	private int id;
+	private String name;
+	private Date gruendungsDatum;
+	private Date endDatum;
 	
 	public Verlag() {
 		

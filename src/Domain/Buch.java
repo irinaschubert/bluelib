@@ -9,16 +9,16 @@ import java.util.List;
  */
 public class Buch extends Medium {
 	
-	List<Autor> autoren;
-	Verlag verlag;
-	String reihe;
-	String auflage;
-	String ausgabe; // Was ist damit gemeint?
-	int anzahlSeiten;
-	String signatur;
-	int isbn;
-	String erscheinungsJahr;
-	String erscheinungsOrt;
+	private List<Autor> autoren;
+	private Verlag verlag;
+	private String reihe;
+	private String auflage;
+	private String ausgabe; // Was ist damit gemeint?
+	private int anzahlSeiten;
+	private String signatur;
+	private int isbn;
+	private String erscheinungsJahr;
+	private String erscheinungsOrt;
 	
 	public Buch() {
 		

@@ -9,8 +9,8 @@ import java.util.Date;
  */
 public class InventurPosition {
 	
-	Medium medium;
-	Date datum;
+	private Medium medium;
+	private Date datum;
 	
 	public InventurPosition() {
 		

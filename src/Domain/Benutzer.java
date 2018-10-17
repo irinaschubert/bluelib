@@ -7,9 +7,19 @@ package Domain;
  */
 public class Benutzer extends Person {
 
-	Status status;
+	private Status status;
 	
 	public Benutzer() {
 		
 	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	
+	
 }

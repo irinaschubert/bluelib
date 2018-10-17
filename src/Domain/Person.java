@@ -9,15 +9,15 @@ import java.util.Date;
  */
 public abstract class Person {
 	
-	int id;
-	String name;
-	String vorname;
-	Date geburtsdatum;
-	Adresse adresse;
-	String email;
-	String telefon;
-	Date erfassungDatum;
-	Person erfassungMitarbeiter;
+	private int id;
+	private String name;
+	private String vorname;
+	private Date geburtsdatum;
+	private Adresse adresse;
+	private String email;
+	private String telefon;
+	private Date erfassungDatum;
+	private Person erfassungMitarbeiter;
 	
 	public Person() {
 		

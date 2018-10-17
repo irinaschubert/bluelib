@@ -7,10 +7,10 @@ package Domain;
  */
 public class Mitarbeiter extends Person {
 	
-	String benutzername;
-	String passwort;
-	boolean admin;
-	boolean aktiv;
+	private String benutzername;
+	private String passwort;
+	private boolean admin;
+	private boolean aktiv;
 	
 	public Mitarbeiter() {
 		

@@ -7,9 +7,9 @@ package Domain;
  */
 
 public class Adresse {
-    int id;
-    String strasse;
-    Ort ort;
+	private int id;
+	private String strasse;
+	private Ort ort;
     
     public Adresse() {
     	

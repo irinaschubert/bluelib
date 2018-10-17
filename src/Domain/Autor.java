@@ -9,11 +9,11 @@ import java.util.Date;
  */
 public class Autor {
 	
-	int id;
-	String name;
-	String vorname;
-	Date geburtsdatum;
-	Date todesdatum;
+	private int id;
+	private String name;
+	private String vorname;
+	private Date geburtsdatum;
+	private Date todesdatum;
 	
 	public Autor() {
 		

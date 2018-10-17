@@ -9,14 +9,14 @@ import java.util.Date;
  */
 public class Ausleihe {
 	
-	int id;
-	Medium medium;
-	Person benutzer;
-	Date ausleiheDatum;
-	Date rueckgabeDatum;
-	Person ausleiheMitarbeiter;
-	Person rueckgabeMitarbeiter;
-	String bemerkung;
+	private int id;
+	private Medium medium;
+	private Person benutzer;
+	private Date ausleiheDatum;
+	private Date rueckgabeDatum;
+	private Person ausleiheMitarbeiter;
+	private Person rueckgabeMitarbeiter;
+	private String bemerkung;
 	
 	public Ausleihe() {
 		

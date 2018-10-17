@@ -7,8 +7,8 @@ package Domain;
  */
 public class Schlagwort {
 	
-	int id;
-	String bezeichnung;
+	private int id;
+	private String bezeichnung;
 
 	public Schlagwort() {
 		

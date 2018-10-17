@@ -6,9 +6,9 @@ package Domain;
  *
  */
 public class Ort {
-    int id;
-    int plz;
-    String ort;
+	private int id;
+	private int plz;
+	private String ort;
     
     public Ort() {
     	

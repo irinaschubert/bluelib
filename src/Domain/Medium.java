@@ -10,15 +10,15 @@ import java.util.List;
  */
 public abstract class Medium {
 
-	int id;
-	int barcodeNr;
-	String titel;
-	List<Schlagwort> schlagwoerter;
-	Double preis;
-	Status status;
-	Date erfassungDatum;
-	Person erfassungMitarbeiter;
-	String bemerkung;
+	private int id;
+	private int barcodeNr;
+	private String titel;
+	private List<Schlagwort> schlagwoerter;
+	private Double preis;
+	private Status status;
+	private Date erfassungDatum;
+	private Person erfassungMitarbeiter;
+	private String bemerkung;
 	
 	public Medium() {
 		
