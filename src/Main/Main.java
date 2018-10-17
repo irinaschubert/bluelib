@@ -1,8 +1,5 @@
 package Main;
 
-import java.sql.SQLException;
-import DAO.DBConnection;
-
 /**
  * @version 0.1 16.10.2018
  * @author BlueLib
