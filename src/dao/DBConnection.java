@@ -7,35 +7,35 @@ import java.util.ResourceBundle;
 
 /**
  * Stellt eine Datenbankverbindung zur Verfuegung
+ * 
+ * Die Fehler müssen mit try-catch abgefangen werden, mit Throws-Exception
+ * ziehen sich sonst SQL-Fehlerbehandlungen durch alle Schichten hindurch.
+ * 
+ * Die DB-Verbindung wird bei jedem SQL-Statement auf - und wieder abgebaut. Der
+ * Abbau muss in einem finally-Block liegen.
+ * 
+ * @version 0.1 16.10.2018
  * @author Schmutz
  *
  */
 public class DBConnection {
-	
-	private Connection dbConnection  = null;
-	
+
 	public DBConnection() {
-    try {
-    	Class.forName("com.mysql.cj.jdbc.Driver");
-    }
-    catch (Exception ex) {
-    	ex.printStackTrace();	    	
-    }
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
-	
-	
-	
-	
-	 public void openConnection() throws SQLException{
-		   //conn =  DriverManager.getConnection("jdbc:mysql://localhost/" + database + "?user=" + dbuser +  "&password=" + dbpwd + "&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
-	   //dbServer = "192.168.1.2";    
-		 dbConnection =  DriverManager.getConnection(DBConnectionInfo.getConnString());
- }
- 
- public void closeConnection() throws SQLException{	   
-	 	dbConnection.close();	   
- }
 
+	public static Connection getDBConnection() throws SQLException {
 
+		return DriverManager.getConnection(DBConnectionInfo.getConnString());
+	}
+
+	public static void closeConnection(Connection conn) throws SQLException {
+
+		conn.close();
+	}
 
 }
