@@ -1,5 +1,5 @@
 package ui;
 
-public class GUI extends VorlageGUI {
+public class GUI {
 
 }
