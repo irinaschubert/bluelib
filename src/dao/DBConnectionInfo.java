@@ -23,6 +23,6 @@ public class DBConnectionInfo {
 	 * @return Datenbankverbindungsstring
 	 */
 	public static String getConnString() {
-		return "jdbc:mysql://" + dbServer + "/" + dataBase + "?user=" + dbUser +  "&password=" + dbpw + "&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&useSSL=false";
+		return "jdbc:mysql://" + dbServer + "/" + dataBase + "?user=" + dbUser +  "&password=" + dbpw + "&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
 	}
 }
