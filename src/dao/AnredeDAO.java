@@ -13,7 +13,8 @@ import interfaces.DAOInterface;
 /**
  * Holt sich die Anrededaten
  * 
- * Die SQL-Fehler müssen in Try-Catch-Blöcken abgefangen werden. Mit throwsexcetpo
+ * Die SQL-Fehler müssen in Try-Catch-Blöcken abgefangen werden throws Excecption, würde die SQL-Fehler durch
+ * alle nachfolgenden Klassen weiterziehen und müsste im Interface implementiert werden
  * 
  * @version 0.1 16.10.2018
  * @author Schmutz
