@@ -16,7 +16,6 @@ public class Ausleihe {
 	private Date rueckgabeDatum;
 	private Person ausleiheMitarbeiter;
 	private Person rueckgabeMitarbeiter;
-	private String bemerkung;
 	
 	public Ausleihe() {
 		
@@ -76,14 +75,6 @@ public class Ausleihe {
 
 	public void setRueckgabeMitarbeiter(Person rueckgabeMitarbeiter) {
 		this.rueckgabeMitarbeiter = rueckgabeMitarbeiter;
-	}
-
-	public String getBemerkung() {
-		return bemerkung;
-	}
-
-	public void setBemerkung(String bemerkung) {
-		this.bemerkung = bemerkung;
 	}
 	
 	
