@@ -6,7 +6,9 @@ import javax.swing.SwingUtilities;
 
 import dao.AnredeDAO;
 import domain.Anrede;
-import repositories.AnredeRepository;
+import hilfsklassen.ButtonNamen;
+import ui.AutorController;
+import ui.AutorView;
 import ui.PrototypController;
 import ui.PrototypView;
 
@@ -28,6 +30,16 @@ public class Main {
 	                
 	            }
 	        });  
+		 
+		 SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {                                           
+	                AutorView view = new AutorView("Autor"); 
+	                new AutorController(view);
+	                
+	            }
+	        });  
+		 
 
 	}
 

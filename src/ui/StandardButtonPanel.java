@@ -13,35 +13,35 @@ import javax.swing.JPanel;
  */
 
 public class StandardButtonPanel extends JPanel{
-	private JButton sichernButton;
-	private JButton abbrechenButton;
-	private JButton uebernehmenButton;
+	private JButton button1;
+	private JButton button2;
+	private JButton button3;
 	
 	public StandardButtonPanel() {
 		erstellenButtonPanel();
 	}
 
 	private void erstellenButtonPanel() {
-		sichernButton = new JButton("Sichern");
-		abbrechenButton = new JButton("Abbrechen");
-		uebernehmenButton = new JButton("Übernehmen");
+		button1 = new JButton();
+		button2 = new JButton();
+		button3 = new JButton();
 		
-		this.add(sichernButton);
-		this.add(uebernehmenButton);
-		this.add(abbrechenButton);
+		this.add(button1);
+		this.add(button3);
+		this.add(button2);
 				
 	}
 	
-	public JButton getSichernButton() {
-		return this.sichernButton;
+	public JButton getButton1() {
+		return this.button1;
 	}
 	
-	public JButton getUebernehmenButton() {
-		return this.uebernehmenButton;
+	public JButton getButton2() {
+		return this.button2;
 	}
 	
-	public JButton getAbbrechenButton() {
-		return this.abbrechenButton;
+	public JButton getButton3() {
+		return this.button3;
 	}
 
 }

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
- * Stellt eine Datenbankverbindung zur Verfuegung
+ * Stellt eine Datenbankverbindung als Singleton zur Verfuegung
  * 
  * Die Fehler müssen mit try-catch abgefangen werden, mit Throws-Exception
  * ziehen sich sonst SQL-Fehlerbehandlungen durch alle Schichten hindurch.
@@ -18,22 +18,29 @@ import java.util.ResourceBundle;
  * @author Schmutz
  *
  */
-public class DBConnection {
+public final class DBConnection {
 
-	public DBConnection() {
+	private static final DBConnection INSTANCE = new DBConnection();
+	private DBConnection() {
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
+	}
+	
+	public static DBConnection getInstance() {
+		return INSTANCE;
 	}
 
-	public static Connection getDBConnection() throws SQLException {
+	public  Connection getDBConnection() throws SQLException {
 
 		return DriverManager.getConnection(DBConnectionInfo.getConnString());
 	}
 
-	public static void closeConnection(Connection conn) throws SQLException {
+	public void closeConnection(Connection conn) throws SQLException {
 
 		conn.close();
 	}

@@ -2,12 +2,14 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 import domain.Anrede;
+import hilfsklassen.ButtonNamen;
 import services.NormdatenService;
 
 /**
@@ -52,10 +54,13 @@ public class PrototypController {
 		};
 		
 //		Zuweisen des Actionlisteners zum Sichern-Button
-		prototypView.getButton().getSichernButton().addActionListener(sichernButonActionListener);
+		prototypView.getButtonPanel().getButton1().addActionListener(sichernButonActionListener);
 	}
 	
 	public void initialisieren() {
 		prototypView.getLabel().setText("Anrede");
+		prototypView.getButtonPanel().getButton1().setText(ButtonNamen.SICHERN.getName());
+		prototypView.getButtonPanel().getButton2().setText(ButtonNamen.UEBERNEHMEN.getName());
+		prototypView.getButtonPanel().getButton3().setText(ButtonNamen.ABBRECHEN.getName());
 	}
 }

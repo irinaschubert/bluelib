@@ -44,7 +44,7 @@ public class PrototypView {
 	        frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);        
 	    }
 	        
-	    public StandardButtonPanel getButton(){
+	    public StandardButtonPanel getButtonPanel(){
 	        return this.buttonPanel;
 	    }
 	    

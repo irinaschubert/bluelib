@@ -22,6 +22,7 @@ import interfaces.DAOInterface;
 
 public class AnredeDAO implements DAOInterface<Anrede> {
 
+	private DBConnection dbConnection = null;
 	private Connection conn = null; 
 	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
@@ -69,7 +70,8 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 	
 			try {
 				
-				conn = DBConnection.getDBConnection();
+				dbConnection = DBConnection.getInstance();
+				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				mRS = pstmt.executeQuery();
 				while(mRS.next()) {
@@ -77,14 +79,14 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 					 a.setId(mRS.getInt(1));
 					 a.setBezeichnung(mRS.getString(2));
 					 anredeListe.add(a);}
-				
+				pstmt.executeQuery();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 
 			finally {
 						try {
-							DBConnection.closeConnection(conn);
+							dbConnection.closeConnection(conn);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
