@@ -139,7 +139,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `bluelib`.`verlag` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NULL,
-  `gründungsdatum` DATE NULL,
+  `gruendungsdatum` DATE NULL,
   `enddatum` DATE NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;

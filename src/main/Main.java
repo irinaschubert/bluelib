@@ -1,14 +1,10 @@
 package main;
 
-import java.util.ArrayList;
-
 import javax.swing.SwingUtilities;
-
-import dao.AnredeDAO;
-import domain.Anrede;
-import hilfsklassen.ButtonNamen;
 import ui.AutorController;
+import ui.VerlagController;
 import ui.AutorView;
+import ui.VerlagView;
 import ui.PrototypController;
 import ui.PrototypView;
 
@@ -36,6 +32,15 @@ public class Main {
 	            public void run() {                                           
 	                AutorView view = new AutorView("Autor"); 
 	                new AutorController(view);
+	                
+	            }
+	        });
+		 
+		 SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {                                           
+	                VerlagView view = new VerlagView("Verlag"); 
+	                new VerlagController(view);
 	                
 	            }
 	        });  

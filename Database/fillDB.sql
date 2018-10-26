@@ -94,7 +94,7 @@ COMMIT;
 -- -------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO verlag (name,gründungsdatum, enddatum) VALUES ('d-punkt', '1995-1-31', '2018-10-10'), ('Reclam', '1828-1-10',null), ('EMF', '1985-1-01',null);
+INSERT INTO verlag (name,gruendungsdatum, enddatum) VALUES ('d-punkt', '1995-1-31', '2018-10-10'), ('Reclam', '1828-1-10',null), ('EMF', '1985-1-01',null);
 COMMIT;
 -- ----------------------
 -- Data for medium

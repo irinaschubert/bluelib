@@ -4,8 +4,10 @@ import java.util.List;
 
 import dao.AnredeDAO;
 import dao.AutorDAO;
+import dao.VerlagDAO;
 import domain.Anrede;
 import domain.Autor;
+import domain.Verlag;
 
 /**
  * @version 0.2 18.10.2018
@@ -23,6 +25,10 @@ public class NormdatenService {
 		return new AutorDAO().findAll();
 	}
 	
+	public List<Verlag> alleVerlage(){
+		return new VerlagDAO().findAll();
+	}
+	
 	public Verifikation sichereAutor(Autor autor) {
 		Verifikation v = new Verifikation();
 		
@@ -36,6 +42,25 @@ public class NormdatenService {
 			v.setAktionErfolgreich(false);
 			v.setNachricht("Der Autor "
 					+ autor.getName()
+					+" konnte nicht gespeichert werden.");
+		}
+		
+		return v;
+	}
+	
+	public Verifikation sichereVerlag(Verlag verlag) {
+		Verifikation v = new Verifikation();
+		
+		if (new VerlagDAO().save(verlag) != null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Der Verlag "
+					+ verlag.getName()
+					+" wurde gespeichert.");
+		}
+		else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Der Verlag "
+					+ verlag.getName()
 					+" konnte nicht gespeichert werden.");
 		}
 		
