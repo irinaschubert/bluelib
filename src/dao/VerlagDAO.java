@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import domain.Verlag;
 import interfaces.DAOInterface;
+import hilfsklassen.DateConverter;
 
 public class VerlagDAO implements DAOInterface<Verlag> {
 	
@@ -18,38 +18,40 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
 	private List<Verlag> verlagListe = null;
+	private DateConverter dateConverter;
 	
 	
 	public VerlagDAO() {
 		verlagListe = new ArrayList<>();
 		dbConnection = DBConnection.getInstance();
+		dateConverter = new DateConverter();
 	}
-	
 	
 	@Override
 	public Verlag save(Verlag domainObject) {
 		ResultSet rs = null;
-		Verlag v = new Verlag();
+		Verlag v = new Verlag();		
 		String sql = "INSERT INTO "
 				+ "verlag "
 				+ "(name "
-				+ (domainObject.getGruendungsDatum() != null ? ",gruendungsdatum, ":"")
-				+ (domainObject.getEndDatum() != null?",enddatum, ":"")
+				+ (domainObject.getGruendungsDatum() != null ? ",gruendungsdatum ":"")
+				+ (domainObject.getEndDatum() != null?",enddatum ":"")
 				+ ") "
 				+ "VALUES "
 				+ "(? "
 				+ (domainObject.getGruendungsDatum() != null?",? ":"")
-				+ (domainObject.getEndDatum() != null?",? ":"")
+				+ (domainObject.getEndDatum()!= null?",? ":"")
 				+ ")" ;
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				
 				pstmt.setString(1,domainObject.getName());
 				if (domainObject.getGruendungsDatum() != null) {
-					pstmt.setDate(2,(Date) domainObject.getGruendungsDatum());
+					pstmt.setDate(2, dateConverter.convertJavaDateToSQLDate(domainObject.getGruendungsDatum()));
 				}
 				if (domainObject.getEndDatum() != null) {
-					pstmt.setDate(3,(Date) domainObject.getEndDatum());
+					pstmt.setDate(3, dateConverter.convertJavaDateToSQLDate(domainObject.getEndDatum()));
 				}
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();

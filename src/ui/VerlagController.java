@@ -2,6 +2,8 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
@@ -28,6 +30,9 @@ public class VerlagController {
 	private NormdatenService normdatenService;
 	private List<Verlag> verlagListe;
 	private TableModelVerlag tableModelVerlag;
+	private java.util.Date gruendungsDatum = new java.util.Date();
+	private java.util.Date endDatum = new java.util.Date();
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	public VerlagController(VerlagView view) {
 		verlagView = view;
@@ -38,7 +43,6 @@ public class VerlagController {
 		tableModelVerlag.setAndSortListe(verlagListe);
 		view.getVerlagTabelle().setModel(tableModelVerlag);
 		view.spaltenBreiteSetzen();
-
 		initialisieren();
 		control();
 
@@ -54,10 +58,26 @@ public class VerlagController {
 					JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 				} 
 				else
+					
 					// Prüfung, ob ein neuer Verlag erfasst wurde
 					if (verlagView.getPKT().getText().isEmpty()) {
 						Verlag a = new Verlag();
 						a.setName(verlagView.getNameT().getText());
+						try {
+							gruendungsDatum = sdf.parse(verlagView.getGruendungsDatumT().getText());
+							a.setGruendungsDatum(gruendungsDatum);
+						} catch (ParseException exe) {
+							// TODO Auto-generated catch block
+							exe.printStackTrace();
+						}
+						try {
+							endDatum = sdf.parse(verlagView.getEndDatumT().getText());
+							a.setEndDatum(endDatum);	
+						} catch (ParseException ex) {
+							// TODO Auto-generated catch block
+							ex.printStackTrace();
+						}
+						
 						Verifikation v = normdatenService.sichereVerlag(a);
 						if (v.isAktionErfolgreich()) {
 							JOptionPane.showMessageDialog(null, v.getNachricht());
@@ -66,14 +86,12 @@ public class VerlagController {
 						else {
 							JOptionPane.showMessageDialog(null, v.getNachricht());
 						}
-						
-						
-						
-						
 						// Felder leeren
 						for (JComponent t : verlagView.getComponents().values()) {
 							((JTextField) t).setText("");
 						}
+					
+						
 					}
 					else {
 						// TODO
