@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import domain.Autor;
+import hilfsklassen.DateConverter;
 
 /**
  * Dient zur Darstellung und zum Updaten der Autorenliste
@@ -81,10 +82,10 @@ public class TableModelAutor extends AbstractTableModel {
 			returnWert = a.getVorname();
 			break;
 		case 2:
-			returnWert = a.getGeburtsdatum();
+			returnWert = DateConverter.convertJavaDateToString(a.getGeburtsdatum());
 			break;
 		case 3:
-			returnWert = a.getTodesdatum();
+			returnWert = DateConverter.convertJavaDateToString(a.getTodesdatum());
 			break;
 		}
 

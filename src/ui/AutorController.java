@@ -2,16 +2,18 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.text.JTextComponent;
-
 import domain.Autor;
 import hilfsklassen.ButtonNamen;
+import hilfsklassen.DateConverter;
 import models.TableModelAutor;
 import services.NormdatenService;
 import services.Verifikation;
@@ -53,42 +55,39 @@ public class AutorController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (	autorView.getNachnameT().getText().isEmpty()
-						|| (autorView.getVornameT().getText().isEmpty())){
+				if (autorView.getNachnameT().getText().isEmpty() || (autorView.getVornameT().getText().isEmpty())) {
 					JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
-				} 
-				else
-					// Prüfung, ob ein neuer Autor erfasst wurde
+				} else
+
+				{
+					Autor a = new Autor();
+					a.setId(Integer.parseInt(autorView.getPKT().getText()));
+					a.setName(autorView.getNachnameT().getText());
+					a.setVorname(autorView.getVornameT().getText());
+					if (autorView.getGeburtsDatumT().getText() != null) {
+						a.setGeburtsdatum(
+								DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumT().getText()));
+					}
+
+					if (autorView.getTodesDatumT().getText() != null) {
+						a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumT().getText()));
+					}
+					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
 					if (autorView.getPKT().getText().isEmpty()) {
-						Autor a = new Autor();
-						a.setName(autorView.getNachnameT().getText());
-						a.setVorname(autorView.getVornameT().getText());
-						Verifikation v = normdatenService.sichereAutor(a);
-						if (v.isAktionErfolgreich()) {
-							JOptionPane.showMessageDialog(null, v.getNachricht());
-							tableModelAutor.setAndSortListe(normdatenService.alleautoren());
-						}
-						else {
-							JOptionPane.showMessageDialog(null, v.getNachricht());
-						}
-						
-						
-						
-						
-						// Felder leeren
-						for (JComponent t : autorView.getComponents().values()) {
-							((JTextField) t).setText("");
-						}
+
+						nachAarbeitDBAktion(normdatenService.sichereAutor(a));
+
+					} else {
+						nachAarbeitDBAktion(normdatenService.aktualisiereAutor(a));
 					}
-					else {
-						// TODO
-					}
-				
+
+				}
+
 			}
 
 		};
 
-//		Zuweisen des Actionlisteners zum Sichern-Button
+		// Zuweisen des Actionlisteners zum Sichern-Button
 		autorView.getButtonPanel().getButton1().addActionListener(sichernButtonActionListener);
 
 		ActionListener uebernehmenButtonActionListener = new ActionListener() {
@@ -96,16 +95,14 @@ public class AutorController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (autorView.getAutorenTabelle().getSelectedRow() != -1) {
-					JOptionPane.showMessageDialog(null, "Du hast den Autoren mit dem Primary Key "
-							+ tableModelAutor.getPK(autorView.getAutorenTabelle().getSelectedRow()) + " gewählt.",
-							"Test Titel", JOptionPane.OK_OPTION);
+					uebernehmen();
 				}
 			}
 
 		};
 
-//		Zuweisen des Actionlisteners zum Übernehmen-Button
-		autorView.getButtonPanel().getButton1().addActionListener(uebernehmenButtonActionListener);
+		// Zuweisen des Actionlisteners zum Übernehmen-Button
+		autorView.getButtonPanel().getButton2().addActionListener(uebernehmenButtonActionListener);
 
 		ActionListener abbrechenButtonActionListener = new ActionListener() {
 
@@ -116,8 +113,53 @@ public class AutorController {
 
 		};
 
-//	Zuweisen des Actionlisteners zum Abbrechen-Button
+		// Zuweisen des Actionlisteners zum Abbrechen-Button
 		autorView.getButtonPanel().getButton3().addActionListener(abbrechenButtonActionListener);
+
+		MouseListener doppelKlick = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					uebernehmen();
+				}
+			}
+		};
+
+		// Zuweisen des Mouselisteners zur Tabelle
+		autorView.getAutorenTabelle().addMouseListener(doppelKlick);
+
+	}
+
+	private void uebernehmen() {
+		Autor autor = new Autor();
+		autor = tableModelAutor.getGeklicktesObjekt(autorView.getAutorenTabelle().getSelectedRow());
+
+		autorView.getPKT().setText(Integer.toString(autor.getId()));
+		autorView.getNachnameT().setText(autor.getName());
+		autorView.getVornameT().setText(autor.getVorname());
+
+		if (autor.getGeburtsdatum() != null) {
+			autorView.getGeburtsDatumT().setText(DateConverter.convertJavaDateToString(autor.getGeburtsdatum()));
+		}
+
+		if (autor.getTodesdatum() != null) {
+			autorView.getTodesDatumT().setText(DateConverter.convertJavaDateToString(autor.getTodesdatum()));
+		}
+
+	}
+
+	private void nachAarbeitDBAktion(Verifikation v) {
+		if (v.isAktionErfolgreich()) {
+			JOptionPane.showMessageDialog(null, v.getNachricht());
+			tableModelAutor.setAndSortListe(normdatenService.alleautoren());
+		} else {
+			JOptionPane.showMessageDialog(null, v.getNachricht());
+		}
+
+		// Felder leeren
+		for (JComponent t : autorView.getComponents().values()) {
+			((JTextField) t).setText("");
+		}
 
 	}
 
