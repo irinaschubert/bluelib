@@ -27,8 +27,8 @@ public class StandardButtonPanel extends JPanel{
 		button3 = new JButton();
 		
 		this.add(button1);
-		this.add(button3);
 		this.add(button2);
+		this.add(button3);
 				
 	}
 	

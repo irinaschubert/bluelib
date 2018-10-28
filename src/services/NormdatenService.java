@@ -66,5 +66,22 @@ public class NormdatenService {
 		
 		return v;
 	}
+	
+	public Verifikation aktualisiereAutor(Autor autor) {
+		Verifikation v = new Verifikation();
+		if (new AutorDAO().update(autor)!= null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Der Verlag "
+					+ autor.getName()
+					+" wurde aktualisiert.");
+		}
+		else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Der Verlag "
+					+ autor.getName()
+					+" konnte nicht aktualisiert werden.");
+		}
+		return v;	
+	}
 }
 

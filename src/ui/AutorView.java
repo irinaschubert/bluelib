@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -42,14 +43,9 @@ public class AutorView {
 	private JTextField geburtsDatumT;
 	private JTextField todesDatumT;
 	private JTable autorenTabelle;
-	private List<JComponent> labelListe = new ArrayList<>();
-	private List<JComponent> inputListe = new ArrayList<>();
 	private LinkedHashMap<JLabel, JComponent> componentTable = new LinkedHashMap<>();
 	
-	
-	
-	
-	
+
 	 public AutorView(String text){
 		 	
 		buttonPanel = new StandardButtonPanel();
@@ -59,22 +55,19 @@ public class AutorView {
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
 		autorenTabelle = new JTable();
+		// Nur eine Zeile darf ausgewaehl werden
+		autorenTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		 JScrollPane scroll = new JScrollPane(autorenTabelle);
 		 
 		 centerPanel.add(scroll, BorderLayout.CENTER);
 		 centerPanel.add(neuerAutorPanel, BorderLayout.SOUTH);
-		 
-		 
-		
 		 
 	 	frame = new JFrame("View");                                    
         frame.getContentPane().setLayout(new BorderLayout());                                          
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);           
         frame.setSize(500,300);        
         frame.setVisible(true);
-	    
-        
-        
+       
         frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 	    frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);        
 	    }
@@ -110,8 +103,6 @@ public class AutorView {
 	    	for (JComponent e : componentTable.values()) {
 	    		inputPanel.add(e);
 	    	}
-	    	
-	    	inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 	    	
 	    	neuerAutorPanel.add(labelPanel, BorderLayout.WEST);
 	    	neuerAutorPanel.add(inputPanel, BorderLayout.CENTER);

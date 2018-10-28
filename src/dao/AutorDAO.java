@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import domain.Autor;
+import hilfsklassen.DateConverter;
 import interfaces.DAOInterface;
 
 public class AutorDAO implements DAOInterface<Autor> {
@@ -34,8 +35,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ "autor "
 				+ "(vorname, "
 				+ "nachname "
-				+ (domainObject.getGeburtsdatum() != null ? ",geburtsdatum, ":"")
-				+ (domainObject.getTodesdatum() != null?",todesdatum, ":"")
+				+ (domainObject.getGeburtsdatum() != null ? ",geburtsdatum ":"")
+				+ (domainObject.getTodesdatum() != null ? ",todesdatum ":"")
 				+ ") "
 				+ "VALUES "
 				+ "(?, ? "
@@ -48,12 +49,13 @@ public class AutorDAO implements DAOInterface<Autor> {
 				pstmt.setString(1,domainObject.getVorname());
 				pstmt.setString(2,domainObject.getName());
 				if (domainObject.getGeburtsdatum() != null) {
-					pstmt.setDate(3,(Date) domainObject.getGeburtsdatum());
+					pstmt.setDate(3,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
 				}
 				if (domainObject.getTodesdatum() != null) {
-					pstmt.setDate(4,(Date) domainObject.getTodesdatum());
+					pstmt.setDate(4,DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
 				}
 				pstmt.executeUpdate();
+				
 				rs = pstmt.getGeneratedKeys();
 				if(rs != null && rs.next()){
 					a = new AutorDAO().findById(rs.getInt(1));
@@ -76,8 +78,46 @@ public class AutorDAO implements DAOInterface<Autor> {
 
 	@Override
 	public Autor update(Autor domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		Autor a = new Autor();
+		String sql = "UPDATE autor SET "
+				+ "vorname = ? "
+				+ ",nachname = ? "
+				+ (domainObject.getGeburtsdatum() != null ? ",geburtsdatum = ?":"")
+				+ (domainObject.getTodesdatum() != null ? ",todesdatum = ? ":"")
+				+ " WHERE id = ?";
+			try {
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,domainObject.getVorname());
+				pstmt.setString(2,domainObject.getName());
+				if (domainObject.getGeburtsdatum() != null) {
+					pstmt.setDate(3,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
+				}
+				if (domainObject.getTodesdatum() != null) {
+					pstmt.setDate(4,DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
+				}
+				pstmt.setInt(5,  domainObject.getId());
+				int i = pstmt.executeUpdate();
+				if (i>0) {
+					a = domainObject;
+				}
+				else {
+					a = null;
+				}
+								
+			}
+	  catch (SQLException e) {
+           e.printStackTrace();
+     } finally{
+         try{
+             if(rs != null) rs.close();
+             if(pstmt != null) pstmt.close();
+             if(conn != null) conn.close();
+         } catch(Exception ex){}
+     }
+			
+		return a;
 	}
 
 	@Override
