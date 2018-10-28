@@ -11,6 +11,8 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import domain.Autor;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;

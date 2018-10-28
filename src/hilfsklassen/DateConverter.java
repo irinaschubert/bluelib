@@ -3,6 +3,7 @@ package hilfsklassen;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DateConverter {
 	
@@ -41,8 +42,11 @@ public class DateConverter {
 	 * @return String
 	 */
 	public static Date convertStringToJavaDate(String datum) {
-		SimpleDateFormat dateOut = new SimpleDateFormat("yyyy-MM-dd");
+		// HH:mm:ss wird benötigt, damit das Datum korrekt in mysql gespeichert wird.
+		SimpleDateFormat dateOut = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat dateIn = new SimpleDateFormat("dd.MM.yyyy");
+		// Ohne UTC-Zeit speichert mysql das Datum mit Zeitverschiebung = -1 Tag
+		dateIn.setTimeZone(TimeZone.getTimeZone("UTC"));
 		Date returnDatum = new Date();
 		try {
 			String datumConv = dateOut.format(dateIn.parse(datum));
