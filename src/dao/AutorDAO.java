@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +30,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 	public Autor save(Autor domainObject) {
 		ResultSet rs = null;
 		Autor a = new Autor();
+		int argCounter = 0;
 		String sql = "INSERT INTO "
 				+ "autor "
 				+ "(vorname, "
@@ -46,13 +46,17 @@ public class AutorDAO implements DAOInterface<Autor> {
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				pstmt.setString(1,domainObject.getVorname());
-				pstmt.setString(2,domainObject.getName());
+				argCounter++;
+				pstmt.setString(argCounter,domainObject.getVorname());
+				argCounter++;
+				pstmt.setString(argCounter,domainObject.getName());
 				if (domainObject.getGeburtsdatum() != null) {
-					pstmt.setDate(3,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
+					argCounter++;
+					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
 				}
 				if (domainObject.getTodesdatum() != null) {
-					pstmt.setDate(4,DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
+					argCounter++;
+					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
 				}
 				pstmt.executeUpdate();
 				
@@ -83,19 +87,27 @@ public class AutorDAO implements DAOInterface<Autor> {
 		String sql = "UPDATE autor SET "
 				+ "vorname = ? "
 				+ ",nachname = ? "
-				+ (domainObject.getGeburtsdatum() != null ? ",geburtsdatum = ?":"")
-				+ (domainObject.getTodesdatum() != null ? ",todesdatum = ? ":"")
+				+ ",geburtsdatum = ?"
+				+ ",todesdatum = ? "
 				+ " WHERE id = ?";
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1,domainObject.getVorname());
 				pstmt.setString(2,domainObject.getName());
+				
 				if (domainObject.getGeburtsdatum() != null) {
-					pstmt.setDate(3,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
+				pstmt.setDate(3,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
 				}
+				else {
+					pstmt.setNull(3,java.sql.Types.DATE);
+				}
+				
 				if (domainObject.getTodesdatum() != null) {
-					pstmt.setDate(4,DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
+				pstmt.setDate(4,DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
+				}
+				else {
+					pstmt.setNull(4,java.sql.Types.DATE);
 				}
 				pstmt.setInt(5,  domainObject.getId());
 				int i = pstmt.executeUpdate();

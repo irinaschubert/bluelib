@@ -11,8 +11,6 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import domain.Autor;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
@@ -63,15 +61,16 @@ public class AutorController {
 
 				{
 					Autor a = new Autor();
-					a.setId(Integer.parseInt(autorView.getPKT().getText()));
+					if (!autorView.getPKT().getText().isEmpty()) {
+					a.setId(Integer.parseInt(autorView.getPKT().getText()));}
 					a.setName(autorView.getNachnameT().getText());
 					a.setVorname(autorView.getVornameT().getText());
-					if (autorView.getGeburtsDatumT().getText() != null) {
+					if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
 						a.setGeburtsdatum(
 								DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumT().getText()));
 					}
 
-					if (autorView.getTodesDatumT().getText() != null) {
+					if (!autorView.getTodesDatumT().getText().isEmpty()) {
 						a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumT().getText()));
 					}
 					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
