@@ -11,6 +11,11 @@ import domain.Autor;
 import hilfsklassen.DateConverter;
 import interfaces.DAOInterface;
 
+/*
+ * Verwaltet die CRUD-Operationen für Autoren
+ * @autor Schmutz
+ * 
+ */
 public class AutorDAO implements DAOInterface<Autor> {
 	
 	private DBConnection dbConnection = null;
