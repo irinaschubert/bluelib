@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test;
 
 class HashRechnerTest {
 
+	@Before
+	public void test2() {
+		System.out.println("test");
+	}
 	@Test
 	void test() {
 		String resultat;
