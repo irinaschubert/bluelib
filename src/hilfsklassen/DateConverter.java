@@ -1,5 +1,6 @@
 package hilfsklassen;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,5 +57,32 @@ public class DateConverter {
 		}
 		return returnDatum;
 	}
+	
+	/**
+	 * Prüft, ob ein eingegebenes Datum gültig ist
+	 * @param date STring
+	 * @return boolean
+	 */
+	 public static boolean datumIstGueltig(final String date) {
+	        String[] formatStrings = {"dd.MM.yyyy"};
+	        boolean istGueltigesFormat = false;
+	        Date dateObj;
+	        for (String formatString : formatStrings) {
+	            try {
+	                SimpleDateFormat sdf = (SimpleDateFormat) DateFormat.getDateInstance();
+	                sdf.applyPattern(formatString);
+	                sdf.setLenient(false);
+	                dateObj = sdf.parse(date);
+	                if (date.equals(sdf.format(dateObj))) {
+	                    istGueltigesFormat = true;
+	                    break;
+	                }
+	            } catch (ParseException e) {
+	                istGueltigesFormat = false;
+	            }
+	        }
+	        return istGueltigesFormat;
+	    }
+	
 
 }

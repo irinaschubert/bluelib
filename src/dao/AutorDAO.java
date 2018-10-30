@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import domain.Autor;
 import hilfsklassen.DateConverter;
+import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 
 /*
@@ -20,7 +21,6 @@ public class AutorDAO implements DAOInterface<Autor> {
 	
 	private DBConnection dbConnection = null;
 	private Connection conn = null; 
-	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
 	private List<Autor> autorListe = null;
 	
@@ -139,19 +139,123 @@ public class AutorDAO implements DAOInterface<Autor> {
 
 	@Override
 	public boolean delete(Autor domainObject) {
-		// TODO Auto-generated method stub
-		return false;
+			ResultSet rs = null;
+			boolean geloescht = false;
+			String sql = "DELETE FROM "
+					+ "autor "
+					+ "WHERE id = ?";
+				try {
+					
+					conn = dbConnection.getDBConnection();
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, domainObject.getId());
+					int i = pstmt.executeUpdate();
+					if (i>0) {
+						geloescht = true;
+					}
+									
+				}
+		  catch (SQLException e) {
+	           e.printStackTrace();
+	     } finally{
+	         try{
+	             if(rs != null) rs.close();
+	             if(pstmt != null) pstmt.close();
+	             if(conn != null) conn.close();
+	         } catch(Exception ex){}
+	     }
+				
+			return geloescht;
 	}
 
 	@Override
 	public List<Autor> getSelektion(Autor domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		int whereCounter =1;
+		String sql = "SELECT "
+				+ "id, "
+				+ "nachname, "
+				+ "vorname, "
+				+ "geburtsdatum, "
+				+ "todesdatum "
+				+ "FROM autor ";
+				
+				if (domainObject.getName() != null) {
+					sql = sql + "WHERE nachname";
+					sql = sql + (SQLHelfer.likePruefung(domainObject.getName())?" LIKE": " =");
+					sql = sql + " ?";
+					whereCounter++;
+				}
+				
+				if (domainObject.getVorname() != null) {
+					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (" vorname");
+					sql = sql + (SQLHelfer.likePruefung(domainObject.getVorname())?" LIKE": " =");
+					sql = sql + " ?";
+					whereCounter++;
+				}
+				
+				if (domainObject.getGeburtsdatum() != null) {
+					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (" geburtsdatum = ?");
+					whereCounter++;
+				}
+				if (domainObject.getTodesdatum() != null) {
+					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (" todesdatum = ?");
+				}
+			try {
+				
+				int pCounter = 1;
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				if (domainObject.getName() != null) {
+					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getName()));
+					pCounter++;
+				}
+				if (domainObject.getVorname() != null) {
+					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getVorname()));
+					pCounter++;
+				}
+				if (domainObject.getGeburtsdatum() != null) {
+					pstmt.setDate(pCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
+					pCounter++;
+				}
+				if (domainObject.getTodesdatum() != null) {
+					pstmt.setDate(pCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
+				}
+
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					 Autor a = new Autor();
+					 a.setId(rs.getInt(1));
+					 a.setName(rs.getString(2));
+					 a.setVorname(rs.getString(3));
+					 a.setGeburtsdatum(rs.getDate(4));
+					 a.setTodesdatum(rs.getDate(5));
+					 autorListe.add(a);
+					 }
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+	
+
+				   } finally{
+				         try{
+				             if(rs != null) rs.close();
+				             if(pstmt != null) pstmt.close();
+				             if(conn != null) conn.close();
+				         } catch(Exception ex){}
+				     }
+			
+			return autorListe;
+		
 	}
 
 	@Override
 	public Autor findById(int id) {
 		Autor a = new Autor();
+		ResultSet rs = null;
 		String sql = "SELECT "
 				+ "id, "
 				+ "nachname, "
@@ -165,13 +269,13 @@ public class AutorDAO implements DAOInterface<Autor> {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1,id);
-				mRS = pstmt.executeQuery();
-				while(mRS.next()) {
-					 a.setId(mRS.getInt(1));
-					 a.setName(mRS.getString(2));
-					 a.setVorname(mRS.getString(3));
-					 a.setGeburtsdatum(mRS.getDate(4));
-					 a.setTodesdatum(mRS.getDate(5));
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					 a.setId(rs.getInt(1));
+					 a.setName(rs.getString(2));
+					 a.setVorname(rs.getString(3));
+					 a.setGeburtsdatum(rs.getDate(4));
+					 a.setTodesdatum(rs.getDate(5));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -192,6 +296,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 
 	@Override
 	public List<Autor> findAll() {
+		ResultSet rs = null;
+	
 		String sql = "SELECT "
 				+ "id, "
 				+ "nachname, "
@@ -203,14 +309,14 @@ public class AutorDAO implements DAOInterface<Autor> {
 				
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
-				mRS = pstmt.executeQuery();
-				while(mRS.next()) {
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
 					 Autor a = new Autor();
-					 a.setId(mRS.getInt(1));
-					 a.setName(mRS.getString(2));
-					 a.setVorname(mRS.getString(3));
-					 a.setGeburtsdatum(mRS.getDate(4));
-					 a.setTodesdatum(mRS.getDate(5));
+					 a.setId(rs.getInt(1));
+					 a.setName(rs.getString(2));
+					 a.setVorname(rs.getString(3));
+					 a.setGeburtsdatum(rs.getDate(4));
+					 a.setTodesdatum(rs.getDate(5));
 					 autorListe.add(a);}
 				
 			} catch (SQLException e) {

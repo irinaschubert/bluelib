@@ -33,16 +33,18 @@ public class AutorController {
 	private NormdatenService normdatenService;
 	private List<Autor> autorL;
 	private TableModelAutor tableModelAutor;
+	private Autor autorSuchobjekt;
 
 	public AutorController(AutorView view) {
 		autorView = view;
 		normdatenService = new NormdatenService();
 		autorL = new ArrayList<>();
 		tableModelAutor = new TableModelAutor();
-		autorL = normdatenService.alleautoren();
+//		autorL = normdatenService.alleautoren();
 		tableModelAutor.setAndSortListe(autorL);
 		view.getAutorenTabelle().setModel(tableModelAutor);
 		view.spaltenBreiteSetzen();
+		autorSuchobjekt = new Autor();
 
 		initialisieren();
 		control();
@@ -51,37 +53,40 @@ public class AutorController {
 
 //	Definierten des Listeners für die Button-Klicks
 	private void control() {
+
+		ActionListener suchenButtonActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (inputValidierungSuchen()) {
+					autorSuchobjekt = feldwertezuObjektSuchen();
+					autorL = normdatenService.sucheAutor(autorSuchobjekt);
+					tableModelAutor.setAndSortListe(autorL);
+				}
+
+			}
+
+		};
+
+		// Zuweisen des Actionlisteners zum Suchen-Button
+		autorView.getSuchButton().addActionListener(suchenButtonActionListener);
+
 		ActionListener sichernButtonActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (autorView.getNachnameT().getText().isEmpty() || (autorView.getVornameT().getText().isEmpty())) {
-					JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
-				} else
-
-				{
-					Autor a = new Autor();
-					if (!autorView.getPKT().getText().isEmpty()) {
-					a.setId(Integer.parseInt(autorView.getPKT().getText()));}
-					a.setName(autorView.getNachnameT().getText());
-					a.setVorname(autorView.getVornameT().getText());
-					if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
-						a.setGeburtsdatum(
-								DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumT().getText()));
-					}
-
-					if (!autorView.getTodesDatumT().getText().isEmpty()) {
-						a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumT().getText()));
-					}
+				Autor a = new Autor();
+				if (inputValidierungSpeichern()) {
+					a = feldwertezuObjektSpeichern();
 					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
 					if (autorView.getPKT().getText().isEmpty()) {
 
-						nachAarbeitDBAktion(normdatenService.sichereAutor(a));
+						nachAarbeitSpeichern(normdatenService.sichereAutor(a));
 
 					} else {
-						nachAarbeitDBAktion(normdatenService.aktualisiereAutor(a));
+						nachAarbeitSpeichern(normdatenService.aktualisiereAutor(a));
 					}
-
 				}
 
 			}
@@ -131,6 +136,96 @@ public class AutorController {
 
 	}
 
+	private boolean inputValidierungSuchen() {
+		boolean keinInputFehler = true;
+
+		if (!autorView.getGeburtsDatumSucheT().getText().isEmpty()) {
+			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumSucheT().getText())) {
+				JOptionPane.showMessageDialog(null, "Üngültiges Geburtsdatum");
+				autorView.getGeburtsDatumL().setText("");
+				keinInputFehler = false;
+			}
+		}
+
+		if (!autorView.getTodesDatumSucheT().getText().isEmpty()) {
+			if (!DateConverter.datumIstGueltig(autorView.getTodesDatumSucheT().getText())) {
+				JOptionPane.showMessageDialog(null, "Üngültiges Todesdatum");
+				autorView.getTodesDatumL().setText("");
+				keinInputFehler = false;
+			}
+		}
+
+		return keinInputFehler;
+
+	}
+
+	private boolean inputValidierungSpeichern() {
+		boolean keinInputFehler = true;
+		if (autorView.getNachnameT().getText().isEmpty() || (autorView.getVornameT().getText().isEmpty())) {
+			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
+			keinInputFehler = false;
+		}
+
+		if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
+			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumT().getText())) {
+				JOptionPane.showMessageDialog(null, "Üngültiges Geburtsdatum");
+				autorView.getGeburtsDatumL().setText("");
+				keinInputFehler = false;
+			}
+		}
+
+		if (!autorView.getTodesDatumT().getText().isEmpty()) {
+			if (!DateConverter.datumIstGueltig(autorView.getTodesDatumT().getText())) {
+				JOptionPane.showMessageDialog(null, "Üngültiges Todesdatum");
+				autorView.getTodesDatumL().setText("");
+				keinInputFehler = false;
+			}
+		}
+
+		return keinInputFehler;
+
+	}
+
+	private Autor feldwertezuObjektSpeichern() {
+		Autor a = new Autor();
+		if (!autorView.getPKT().getText().isEmpty()) {
+			a.setId(Integer.parseInt(autorView.getPKT().getText()));
+		}
+		a.setName(autorView.getNachnameT().getText());
+		a.setVorname(autorView.getVornameT().getText());
+		if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
+			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumT().getText()));
+		}
+
+		if (!autorView.getTodesDatumT().getText().isEmpty()) {
+			if (DateConverter.datumIstGueltig(autorView.getTodesDatumT().getText())) {
+				a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumT().getText()));
+			}
+		}
+		return a;
+	}
+
+	private Autor feldwertezuObjektSuchen() {
+		Autor a = new Autor();
+		if (!autorView.getNachnameSucheT().getText().isEmpty()) {
+			a.setName(autorView.getNachnameSucheT().getText());
+		}
+
+		if (!autorView.getVornameSucheT().getText().isEmpty()) {
+			a.setVorname(autorView.getVornameSucheT().getText());
+		}
+		if (!autorView.getGeburtsDatumSucheT().getText().isEmpty()) {
+			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumSucheT().getText()));
+		}
+
+		if (!autorView.getTodesDatumSucheT().getText().isEmpty()) {
+			if (DateConverter.datumIstGueltig(autorView.getTodesDatumSucheT().getText())) {
+				a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumSucheT().getText()));
+			}
+		}
+		return a;
+	}
+
 	private void uebernehmen() {
 		Autor autor = new Autor();
 		autor = tableModelAutor.getGeklicktesObjekt(autorView.getAutorenTabelle().getSelectedRow());
@@ -146,13 +241,12 @@ public class AutorController {
 		if (autor.getTodesdatum() != null) {
 			autorView.getTodesDatumT().setText(DateConverter.convertJavaDateToString(autor.getTodesdatum()));
 		}
-
 	}
 
-	private void nachAarbeitDBAktion(Verifikation v) {
+	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelAutor.setAndSortListe(normdatenService.alleautoren());
+			tableModelAutor.setAndSortListe(normdatenService.sucheAutor(autorSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
@@ -171,6 +265,11 @@ public class AutorController {
 		autorView.getVornameL().setText("Vorname:*");
 		autorView.getGeburtsDatumL().setText("Geburtsdatum:");
 		autorView.getTodesDatumL().setText("Todesdatum:");
+		autorView.getNachnameSucheL().setText("Nachname:");
+		autorView.getVornameSucheL().setText("Vorname:");
+		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
+		autorView.getTodesDatumSucheL().setText("Todesdatum:");
+		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
 		autorView.getButtonPanel().getButton1().setText(ButtonNamen.SICHERN.getName());
 		autorView.getButtonPanel().getButton3().setText(ButtonNamen.ABBRECHEN.getName());

@@ -18,14 +18,14 @@ public class Main {
 	
 	public static void main(String[] args){
 				
-		 SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {                                           
-	                PrototypView view = new PrototypView("test"); 
-	                new PrototypController(view);
-	                
-	            }
-	        });  
+//		 SwingUtilities.invokeLater(new Runnable() {
+//	            @Override
+//	            public void run() {                                           
+//	                PrototypView view = new PrototypView("test"); 
+//	                new PrototypController(view);
+//	                
+//	            }
+//	        });  
 		 
 		 SwingUtilities.invokeLater(new Runnable() {
 	            @Override
@@ -36,14 +36,14 @@ public class Main {
 	            }
 	        });
 		 
-		 SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {                                           
-	                VerlagView view = new VerlagView("Verlag"); 
-	                new VerlagController(view);
-	                
-	            }
-	        });  
+//		 SwingUtilities.invokeLater(new Runnable() {
+//	            @Override
+//	            public void run() {                                           
+//	                VerlagView view = new VerlagView("Verlag"); 
+//	                new VerlagController(view);
+//	                
+//	            }
+//	        });  
 		 
 
 	}
