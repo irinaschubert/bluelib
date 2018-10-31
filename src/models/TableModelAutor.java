@@ -17,7 +17,7 @@ public class TableModelAutor extends AbstractTableModel {
 
 	// Definition der Spaltennamen, wie sie in der Tabelle dargestellt werden
 	// sollen
-	private static final String[] COLUMN_NAMES = { "Name", "Vorname", "Geburtsdatum", "Todesdatum"};
+	private static final String[] COLUMN_NAMES = { "Name", "Vorname", "Geburtsdatum", "Todesdatum", "LV"};
 	private List<Autor> autorenListe;
 	
 	public void setAndSortListe(List<Autor> liste) {
@@ -87,7 +87,11 @@ public class TableModelAutor extends AbstractTableModel {
 		case 3:
 			returnWert = DateConverter.convertJavaDateToString(a.getTodesdatum());
 			break;
+		case 4:
+			returnWert = (a.getGeloescht()?"x":"");
+			break;
 		}
+		
 
 		return returnWert;
 	}

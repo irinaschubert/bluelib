@@ -14,6 +14,8 @@ public class Autor {
 	private String vorname;
 	private Date geburtsdatum;
 	private Date todesdatum;
+	private boolean geloescht;
+	
 	
 	public Autor() {
 		
@@ -57,6 +59,14 @@ public class Autor {
 
 	public void setTodesdatum(Date todesdatum) {
 		this.todesdatum = todesdatum;
+	}
+	
+	public boolean getGeloescht() {
+		return geloescht;
+	}
+
+	public void setGeloescht(boolean geloescht) {
+		this.geloescht = geloescht;
 	}
 
 	

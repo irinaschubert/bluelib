@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.util.LinkedHashMap;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,19 +37,23 @@ public class AutorView {
 	private JLabel nachnameL;
 	private JLabel geburtsDatumL;
 	private JLabel todesDatumL;
+	private JLabel geloeschtL;
 	private JLabel vornameSucheL;
 	private JLabel nachnameSucheL;
 	private JLabel geburtsDatumSucheL;
 	private JLabel todesDatumSucheL;
+	private JLabel geloeschtSucheL;
 	private JTextField PKT;
 	private JTextField vornameT;
 	private JTextField nachnameT;
 	private JTextField geburtsDatumT;
 	private JTextField todesDatumT;
+	private JCheckBox geloeschtCbx;
 	private JTextField vornameSucheT;
 	private JTextField nachnameSucheT;
 	private JTextField geburtsDatumSucheT;
 	private JTextField todesDatumSucheT;
+	private JCheckBox geloeschtSucheCbx;
 	private JButton suchButton;
 	private JTable autorenTabelle;
 	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
@@ -109,6 +114,7 @@ public class AutorView {
 		componentsNeuAktualisieren.put(vornameL = new JLabel(), vornameT = new JTextField());
 		componentsNeuAktualisieren.put(geburtsDatumL = new JLabel(), geburtsDatumT = new JTextField());
 		componentsNeuAktualisieren.put(todesDatumL = new JLabel(), todesDatumT = new JTextField());
+		componentsNeuAktualisieren.put(geloeschtL = new JLabel(), geloeschtCbx = new JCheckBox());
 
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(componentsNeuAktualisieren.size(), 0));
@@ -140,6 +146,7 @@ public class AutorView {
 		componentsSuche.put(vornameSucheL = new JLabel(), vornameSucheT = new JTextField());
 		componentsSuche.put(geburtsDatumSucheL = new JLabel(), geburtsDatumSucheT = new JTextField());
 		componentsSuche.put(todesDatumSucheL = new JLabel(), todesDatumSucheT = new JTextField());
+		componentsSuche.put(geloeschtSucheL = new JLabel(), geloeschtSucheCbx = new JCheckBox());
 
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(componentsSuche.size(), 0));
@@ -182,12 +189,19 @@ public class AutorView {
 		c.gridy = 3;
 		inputPanel.add(componentsSuche.get(todesDatumSucheL), c);
 		
+		c.weightx = 0.7;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		inputPanel.add(componentsSuche.get(geloeschtSucheL), c);
+		
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.LINE_END;
 		c.insets = new Insets(0,5,0,0);
 		c.gridwidth = 1;
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 4;
 		inputPanel.add(suchButton, c);
 
 		suchPanel.add(labelPanel, BorderLayout.WEST);
@@ -200,8 +214,9 @@ public class AutorView {
 
 		autorenTabelle.getColumnModel().getColumn(0).setPreferredWidth(80); // Name
 		autorenTabelle.getColumnModel().getColumn(1).setPreferredWidth(80); // Vorname
-		autorenTabelle.getColumnModel().getColumn(2).setPreferredWidth(10); // Geb-Datum
-		autorenTabelle.getColumnModel().getColumn(3).setPreferredWidth(10); // Todesdatum
+		autorenTabelle.getColumnModel().getColumn(2).setPreferredWidth(40); // Geb-Datum
+		autorenTabelle.getColumnModel().getColumn(3).setPreferredWidth(40); // Todesdatum
+		autorenTabelle.getColumnModel().getColumn(4).setMaxWidth(30); // LV
 	}
 
 	public StandardButtonPanel getButton() {
@@ -342,6 +357,38 @@ public class AutorView {
 
 	public void setSuchButton(JButton suchButton) {
 		this.suchButton = suchButton;
+	}
+
+	public JLabel getGeloescht() {
+		return geloeschtL;
+	}
+
+	public void setGeloescht(JLabel geloescht) {
+		this.geloeschtL = geloescht;
+	}
+
+	public JLabel getGeloeschtSucheL() {
+		return geloeschtSucheL;
+	}
+
+	public void setGeloeschtSucheL(JLabel geloeschtSucheL) {
+		this.geloeschtSucheL = geloeschtSucheL;
+	}
+
+	public JCheckBox getGeloeschtCbx() {
+		return geloeschtCbx;
+	}
+
+	public void setGeloeschtCbx(JCheckBox geloeschtCbx) {
+		this.geloeschtCbx = geloeschtCbx;
+	}
+
+	public JCheckBox getGeloeschtSucheCbx() {
+		return geloeschtSucheCbx;
+	}
+
+	public void setGeloeschtSucheCbx(JCheckBox geloeschtSucheCbx) {
+		this.geloeschtSucheCbx = geloeschtSucheCbx;
 	}
 	
 

@@ -26,6 +26,7 @@ public class AutorNeuTest {
 		a.setVorname("Testvorname");
 		a.setGeburtsdatum(DateConverter.convertStringToJavaDate("10.10.1950"));
 		a.setTodesdatum(DateConverter.convertStringToJavaDate("01.05.2005"));
+		a.setGeloescht(true);
 	}
 
 	@Test
