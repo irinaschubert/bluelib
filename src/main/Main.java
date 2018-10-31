@@ -5,6 +5,8 @@ import ui.AutorController;
 import ui.VerlagController;
 import ui.AutorView;
 import ui.VerlagView;
+import ui.BibliotheksdatenView;
+import ui.BibliotheksdatenController;
 import ui.PrototypController;
 import ui.PrototypView;
 
@@ -42,6 +44,13 @@ public class Main {
 	                VerlagView view = new VerlagView("Verlag"); 
 	                new VerlagController(view);
 	                
+	            }
+	        });
+		 SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {                                           
+	            	BibliotheksdatenView view = new BibliotheksdatenView("Bibliotheksdaten");
+	            	new BibliotheksdatenController(view);	                
 	            }
 	        });  
 		 
