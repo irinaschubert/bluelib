@@ -30,7 +30,7 @@ public class AutorSuchenTest {
 		a.setVorname("Testvorname");
 		a.setGeburtsdatum(DateConverter.convertStringToJavaDate("10.10.1950"));
 		a.setTodesdatum(DateConverter.convertStringToJavaDate("01.05.2005"));
-		
+		a.setGeloescht(false);
 		b = n.sichereAutor(a);
 	}
 

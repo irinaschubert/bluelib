@@ -13,6 +13,7 @@ public class Verlag {
 	private String name;
 	private Date gruendungsDatum;
 	private Date endDatum;
+	private boolean geloescht;
 	
 	public Verlag() {
 		
@@ -48,6 +49,14 @@ public class Verlag {
 
 	public void setEndDatum(Date endDatum) {
 		this.endDatum = endDatum;
+	}
+	
+	public boolean getGeloescht() {
+		return geloescht;
+	}
+
+	public void setGeloescht(boolean geloescht) {
+		this.geloescht = geloescht;
 	}
 	
 	

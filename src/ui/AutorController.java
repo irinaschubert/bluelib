@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -202,6 +203,7 @@ public class AutorController {
 				a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumT().getText()));
 			}
 		}
+		a.setGeloescht(autorView.getGeloeschtCbx().isSelected());
 		return a;
 	}
 
@@ -223,6 +225,7 @@ public class AutorController {
 				a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumSucheT().getText()));
 			}
 		}
+		a.setGeloescht(autorView.getGeloeschtSucheCbx().isSelected());
 		return a;
 	}
 
@@ -241,6 +244,7 @@ public class AutorController {
 		if (autor.getTodesdatum() != null) {
 			autorView.getTodesDatumT().setText(DateConverter.convertJavaDateToString(autor.getTodesdatum()));
 		}
+		autorView.getGeloeschtCbx().setSelected(autor.getGeloescht());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
@@ -253,7 +257,12 @@ public class AutorController {
 
 		// Felder leeren
 		for (JComponent t : autorView.getComponents().values()) {
-			((JTextField) t).setText("");
+			if (t instanceof JTextField) {
+				((JTextField) t).setText("");
+			}
+			if (t instanceof JCheckBox) {
+				((JCheckBox) t).setSelected(false);
+			}
 		}
 
 	}
@@ -265,10 +274,12 @@ public class AutorController {
 		autorView.getVornameL().setText("Vorname:*");
 		autorView.getGeburtsDatumL().setText("Geburtsdatum:");
 		autorView.getTodesDatumL().setText("Todesdatum:");
+		autorView.getGeloescht().setText("Löschvormerkung:");
 		autorView.getNachnameSucheL().setText("Nachname:");
 		autorView.getVornameSucheL().setText("Vorname:");
 		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
 		autorView.getTodesDatumSucheL().setText("Todesdatum:");
+		autorView.getGeloeschtSucheL().setText("Löschvormerkung:");
 		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
 		autorView.getButtonPanel().getButton1().setText(ButtonNamen.SICHERN.getName());
