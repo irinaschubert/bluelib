@@ -94,7 +94,7 @@ COMMIT;
 -- -------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO verlag (name,gruendungsdatum, enddatum) VALUES ('d-punkt', '1995-1-31', '2018-10-10'), ('Reclam', '1828-1-10',null), ('EMF', '1985-1-01',null);
+INSERT INTO verlag (name,gruendungsdatum, enddatum, geloescht) VALUES ('d-punkt', '1995-1-31', '2018-10-10',0), ('Reclam', '1828-1-10',null,0), ('EMF', '1985-1-01',null,1);
 COMMIT;
 -- ----------------------
 -- Data for medium
@@ -124,7 +124,7 @@ COMMIT;
 -- ---------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO autor (vorname, nachname, geburtsdatum, todesdatum) VALUES ('Friedrich', 'Schiller', '1759-11-10', '1805-5-09'), ('Klaus', 'Pohl', '1960-1-01', null),('Jean-Francois', 'Mallet', '1967-1-19', null);
+INSERT INTO autor (vorname, nachname, geburtsdatum, todesdatum, geloescht) VALUES ('Friedrich', 'Schiller', '1759-11-10', '1805-5-09',0), ('Klaus', 'Pohl', '1960-1-01', null,0),('Jean-Francois', 'Mallet', '1967-1-19', null,0);
 COMMIT;
 -- ---------------------
 -- Data for mediumAutor
