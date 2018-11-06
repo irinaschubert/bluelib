@@ -194,7 +194,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 				}
 				
 				if (domainObject.getVorname() != null) {
-					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" vorname");
 					sql = sql + (SQLHelfer.likePruefung(domainObject.getVorname())?" LIKE": " =");
 					sql = sql + " ?";
@@ -202,19 +202,18 @@ public class AutorDAO implements DAOInterface<Autor> {
 				}
 				
 				if (domainObject.getGeburtsdatum() != null) {
-					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" geburtsdatum = ?");
 					whereCounter++;
 				}
 				if (domainObject.getTodesdatum() != null) {
-					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" todesdatum = ?");
 					whereCounter++;
 				}
 			
 					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" geloescht = ?");
-				
 				
 			try {
 				
