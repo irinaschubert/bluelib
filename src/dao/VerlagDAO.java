@@ -36,12 +36,13 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				+ "(name "
 				+ (domainObject.getGruendungsDatum() != null ? ",gruendungsdatum ":"")
 				+ (domainObject.getEndDatum() != null?",enddatum ":"")
+				+ ",geloescht "
 				+ ") "
 				+ "VALUES "
 				+ "(? "
 				+ (domainObject.getGruendungsDatum() != null?",? ":"")
 				+ (domainObject.getEndDatum()!= null?",? ":"")
-				+ ")" ;
+				+ ", ?)" ;
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -55,7 +56,10 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 					argCounter++;
 					pstmt.setDate(argCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getEndDatum()));
 				}
+				argCounter++;
+				pstmt.setBoolean(argCounter, domainObject.getGeloescht());
 				pstmt.executeUpdate();
+				
 				rs = pstmt.getGeneratedKeys();
 				if(rs != null && rs.next()){
 					v = new VerlagDAO().findById(rs.getInt(1));
@@ -194,7 +198,6 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				
 				
 			try {
-				
 				int pCounter = 1;
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
@@ -212,7 +215,6 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				}
 				pstmt.setBoolean(pCounter, domainObject.getGeloescht());
 				
-
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					 Verlag v = new Verlag();
@@ -227,8 +229,9 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 			} catch (SQLException e) {
 				e.printStackTrace();
 
-				   } finally{
-				         try{
+				   } finally {
+				         
+					   try {
 				             if(rs != null) rs.close();
 				             if(pstmt != null) pstmt.close();
 				             if(conn != null) conn.close();
@@ -236,7 +239,6 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				     }
 			
 			return verlagListe;
-		
 	}
 
 	@Override
@@ -246,7 +248,8 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				+ "id, "
 				+ "name, "
 				+ "gruendungsdatum, "
-				+ "enddatum "
+				+ "enddatum, "
+				+ "geloescht "
 				+ "FROM verlag "
 				+ "WHERE id = ?";
 			try {
@@ -260,6 +263,7 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 					 v.setName(mRS.getString(2));
 					 v.setGruendungsDatum(mRS.getDate(3));
 					 v.setEndDatum(mRS.getDate(4));
+					 v.setGeloescht(mRS.getBoolean(5));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -284,7 +288,8 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				+ "id, "
 				+ "name, "
 				+ "gruendungsdatum, "
-				+ "enddatum "
+				+ "enddatum, "
+				+ "geloescht "
 				+ "FROM verlag";
 			try {
 				
@@ -297,6 +302,7 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 					 v.setName(mRS.getString(2));
 					 v.setGruendungsDatum(mRS.getDate(3));
 					 v.setEndDatum(mRS.getDate(4));
+					 v.setGeloescht(mRS.getBoolean(5));
 					 verlagListe.add(v);}
 				
 			} catch (SQLException e) {

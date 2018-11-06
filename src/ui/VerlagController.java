@@ -80,9 +80,9 @@ public class VerlagController {
 				if (inputValidierungSpeichern()) {
 					v = feldwertezuObjektSpeichern();
 					if (verlagView.getPKT().getText().isEmpty()) {
-						nachAarbeitSpeichern(normdatenService.sichereVerlag(v));
+						nachArbeitSpeichern(normdatenService.sichereVerlag(v));
 					} else {
-						nachAarbeitSpeichern(normdatenService.aktualisiereVerlag(v));
+						nachArbeitSpeichern(normdatenService.aktualisiereVerlag(v));
 					}
 				}
 
@@ -240,7 +240,7 @@ public class VerlagController {
 		verlagView.getGeloeschtCbx().setSelected(Verlag.getGeloescht());
 	}
 
-	private void nachAarbeitSpeichern(Verifikation v) {
+	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			tableModelVerlag.setAndSortListe(normdatenService.sucheVerlag(verlagSuchobjekt));
