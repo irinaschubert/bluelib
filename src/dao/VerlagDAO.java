@@ -8,8 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import domain.Verlag;
-import interfaces.DAOInterface;
 import hilfsklassen.DateConverter;
+import hilfsklassen.SQLHelfer;
+import interfaces.DAOInterface;
 
 public class VerlagDAO implements DAOInterface<Verlag> {
 	
@@ -18,19 +19,18 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
 	private List<Verlag> verlagListe = null;
-	private DateConverter dateConverter;
 	
 	
 	public VerlagDAO() {
 		verlagListe = new ArrayList<>();
 		dbConnection = DBConnection.getInstance();
-		dateConverter = new DateConverter();
 	}
 	
 	@Override
 	public Verlag save(Verlag domainObject) {
 		ResultSet rs = null;
-		Verlag v = new Verlag();		
+		Verlag v = new Verlag();
+		int argCounter = 0;
 		String sql = "INSERT INTO "
 				+ "verlag "
 				+ "(name "
@@ -45,13 +45,15 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				
-				pstmt.setString(1,domainObject.getName());
+				argCounter++;
+				pstmt.setString(argCounter,domainObject.getName());
 				if (domainObject.getGruendungsDatum() != null) {
-					pstmt.setDate(2, dateConverter.convertJavaDateToSQLDate(domainObject.getGruendungsDatum()));
+					argCounter++;
+					pstmt.setDate(argCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getGruendungsDatum()));
 				}
 				if (domainObject.getEndDatum() != null) {
-					pstmt.setDate(3, dateConverter.convertJavaDateToSQLDate(domainObject.getEndDatum()));
+					argCounter++;
+					pstmt.setDate(argCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getEndDatum()));
 				}
 				pstmt.executeUpdate();
 				rs = pstmt.getGeneratedKeys();
@@ -76,20 +78,165 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 
 	@Override
 	public Verlag update(Verlag domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		Verlag v = new Verlag();
+		String sql = "UPDATE verlag SET "
+				+ "name = ? "
+				+ ",gruendungsdatum = ?"
+				+ ",enddatum = ? "
+				+ ",geloescht = ?"
+				+ " WHERE id = ?";
+			try {
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,domainObject.getName());
+				
+				if (domainObject.getGruendungsDatum() != null) {
+				pstmt.setDate(2,DateConverter.convertJavaDateToSQLDateN(domainObject.getGruendungsDatum()));
+				}
+				else {
+					pstmt.setNull(2,java.sql.Types.DATE);
+				}
+				
+				if (domainObject.getEndDatum() != null) {
+				pstmt.setDate(3,DateConverter.convertJavaDateToSQLDateN(domainObject.getEndDatum()));
+				}
+				else {
+					pstmt.setNull(3,java.sql.Types.DATE);
+				}
+				pstmt.setBoolean(4, domainObject.getGeloescht());
+				pstmt.setInt(5,  domainObject.getId());
+				int i = pstmt.executeUpdate();
+				if (i>0) {
+					v = domainObject;
+				}
+				else {
+					v = null;
+				}
+								
+			}
+	  catch (SQLException e) {
+           e.printStackTrace();
+     } finally{
+         try{
+             if(rs != null) rs.close();
+             if(pstmt != null) pstmt.close();
+             if(conn != null) conn.close();
+         } catch(Exception ex){}
+     }
+			
+		return v;
 	}
 
 	@Override
 	public boolean delete(Verlag domainObject) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		ResultSet rs = null;
+		boolean geloescht = false;
+		String sql = "DELETE FROM "
+				+ "verlag "
+				+ "WHERE id = ?";
+			try {
+				
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, domainObject.getId());
+				int i = pstmt.executeUpdate();
+				if (i>0) {
+					geloescht = true;
+				}
+								
+			}
+	  catch (SQLException e) {
+           e.printStackTrace();
+     } finally{
+         try{
+             if(rs != null) rs.close();
+             if(pstmt != null) pstmt.close();
+             if(conn != null) conn.close();
+         } catch(Exception ex){}
+     }
+			
+		return geloescht;
+}
 
 	@Override
 	public List<Verlag> getSelektion(Verlag domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		int whereCounter =1;
+		String sql = "SELECT "
+				+ "id, "
+				+ "name, "
+				+ "gruendungsdatum, "
+				+ "enddatum, "
+				+ "geloescht "
+				+ "FROM verlag ";
+				
+				if (domainObject.getName() != null) {
+					sql = sql + "WHERE name";
+					sql = sql + (SQLHelfer.likePruefung(domainObject.getName())?" LIKE": " =");
+					sql = sql + " ?";
+					whereCounter++;
+				}
+				
+				if (domainObject.getGruendungsDatum() != null) {
+					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (" gruendungsdatum = ?");
+					whereCounter++;
+				}
+				if (domainObject.getEndDatum() != null) {
+					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (" enddatum = ?");
+					whereCounter++;
+				}
+			
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
+					sql = sql + (" geloescht = ?");
+				
+				
+			try {
+				
+				int pCounter = 1;
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				if (domainObject.getName() != null) {
+					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getName()));
+					pCounter++;
+				}
+				if (domainObject.getGruendungsDatum() != null) {
+					pstmt.setDate(pCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getGruendungsDatum()));
+					pCounter++;
+				}
+				if (domainObject.getEndDatum() != null) {
+					pstmt.setDate(pCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getEndDatum()));
+					pCounter++;
+				}
+				pstmt.setBoolean(pCounter, domainObject.getGeloescht());
+				
+
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					 Verlag v = new Verlag();
+					 v.setId(rs.getInt(1));
+					 v.setName(rs.getString(2));
+					 v.setGruendungsDatum(rs.getDate(3));
+					 v.setEndDatum(rs.getDate(4));
+					 v.setGeloescht(rs.getBoolean(5));
+					 verlagListe.add(v);
+					 }
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+
+				   } finally{
+				         try{
+				             if(rs != null) rs.close();
+				             if(pstmt != null) pstmt.close();
+				             if(conn != null) conn.close();
+				         } catch(Exception ex){}
+				     }
+			
+			return verlagListe;
+		
 	}
 
 	@Override

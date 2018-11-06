@@ -70,7 +70,7 @@ public class AutorView {
 		
 		new JLabel(frameTitel);
 		autorenTabelle = new JTable();
-		// Nur eine Zeile darf ausgewaehl werden
+		// Nur eine Zeile darf ausgewaehlt werden
 		autorenTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scroll = new JScrollPane(autorenTabelle);
 
