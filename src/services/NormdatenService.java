@@ -17,6 +17,7 @@ import domain.Verlag;
 
 public class NormdatenService {
 
+	// gehört nicht hierher, oder?
 	public List<Anrede> alleAnreden(){
 		return new AnredeDAO().findAll();
 	}

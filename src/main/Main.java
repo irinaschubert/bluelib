@@ -3,8 +3,10 @@ package main;
 import javax.swing.SwingUtilities;
 import ui.AutorController;
 import ui.VerlagController;
+import ui.BenutzerController;
 import ui.AutorView;
 import ui.VerlagView;
+import ui.BenutzerView;
 import ui.PrototypController;
 import ui.PrototypView;
 
@@ -41,6 +43,15 @@ public class Main {
 	            public void run() {                                           
 	                VerlagView view = new VerlagView("Verlag"); 
 	                new VerlagController(view);
+	                
+	            }
+	        });  
+		 
+		 SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {                                           
+	            	BenutzerView view = new BenutzerView("Benutzer"); 
+	                new BenutzerController(view);
 	                
 	            }
 	        });  
