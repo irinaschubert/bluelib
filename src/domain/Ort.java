@@ -10,8 +10,9 @@ public class Ort {
 	private int plz;
 	private String ort;
     
-    public Ort() {
-    	
+    public Ort(int plz, String ort) {
+    	this.plz = plz;
+    	this.ort = ort;
     }
     
 	public int getId() {

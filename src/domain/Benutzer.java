@@ -10,9 +10,11 @@ import java.util.Date;
 public class Benutzer extends Person {
 
 	private int status;
+	private boolean mitarbeiter;
 	
 	public Benutzer() {
 		status = Status.AKTIV;
+		mitarbeiter = false;
 	}
 
 	public int getStatus() {
@@ -21,6 +23,14 @@ public class Benutzer extends Person {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	
+	public boolean getMitarbeiter() {
+		return mitarbeiter;
+	}
+
+	public void setMitarbeiter(boolean b) {
+		this.mitarbeiter = b;
 	}
 	
 	

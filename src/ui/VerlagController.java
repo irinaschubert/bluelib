@@ -48,14 +48,13 @@ public class VerlagController {
 		verlagSuchobjekt = new Verlag();
 		initialisieren();
 		control();
-
 	}
 
-//	Definierten des Listeners für die Button-Klicks
+	// Buttons
 	private void control() {
 		
+		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -64,16 +63,13 @@ public class VerlagController {
 					verlagL = normdatenService.sucheVerlag(verlagSuchobjekt);
 					tableModelVerlag.setAndSortListe(verlagL);
 				}
-
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Suchen-Button
 		verlagView.getSuchButton().addActionListener(suchenButtonActionListener);
 		
+		// Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
-			
+		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Verlag v = new Verlag();
@@ -85,40 +81,31 @@ public class VerlagController {
 						nachArbeitSpeichern(normdatenService.aktualisiereVerlag(v));
 					}
 				}
-
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Sichern-Button
 		verlagView.getButtonPanel().getButton1().addActionListener(sichernButtonActionListener);
 
+		// Uebernehmen
 		ActionListener uebernehmenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (verlagView.getVerlagTabelle().getSelectedRow() != -1) {
 					uebernehmen();
 				}
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Übernehmen-Button
 		verlagView.getButtonPanel().getButton2().addActionListener(uebernehmenButtonActionListener);
 
+		// Abbrechen
 		ActionListener abbrechenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				verlagView.schliessen();
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Abbrechen-Button
 		verlagView.getButtonPanel().getButton3().addActionListener(abbrechenButtonActionListener);
 
+		// Doppelklick = Uebernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -127,15 +114,12 @@ public class VerlagController {
 				}
 			}
 		};
-
-		// Zuweisen des Mouselisteners zur Tabelle
 		verlagView.getVerlagTabelle().addMouseListener(doppelKlick);
-
 	}
 
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
-
+		
 		if (!verlagView.getGruendungsDatumSucheT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getGruendungsDatumSucheT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
@@ -151,9 +135,7 @@ public class VerlagController {
 				keinInputFehler = false;
 			}
 		}
-
 		return keinInputFehler;
-
 	}
 
 	private boolean inputValidierungSpeichern() {
@@ -263,7 +245,7 @@ public class VerlagController {
 	public void initialisieren() {
 
 		verlagView.getPKL().setText("Nr:");
-		verlagView.getNameLabel().setText("Name:*");
+		verlagView.getNameL().setText("Name:*");
 		verlagView.getGruendungsDatumL().setText("Gründungsdatum:");
 		verlagView.getEndDatumL().setText("Enddatum:");
 		verlagView.getGeloescht().setText("Löschvormerkung:");

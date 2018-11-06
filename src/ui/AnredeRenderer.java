@@ -23,7 +23,7 @@ public class AnredeRenderer extends BasicComboBoxRenderer{
 	    super.getListCellRendererComponent(list, value, index, isSelected,
 	        cellHasFocus);
 //	    Definition der Variablen aus dem Objekt, welche in der ComboBox angezeigt werden sollen
-//	    Der Rückgabewert sollte vom Datentyp String sein. Der Cast des Objekts zu Anrede ist leidernötig
+//	    Der Rückgabewert sollte vom Datentyp String sein. Der Cast des Objekts zu Anrede ist leider nötig
 	    if (value != null) {
 	      setText(((Anrede) value).getBezeichnung());
 	    }

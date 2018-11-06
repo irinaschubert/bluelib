@@ -12,10 +12,15 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import domain.Adresse;
 import domain.Benutzer;
+import domain.Ort;
+import domain.Status;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
 import models.TableModelBenutzer;
+import services.BenutzerService;
 import services.NormdatenService;
 import services.Verifikation;
 
@@ -24,21 +29,24 @@ import services.Verifikation;
  * Controller für die Benutzer-View, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
- * @version 1.0 06.11.2018
+ * @version 1.0 06.11..2018
  * @author irina
  *
  */
 
 public class BenutzerController {
 	private BenutzerView benutzerView;
+	private BenutzerService benutzerService;
 	private List<Benutzer> benutzerL;
 	private TableModelBenutzer tableModelBenutzer;
 	private Benutzer benutzerSuchobjekt;
 
 	public BenutzerController(BenutzerView view) {
 		benutzerView = view;
+		benutzerService = new BenutzerService();
 		benutzerL = new ArrayList<>();
 		tableModelBenutzer = new TableModelBenutzer();
+//		benutzerL = benutzerService.allebenutzer();
 		tableModelBenutzer.setAndSortListe(benutzerL);
 		view.getBenutzerTabelle().setModel(tableModelBenutzer);
 		view.spaltenBreiteSetzen();
@@ -46,80 +54,61 @@ public class BenutzerController {
 
 		initialisieren();
 		control();
-
 	}
 
-//	Definierten des Listeners für die Button-Klicks
+	// Buttons
 	private void control() {
 
+		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (inputValidierungSuchen()) {
-					benutzerSuchobjekt = feldwertezuObjektSuchen();
-					benutzerL = normdatenService.sucheBenutzer(benutzerSuchobjekt);
-					tableModelBenutzer.setAndSortListe(benutzerL);
-				}
-
+				benutzerSuchobjekt = feldwertezuObjektSuchen();
+				benutzerL = benutzerService.sucheBenutzer(benutzerSuchobjekt);
+				tableModelBenutzer.setAndSortListe(benutzerL);
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Suchen-Button
 		benutzerView.getSuchButton().addActionListener(suchenButtonActionListener);
 
+		// Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Benutzer a = new Benutzer();
+				Benutzer b = new Benutzer();
 				if (inputValidierungSpeichern()) {
-					a = feldwertezuObjektSpeichern();
-					// Prüfung, ob ein neuer Benutzer erfasst wurde oder ein Benutzer aktialisiert wird
+					b = feldwertezuObjektSpeichern();
 					if (benutzerView.getPKT().getText().isEmpty()) {
-
-						nachAarbeitSpeichern(normdatenService.sichereBenutzer(a));
-
+						nachArbeitSpeichern(benutzerService.sichereBenutzer(b));
 					} else {
-						nachAarbeitSpeichern(normdatenService.aktualisiereBenutzer(a));
+						nachArbeitSpeichern(benutzerService.aktualisiereBenutzer(b));
 					}
 				}
-
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Sichern-Button
 		benutzerView.getButtonPanel().getButton1().addActionListener(sichernButtonActionListener);
 
+		// Uebernehmen
 		ActionListener uebernehmenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (benutzerView.getBenutzerTabelle().getSelectedRow() != -1) {
 					uebernehmen();
 				}
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Übernehmen-Button
 		benutzerView.getButtonPanel().getButton2().addActionListener(uebernehmenButtonActionListener);
 
+		// Abbrechen
 		ActionListener abbrechenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				benutzerView.schliessen();
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Abbrechen-Button
 		benutzerView.getButtonPanel().getButton3().addActionListener(abbrechenButtonActionListener);
 
+		// Doppelklick = Uebernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -128,33 +117,7 @@ public class BenutzerController {
 				}
 			}
 		};
-
-		// Zuweisen des Mouselisteners zur Tabelle
 		benutzerView.getBenutzerTabelle().addMouseListener(doppelKlick);
-
-	}
-
-	private boolean inputValidierungSuchen() {
-		boolean keinInputFehler = true;
-
-		if (!benutzerView.getGeburtsDatumSucheT().getText().isEmpty()) {
-			if (!DateConverter.datumIstGueltig(benutzerView.getGeburtsDatumSucheT().getText())) {
-				JOptionPane.showMessageDialog(null, "Üngültiges Geburtsdatum");
-				benutzerView.getGeburtsDatumL().setText("");
-				keinInputFehler = false;
-			}
-		}
-
-		if (!benutzerView.getTodesDatumSucheT().getText().isEmpty()) {
-			if (!DateConverter.datumIstGueltig(benutzerView.getTodesDatumSucheT().getText())) {
-				JOptionPane.showMessageDialog(null, "Üngültiges Todesdatum");
-				benutzerView.getTodesDatumL().setText("");
-				keinInputFehler = false;
-			}
-		}
-
-		return keinInputFehler;
-
 	}
 
 	private boolean inputValidierungSpeichern() {
@@ -164,66 +127,64 @@ public class BenutzerController {
 			keinInputFehler = false;
 		}
 
-		if (!benutzerView.getGeburtsDatumT().getText().isEmpty()) {
-			if (!DateConverter.datumIstGueltig(benutzerView.getGeburtsDatumT().getText())) {
-				JOptionPane.showMessageDialog(null, "Üngültiges Geburtsdatum");
-				benutzerView.getGeburtsDatumL().setText("");
+		if (!benutzerView.getGeburtsdatumT().getText().isEmpty()) {
+			if (!DateConverter.datumIstGueltig(benutzerView.getGeburtsdatumT().getText())) {
+				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
+				benutzerView.getGeburtsdatumL().setText("");
 				keinInputFehler = false;
 			}
 		}
-
-		if (!benutzerView.getTodesDatumT().getText().isEmpty()) {
-			if (!DateConverter.datumIstGueltig(benutzerView.getTodesDatumT().getText())) {
-				JOptionPane.showMessageDialog(null, "Üngültiges Todesdatum");
-				benutzerView.getTodesDatumL().setText("");
-				keinInputFehler = false;
-			}
-		}
-
 		return keinInputFehler;
-
 	}
 
 	private Benutzer feldwertezuObjektSpeichern() {
-		Benutzer a = new Benutzer();
+		Benutzer b = new Benutzer();
 		if (!benutzerView.getPKT().getText().isEmpty()) {
-			a.setId(Integer.parseInt(benutzerView.getPKT().getText()));
+			b.setId(Integer.parseInt(benutzerView.getPKT().getText()));
 		}
-		a.setName(benutzerView.getNachnameT().getText());
-		a.setVorname(benutzerView.getVornameT().getText());
-		if (!benutzerView.getGeburtsDatumT().getText().isEmpty()) {
-			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(benutzerView.getGeburtsDatumT().getText()));
+		b.setName(benutzerView.getNachnameT().getText());
+		b.setVorname(benutzerView.getVornameT().getText());
+		
+		if (!benutzerView.getStrasseNrT().getText().isEmpty() && !benutzerView.getPlzT().getText().isEmpty() && !benutzerView.getOrtT().getText().isEmpty()) {
+			String strasse = benutzerView.getStrasseNrT().getText();
+			int plzInt = Integer.parseInt(benutzerView.getPlzT().getText());
+			String ortString = benutzerView.getOrtT().getText();
+			Ort ort = new Ort(plzInt, ortString);
+			Adresse adresse = new Adresse(strasse, ort);
+			b.setAdresse(adresse);
+		}
+		
+		if (!benutzerView.getGeburtsdatumT().getText().isEmpty()) {
+			b.setGeburtsdatum(DateConverter.convertStringToJavaDate(benutzerView.getGeburtsdatumT().getText()));
 		}
 
-		if (!benutzerView.getTodesDatumT().getText().isEmpty()) {
-			if (DateConverter.datumIstGueltig(benutzerView.getTodesDatumT().getText())) {
-				a.setTodesdatum(DateConverter.convertStringToJavaDate(benutzerView.getTodesDatumT().getText()));
-			}
+		if (!benutzerView.getTelT().getText().isEmpty()) {
+			b.setTelefon(benutzerView.getTelT().getText());
 		}
-		a.setGeloescht(benutzerView.getGeloeschtCbx().isSelected());
-		return a;
+		if (!benutzerView.getMailT().getText().isEmpty()) {
+			b.setEmail(benutzerView.getMailT().getText());
+		}
+		if (!benutzerView.getBemerkungT().getText().isEmpty()) {
+			b.setBemerkung(benutzerView.getBemerkungT().getText());
+		}
+		//b.setAnrede(benutzerView.getAnredeCbx().getSelectedItem().toString());
+		//b.setStatus(benutzerView.getStatusCbx().getSelectedItem().toString());
+		b.setMitarbeiter(benutzerView.getMitarbeiterCbx().isSelected());
+		return b;
 	}
 
 	private Benutzer feldwertezuObjektSuchen() {
-		Benutzer a = new Benutzer();
+		Benutzer b = new Benutzer();
 		if (!benutzerView.getNachnameSucheT().getText().isEmpty()) {
-			a.setName(benutzerView.getNachnameSucheT().getText());
+			b.setName(benutzerView.getNachnameSucheT().getText());
 		}
 
 		if (!benutzerView.getVornameSucheT().getText().isEmpty()) {
-			a.setVorname(benutzerView.getVornameSucheT().getText());
+			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
-		if (!benutzerView.getGeburtsDatumSucheT().getText().isEmpty()) {
-			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(benutzerView.getGeburtsDatumSucheT().getText()));
-		}
-
-		if (!benutzerView.getTodesDatumSucheT().getText().isEmpty()) {
-			if (DateConverter.datumIstGueltig(benutzerView.getTodesDatumSucheT().getText())) {
-				a.setTodesdatum(DateConverter.convertStringToJavaDate(benutzerView.getTodesDatumSucheT().getText()));
-			}
-		}
-		a.setGeloescht(benutzerView.getGeloeschtSucheCbx().isSelected());
-		return a;
+		
+		b.setMitarbeiter(benutzerView.getMitarbeiterSucheCbx().isSelected());
+		return b;
 	}
 
 	private void uebernehmen() {
@@ -235,19 +196,15 @@ public class BenutzerController {
 		benutzerView.getVornameT().setText(benutzer.getVorname());
 
 		if (benutzer.getGeburtsdatum() != null) {
-			benutzerView.getGeburtsDatumT().setText(DateConverter.convertJavaDateToString(benutzer.getGeburtsdatum()));
+			benutzerView.getGeburtsdatumT().setText(DateConverter.convertJavaDateToString(benutzer.getGeburtsdatum()));
 		}
-
-		if (benutzer.getTodesdatum() != null) {
-			benutzerView.getTodesDatumT().setText(DateConverter.convertJavaDateToString(benutzer.getTodesdatum()));
-		}
-		benutzerView.getGeloeschtCbx().setSelected(benutzer.getGeloescht());
+		benutzerView.getMitarbeiterCbx().setSelected(benutzer.getMitarbeiter());
 	}
 
-	private void nachAarbeitSpeichern(Verifikation v) {
+	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelBenutzer.setAndSortListe(normdatenService.sucheBenutzer(benutzerSuchobjekt));
+			tableModelBenutzer.setAndSortListe(benutzerService.sucheBenutzer(benutzerSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
@@ -266,17 +223,30 @@ public class BenutzerController {
 
 	public void initialisieren() {
 
-		benutzerView.getPKL().setText("Nr:");
+		benutzerView.getPKL().setText("Benutzer-ID:");
 		benutzerView.getNachnameL().setText("Nachname:*");
 		benutzerView.getVornameL().setText("Vorname:*");
-		benutzerView.getGeburtsDatumL().setText("Geburtsdatum:");
-		benutzerView.getTodesDatumL().setText("Todesdatum:");
-		benutzerView.getGeloescht().setText("Löschvormerkung:");
+		benutzerView.getStrasseNrL().setText("Strasse/Nr.:");
+		benutzerView.getPlzL().setText("PLZ:");
+		benutzerView.getOrtL().setText("Ort:");
+		benutzerView.getGeburtsdatumL().setText("Geburtsdatum:");
+		benutzerView.getTelL().setText("Telefonnummer:");
+		benutzerView.getMailL().setText("E-Mailadresse:");
+		benutzerView.getStatusL().setText("Status:");
+		benutzerView.getMitarbeiterL().setText("MA:");
+		benutzerView.getAnredeL().setText("Anrede:");
+		benutzerView.getErfasstAmL().setText("Erfasst am:");
+		benutzerView.getErfasstVonL().setText("Erfasst von:");
+		
+		benutzerView.getPKSucheL().setText("Benutzer-ID:");
 		benutzerView.getNachnameSucheL().setText("Nachname:");
 		benutzerView.getVornameSucheL().setText("Vorname:");
-		benutzerView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
-		benutzerView.getTodesDatumSucheL().setText("Todesdatum:");
-		benutzerView.getGeloeschtSucheL().setText("Löschvormerkung:");
+		benutzerView.getStrasseNrSucheL().setText("Strasse/Nr.:");
+		benutzerView.getPlzSucheL().setText("PLZ:");
+		benutzerView.getOrtSucheL().setText("Ort:");
+		benutzerView.getMitarbeiterSucheL().setText("MA:");
+		benutzerView.getStatusSucheL().setText("Status:");
+		
 		benutzerView.getSuchButton().setText("Suchen");
 		benutzerView.getPKT().setEditable(false);
 		benutzerView.getButtonPanel().getButton1().setText(ButtonNamen.SICHERN.getName());

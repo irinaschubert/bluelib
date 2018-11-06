@@ -219,7 +219,7 @@ public class VerlagView {
 			return verlagListe;
 		}
 
-		public JLabel getNameLabel() {
+		public JLabel getNameL() {
 			return nameL;
 		}
 
