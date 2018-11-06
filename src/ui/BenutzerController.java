@@ -29,7 +29,7 @@ import services.Verifikation;
  * Controller für die Benutzer-View, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
- * @version 1.0 06.11..2018
+ * @version 1.0 06.11.2018
  * @author irina
  *
  */
