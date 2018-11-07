@@ -231,10 +231,10 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ "id, "
 				+ "nachname, "
 				+ "vorname, "
-				+ "geburtsdatum, "
-				+ "todesdatum, "
-				+ "geloescht "
-				+ "FROM benutzer ";
+				+ "StrasseUndNr, "
+				+ "ort_id, "
+				+ "statusPers_id "
+				+ "FROM person ";
 				
 				if (domainObject.getName() != null) {
 					sql = sql + "WHERE nachname";
@@ -251,14 +251,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					whereCounter++;
 				}
 				
-				if (domainObject.getGeburtsdatum() != null) {
 					sql = sql + (whereCounter > 1?" AND": " WHERE");
-					sql = sql + (" geburtsdatum = ?");
-					whereCounter++;
-				}
-			
-					sql = sql + (whereCounter > 1?" AND": " WHERE");
-					sql = sql + (" geloescht = ?");
+					sql = sql + (" statusPers_id = ?");
 				
 			try {
 				
@@ -273,11 +267,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getVorname()));
 					pCounter++;
 				}
-				if (domainObject.getGeburtsdatum() != null) {
-					pstmt.setDate(pCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
-					pCounter++;
-				}
-				pstmt.setBoolean(pCounter, domainObject.getMitarbeiter());
+				pstmt.setInt(pCounter, domainObject.getStatus());
 				
 
 				rs = pstmt.executeQuery();
@@ -286,8 +276,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setId(rs.getInt(1));
 					 a.setName(rs.getString(2));
 					 a.setVorname(rs.getString(3));
-					 a.setGeburtsdatum(rs.getDate(4));
-					 a.setMitarbeiter(rs.getBoolean(5));
+					 a.setStatus(rs.getInt(4));
 					 benutzerListe.add(a);
 					 }
 				
