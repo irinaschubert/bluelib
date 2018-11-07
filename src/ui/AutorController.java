@@ -35,9 +35,11 @@ public class AutorController {
 	private List<Autor> autorL;
 	private TableModelAutor tableModelAutor;
 	private Autor autorSuchobjekt;
+	private HauptController hauptController;
 
-	public AutorController(AutorView view) {
+	public AutorController(AutorView view, HauptController hauptController) {
 		autorView = view;
+		this.hauptController = hauptController;
 		normdatenService = new NormdatenService();
 		autorL = new ArrayList<>();
 		tableModelAutor = new TableModelAutor();
@@ -115,7 +117,7 @@ public class AutorController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				autorView.schliessen();
+				hauptController.panelEntfernen();
 			}
 
 		};
@@ -252,7 +254,7 @@ public class AutorController {
 	private void suchFelderLeeren() {
 
 		// Felder leeren
-		for (JComponent t : autorView.getComponents().values()) {
+		for (JComponent t : autorView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
 			}
@@ -276,7 +278,7 @@ public class AutorController {
 		autorView.getNachnameSucheL().setText("Name:");
 		autorView.getVornameSucheL().setText("Vorname:");
 		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
-		autorView.getGeloeschtSucheL().setText("Löschvormerkung:");
+		autorView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
 		autorView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());

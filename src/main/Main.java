@@ -4,6 +4,8 @@ import javax.swing.SwingUtilities;
 import ui.AutorController;
 import ui.VerlagController;
 import ui.AutorView;
+import ui.HauptController;
+import ui.HauptView;
 import ui.VerlagView;
 import ui.PrototypController;
 import ui.PrototypView;
@@ -27,20 +29,29 @@ public class Main {
 //	            }
 //	        });  
 		 
-		 SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {                                           
-	                AutorView view = new AutorView("Autor"); 
-	                new AutorController(view);
-	                
-	            }
-	        });
+//		 SwingUtilities.invokeLater(new Runnable() {
+//	            @Override
+//	            public void run() {                                           
+//	                AutorView view = new AutorView("Autor"); 
+//	                new AutorController(view);
+//	                
+//	            }
+//	        });
+//		 
+//		 SwingUtilities.invokeLater(new Runnable() {
+//	            @Override
+//	            public void run() {                                           
+//	                VerlagView view = new VerlagView("Verlag"); 
+//	                new VerlagController(view);
+//	                
+//	            }
+//	        });  
 		 
 		 SwingUtilities.invokeLater(new Runnable() {
 	            @Override
 	            public void run() {                                           
-	                VerlagView view = new VerlagView("Verlag"); 
-	                new VerlagController(view);
+	                HauptView view = new HauptView("Verlag"); 
+	                new HauptController(view);
 	                
 	            }
 	        });  
