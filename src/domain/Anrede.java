@@ -9,9 +9,16 @@ public class Anrede {
 	
 	private int id;
 	private String bezeichnung;
+	final static public int FRAU = 0;
+	final static public int HERR = 1;
 
 	public Anrede() {
 		
+	}
+	
+	public static String[] getAnreden() {
+		String[] anreden = {"Frau", "Herr"};
+		return anreden;
 	}
 
 	public int getId() {

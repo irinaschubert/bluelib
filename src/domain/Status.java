@@ -16,6 +16,11 @@ public class Status {
 	public Status() {
 		
 	}
+	
+	public static String[] getStatus() {
+		String[] anreden = {"aktiv", "gesperrt", "gelöscht"};
+		return anreden;
+	}
 
 	public int getId() {
 		return id;

@@ -248,9 +248,10 @@ public class BenutzerController {
 		
 		benutzerView.getSuchButton().setText("Suchen");
 		benutzerView.getPKT().setEditable(false);
-		benutzerView.getButtonPanel().getButton1().setText(ButtonNamen.SICHERN.getName());
-		benutzerView.getButtonPanel().getButton3().setText(ButtonNamen.ABBRECHEN.getName());
-		benutzerView.getButtonPanel().getButton2().setText(ButtonNamen.UEBERNEHMEN.getName());
+		benutzerView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
+		benutzerView.getButtonPanel().getButton2().setVisible(false);
+		benutzerView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
+		benutzerView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
 
 	}
 }

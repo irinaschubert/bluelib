@@ -24,6 +24,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import domain.Anrede;
+import domain.Status;
+
 /**
  * Zeigt alle Benutzer an und ermoeglicht die Erfassung neuer Benutzer
  * 
@@ -129,7 +132,7 @@ public class BenutzerView {
 		frame = new JFrame("BlueLib");
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(1000, 700);
+		frame.setSize(600, 800);
 		frame.setVisible(true);
 
 		frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
@@ -138,8 +141,7 @@ public class BenutzerView {
 	}
 
 	/**
-	 * Befüllt LinkedHashMap mit Labels und Input-Feldern und gibt die Felder in ein
-	 * JPanel aus Vorteil: Es können beliebig Felder hinzugefügt werden.
+	 * Label und Inputfelder
 	 * 
 	 * @return JPanel
 	 */
@@ -148,6 +150,12 @@ public class BenutzerView {
 		neuerBenutzerPanel = new JPanel();
 		neuerBenutzerPanel.setLayout(new BorderLayout());
 		neuerBenutzerPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
+		
+		statusCbx = new JComboBox(Status.getStatus());
+		statusCbx.setSelectedIndex(0);
+		
+		anredeCbx = new JComboBox(Anrede.getAnreden());
+		anredeCbx.setSelectedIndex(0);
 
 		componentsNeuAktualisieren.put(PKL = new JLabel(), PKT = new JTextField());
 		componentsNeuAktualisieren.put(nachnameL = new JLabel(), nachnameT = new JTextField());
@@ -160,10 +168,12 @@ public class BenutzerView {
 		componentsNeuAktualisieren.put(mailL = new JLabel(), mailT = new JTextField());
 		componentsNeuAktualisieren.put(bemerkungL = new JLabel(), bemerkungT = new JTextField());
 		componentsNeuAktualisieren.put(mitarbeiterL = new JLabel(), mitarbeiterCbx = new JCheckBox());
-		componentsNeuAktualisieren.put(statusL = new JLabel(), statusCbx = new JComboBox());
-		componentsNeuAktualisieren.put(anredeL = new JLabel(), anredeCbx = new JComboBox());
+		componentsNeuAktualisieren.put(statusL = new JLabel(), statusCbx);
+		componentsNeuAktualisieren.put(anredeL = new JLabel(), anredeCbx);
 		componentsNeuAktualisieren.put(erfasstVonL = new JLabel(), erfasstVonT = new JTextField());
 		componentsNeuAktualisieren.put(erfasstAmL = new JLabel(), erfasstAmT = new JTextField());
+		
+		//anredeCbx.setRenderer(new AnredeRenderer());
 
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(componentsNeuAktualisieren.size(), 0));
@@ -179,20 +189,20 @@ public class BenutzerView {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
-		c.gridwidth = 1;
-		c.gridx = 0;
-		c.gridy = 0;
-		inputPanel.add(componentsNeuAktualisieren.get(PKL), c);
-		
-		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.LINE_END;
 		c.weightx = 1;
 		c.gridwidth = 1;
 		c.gridx = 1;
 		c.gridy = 0;
 		inputPanel.add(neuAendernL, c);
-	
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		inputPanel.add(componentsNeuAktualisieren.get(PKL), c);
+		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
@@ -209,13 +219,67 @@ public class BenutzerView {
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 3;
+		inputPanel.add(componentsNeuAktualisieren.get(strasseNrL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 4;
+		inputPanel.add(componentsNeuAktualisieren.get(plzL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 5;
+		inputPanel.add(componentsNeuAktualisieren.get(ortL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 6;
 		inputPanel.add(componentsNeuAktualisieren.get(geburtsdatumL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 7;
+		inputPanel.add(componentsNeuAktualisieren.get(telL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 8;
+		inputPanel.add(componentsNeuAktualisieren.get(mailL), c);
 		
 		c.fill = GridBagConstraints.NONE;
 		c.gridwidth = 2;
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 9;
 		inputPanel.add(componentsNeuAktualisieren.get(mitarbeiterL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 10;
+		inputPanel.add(componentsNeuAktualisieren.get(statusL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 11;
+		inputPanel.add(componentsNeuAktualisieren.get(anredeL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 12;
+		inputPanel.add(componentsNeuAktualisieren.get(erfasstVonL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 13;
+		inputPanel.add(componentsNeuAktualisieren.get(erfasstAmL), c);
 
 		neuerBenutzerPanel.add(labelPanel, BorderLayout.WEST);
 		neuerBenutzerPanel.add(inputPanel, BorderLayout.CENTER);
@@ -235,7 +299,7 @@ public class BenutzerView {
 		componentsSuche.put(plzSucheL = new JLabel(), plzSucheT = new JTextField());
 		componentsSuche.put(ortSucheL = new JLabel(), ortSucheT = new JTextField());
 		componentsSuche.put(mitarbeiterSucheL = new JLabel(), mitarbeiterSucheCbx = new JCheckBox());
-		componentsSuche.put(statusSucheL = new JLabel(), statusSucheCbx = new JComboBox());
+		componentsSuche.put(statusSucheL = new JLabel(), statusSucheCbx = new JComboBox(Status.getStatus()));
 
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(componentsSuche.size(), 0));
@@ -252,41 +316,60 @@ public class BenutzerView {
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1;
-		c.gridwidth = 2;
+		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 0;
+		inputPanel.add(componentsSuche.get(PKSucheL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 1;
 		inputPanel.add(componentsSuche.get(nachnameSucheL), c);
 	
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		inputPanel.add(componentsSuche.get(vornameSucheL), c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		inputPanel.add(componentsSuche.get(strasseNrSucheL), c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		c.gridx = 0;
-		c.gridy = 3;
+		c.gridy = 4;
 		inputPanel.add(componentsSuche.get(plzSucheL), c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridwidth = 1;
-		c.gridx = 1;
-		c.gridy = 3;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 5;
 		inputPanel.add(componentsSuche.get(ortSucheL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 6;
+		inputPanel.add(componentsSuche.get(mitarbeiterSucheL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 7;
+		inputPanel.add(componentsSuche.get(statusSucheL), c);
 		
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.LINE_END;
 		c.insets = new Insets(0,5,0,0);
 		c.gridwidth = 1;
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 8;
 		inputPanel.add(suchButton, c);
 
 		suchPanel.add(labelPanel, BorderLayout.WEST);
@@ -303,9 +386,7 @@ public class BenutzerView {
 	    return rahmenPanel;
 	}
 
-
 	public void spaltenBreiteSetzen() {
-
 		benutzerTabelle.getColumnModel().getColumn(0).setPreferredWidth(10); // ID
 		benutzerTabelle.getColumnModel().getColumn(0).setPreferredWidth(60); // Name
 		benutzerTabelle.getColumnModel().getColumn(1).setPreferredWidth(60); // Vorname
@@ -313,6 +394,14 @@ public class BenutzerView {
 		benutzerTabelle.getColumnModel().getColumn(3).setPreferredWidth(40); // PLZ
 		benutzerTabelle.getColumnModel().getColumn(3).setPreferredWidth(40); // Ort
 		benutzerTabelle.getColumnModel().getColumn(4).setMaxWidth(20); // Status
+	}
+	
+	public StandardButtonPanel getButton() {
+		return this.buttonPanel;
+	}
+
+	public StandardButtonPanel getButtonPanel() {
+		return buttonPanel;
 	}
 
 	public JLabel getPKL() {
@@ -713,14 +802,6 @@ public class BenutzerView {
 
 	public void setMitarbeiterSucheCbx(JCheckBox mitarbeiterSucheCbx) {
 		this.mitarbeiterSucheCbx = mitarbeiterSucheCbx;
-	}
-
-	public StandardButtonPanel getButton() {
-		return this.buttonPanel;
-	}
-
-	public StandardButtonPanel getButtonPanel() {
-		return buttonPanel;
 	}
 
 	public JPanel getNeuerBenutzerPanel() {

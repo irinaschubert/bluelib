@@ -50,7 +50,7 @@ public class VerlagController {
 		control();
 	}
 
-	// Buttons
+	// Buttonlisteners
 	private void control() {
 		
 		// Suchen
@@ -66,6 +66,17 @@ public class VerlagController {
 			}
 		};
 		verlagView.getSuchButton().addActionListener(suchenButtonActionListener);
+		
+		// Neu
+		ActionListener neuButtonActionListener = new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				suchFelderLeeren();
+				verlagView.getNeuAendernL().setText("Neuerfassung");
+			}
+		};
+		verlagView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
 		
 		// Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
@@ -83,18 +94,7 @@ public class VerlagController {
 				}
 			}
 		};
-		verlagView.getButtonPanel().getButton1().addActionListener(sichernButtonActionListener);
-
-		// Uebernehmen
-		ActionListener uebernehmenButtonActionListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (verlagView.getVerlagTabelle().getSelectedRow() != -1) {
-					uebernehmen();
-				}
-			}
-		};
-		verlagView.getButtonPanel().getButton2().addActionListener(uebernehmenButtonActionListener);
+		verlagView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
 
 		// Abbrechen
 		ActionListener abbrechenButtonActionListener = new ActionListener() {
@@ -103,7 +103,7 @@ public class VerlagController {
 				verlagView.schliessen();
 			}
 		};
-		verlagView.getButtonPanel().getButton3().addActionListener(abbrechenButtonActionListener);
+		verlagView.getButtonPanel().getButton4().addActionListener(abbrechenButtonActionListener);
 
 		// Doppelklick = Uebernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
@@ -111,6 +111,7 @@ public class VerlagController {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					uebernehmen();
+					verlagView.getNeuAendernL().setText("Bearbeiten");
 				}
 			}
 		};
@@ -229,6 +230,12 @@ public class VerlagController {
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
+		suchFelderLeeren();
+		verlagView.getNeuAendernL().setText("");
+
+	}
+	
+	private void suchFelderLeeren() {
 
 		// Felder leeren
 		for (JComponent t : verlagView.getComponents().values()) {
@@ -237,10 +244,11 @@ public class VerlagController {
 			}
 			if (t instanceof JCheckBox) {
 				((JCheckBox) t).setSelected(false);
-			}
+			}			
 		}
-
 	}
+
+	
 
 	public void initialisieren() {
 
@@ -256,8 +264,9 @@ public class VerlagController {
 		verlagView.getGeloeschtSucheL().setText("Löschvormerkung:");
 		verlagView.getSuchButton().setText("Suchen");
 		verlagView.getPKT().setEditable(false);
-		verlagView.getButtonPanel().getButton1().setText(ButtonNamen.SICHERN.getName());
-		verlagView.getButtonPanel().getButton2().setText(ButtonNamen.UEBERNEHMEN.getName());
-		verlagView.getButtonPanel().getButton3().setText(ButtonNamen.ABBRECHEN.getName());
+		verlagView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
+		verlagView.getButtonPanel().getButton2().setVisible(false);
+		verlagView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
+		verlagView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
 	}
 }

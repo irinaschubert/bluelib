@@ -200,7 +200,6 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				int pCounter = 1;
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
-				System.out.println(pstmt);
 				if (domainObject.getName() != null) {
 					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getName()));
 					pCounter++;

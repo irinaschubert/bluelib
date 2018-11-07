@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.LinkedHashMap;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -41,6 +44,7 @@ public class VerlagView {
 	private JLabel gruendungsDatumSucheL;
 	private JLabel endDatumSucheL;
 	private JLabel geloeschtSucheL;
+	private JLabel neuAendernL;
 	private JTextField PKT;
 	private JTextField nameT;
 	private JTextField gruendungsDatumT;
@@ -55,14 +59,17 @@ public class VerlagView {
 	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
 	private LinkedHashMap<JLabel, JComponent> componentsNeuAktualisieren = new LinkedHashMap<>();
 
-	 public VerlagView(String frameTitel){
-		 	
+	public VerlagView(String frameTitel){
+		neuAendernL = new JLabel();
+		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonPanel = new StandardButtonPanel();
 		verlagListe = new JPanel();
 		neuerVerlagPanel = createNeuerVerlagPanel();
+			
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		suchButton = new JButton();
+
 		new JLabel(frameTitel);
 		verlagTabelle = new JTable();
 		verlagTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -82,7 +89,7 @@ public class VerlagView {
 	 	frame = new JFrame("BlueLib");                                    
         frame.getContentPane().setLayout(new BorderLayout());                                          
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);           
-        frame.setSize(500,500);        
+        frame.setSize(500,600);        
         frame.setVisible(true);
 	    
         frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
@@ -117,15 +124,55 @@ public class VerlagView {
 			labelPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
 
 			JPanel inputPanel = new JPanel();
-			inputPanel.setLayout(new GridLayout(componentsNeuAktualisieren.size(), 0));
-			for (JComponent e : componentsNeuAktualisieren.values()) {
-				inputPanel.add(e);
-			}
+			inputPanel.setLayout(new GridBagLayout());
+			
+			GridBagConstraints c = new GridBagConstraints();
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_END;
+			c.weightx = 1;
+			c.gridwidth = 1;
+			c.gridx = 1;
+			c.gridy = 0;
+			inputPanel.add(neuAendernL, c);
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			c.gridwidth = 1;
+			c.gridx = 0;
+			c.gridy = 0;
+			inputPanel.add(componentsNeuAktualisieren.get(PKL), c);
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridwidth = 2;
+			c.gridx = 0;
+			c.gridy = 1;
+			inputPanel.add(componentsNeuAktualisieren.get(nameL), c);
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridwidth = 2;
+			c.gridx = 0;
+			c.gridy = 3;
+			inputPanel.add(componentsNeuAktualisieren.get(gruendungsDatumL), c);
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridwidth = 2;
+			c.gridx = 0;
+			c.gridy = 4;
+			inputPanel.add(componentsNeuAktualisieren.get(endDatumL), c);
+			
+			c.fill = GridBagConstraints.NONE;
+			c.gridwidth = 2;
+			c.gridx = 0;
+			c.gridy = 5;
+			inputPanel.add(componentsNeuAktualisieren.get(geloeschtL), c);
+			
+			
 
 			neuerVerlagPanel.add(labelPanel, BorderLayout.WEST);
 			neuerVerlagPanel.add(inputPanel, BorderLayout.CENTER);
-
-			return neuerVerlagPanel;
+			
+			return rahmenSetzen("Neu / Bearbeiten", neuerVerlagPanel );
 	    }
 	    
 	    private JPanel createSuchePanel() {
@@ -191,7 +238,15 @@ public class VerlagView {
 			suchPanel.add(labelPanel, BorderLayout.WEST);
 			suchPanel.add(inputPanel, BorderLayout.CENTER);
 
-			return suchPanel;
+			return rahmenSetzen("Suche", suchPanel);
+		}
+	    
+	    private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
+			JPanel rahmenPanel = new JPanel();
+			rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));
+			rahmenPanel.setBorder (BorderFactory.createTitledBorder (rahmentitel));
+			rahmenPanel.add(inhalt);
+		    return rahmenPanel;
 		}
 	    
 	    public void spaltenBreiteSetzen() {
@@ -350,6 +405,14 @@ public class VerlagView {
 		
 		public void schliessen() {
 			frame.dispose();
+		}
+		
+		public JLabel getNeuAendernL() {
+			return neuAendernL;
+		}
+
+		public void setNeuAendernL(JLabel neuAendernL) {
+			this.neuAendernL = neuAendernL;
 		}
 
 
