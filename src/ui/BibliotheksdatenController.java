@@ -43,13 +43,13 @@ public class BibliotheksdatenController {
 	public void initialisieren() {
 
 		bibliotheksdatenView.getPKL().setText("Nr:");
-		bibliotheksdatenView.getNameLabel().setText("Name:");
-		bibliotheksdatenView.getStrasseLabel().setText("Strasse:");
+		bibliotheksdatenView.getNameLabel().setText("Name der Bibliothek:");
+		bibliotheksdatenView.getStrasseLabel().setText("Strasse & Nr.:");
 		bibliotheksdatenView.getPlzLabel().setText("PLZ:");
 		bibliotheksdatenView.getOrtLabel().setText("Ort:");
 		bibliotheksdatenView.getEmailLabel().setText("Email:");
 		bibliotheksdatenView.getTelLabel().setText("Tel.:");
-		bibliotheksdatenView.getAusleihLabel().setText("Ausleihfrist:");
+		bibliotheksdatenView.getAusleihLabel().setText("Leihfrist:");
 
 		
 		bibliotheksdatenView.getPKT().setEditable(false);
