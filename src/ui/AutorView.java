@@ -30,7 +30,7 @@ import javax.swing.border.EmptyBorder;
  * @author Schmutz
  *
  */
-public class AutorView extends JPanel{
+public class AutorView extends JPanel {
 	private JPanel autorNeuBearbeitenPanel;
 	private StandardButtonPanel buttonPanel;
 	private JPanel centerPanel;
@@ -65,13 +65,12 @@ public class AutorView extends JPanel{
 
 	public AutorView(String panelTitel) {
 
-		
 		neuAendernL = new JLabel();
 		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 		suchButton = new JButton();
-				
-		buttonPanel = new StandardButtonPanel(); // Button-Panel am unteren Rand des Panels				
-		
+
+		buttonPanel = new StandardButtonPanel(); // Button-Panel am unteren Rand des Panels
+
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.add(createSuchePanel(), BorderLayout.NORTH);
@@ -83,7 +82,7 @@ public class AutorView extends JPanel{
 		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-		
+
 		// Definiert die Grösse des Panels. Die HauptView passt sich an
 		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
@@ -96,7 +95,6 @@ public class AutorView extends JPanel{
 	 */
 	private JPanel createNeuerAutorPanel() {
 
-		
 		autorNeuBearbeitenPanel = new JPanel();
 		autorNeuBearbeitenPanel.setLayout(new BorderLayout());
 		autorNeuBearbeitenPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
@@ -118,16 +116,16 @@ public class AutorView extends JPanel{
 
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1;
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 0;
 		inputPanel.add(componentsNeuBearbeiten.get(PKL), c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.LINE_END;
 		c.weightx = 1;
@@ -135,48 +133,46 @@ public class AutorView extends JPanel{
 		c.gridx = 1;
 		c.gridy = 0;
 		inputPanel.add(neuAendernL, c);
-	
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 1;
 		inputPanel.add(componentsNeuBearbeiten.get(nachnameL), c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 2;
 		inputPanel.add(componentsNeuBearbeiten.get(vornameL), c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 3;
 		inputPanel.add(componentsNeuBearbeiten.get(geburtsDatumL), c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 4;
 		inputPanel.add(componentsNeuBearbeiten.get(todesDatumL), c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 5;
 		inputPanel.add(componentsNeuBearbeiten.get(geloeschtL), c);
-		
-		
 
 		autorNeuBearbeitenPanel.add(labelPanel, BorderLayout.WEST);
 		autorNeuBearbeitenPanel.add(inputPanel, BorderLayout.CENTER);
-		
-		return rahmenSetzen("Neu / Bearbeiten", autorNeuBearbeitenPanel );
+
+		return rahmenSetzen("Neu / Bearbeiten", autorNeuBearbeitenPanel);
 
 	}
-	
+
 	private JPanel createTabellenPanel() {
-		autorenTabelle = new JTable(); 	// Panel für die Tabelle
+		autorenTabelle = new JTable(); // Panel für die Tabelle
 		autorenTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Nur eine Zeile darf ausgewaehlt werden
 		JScrollPane scroll = new JScrollPane(autorenTabelle);
 
@@ -187,7 +183,6 @@ public class AutorView extends JPanel{
 		tabellenPanel.add(scroll);
 		return tabellenPanel;
 	}
-	
 
 	private JPanel createSuchePanel() {
 		JPanel suchPanel = new JPanel();
@@ -208,39 +203,39 @@ public class AutorView extends JPanel{
 		labelPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1;
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 0;
 		inputPanel.add(componentsSuche.get(nachnameSucheL), c);
-	
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 1;
 		inputPanel.add(componentsSuche.get(vornameSucheL), c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.7;
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 2;
 		inputPanel.add(componentsSuche.get(geburtsDatumSucheL), c);
-		
+
 		c.weightx = 0.7;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 3;
 		inputPanel.add(componentsSuche.get(geloeschtSucheL), c);
-		
+
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.LINE_END;
-		c.insets = new Insets(0,5,0,0);
+		c.insets = new Insets(0, 5, 0, 0);
 		c.gridwidth = 1;
 		c.gridx = 1;
 		c.gridy = 3;
@@ -248,17 +243,16 @@ public class AutorView extends JPanel{
 
 		suchPanel.add(labelPanel, BorderLayout.WEST);
 		suchPanel.add(inputPanel, BorderLayout.CENTER);
-		
+
 		return rahmenSetzen("Suche", suchPanel);
 	}
-	
-	
+
 	private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
 		JPanel rahmenPanel = new JPanel();
 		rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));
-		rahmenPanel.setBorder (BorderFactory.createTitledBorder (rahmentitel));
+		rahmenPanel.setBorder(BorderFactory.createTitledBorder(rahmentitel));
 		rahmenPanel.add(inhalt);
-	     return rahmenPanel;
+		return rahmenPanel;
 	}
 
 	public void spaltenBreiteSetzen() {
@@ -433,6 +427,5 @@ public class AutorView extends JPanel{
 	public void setNeuAendernL(JLabel neuAendernL) {
 		this.neuAendernL = neuAendernL;
 	}
-	
 
 }

@@ -75,7 +75,7 @@ public class AutorController {
 		// Zuweisen des Actionlisteners zum Suchen-Button
 		autorView.getSuchButton().addActionListener(suchenButtonActionListener);
 
-		ActionListener neuButtonActionListener = new ActionListener(){
+		ActionListener neuButtonActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -87,8 +87,7 @@ public class AutorController {
 
 		// Zuweisen des Actionlisteners zum Neu-Button
 		autorView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
-		
-		
+
 		ActionListener sichernButtonActionListener = new ActionListener() {
 
 			@Override
@@ -125,8 +124,6 @@ public class AutorController {
 		// Zuweisen des Actionlisteners zum Schliessen-Button
 		autorView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 
-		
-		
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -248,9 +245,9 @@ public class AutorController {
 		}
 		suchFelderLeeren();
 		autorView.getNeuAendernL().setText("");
-		
+
 	}
-	
+
 	private void suchFelderLeeren() {
 
 		// Felder leeren
@@ -261,11 +258,9 @@ public class AutorController {
 			if (t instanceof JCheckBox) {
 				((JCheckBox) t).setSelected(false);
 			}
-			
-		}
-		}
 
-	
+		}
+	}
 
 	public void initialisieren() {
 
