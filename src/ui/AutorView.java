@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.LinkedHashMap;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -43,6 +46,7 @@ public class AutorView {
 	private JLabel geburtsDatumSucheL;
 	private JLabel todesDatumSucheL;
 	private JLabel geloeschtSucheL;
+	private JLabel neuAendernL;
 	private JTextField PKT;
 	private JTextField vornameT;
 	private JTextField nachnameT;
@@ -52,7 +56,6 @@ public class AutorView {
 	private JTextField vornameSucheT;
 	private JTextField nachnameSucheT;
 	private JTextField geburtsDatumSucheT;
-	private JTextField todesDatumSucheT;
 	private JCheckBox geloeschtSucheCbx;
 	private JButton suchButton;
 	private JTable autorenTabelle;
@@ -61,12 +64,17 @@ public class AutorView {
 
 	public AutorView(String frameTitel) {
 
+		
+		neuAendernL = new JLabel();
+		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonPanel = new StandardButtonPanel();
 		autorenListe = new JPanel();
 		neuerAutorPanel = createNeuerAutorPanel();
+		
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		suchButton = new JButton();
+		
 		
 		new JLabel(frameTitel);
 		autorenTabelle = new JTable();
@@ -89,7 +97,7 @@ public class AutorView {
 		frame = new JFrame("BlueLib");
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(500, 500);
+		frame.setSize(500, 600);
 		frame.setVisible(true);
 
 		frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
@@ -105,6 +113,7 @@ public class AutorView {
 	 */
 	private JPanel createNeuerAutorPanel() {
 
+		
 		neuerAutorPanel = new JPanel();
 		neuerAutorPanel.setLayout(new BorderLayout());
 		neuerAutorPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
@@ -125,15 +134,61 @@ public class AutorView {
 		labelPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
 
 		JPanel inputPanel = new JPanel();
-		inputPanel.setLayout(new GridLayout(componentsNeuAktualisieren.size(), 0));
-		for (JComponent e : componentsNeuAktualisieren.values()) {
-			inputPanel.add(e);
-		}
+		inputPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		inputPanel.add(componentsNeuAktualisieren.get(PKL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_END;
+		c.weightx = 1;
+		c.gridwidth = 1;
+		c.gridx = 1;
+		c.gridy = 0;
+		inputPanel.add(neuAendernL, c);
+	
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 1;
+		inputPanel.add(componentsNeuAktualisieren.get(nachnameL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 2;
+		inputPanel.add(componentsNeuAktualisieren.get(vornameL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 3;
+		inputPanel.add(componentsNeuAktualisieren.get(geburtsDatumL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 4;
+		inputPanel.add(componentsNeuAktualisieren.get(todesDatumL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 5;
+		inputPanel.add(componentsNeuAktualisieren.get(geloeschtL), c);
+		
+		
 
 		neuerAutorPanel.add(labelPanel, BorderLayout.WEST);
 		neuerAutorPanel.add(inputPanel, BorderLayout.CENTER);
-
-		return neuerAutorPanel;
+		
+		return rahmenSetzen("Neu / Bearbeiten", neuerAutorPanel );
 
 	}
 
@@ -145,7 +200,6 @@ public class AutorView {
 		componentsSuche.put(nachnameSucheL = new JLabel(), nachnameSucheT = new JTextField());
 		componentsSuche.put(vornameSucheL = new JLabel(), vornameSucheT = new JTextField());
 		componentsSuche.put(geburtsDatumSucheL = new JLabel(), geburtsDatumSucheT = new JTextField());
-		componentsSuche.put(todesDatumSucheL = new JLabel(), todesDatumSucheT = new JTextField());
 		componentsSuche.put(geloeschtSucheL = new JLabel(), geloeschtSucheCbx = new JCheckBox());
 
 		JPanel labelPanel = new JPanel();
@@ -181,19 +235,11 @@ public class AutorView {
 		c.gridy = 2;
 		inputPanel.add(componentsSuche.get(geburtsDatumSucheL), c);
 		
-            
 		c.weightx = 0.7;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 3;
-		inputPanel.add(componentsSuche.get(todesDatumSucheL), c);
-		
-		c.weightx = 0.7;
-		c.gridwidth = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 4;
 		inputPanel.add(componentsSuche.get(geloeschtSucheL), c);
 		
 		c.fill = GridBagConstraints.NONE;
@@ -201,13 +247,22 @@ public class AutorView {
 		c.insets = new Insets(0,5,0,0);
 		c.gridwidth = 1;
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 3;
 		inputPanel.add(suchButton, c);
 
 		suchPanel.add(labelPanel, BorderLayout.WEST);
 		suchPanel.add(inputPanel, BorderLayout.CENTER);
-
-		return suchPanel;
+		
+		return rahmenSetzen("Suche", suchPanel);
+	}
+	
+	
+	private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
+		JPanel rahmenPanel = new JPanel();
+		rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));
+		rahmenPanel.setBorder (BorderFactory.createTitledBorder (rahmentitel));
+		rahmenPanel.add(inhalt);
+	     return rahmenPanel;
 	}
 
 	public void spaltenBreiteSetzen() {
@@ -343,14 +398,6 @@ public class AutorView {
 		this.geburtsDatumSucheT = geburtsDatumSucheT;
 	}
 
-	public JTextField getTodesDatumSucheT() {
-		return todesDatumSucheT;
-	}
-
-	public void setTodesDatumSucheT(JTextField todesDatumSucheT) {
-		this.todesDatumSucheT = todesDatumSucheT;
-	}
-
 	public JButton getSuchButton() {
 		return suchButton;
 	}
@@ -389,6 +436,14 @@ public class AutorView {
 
 	public void setGeloeschtSucheCbx(JCheckBox geloeschtSucheCbx) {
 		this.geloeschtSucheCbx = geloeschtSucheCbx;
+	}
+
+	public JLabel getNeuAendernL() {
+		return neuAendernL;
+	}
+
+	public void setNeuAendernL(JLabel neuAendernL) {
+		this.neuAendernL = neuAendernL;
 	}
 	
 
