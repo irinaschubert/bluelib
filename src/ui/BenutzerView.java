@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.util.LinkedHashMap;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -36,6 +38,7 @@ public class BenutzerView {
 	private JPanel benutzerListe;
 	private JPanel centerPanel;
 	
+	private JLabel neuAendernL;
 	private JLabel PKL;
 	private JLabel anredeL;
 	private JLabel vornameL;
@@ -97,9 +100,12 @@ public class BenutzerView {
 
 	public BenutzerView(String frameTitel) {
 
+		neuAendernL = new JLabel();
+		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonPanel = new StandardButtonPanel();
 		benutzerListe = new JPanel();
 		neuerBenutzerPanel = createNeuerBenutzerPanel();
+		
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		suchButton = new JButton();
@@ -123,7 +129,7 @@ public class BenutzerView {
 		frame = new JFrame("BlueLib");
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(500, 500);
+		frame.setSize(1000, 700);
 		frame.setVisible(true);
 
 		frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
@@ -168,16 +174,53 @@ public class BenutzerView {
 		labelPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
 
 		JPanel inputPanel = new JPanel();
-		inputPanel.setLayout(new GridLayout(componentsNeuAktualisieren.size(), 0));
-		for (JComponent e : componentsNeuAktualisieren.values()) {
-			inputPanel.add(e);
-		}
+		inputPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		inputPanel.add(componentsNeuAktualisieren.get(PKL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_END;
+		c.weightx = 1;
+		c.gridwidth = 1;
+		c.gridx = 1;
+		c.gridy = 0;
+		inputPanel.add(neuAendernL, c);
+	
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 1;
+		inputPanel.add(componentsNeuAktualisieren.get(nachnameL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 2;
+		inputPanel.add(componentsNeuAktualisieren.get(vornameL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 3;
+		inputPanel.add(componentsNeuAktualisieren.get(geburtsdatumL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 5;
+		inputPanel.add(componentsNeuAktualisieren.get(mitarbeiterL), c);
 
 		neuerBenutzerPanel.add(labelPanel, BorderLayout.WEST);
 		neuerBenutzerPanel.add(inputPanel, BorderLayout.CENTER);
-
-		return neuerBenutzerPanel;
-
+		
+		return rahmenSetzen("Neu / Bearbeiten", neuerBenutzerPanel );
 	}
 
 	private JPanel createSuchePanel() {
@@ -249,8 +292,17 @@ public class BenutzerView {
 		suchPanel.add(labelPanel, BorderLayout.WEST);
 		suchPanel.add(inputPanel, BorderLayout.CENTER);
 
-		return suchPanel;
+		return rahmenSetzen("Suche", suchPanel );
 	}
+	
+	private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
+		JPanel rahmenPanel = new JPanel();
+		rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));
+		rahmenPanel.setBorder (BorderFactory.createTitledBorder (rahmentitel));
+		rahmenPanel.add(inhalt);
+	    return rahmenPanel;
+	}
+
 
 	public void spaltenBreiteSetzen() {
 

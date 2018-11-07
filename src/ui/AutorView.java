@@ -262,7 +262,7 @@ public class AutorView {
 		rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));
 		rahmenPanel.setBorder (BorderFactory.createTitledBorder (rahmentitel));
 		rahmenPanel.add(inhalt);
-	     return rahmenPanel;
+	    return rahmenPanel;
 	}
 
 	public void spaltenBreiteSetzen() {
