@@ -11,6 +11,7 @@ public class Anrede {
 	private String bezeichnung;
 	final static public int FRAU = 0;
 	final static public int HERR = 1;
+	
 
 	public Anrede() {
 		

@@ -7,7 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import domain.Adresse;
+import domain.Anrede;
 import domain.Benutzer;
+import domain.Ort;
+import domain.Status;
 import hilfsklassen.DateConverter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
@@ -32,6 +37,12 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 
 	@Override
 	public Benutzer save(Benutzer domainObject) {
+		Benutzer benutzer = domainObject;
+		Adresse adresse = benutzer.getAdresse();
+		String strasseNr = adresse.getStrasse();
+		// TODO
+		//Ort ort = adresse.getOrt();	
+		
 		ResultSet rs = null;
 		Benutzer a = new Benutzer();
 		int argCounter = 0;
@@ -41,27 +52,27 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ "nachname "
 				+ (domainObject.getGeburtsdatum() != null ? ",Geburtstag ":"")
 				+ (domainObject.getTelefon() != null ? ",telefon ":"")
-				+ (domainObject.getAdresse() != null ? ",StrasseUndNr ":"")
+				+ (strasseNr != null ? ",StrasseUndNr ":"")
 				+ (domainObject.getBemerkung() != null ? ",bemerkung ":"")
 				+ (domainObject.getEmail() != null ? ",email ":"")
 				+ (domainObject.getErfassungDatum() != null ? ",erfassungsdatum ":"")
 				+ (domainObject.getErfassungMitarbeiter() != null ? ",person_id ":"")
-				+ (domainObject.getAnrede() != null ? ",anrede_id ":"")
-				+ (domainObject.getAdresse() != null ? ",ort_id ":"")
-				+ ",geloescht "
+				+ ",anrede_id "
+				//+ (domainObject.getOrt() != null ? ",ort_id ":"")
+				+ ",statusPers_id "
 				+ ") "
 				+ "VALUES "
 				+ "(?, ? "
 				+ (domainObject.getGeburtsdatum() != null?",? ":"")
 				+ (domainObject.getTelefon() != null ? ",? ":"")
-				+ (domainObject.getAdresse() != null ? ",? ":"")
+				+ (strasseNr != null ? ",? ":"")
 				+ (domainObject.getBemerkung() != null ? ",? ":"")
 				+ (domainObject.getEmail() != null ? ",? ":"")
 				+ (domainObject.getErfassungDatum() != null ? ",? ":"")
 				+ (domainObject.getErfassungMitarbeiter() != null ? ",? ":"")
-				+ (domainObject.getAnrede() != null ? ",? ":"")
-				+ (domainObject.getAdresse() != null ? ",? ":"")
-				+ ", ?)" ;
+				+ ",? " // Anrede
+				//+ (ort != null ? ",? ":"")
+				+ ", ?)" ; // Status
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -73,7 +84,41 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					argCounter++;
 					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
 				}
+				if (domainObject.getTelefon() != null) {
+					argCounter++;
+					pstmt.setString(argCounter,domainObject.getTelefon());
+				}
+				if (!strasseNr.isEmpty()) {
+					argCounter++;
+					pstmt.setString(argCounter,strasseNr);
+				}				
+				if (domainObject.getBemerkung() != null) {
+					argCounter++;
+					pstmt.setString(argCounter,domainObject.getBemerkung());
+				}
+				if (domainObject.getEmail() != null) {
+					argCounter++;
+					pstmt.setString(argCounter,domainObject.getEmail());
+				}
+				if (domainObject.getErfassungDatum() != null) {
+					argCounter++;
+					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getErfassungDatum()));
+				}
 				argCounter++;
+				pstmt.setInt(argCounter,domainObject.getId());
+				
+				argCounter++;
+				pstmt.setInt(argCounter,domainObject.getAnrede());
+				
+				argCounter++;
+				pstmt.setInt(argCounter,domainObject.getStatus());
+
+				// TODO
+				//if (!ort.isEmpty()) {
+				//	argCounter++;
+				//	pstmt.setString(argCounter,ort);
+				//}
+				
 				pstmt.setBoolean(argCounter, domainObject.getMitarbeiter());
 				pstmt.executeUpdate();
 				

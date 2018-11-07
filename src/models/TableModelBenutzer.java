@@ -60,7 +60,7 @@ public class TableModelBenutzer extends AbstractTableModel {
 		return b.getId();
 	}
 	
-	// Rueckgabe des gelickten Objekts
+	// Rueckgabe des angeglickten Objekts
 	public Benutzer getGeklicktesObjekt(int rowIndex) {
 		return benutzerListe.get(rowIndex);
 	}
