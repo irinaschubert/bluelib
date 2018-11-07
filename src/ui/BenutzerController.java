@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -59,6 +60,16 @@ public class BenutzerController {
 	// Buttons
 	private void control() {
 
+		// Combobox Anrede
+		ActionListener anredeCbxActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox cb = (JComboBox)e.getSource();
+		        String auswahlAnrede = (String)cb.getSelectedItem();
+			}
+		};
+		benutzerView.getAnredeCbx().addActionListener(anredeCbxActionListener);
+		
 		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
@@ -69,6 +80,16 @@ public class BenutzerController {
 			}
 		};
 		benutzerView.getSuchButton().addActionListener(suchenButtonActionListener);
+		
+		// Neu
+		ActionListener neuButtonActionListener = new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				suchFelderLeeren();
+				benutzerView.getNeuAendernL().setText("Neuerfassung");
+			}
+		};
+		benutzerView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
 
 		// Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
@@ -85,34 +106,25 @@ public class BenutzerController {
 				}
 			}
 		};
-		benutzerView.getButtonPanel().getButton1().addActionListener(sichernButtonActionListener);
+		benutzerView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
 
-		// Uebernehmen
-		ActionListener uebernehmenButtonActionListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (benutzerView.getBenutzerTabelle().getSelectedRow() != -1) {
-					uebernehmen();
-				}
-			}
-		};
-		benutzerView.getButtonPanel().getButton2().addActionListener(uebernehmenButtonActionListener);
-
-		// Abbrechen
-		ActionListener abbrechenButtonActionListener = new ActionListener() {
+		
+		// Schliessen
+		ActionListener schliessenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				benutzerView.schliessen();
 			}
 		};
-		benutzerView.getButtonPanel().getButton3().addActionListener(abbrechenButtonActionListener);
-
+		benutzerView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
+		
 		// Doppelklick = Uebernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					uebernehmen();
+					benutzerView.getNeuAendernL().setText("Bearbeiten");
 				}
 			}
 		};
@@ -182,7 +194,6 @@ public class BenutzerController {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
 		
-		b.setMitarbeiter(benutzerView.getMitarbeiterSucheCbx().isSelected());
 		return b;
 	}
 
@@ -207,8 +218,12 @@ public class BenutzerController {
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
+		suchFelderLeeren();
+		benutzerView.getNeuAendernL().setText("");
+	}
 
-		// Felder leeren
+	// Felder leeren
+	private void suchFelderLeeren() {
 		for (JComponent t : benutzerView.getComponents().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
@@ -217,7 +232,6 @@ public class BenutzerController {
 				((JCheckBox) t).setSelected(false);
 			}
 		}
-
 	}
 
 	public void initialisieren() {
@@ -231,8 +245,9 @@ public class BenutzerController {
 		benutzerView.getGeburtsdatumL().setText("Geburtsdatum:");
 		benutzerView.getTelL().setText("Telefonnummer:");
 		benutzerView.getMailL().setText("E-Mailadresse:");
-		benutzerView.getStatusL().setText("Status:");
+		benutzerView.getBemerkungL().setText("Bemerkung: ");
 		benutzerView.getMitarbeiterL().setText("MA:");
+		benutzerView.getStatusL().setText("Status:");
 		benutzerView.getAnredeL().setText("Anrede:");
 		benutzerView.getErfasstAmL().setText("Erfasst am:");
 		benutzerView.getErfasstVonL().setText("Erfasst von:");
@@ -243,7 +258,6 @@ public class BenutzerController {
 		benutzerView.getStrasseNrSucheL().setText("Strasse/Nr.:");
 		benutzerView.getPlzSucheL().setText("PLZ:");
 		benutzerView.getOrtSucheL().setText("Ort:");
-		benutzerView.getMitarbeiterSucheL().setText("MA:");
 		benutzerView.getStatusSucheL().setText("Status:");
 		
 		benutzerView.getSuchButton().setText("Suchen");

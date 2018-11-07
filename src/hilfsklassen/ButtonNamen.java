@@ -7,10 +7,7 @@ public enum ButtonNamen {
 	NEU("Neu"),
 	SCHLIESSEN("Schliessen");
 	
-	
-	
 	private final String name;
-	
 	
 	private ButtonNamen(final String name){
 		this.name = name;

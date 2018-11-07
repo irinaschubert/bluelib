@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -35,15 +34,16 @@ import domain.Status;
  * @author irina
  *
  */
-public class BenutzerView {
+public class BenutzerView_old {
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
-	private JPanel benutzerNeuBearbeitenPanel;
+	private JPanel neuerBenutzerPanel;
 	private JPanel benutzerListe;
 	private JPanel centerPanel;
 	
 	private JLabel neuAendernL;
 	private JLabel PKL;
+	private JLabel anredeL;
 	private JLabel vornameL;
 	private JLabel nachnameL;
 	private JLabel strasseNrL;
@@ -54,7 +54,6 @@ public class BenutzerView {
 	private JLabel mailL;
 	private JLabel bemerkungL;
 	private JLabel statusL;
-	private JLabel anredeL;
 	private JLabel mitarbeiterL;
 	private JLabel erfasstVonL;
 	private JLabel erfasstAmL;
@@ -65,9 +64,15 @@ public class BenutzerView {
 	private JLabel strasseNrSucheL;
 	private JLabel plzSucheL;
 	private JLabel ortSucheL;
+	private JLabel geburtsdatumSucheL;
+	private JLabel telSucheL;
+	private JLabel mailSucheL;
+	private JLabel bemerkungSucheL;
 	private JLabel statusSucheL;
+	private JLabel mitarbeiterSucheL;
 	
 	private JTextField PKT;
+	private JComboBox anredeCbx;
 	private JTextField vornameT;
 	private JTextField nachnameT;
 	private JTextField strasseNrT;
@@ -79,7 +84,6 @@ public class BenutzerView {
 	private JTextField bemerkungT;
 	private JTextField erfasstVonT;
 	private JTextField erfasstAmT;
-	private JComboBox anredeCbx;
 	private JComboBox statusCbx;
 	private JCheckBox mitarbeiterCbx;
 	
@@ -90,19 +94,20 @@ public class BenutzerView {
 	private JTextField plzSucheT;
 	private JTextField ortSucheT;
 	private JComboBox statusSucheCbx;
+	private JCheckBox mitarbeiterSucheCbx;
 	
 	private JButton suchButton;
 	private JTable benutzerTabelle;
 	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
 	private LinkedHashMap<JLabel, JComponent> componentsNeuAktualisieren = new LinkedHashMap<>();
 
-	public BenutzerView(String frameTitel) {
+	public BenutzerView_old(String frameTitel) {
 
 		neuAendernL = new JLabel();
 		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonPanel = new StandardButtonPanel();
 		benutzerListe = new JPanel();
-		benutzerNeuBearbeitenPanel = createNeuerBenutzerPanel();
+		neuerBenutzerPanel = createNeuerBenutzerPanel();
 		
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -121,7 +126,7 @@ public class BenutzerView {
 
 		centerPanel.add(createSuchePanel(), BorderLayout.NORTH);
 		centerPanel.add(tabellenPanel, BorderLayout.CENTER);
-		centerPanel.add(benutzerNeuBearbeitenPanel, BorderLayout.SOUTH);
+		centerPanel.add(neuerBenutzerPanel, BorderLayout.SOUTH);
 
 		frame = new JFrame("BlueLib");
 		frame.getContentPane().setLayout(new BorderLayout());
@@ -140,179 +145,230 @@ public class BenutzerView {
 	 * @return JPanel
 	 */
 	private JPanel createNeuerBenutzerPanel() {
-		benutzerNeuBearbeitenPanel = new JPanel();
-		benutzerNeuBearbeitenPanel.setLayout(new GridBagLayout());
-		benutzerNeuBearbeitenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
-		PKL = new JLabel();
-		PKT = new JTextField();
-		nachnameL = new JLabel();
-		nachnameT = new JTextField();
-		vornameL = new JLabel();
-		vornameT = new JTextField();
-		strasseNrL = new JLabel();
-		strasseNrT = new JTextField();
-		plzL = new JLabel();
-		plzT = new JTextField();
-		ortL = new JLabel();
-		ortT = new JTextField();
-		geburtsdatumL = new JLabel();
-		geburtsdatumT = new JTextField();
-		telL = new JLabel();
-		telT = new JTextField();
-		mailL = new JLabel();
-		mailT = new JTextField();
-		bemerkungL = new JLabel();
-		bemerkungT = new JTextField();
-		mitarbeiterL = new JLabel();
-		mitarbeiterCbx = new JCheckBox();
-		erfasstVonL = new JLabel();
-		erfasstVonT = new JTextField();
-		erfasstAmL = new JLabel();
-		erfasstAmT = new JTextField();
-		statusL = new JLabel();
+		neuerBenutzerPanel = new JPanel();
+		neuerBenutzerPanel.setLayout(new BorderLayout());
+		neuerBenutzerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		
 		statusCbx = new JComboBox(Status.getStatus());
 		statusCbx.setSelectedIndex(0);
-		anredeL = new JLabel();
+		
 		anredeCbx = new JComboBox(Anrede.getAnreden());
 		anredeCbx.setSelectedIndex(0);
+
+		// Linked hash map befuellen
+		componentsNeuAktualisieren.put(PKL = new JLabel(), PKT = new JTextField());
+		componentsNeuAktualisieren.put(nachnameL = new JLabel(), nachnameT = new JTextField());
+		componentsNeuAktualisieren.put(vornameL = new JLabel(), vornameT = new JTextField());
+		componentsNeuAktualisieren.put(strasseNrL = new JLabel(), strasseNrT = new JTextField());
+		componentsNeuAktualisieren.put(plzL = new JLabel(), plzT = new JTextField());
+		componentsNeuAktualisieren.put(ortL = new JLabel(), ortT = new JTextField());
+		componentsNeuAktualisieren.put(geburtsdatumL = new JLabel(), geburtsdatumT = new JTextField());
+		componentsNeuAktualisieren.put(telL = new JLabel(), telT = new JTextField());
+		componentsNeuAktualisieren.put(mailL = new JLabel(), mailT = new JTextField());
+		componentsNeuAktualisieren.put(bemerkungL = new JLabel(), bemerkungT = new JTextField());
+		componentsNeuAktualisieren.put(mitarbeiterL = new JLabel(), mitarbeiterCbx = new JCheckBox());
+		componentsNeuAktualisieren.put(statusL = new JLabel(), statusCbx);
+		componentsNeuAktualisieren.put(anredeL = new JLabel(), anredeCbx);
+		componentsNeuAktualisieren.put(erfasstVonL = new JLabel(), erfasstVonT = new JTextField());
+		componentsNeuAktualisieren.put(erfasstAmL = new JLabel(), erfasstAmT = new JTextField());
 		
-        // Formularfelder
-        formularHelfer.addLabel(PKL, benutzerNeuBearbeitenPanel);
-        Dimension PKFeldgroesse = PKT.getPreferredSize();
-        PKFeldgroesse.width = 200;
-        PKT.setPreferredSize(PKFeldgroesse);
-        JPanel pk = new JPanel();
-        pk.setLayout(new BorderLayout());
-        pk.add(PKT, BorderLayout.WEST);
-        formularHelfer.addLastField(pk, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(nachnameL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(nachnameT, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(vornameL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(vornameT, benutzerNeuBearbeitenPanel);
+		//anredeCbx.setRenderer(new AnredeRenderer());
 
-        formularHelfer.addLabel(strasseNrL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(strasseNrT, benutzerNeuBearbeitenPanel);
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new GridLayout(componentsNeuAktualisieren.size(), 0));
+		for (JLabel e : componentsNeuAktualisieren.keySet()) {
+			labelPanel.add(e);
+		}
 
-        formularHelfer.addLabel(ortL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addMiddleField(ortT, benutzerNeuBearbeitenPanel);
-        
-        JPanel plzPanel = new JPanel();
-        plzPanel.setLayout(new GridBagLayout());
-        formularHelfer.addLabel(plzL, plzPanel);
-        Dimension plzFeldgroesse = plzT.getPreferredSize();
-        plzFeldgroesse.width = 80;
-        plzT.setPreferredSize(plzFeldgroesse);
-        formularHelfer.addLabel(plzT, plzPanel);
-        formularHelfer.addLabel(plzPanel, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(new JPanel(), benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(geburtsdatumL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(geburtsdatumT, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(telL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(telT, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(mailL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(mailT, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(bemerkungL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(bemerkungT, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(mitarbeiterL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(mitarbeiterCbx, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(statusL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(statusCbx, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(anredeL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(anredeCbx, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(erfasstVonL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(erfasstVonT, benutzerNeuBearbeitenPanel);
-        
-        formularHelfer.addLabel(erfasstAmL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(erfasstAmT, benutzerNeuBearbeitenPanel);
+		labelPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        return rahmenSetzen("Neu / Bearbeiten", benutzerNeuBearbeitenPanel );
+		JPanel inputPanel = new JPanel();
+		inputPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		inputPanel.add(componentsNeuAktualisieren.get(PKL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_END;
+		c.weightx = 1;
+		c.gridwidth = 1;
+		c.gridx = 1;
+		c.gridy = 0;
+		inputPanel.add(neuAendernL, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 1;
+		inputPanel.add(componentsNeuAktualisieren.get(nachnameL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 2;
+		inputPanel.add(componentsNeuAktualisieren.get(vornameL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 3;
+		inputPanel.add(componentsNeuAktualisieren.get(strasseNrL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 4;
+		inputPanel.add(componentsNeuAktualisieren.get(plzL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 5;
+		inputPanel.add(componentsNeuAktualisieren.get(ortL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 6;
+		inputPanel.add(componentsNeuAktualisieren.get(geburtsdatumL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 7;
+		inputPanel.add(componentsNeuAktualisieren.get(telL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 8;
+		inputPanel.add(componentsNeuAktualisieren.get(mailL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 9;
+		inputPanel.add(componentsNeuAktualisieren.get(mitarbeiterL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 10;
+		inputPanel.add(componentsNeuAktualisieren.get(statusL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 11;
+		inputPanel.add(componentsNeuAktualisieren.get(anredeL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 12;
+		inputPanel.add(componentsNeuAktualisieren.get(bemerkungL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 13;
+		inputPanel.add(componentsNeuAktualisieren.get(erfasstVonL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 14;
+		inputPanel.add(componentsNeuAktualisieren.get(erfasstAmL), c);
+
+		neuerBenutzerPanel.add(labelPanel, BorderLayout.WEST);
+		neuerBenutzerPanel.add(inputPanel, BorderLayout.CENTER);
+		
+		return rahmenSetzen("Neu / Bearbeiten", neuerBenutzerPanel );
 	}
 
 	private JPanel createSuchePanel() {
-		JPanel benutzerSuchenPanel = new JPanel();
-		benutzerSuchenPanel.setLayout(new GridBagLayout());
-		benutzerSuchenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
+		JPanel suchPanel = new JPanel();
+		suchPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		suchPanel.setLayout(new BorderLayout());
 		
 		statusSucheCbx = new JComboBox(Status.getStatus());
 		statusSucheCbx.setSelectedIndex(0);
-		
-		PKSucheL = new JLabel();
-		PKSucheT = new JTextField();
-		nachnameSucheL = new JLabel();
-		nachnameSucheT = new JTextField();
-		vornameSucheL = new JLabel();
-		vornameSucheT = new JTextField();
-		strasseNrSucheL = new JLabel();
-		strasseNrSucheT = new JTextField();
-		plzSucheL = new JLabel();
-		plzSucheT = new JTextField();
-		ortSucheL = new JLabel();
-		ortSucheT = new JTextField();
-		statusSucheL = new JLabel();
-		statusSucheCbx = new JComboBox(Status.getStatus());
-		statusSucheCbx.setSelectedIndex(0);
-		
-		// Formularfelder
-        formularHelfer.addLabel(PKSucheL, benutzerSuchenPanel);
-        Dimension PKSucheFeldgroesse = PKSucheT.getPreferredSize();
-        PKSucheFeldgroesse.width = 200;
-        PKSucheT.setPreferredSize(PKSucheFeldgroesse);
-        JPanel pkSuchePanel = new JPanel();
-        pkSuchePanel.setLayout(new BorderLayout());
-        pkSuchePanel.add(PKSucheT, BorderLayout.WEST);
-        formularHelfer.addLastField(pkSuchePanel, benutzerSuchenPanel);
-        
-        formularHelfer.addLabel(nachnameSucheL, benutzerSuchenPanel);
-        formularHelfer.addLastField(nachnameSucheT, benutzerSuchenPanel);
-        
-        formularHelfer.addLabel(vornameSucheL, benutzerSuchenPanel);
-        formularHelfer.addLastField(vornameSucheT, benutzerSuchenPanel);
 
-        formularHelfer.addLabel(strasseNrSucheL, benutzerSuchenPanel);
-        formularHelfer.addLastField(strasseNrSucheT, benutzerSuchenPanel);
-        
-        formularHelfer.addLabel(ortSucheL, benutzerSuchenPanel);
-        formularHelfer.addMiddleField(ortSucheT, benutzerSuchenPanel);
-        
-        JPanel plzSuchePanel = new JPanel();
-        plzSuchePanel.setLayout(new GridBagLayout());
-        formularHelfer.addLabel(plzSucheL, plzSuchePanel);
-        Dimension plzSucheFeldgroesse = plzSucheT.getPreferredSize();
-        plzSucheFeldgroesse.width = 80;
-        plzSucheT.setPreferredSize(plzSucheFeldgroesse);
-        formularHelfer.addLabel(plzSucheT, plzSuchePanel);
-        formularHelfer.addLabel(plzSuchePanel, benutzerSuchenPanel);
-        formularHelfer.addLastField(new JPanel(), benutzerSuchenPanel);
-        
-        formularHelfer.addLabel(statusSucheL, benutzerSuchenPanel);
-        formularHelfer.addLastField(statusSucheCbx, benutzerSuchenPanel);
-        
-        
-        JPanel suchButtonPanel = new JPanel();
-        suchButtonPanel.setLayout(new GridBagLayout());
-        formularHelfer.addLabel("", benutzerSuchenPanel);
-        Dimension suchButtonGroesse = suchButton.getPreferredSize();
-        suchButtonGroesse.width = 100;
-        suchButtonGroesse.height = 25;
-        suchButton.setPreferredSize(suchButtonGroesse);
-        
-        formularHelfer.addLabel(suchButton, suchButtonPanel);
-        formularHelfer.addLastField(suchButtonPanel, benutzerSuchenPanel);
-        
-        return rahmenSetzen("Suche", benutzerSuchenPanel );
+		componentsSuche.put(PKSucheL = new JLabel(), PKSucheT = new JTextField());
+		componentsSuche.put(nachnameSucheL = new JLabel(), nachnameSucheT = new JTextField());
+		componentsSuche.put(vornameSucheL = new JLabel(), vornameSucheT = new JTextField());
+		componentsSuche.put(strasseNrSucheL = new JLabel(), strasseNrSucheT = new JTextField());
+		componentsSuche.put(plzSucheL = new JLabel(), plzSucheT = new JTextField());
+		componentsSuche.put(ortSucheL = new JLabel(), ortSucheT = new JTextField());
+		componentsSuche.put(mitarbeiterSucheL = new JLabel(), mitarbeiterSucheCbx = new JCheckBox());
+		componentsSuche.put(statusSucheL = new JLabel(), statusSucheCbx);
+
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new GridLayout(componentsSuche.size(), 0));
+		for (JLabel e : componentsSuche.keySet()) {
+			labelPanel.add(e);
+		}
+
+		labelPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+		JPanel inputPanel = new JPanel();
+		inputPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.weightx = 1.0;
+		c.insets = new Insets(1, 1, 1, 1);
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 0;
+		inputPanel.add(componentsSuche.get(PKSucheL), c);
+		
+		c.gridy = 1;
+		inputPanel.add(componentsSuche.get(nachnameSucheL), c);
+	
+		c.gridy = 2;
+		inputPanel.add(componentsSuche.get(vornameSucheL), c);
+		
+		c.gridy = 3;
+		inputPanel.add(componentsSuche.get(strasseNrSucheL), c);
+		
+		c.gridy = 4;
+		inputPanel.add(componentsSuche.get(plzSucheL), c);
+		
+		c.gridy = 5;
+		inputPanel.add(componentsSuche.get(ortSucheL), c);
+		
+		c.gridy = 6;
+		inputPanel.add(componentsSuche.get(mitarbeiterSucheL), c);
+
+		c.fill = GridBagConstraints.NONE;
+		c.gridy = 7;
+		inputPanel.add(componentsSuche.get(statusSucheL), c);
+		
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.LINE_END;
+		c.insets = new Insets(0,5,0,0);
+		c.gridwidth = 1;
+		c.gridx = 1;
+		c.gridy = 8;
+		inputPanel.add(suchButton, c);
+
+		suchPanel.add(labelPanel, BorderLayout.WEST);
+		suchPanel.add(inputPanel, BorderLayout.CENTER);
+
+		return rahmenSetzen("Suche", suchPanel );
 	}
 	
 	private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
@@ -509,12 +565,52 @@ public class BenutzerView {
 		this.ortSucheL = ortSucheL;
 	}
 
+	public JLabel getGeburtsdatumSucheL() {
+		return geburtsdatumSucheL;
+	}
+
+	public void setGeburtsdatumSucheL(JLabel geburtsdatumSucheL) {
+		this.geburtsdatumSucheL = geburtsdatumSucheL;
+	}
+
+	public JLabel getTelSucheL() {
+		return telSucheL;
+	}
+
+	public void setTelSucheL(JLabel telSucheL) {
+		this.telSucheL = telSucheL;
+	}
+
+	public JLabel getMailSucheL() {
+		return mailSucheL;
+	}
+
+	public void setMailSucheL(JLabel mailSucheL) {
+		this.mailSucheL = mailSucheL;
+	}
+
+	public JLabel getBemerkungSucheL() {
+		return bemerkungSucheL;
+	}
+
+	public void setBemerkungSucheL(JLabel bemerkungSucheL) {
+		this.bemerkungSucheL = bemerkungSucheL;
+	}
+
 	public JLabel getStatusSucheL() {
 		return statusSucheL;
 	}
 
 	public void setStatusSucheL(JLabel statusSucheL) {
 		this.statusSucheL = statusSucheL;
+	}
+
+	public JLabel getMitarbeiterSucheL() {
+		return mitarbeiterSucheL;
+	}
+
+	public void setMitarbeiterSucheL(JLabel mitarbeiterSucheL) {
+		this.mitarbeiterSucheL = mitarbeiterSucheL;
 	}
 
 	public JTextField getPKT() {
@@ -693,8 +789,16 @@ public class BenutzerView {
 		this.statusSucheCbx = statusSucheCbx;
 	}
 
-	public JPanel getBenutzerNeuBearbeitenPanel() {
-		return benutzerNeuBearbeitenPanel;
+	public JCheckBox getMitarbeiterSucheCbx() {
+		return mitarbeiterSucheCbx;
+	}
+
+	public void setMitarbeiterSucheCbx(JCheckBox mitarbeiterSucheCbx) {
+		this.mitarbeiterSucheCbx = mitarbeiterSucheCbx;
+	}
+
+	public JPanel getNeuerBenutzerPanel() {
+		return neuerBenutzerPanel;
 	}
 
 	public JPanel getBenutzerListe() {
