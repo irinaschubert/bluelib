@@ -35,9 +35,11 @@ public class AutorController {
 	private List<Autor> autorL;
 	private TableModelAutor tableModelAutor;
 	private Autor autorSuchobjekt;
+	private HauptController hauptController;
 
-	public AutorController(AutorView view) {
+	public AutorController(AutorView view, HauptController hauptController) {
 		autorView = view;
+		this.hauptController = hauptController;
 		normdatenService = new NormdatenService();
 		autorL = new ArrayList<>();
 		tableModelAutor = new TableModelAutor();
@@ -73,7 +75,7 @@ public class AutorController {
 		// Zuweisen des Actionlisteners zum Suchen-Button
 		autorView.getSuchButton().addActionListener(suchenButtonActionListener);
 
-		ActionListener neuButtonActionListener = new ActionListener(){
+		ActionListener neuButtonActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -85,8 +87,7 @@ public class AutorController {
 
 		// Zuweisen des Actionlisteners zum Neu-Button
 		autorView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
-		
-		
+
 		ActionListener sichernButtonActionListener = new ActionListener() {
 
 			@Override
@@ -115,7 +116,7 @@ public class AutorController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				autorView.schliessen();
+				hauptController.panelEntfernen();
 			}
 
 		};
@@ -123,8 +124,6 @@ public class AutorController {
 		// Zuweisen des Actionlisteners zum Schliessen-Button
 		autorView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 
-		
-		
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -246,24 +245,22 @@ public class AutorController {
 		}
 		suchFelderLeeren();
 		autorView.getNeuAendernL().setText("");
-		
+
 	}
-	
+
 	private void suchFelderLeeren() {
 
 		// Felder leeren
-		for (JComponent t : autorView.getComponents().values()) {
+		for (JComponent t : autorView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
 			}
 			if (t instanceof JCheckBox) {
 				((JCheckBox) t).setSelected(false);
 			}
-			
-		}
-		}
 
-	
+		}
+	}
 
 	public void initialisieren() {
 
@@ -276,7 +273,7 @@ public class AutorController {
 		autorView.getNachnameSucheL().setText("Name:");
 		autorView.getVornameSucheL().setText("Vorname:");
 		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
-		autorView.getGeloeschtSucheL().setText("Löschvormerkung:");
+		autorView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
 		autorView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
