@@ -29,7 +29,7 @@ public class Main {
 //	            }
 //	        });  
 		 
-		 SwingUtilities.invokeLater(new Runnable() {
+		 /*SwingUtilities.invokeLater(new Runnable() {
 	            @Override
 	            public void run() {                                           
 	                AutorView view = new AutorView("Autor"); 
@@ -45,7 +45,7 @@ public class Main {
 	                new VerlagController(view);
 	                
 	            }
-	        });  
+	        }); */ 
 		 
 		 SwingUtilities.invokeLater(new Runnable() {
 	            @Override
