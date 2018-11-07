@@ -3,9 +3,16 @@ package ui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+
+/**
+ * 
+ * Der Hauptcontroller stellt die Menübefehle zur Verfügung und steuert den Aufruf der Views und Controller der jeweiligen Menü-
+ * befehle
+ * @version 2018-11-07
+ * @author Schmutz
+ *
+ */
 
 public class HauptController {
 	HauptView hauptView;
@@ -35,7 +42,7 @@ public class HauptController {
 					@Override
 					public void run() {
 						AutorView autorView = new AutorView("Autor");
-						AutorController autorController = new AutorController(autorView, hauptController);
+						new AutorController(autorView, hauptController);
 						hauptView.getContentPane().removeAll();
 						hauptView.setSize(new Dimension(autorView.getPreferredSize()));
 						hauptView.getContentPane().add(autorView);

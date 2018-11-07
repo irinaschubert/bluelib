@@ -4,7 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
+/**
+ * 
+ * Die Klasse stellt die View mit den Menübefehlen bereit
+ * 
+ * @version 2018-11-07
+ * @author Schmutz
+ *
+ */
 public class HauptView extends JFrame {
 	private JMenu ausleiheM = new JMenu("Ausleihe");
 	private JMenuItem ausleiheAusleiheM = new JMenuItem("Ausleihe");
