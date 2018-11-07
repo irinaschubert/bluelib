@@ -63,7 +63,6 @@ public class BenutzerController {
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				benutzerSuchobjekt = feldwertezuObjektSuchen();
 				benutzerL = benutzerService.sucheBenutzer(benutzerSuchobjekt);
 				tableModelBenutzer.setAndSortListe(benutzerL);

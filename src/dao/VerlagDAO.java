@@ -181,14 +181,13 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 					sql = sql + " ?";
 					whereCounter++;
 				}
-				
 				if (domainObject.getGruendungsDatum() != null) {
-					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" gruendungsdatum = ?");
 					whereCounter++;
 				}
 				if (domainObject.getEndDatum() != null) {
-					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" enddatum = ?");
 					whereCounter++;
 				}
@@ -201,6 +200,7 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				int pCounter = 1;
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
+				System.out.println(pstmt);
 				if (domainObject.getName() != null) {
 					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getName()));
 					pCounter++;
