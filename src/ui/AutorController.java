@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -34,9 +35,11 @@ public class AutorController {
 	private List<Autor> autorL;
 	private TableModelAutor tableModelAutor;
 	private Autor autorSuchobjekt;
+	private HauptController hauptController;
 
-	public AutorController(AutorView view) {
+	public AutorController(AutorView view, HauptController hauptController) {
 		autorView = view;
+		this.hauptController = hauptController;
 		normdatenService = new NormdatenService();
 		autorL = new ArrayList<>();
 		tableModelAutor = new TableModelAutor();
@@ -72,6 +75,19 @@ public class AutorController {
 		// Zuweisen des Actionlisteners zum Suchen-Button
 		autorView.getSuchButton().addActionListener(suchenButtonActionListener);
 
+		ActionListener neuButtonActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				suchFelderLeeren();
+				autorView.getNeuAendernL().setText("Neuerfassung");
+			}
+
+		};
+
+		// Zuweisen des Actionlisteners zum Neu-Button
+		autorView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
+
 		ActionListener sichernButtonActionListener = new ActionListener() {
 
 			@Override
@@ -94,39 +110,26 @@ public class AutorController {
 		};
 
 		// Zuweisen des Actionlisteners zum Sichern-Button
-		autorView.getButtonPanel().getButton1().addActionListener(sichernButtonActionListener);
+		autorView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
 
-		ActionListener uebernehmenButtonActionListener = new ActionListener() {
+		ActionListener schliessenButtonActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (autorView.getAutorenTabelle().getSelectedRow() != -1) {
-					uebernehmen();
-				}
+				hauptController.panelEntfernen();
 			}
 
 		};
 
-		// Zuweisen des Actionlisteners zum Übernehmen-Button
-		autorView.getButtonPanel().getButton2().addActionListener(uebernehmenButtonActionListener);
-
-		ActionListener abbrechenButtonActionListener = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				autorView.schliessen();
-			}
-
-		};
-
-		// Zuweisen des Actionlisteners zum Abbrechen-Button
-		autorView.getButtonPanel().getButton3().addActionListener(abbrechenButtonActionListener);
+		// Zuweisen des Actionlisteners zum Schliessen-Button
+		autorView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					uebernehmen();
+					autorView.getNeuAendernL().setText("Bearbeiten");
 				}
 			}
 		};
@@ -143,14 +146,6 @@ public class AutorController {
 			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumSucheT().getText())) {
 				JOptionPane.showMessageDialog(null, "Üngültiges Geburtsdatum");
 				autorView.getGeburtsDatumL().setText("");
-				keinInputFehler = false;
-			}
-		}
-
-		if (!autorView.getTodesDatumSucheT().getText().isEmpty()) {
-			if (!DateConverter.datumIstGueltig(autorView.getTodesDatumSucheT().getText())) {
-				JOptionPane.showMessageDialog(null, "Üngültiges Todesdatum");
-				autorView.getTodesDatumL().setText("");
 				keinInputFehler = false;
 			}
 		}
@@ -202,6 +197,7 @@ public class AutorController {
 				a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumT().getText()));
 			}
 		}
+		a.setGeloescht(autorView.getGeloeschtCbx().isSelected());
 		return a;
 	}
 
@@ -218,11 +214,7 @@ public class AutorController {
 			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumSucheT().getText()));
 		}
 
-		if (!autorView.getTodesDatumSucheT().getText().isEmpty()) {
-			if (DateConverter.datumIstGueltig(autorView.getTodesDatumSucheT().getText())) {
-				a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumSucheT().getText()));
-			}
-		}
+		a.setGeloescht(autorView.getGeloeschtSucheCbx().isSelected());
 		return a;
 	}
 
@@ -241,6 +233,7 @@ public class AutorController {
 		if (autor.getTodesdatum() != null) {
 			autorView.getTodesDatumT().setText(DateConverter.convertJavaDateToString(autor.getTodesdatum()));
 		}
+		autorView.getGeloeschtCbx().setSelected(autor.getGeloescht());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
@@ -250,30 +243,43 @@ public class AutorController {
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
+		suchFelderLeeren();
+		autorView.getNeuAendernL().setText("");
+
+	}
+
+	private void suchFelderLeeren() {
 
 		// Felder leeren
-		for (JComponent t : autorView.getComponents().values()) {
-			((JTextField) t).setText("");
-		}
+		for (JComponent t : autorView.getComponentsNeuBearbeiten().values()) {
+			if (t instanceof JTextField) {
+				((JTextField) t).setText("");
+			}
+			if (t instanceof JCheckBox) {
+				((JCheckBox) t).setSelected(false);
+			}
 
+		}
 	}
 
 	public void initialisieren() {
 
 		autorView.getPKL().setText("Nr:");
-		autorView.getNachnameL().setText("Nachname:*");
+		autorView.getNachnameL().setText("Name:*");
 		autorView.getVornameL().setText("Vorname:*");
 		autorView.getGeburtsDatumL().setText("Geburtsdatum:");
 		autorView.getTodesDatumL().setText("Todesdatum:");
-		autorView.getNachnameSucheL().setText("Nachname:");
+		autorView.getGeloescht().setText("Löschvormerkung:");
+		autorView.getNachnameSucheL().setText("Name:");
 		autorView.getVornameSucheL().setText("Vorname:");
 		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
-		autorView.getTodesDatumSucheL().setText("Todesdatum:");
+		autorView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
-		autorView.getButtonPanel().getButton1().setText(ButtonNamen.SICHERN.getName());
-		autorView.getButtonPanel().getButton3().setText(ButtonNamen.ABBRECHEN.getName());
-		autorView.getButtonPanel().getButton2().setText(ButtonNamen.UEBERNEHMEN.getName());
+		autorView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
+		autorView.getButtonPanel().getButton2().setVisible(false);
+		autorView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
+		autorView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
 
 	}
 }

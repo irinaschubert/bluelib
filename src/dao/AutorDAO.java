@@ -42,12 +42,13 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ "nachname "
 				+ (domainObject.getGeburtsdatum() != null ? ",geburtsdatum ":"")
 				+ (domainObject.getTodesdatum() != null ? ",todesdatum ":"")
+				+ ",geloescht "
 				+ ") "
 				+ "VALUES "
 				+ "(?, ? "
 				+ (domainObject.getGeburtsdatum() != null?",? ":"")
 				+ (domainObject.getTodesdatum() != null?",? ":"")
-				+ ")" ;
+				+ ", ?)" ;
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -63,6 +64,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 					argCounter++;
 					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
 				}
+				argCounter++;
+				pstmt.setBoolean(argCounter, domainObject.getGeloescht());
 				pstmt.executeUpdate();
 				
 				rs = pstmt.getGeneratedKeys();
@@ -94,6 +97,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ ",nachname = ? "
 				+ ",geburtsdatum = ?"
 				+ ",todesdatum = ? "
+				+ ",geloescht = ?"
 				+ " WHERE id = ?";
 			try {
 				conn = dbConnection.getDBConnection();
@@ -114,7 +118,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 				else {
 					pstmt.setNull(4,java.sql.Types.DATE);
 				}
-				pstmt.setInt(5,  domainObject.getId());
+				pstmt.setBoolean(5, domainObject.getGeloescht());
+				pstmt.setInt(6,  domainObject.getId());
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					a = domainObject;
@@ -177,7 +182,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ "nachname, "
 				+ "vorname, "
 				+ "geburtsdatum, "
-				+ "todesdatum "
+				+ "todesdatum, "
+				+ "geloescht "
 				+ "FROM autor ";
 				
 				if (domainObject.getName() != null) {
@@ -188,7 +194,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 				}
 				
 				if (domainObject.getVorname() != null) {
-					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" vorname");
 					sql = sql + (SQLHelfer.likePruefung(domainObject.getVorname())?" LIKE": " =");
 					sql = sql + " ?";
@@ -196,14 +202,19 @@ public class AutorDAO implements DAOInterface<Autor> {
 				}
 				
 				if (domainObject.getGeburtsdatum() != null) {
-					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" geburtsdatum = ?");
 					whereCounter++;
 				}
 				if (domainObject.getTodesdatum() != null) {
-					sql = sql + (whereCounter > 0?" AND": " WHERE");
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" todesdatum = ?");
+					whereCounter++;
 				}
+			
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
+					sql = sql + (" geloescht = ?");
+				
 			try {
 				
 				int pCounter = 1;
@@ -223,7 +234,10 @@ public class AutorDAO implements DAOInterface<Autor> {
 				}
 				if (domainObject.getTodesdatum() != null) {
 					pstmt.setDate(pCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getTodesdatum()));
+					pCounter++;
 				}
+				pstmt.setBoolean(pCounter, domainObject.getGeloescht());
+				
 
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
@@ -233,6 +247,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 					 a.setVorname(rs.getString(3));
 					 a.setGeburtsdatum(rs.getDate(4));
 					 a.setTodesdatum(rs.getDate(5));
+					 a.setGeloescht(rs.getBoolean(6));
 					 autorListe.add(a);
 					 }
 				
@@ -261,7 +276,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ "nachname, "
 				+ "vorname, "
 				+ "geburtsdatum, "
-				+ "todesdatum "
+				+ "todesdatum, "
+				+ "geloescht "
 				+ "FROM autor "
 				+ "WHERE id = ?";
 			try {
@@ -276,6 +292,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 					 a.setVorname(rs.getString(3));
 					 a.setGeburtsdatum(rs.getDate(4));
 					 a.setTodesdatum(rs.getDate(5));
+					 a.setGeloescht(rs.getBoolean(6));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -303,7 +320,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ "nachname, "
 				+ "vorname, "
 				+ "geburtsdatum, "
-				+ "todesdatum "
+				+ "todesdatum, "
+				+ "geloescht "
 				+ "FROM autor";
 			try {
 				
@@ -317,6 +335,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 					 a.setVorname(rs.getString(3));
 					 a.setGeburtsdatum(rs.getDate(4));
 					 a.setTodesdatum(rs.getDate(5));
+					 a.setGeloescht(rs.getBoolean(6));
 					 autorListe.add(a);}
 				
 			} catch (SQLException e) {

@@ -3,7 +3,9 @@ package hilfsklassen;
 public enum ButtonNamen {
 	SICHERN("Sichern"),
 	UEBERNEHMEN("Übernehmen"),
-	ABBRECHEN("Abbrechen");
+	ABBRECHEN("Abbrechen"),
+	NEU("Neu"),
+	SCHLIESSEN("Schliessen");
 	
 	
 	

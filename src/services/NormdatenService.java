@@ -67,6 +67,27 @@ public class NormdatenService {
 		return v;
 	}
 	
+	public Verifikation aktualisiereVerlag(Verlag verlag) {
+		Verifikation v = new Verifikation();
+		if (new VerlagDAO().update(verlag)!= null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Der Verlag "
+					+ verlag.getName()
+					+" wurde aktualisiert.");
+		}
+		else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Der Verlag "
+					+ verlag.getName()
+					+" konnte nicht aktualisiert werden.");
+		}
+		return v;	
+	}
+	
+	public List<Verlag> sucheVerlag(Verlag verlag){
+		return new VerlagDAO().getSelektion(verlag);
+	}
+	
 	public Verifikation aktualisiereAutor(Autor autor) {
 		Verifikation v = new Verifikation();
 		if (new AutorDAO().update(autor)!= null) {

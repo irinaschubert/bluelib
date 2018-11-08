@@ -3,7 +3,9 @@ package models;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+
 import domain.Verlag;
+import hilfsklassen.DateConverter;
 
 /**
  * Dient zur Darstellung und zum Updaten der Verlagsliste
@@ -15,7 +17,7 @@ import domain.Verlag;
 public class TableModelVerlag extends AbstractTableModel {
 
 	// Definition der Spaltennamen, wie sie in der Tabelle dargestellt werden sollen
-	private static final String[] COLUMN_NAMES = { "Name", "Gründungsdatum", "Enddatum"};
+	private static final String[] COLUMN_NAMES = { "Name", "Gründungsdatum", "Enddatum", "LV"};
 	private List<Verlag> verlagListe;
 	
 	public void setAndSortListe(List<Verlag> liste) {
@@ -72,10 +74,13 @@ public class TableModelVerlag extends AbstractTableModel {
 			returnWert = v.getName();
 			break;
 		case 1:
-			returnWert = v.getGruendungsDatum();
+			returnWert = DateConverter.convertJavaDateToString(v.getGruendungsDatum());
 			break;
 		case 2:
-			returnWert = v.getEndDatum();
+			returnWert = DateConverter.convertJavaDateToString(v.getEndDatum());
+			break;
+		case 3:
+			returnWert = (v.getGeloescht()?"x":"");
 			break;
 		}
 
