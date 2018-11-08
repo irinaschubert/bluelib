@@ -30,6 +30,13 @@ public class Main {
 //	                
 //	            }
 //	        });  
+		 SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {                                           
+	            	BibliotheksdatenView view = new BibliotheksdatenView("Bibliotheksdaten");
+	            	new BibliotheksdatenController(view);	                
+	            }
+	        });  
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -47,7 +54,6 @@ public class Main {
 				new VerlagController(view);
 			}
 		});
-
 	}
 
 }
