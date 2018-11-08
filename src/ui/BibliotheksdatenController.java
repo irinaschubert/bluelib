@@ -27,33 +27,26 @@ import services.Verifikation;
 
 public class BibliotheksdatenController {
 	private BibliotheksdatenView bibliotheksdatenView;
-	private NormdatenService normdatenService;
-	private List<Bibliothek> BibliotheksdatenListe;
-	private java.util.Date gruendungsDatum = new java.util.Date();
-	private java.util.Date endDatum = new java.util.Date();
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	public BibliotheksdatenController(BibliotheksdatenView view) {
 		bibliotheksdatenView = view;
-		normdatenService = new NormdatenService();
 		initialisieren();
-		//control();
-
 	}
+	
 	public void initialisieren() {
-
-		bibliotheksdatenView.getPKL().setText("Nr:");
-		bibliotheksdatenView.getNameLabel().setText("Name der Bibliothek:");
-		bibliotheksdatenView.getStrasseLabel().setText("Strasse & Nr.:");
-		bibliotheksdatenView.getPlzLabel().setText("PLZ:");
-		bibliotheksdatenView.getOrtLabel().setText("Ort:");
-		bibliotheksdatenView.getEmailLabel().setText("Email:");
-		bibliotheksdatenView.getTelLabel().setText("Tel.:");
-		bibliotheksdatenView.getAusleihLabel().setText("Leihfrist:");
+		bibliotheksdatenView.getNameL().setText("Name der Bibliothek:");
+		bibliotheksdatenView.getStrasseUndNrL().setText("Strasse & Nr.:");
+		bibliotheksdatenView.getOrtL().setText("Ort:");
+		bibliotheksdatenView.getEmailL().setText("Email:");
+		bibliotheksdatenView.getTelL().setText("Tel.:");
+		bibliotheksdatenView.getLeihfristL().setText("Leihfrist:");
 
 		
-		bibliotheksdatenView.getPKT().setEditable(false);
-		bibliotheksdatenView.getButtonPanel().getButton1().setText(ButtonNamen.SICHERN.getName());
-		bibliotheksdatenView.getButtonPanel().getButton2().setText(ButtonNamen.ABBRECHEN.getName());
+		bibliotheksdatenView.getNameT().setEditable(false);
+		bibliotheksdatenView.getButtonPanel().getButton1().setVisible(false);;
+		bibliotheksdatenView.getButtonPanel().getButton2().setVisible(false);;
+		bibliotheksdatenView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
+		bibliotheksdatenView.getButtonPanel().getButton4().setText(ButtonNamen.ABBRECHEN.getName());
+		
 	}
 }

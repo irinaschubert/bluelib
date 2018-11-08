@@ -9,7 +9,8 @@ package ui;
 	import java.util.List;
 
 	import javax.swing.BoxLayout;
-	import javax.swing.JComponent;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 	import javax.swing.JFrame;
 	import javax.swing.JLabel;
 	import javax.swing.JPanel;
@@ -30,22 +31,18 @@ package ui;
 		private StandardButtonPanel buttonPanel;
 		private JPanel bibliPanel;
 		private JPanel centerPanel;
-		private JLabel PKL;
-		private JLabel nameLabel;
-		private JLabel strasseLabel;
-		private JLabel plzLabel;
-		private JLabel ortLabel;
-		private JLabel emailLabel;
-		private JLabel telLabel;
-		private JLabel ausleihLabel;
-		private JTextField PKT;
+		private JLabel nameL;
+		private JLabel strasseUndNrL;
+		private JLabel ortL;
+		private JLabel emailL;
+		private JLabel telL;
+		private JLabel leihfristL;
 		private JTextField nameT;
-		private JTextField strasseT;
-		private JTextField plzT;
+		private JTextField strasseUndNrT;
 		private JTextField ortT;
 		private JTextField emailT;
 		private JTextField telT;
-		private JTextField ausleihT;
+		private JTextField leihfristT;
 		private LinkedHashMap<JLabel, JComponent> componentTable = new LinkedHashMap<>();
 
 		 public BibliotheksdatenView(String frameTitel){
@@ -79,14 +76,12 @@ package ui;
 		    	bibliPanel = new JPanel();
 		    	bibliPanel.setLayout(new BorderLayout());
 		    	
-		    	componentTable.put(PKL = new JLabel(), PKT = new JTextField());
-		    	componentTable.put(nameLabel = new JLabel(), nameT = new JTextField());
-		    	componentTable.put(strasseLabel = new JLabel(), strasseT = new JTextField());
-		    	componentTable.put(plzLabel = new JLabel(), plzT = new JTextField());
-		    	componentTable.put(ortLabel = new JLabel(), ortT = new JTextField());
-		    	componentTable.put(emailLabel = new JLabel(), emailT = new JTextField());
-		    	componentTable.put(telLabel = new JLabel(), telT = new JTextField());
-		    	componentTable.put(ausleihLabel = new JLabel(), ausleihT = new JTextField());
+		    	componentTable.put(nameL = new JLabel(), nameT = new JTextField());
+		    	componentTable.put(strasseUndNrL = new JLabel(), strasseUndNrT = new JTextField());
+		    	componentTable.put(ortL = new JLabel(), ortT = new JTextField());
+		    	componentTable.put(emailL = new JLabel(), emailT = new JTextField());
+		    	componentTable.put(telL = new JLabel(), telT = new JTextField());
+		    	componentTable.put(leihfristL = new JLabel(), leihfristT = new JTextField());
 	        	
 		    	JPanel labelPanel = new JPanel();
 		    	labelPanel.setLayout(new GridLayout(componentTable.size(), 0));
@@ -123,71 +118,55 @@ package ui;
 			public JPanel getbibliPanel() {
 				return bibliPanel;
 			}
-
-			public JTextField getPKT() {
-				return PKT;
-			}
-			public JLabel getPKL() {
-				return PKL;
-			}
 			
-			public JLabel getNameLabel() {
-				return nameLabel;
+			public JLabel getNameL() {
+				return nameL;
 			}
 
 			public JTextField getNameT() {
 				return nameT;
 			}
 			
-			public JLabel getStrasseLabel() {
-				return strasseLabel;
+			public JLabel getStrasseUndNrL() {
+				return strasseUndNrL;
 			}
 
-			public JTextField getStrasseT() {
-				return strasseT;
-			}
-			public JLabel getPlzLabel() {
-				return plzLabel;
-			}
-			public JTextField getplzT() {
-				return plzT;
+			public JTextField getStrasseUndNrT() {
+				return strasseUndNrT;
 			}
 
-			public JLabel getOrtLabel() {
-				return ortLabel;
+			public JLabel getOrtL() {
+				return ortL;
 			}
 			
 			public JTextField getOrtT() {
 				return ortT;
 			}
 			
-			public JLabel getEmailLabel() {
-				return emailLabel;
+			public JLabel getEmailL() {
+				return emailL;
 			}
 			
 			public JTextField getEmailT() {
 				return emailT;
 			}
 		
-			public JLabel getTelLabel() {
-				return telLabel;
+			public JLabel getTelL() {
+				return telL;
 			}
 			
 			public JTextField getTelT() {
 				return telT;
 			}
-			
-			
-			public JLabel getAusleihLabel() {
-				return telLabel;
+				
+			public JLabel getLeihfristL() {
+				return leihfristL;
 			}
 			
-			public JTextField getAusleihT() {
-				return ausleihT;
+			public JTextField setLeihfristT() {
+				return leihfristT;
 			}	
-			
-
-			
+					
 			public LinkedHashMap<JLabel, JComponent> getComponents() {
 				return componentTable;
 			}
@@ -195,6 +174,5 @@ package ui;
 			public void schliessen() {
 				frame.dispose();
 			}
-
 
 	}

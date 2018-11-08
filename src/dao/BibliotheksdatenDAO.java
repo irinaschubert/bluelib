@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import domain.Bibliothek;
 import hilfsklassen.DateConverter;
 import interfaces.DAOInterface;
@@ -17,17 +18,60 @@ import interfaces.DAOInterface;
  *
  */
 public class BibliotheksdatenDAO implements DAOInterface<Bibliothek> {
+	
+	private DBConnection dbConnection = null;
+	private Connection conn = null; 
+	private PreparedStatement pstmt = null;
+	
+	
+	public BibliotheksdatenDAO() {
+		dbConnection = DBConnection.getInstance();
+	}
 
 	@Override
 	public Bibliothek save(Bibliothek domainObject) {
-		// TODO Auto-generated method stub
+		// Kein Save, nur Update
 		return null;
 	}
 
 	@Override
 	public Bibliothek update(Bibliothek domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		Bibliothek b = new Bibliothek();
+		String sql = "UPDATE stammdaten SET "
+				+ "name  = ? "
+				+ ",strasseUndOrt  = ? "
+				+ ",email  = ? "
+				+ ",telefon = ?"
+				+ ",leihfrist = ? ";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,domainObject.getName());
+			pstmt.setString(2,domainObject.getStrasseUndNr());
+			pstmt.setString(3,domainObject.getEmail());
+			pstmt.setString(4,domainObject.getTelefon());
+			pstmt.setInt(5, domainObject.getLeihfrist());
+			
+			int i = pstmt.executeUpdate();
+			if (i>0) {
+				b = domainObject;
+			}
+			else {
+				b = null;
+			}
+							
+		}
+  catch (SQLException e) {
+       e.printStackTrace();
+ } finally{
+     try{
+         if(rs != null) rs.close();
+         if(pstmt != null) pstmt.close();
+         if(conn != null) conn.close();
+     } catch(Exception ex){}
+ }
+		return b;
 	}
 
 	@Override

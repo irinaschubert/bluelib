@@ -11,8 +11,8 @@ public class Bibliothek{
 	private String email;
 	private String telefon;
 	private String oeffnungszeiten;
-	private Adresse adresse;
-	private int leihdauer; // Anz. Tage
+	private String strasseUndNr;
+	private int leihfrist; // Anz. Tage
 	
 	public Bibliothek() {
 		
@@ -50,20 +50,20 @@ public class Bibliothek{
 		this.oeffnungszeiten = oeffnungszeiten;
 	}
 
-	public Adresse getAdresse() {
-		return adresse;
+	public String getStrasseUndNr() {
+		return strasseUndNr;
 	}
 
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
+	public void setStrasseUndNr(String strasseUndNr) {
+		this.strasseUndNr = strasseUndNr;
 	}
 
-	public int getLeihdauer() {
-		return leihdauer;
+	public int getLeihfrist() {
+		return leihfrist;
 	}
 
-	public void setLeihdauer(int leihdauer) {
-		this.leihdauer = leihdauer;
+	public void setLeihfrist(int leihleihfristdauer) {
+		this.leihfrist = leihfrist;
 	}
 	
 	
