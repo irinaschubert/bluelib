@@ -17,7 +17,6 @@ public class DBConnectionInfo {
 	private String dbpw;
 	private String dataBase;
 	private String dbServer;
-	private ResourceBundle rb;
 	private static final DBConnectionInfo INSTANCE = new DBConnectionInfo();
 
 	
@@ -48,7 +47,7 @@ public class DBConnectionInfo {
             // Name des Konfigurationsfiles
             String fileName = "app.config";
             ClassLoader classLoader = Properties.class.getClassLoader();
-            // Pfadname scheint nötig zu sein
+            // Ohne Pfadname wird das File nicht gefunden
             String path = Properties.class.getResource("/").getPath();
            
             InputStream in = new BufferedInputStream(
