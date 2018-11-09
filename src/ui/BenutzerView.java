@@ -38,7 +38,8 @@ import domain.Status;
 public class BenutzerView {
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
-	private JPanel benutzerNeuBearbeitenPanel;
+	JPanel benutzerNeuBearbeitenPanel;
+	JPanel benutzerSuchenPanel;
 	private JPanel benutzerListe;
 	private JPanel centerPanel;
 	
@@ -241,7 +242,7 @@ public class BenutzerView {
 	}
 
 	private JPanel createSuchePanel() {
-		JPanel benutzerSuchenPanel = new JPanel();
+		benutzerSuchenPanel = new JPanel();
 		benutzerSuchenPanel.setLayout(new GridBagLayout());
 		benutzerSuchenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();

@@ -9,28 +9,28 @@ import java.util.Date;
  */
 public class Benutzer extends Person {
 
-	private int status;
-	private boolean mitarbeiter;
+	private String benutzerStatus;
+	private String mitarbeiterStatus;
 	
 	public Benutzer() {
-		status = Status.AKTIV;
-		mitarbeiter = false;
+		setBenutzerStatus(Status.AKTIV);
+		setMitarbeiterStatus(Status.AKTIV);
 	}
 
-	public int getStatus() {
-		return status;
+	public String getBenutzerStatus() {
+		return benutzerStatus;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setBenutzerStatus(String beS) {
+		this.benutzerStatus = beS;
 	}
 	
-	public boolean getMitarbeiter() {
-		return mitarbeiter;
+	public String getMitarbeiterStatus() {
+		return mitarbeiterStatus;
 	}
 
-	public void setMitarbeiter(boolean b) {
-		this.mitarbeiter = b;
+	public void setMitarbeiterStatus(String maS) {
+		this.mitarbeiterStatus = maS;
 	}
 	
 	

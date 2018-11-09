@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -144,16 +145,13 @@ public class BenutzerController {
 		if (!benutzerView.getPKT().getText().isEmpty()) {
 			b.setId(Integer.parseInt(benutzerView.getPKT().getText()));
 		}
-		
-		if (!benutzerView.getNachnameSucheT().getText().isEmpty()) {
+		if (!benutzerView.getVornameT().getText().isEmpty()) {
+			b.setVorname(benutzerView.getVornameSucheT().getText());
+		}		
+		if (!benutzerView.getNachnameT().getText().isEmpty()) {
 			b.setName(benutzerView.getNachnameSucheT().getText());
 		}
-
-		if (!benutzerView.getVornameSucheT().getText().isEmpty()) {
-			b.setVorname(benutzerView.getVornameSucheT().getText());
-		}
-		
-		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty()) {
+		if (!benutzerView.getStrasseNrT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrT().getText();
 			int plzInt = Integer.parseInt(benutzerView.getPlzT().getText());
 			String ortString = benutzerView.getOrtT().getText();
@@ -173,27 +171,26 @@ public class BenutzerController {
 		if (!benutzerView.getBemerkungT().getText().isEmpty()) {
 			b.setBemerkung(benutzerView.getBemerkungT().getText());
 		}
-		b.setMitarbeiter(benutzerView.getMitarbeiterCbx().isSelected());
-		
+		if(benutzerView.getMitarbeiterCbx().isSelected()) {
+			b.setMitarbeiterStatus(Status.AKTIV);
+		}
 		String auswahlStatusString = (String)benutzerView.getStatusCbx().getSelectedItem();
-        if(auswahlStatusString.equals("AKTIV")) {
-        	b.setStatus(Status.AKTIV);
+        if(auswahlStatusString.equals("aktiv")) {
+        	b.setBenutzerStatus(Status.AKTIV);
         }
-        if(auswahlStatusString.equals("GESPERRT")) {
-        	b.setStatus(Status.GESPERRT);
+        if(auswahlStatusString.equals("gesperrt")) {
+        	b.setBenutzerStatus(Status.GESPERRT);
         }
-        if(auswahlStatusString.equals("GELOESCHT")) {
-        	b.setStatus(Status.GELOESCHT);
+        if(auswahlStatusString.equals("gelöscht")) {
+        	b.setBenutzerStatus(Status.GELOESCHT);
         }
-        
         String auswahlAnredeString = (String)benutzerView.getAnredeCbx().getSelectedItem();
-        if(auswahlAnredeString.equals("FRAU")) {
+        if(auswahlAnredeString.equals("Frau")) {
         	b.setAnrede(Anrede.FRAU);
         }
-        if(auswahlAnredeString.equals("HERR")) {
+        if(auswahlAnredeString.equals("Herr")) {
         	b.setAnrede(Anrede.HERR);
         }
-        
         if (!benutzerView.getErfasstVonT().getText().isEmpty()) {
         	// TODO
 			//b.setErfasstVon(benutzerView.getErfasstVonT().getText());
@@ -201,7 +198,6 @@ public class BenutzerController {
         if (!benutzerView.getErfasstAmT().getText().isEmpty()) {
 			b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));
 		}
-		
 		return b;
 	}
 
@@ -229,14 +225,14 @@ public class BenutzerController {
 		}
 
         String auswahlStatusString = (String)benutzerView.getStatusCbx().getSelectedItem();
-        if(auswahlStatusString.equals("AKTIV")) {
-        	b.setStatus(Status.AKTIV);
+        if(auswahlStatusString.equals("aktiv")) {
+        	b.setBenutzerStatus(Status.AKTIV);
         }
-        if(auswahlStatusString.equals("GESPERRT")) {
-        	b.setStatus(Status.GESPERRT);
+        if(auswahlStatusString.equals("gesperrt")) {
+        	b.setBenutzerStatus(Status.GESPERRT);
         }
-        if(auswahlStatusString.equals("GELOESCHT")) {
-        	b.setStatus(Status.GELOESCHT);
+        if(auswahlStatusString.equals("gelöscht")) {
+        	b.setBenutzerStatus(Status.GELOESCHT);
         }
 		
 		return b;
@@ -269,13 +265,26 @@ public class BenutzerController {
 
 	// Felder leeren
 	private void suchFelderLeeren() {
-		for (JComponent t : benutzerView.getComponents().values()) {
-			if (t instanceof JTextField) {
-				((JTextField) t).setText("");
-			}
-			if (t instanceof JCheckBox) {
-				((JCheckBox) t).setSelected(false);
-			}
+		for(Component control : benutzerView.benutzerSuchenPanel.getComponents())
+		{
+		    if(control instanceof JTextField)
+		    {
+		        JTextField ctrl = (JTextField) control;
+		        ctrl.setText("");
+		    }
+		}
+		for(Component control : benutzerView.benutzerNeuBearbeitenPanel.getComponents())
+		{
+		    if(control instanceof JTextField)
+		    {
+		        JTextField ctrl = (JTextField) control;
+		        ctrl.setText("");
+		    }
+		    else if (control instanceof JComboBox)
+		    {
+		        JComboBox ctr = (JComboBox) control;
+		        ctr.setSelectedIndex(0);
+		    }
 		}
 	}
 
