@@ -5,7 +5,8 @@ public enum ButtonNamen {
 	UEBERNEHMEN("Übernehmen"),
 	ABBRECHEN("Abbrechen"),
 	NEU("Neu"),
-	SCHLIESSEN("Schliessen");
+	SCHLIESSEN("Schliessen"),
+	ANMELDEN("Anmelden");
 	
 	
 	

@@ -21,6 +21,7 @@ public class HauptController {
 	public HauptController(HauptView hauptView) {
 		this.hauptView = hauptView;
 		this.hauptController = this;
+		initialisieren();
 		control();
 	}
 
@@ -63,8 +64,7 @@ public class HauptController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				hauptView.dispose();
-				System.exit(0);
+				applikationSchliessen();
 
 			}
 		};
@@ -76,7 +76,7 @@ public class HauptController {
 	 * Entfernt den Dialog (JPanel) aus der Hauptview
 	 */
 	public void panelEntfernen() {
-
+		hauptView.getJMenuBar().setVisible(true); // Nach der Anmeldung soll die Menubar wieder sichtbar sein
 		hauptView.getContentPane().removeAll();
 		hauptView.validate();
 		hauptView.setVisible(true);
@@ -84,7 +84,25 @@ public class HauptController {
 	}
 
 	private void initialisieren() {
+		hauptView.getJMenuBar().setVisible(false);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				LoginView loginView = new LoginView("Login");
+				new LoginController(loginView, hauptController);
+				hauptView.getContentPane().removeAll();
+				//hauptView.setSize(new Dimension(loginView.getPreferredSize()));
+				hauptView.getContentPane().add(loginView);
+				hauptView.validate();
+				hauptView.setVisible(true);
 
+			}
+		});
+	}
+	
+	public void applikationSchliessen() {
+		hauptView.dispose();
+		System.exit(0);
 	}
 
 }

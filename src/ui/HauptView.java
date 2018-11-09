@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.MenuBar;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,6 +32,7 @@ public class HauptView extends JFrame {
 	private JMenuItem administrationSchagworteM = new JMenuItem("Schlagworte");
 	private JMenuItem administrationStammdatenM = new JMenuItem("Stammdaten");
 	private JMenuItem beendenM = new JMenuItem("Beenden");
+	private JMenuBar menuBar = new JMenuBar();
 
 	public HauptView(String name) {
 
@@ -40,7 +43,6 @@ public class HauptView extends JFrame {
 	}
 
 	private JMenuBar erstelleMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(erstelleAusleiheMenu());
 		menuBar.add(erstelleMedienMenu());
 		menuBar.add(erstelleBenutzerMenu());
@@ -224,6 +226,11 @@ public class HauptView extends JFrame {
 
 	public void setBeendenM(JMenu beendenM) {
 		this.beendenM = beendenM;
+	}
+
+
+	public void setMenuBar(JMenuBar menuBar) {
+		this.menuBar = menuBar;
 	}
 
 }
