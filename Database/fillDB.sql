@@ -15,7 +15,7 @@ COMMIT;
 -- ---------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO statusPers (bezeichnung) VALUES ('aktiv'), ('gesperrt');
+INSERT INTO statusPers (bezeichnung) VALUES ('aktiv'), ('gesperrt'), ('gelöscht');
 COMMIT;
 
 -- -------------------
@@ -23,7 +23,7 @@ COMMIT;
 -- -------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO statusMA (bezeichnung) VALUES ('aktiv'), ('gesperrt');
+INSERT INTO statusMA (bezeichnung) VALUES ('aktiv'), ('gesperrt'),('gelöscht');
 COMMIT;
 
 -- ---------------
