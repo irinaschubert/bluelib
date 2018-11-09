@@ -43,6 +43,7 @@ public class HauptView extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(erstelleAusleiheMenu());
 		menuBar.add(erstelleMedienMenu());
+		menuBar.add(erstelleBenutzerMenu());
 		menuBar.add(erstelleAuswertungMenu());
 		menuBar.add(erstelleInventurMenu());
 		menuBar.add(erstelleAdministrationMenu());
