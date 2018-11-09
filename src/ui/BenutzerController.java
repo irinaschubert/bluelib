@@ -146,10 +146,10 @@ public class BenutzerController {
 			b.setId(Integer.parseInt(benutzerView.getPKT().getText()));
 		}
 		if (!benutzerView.getVornameT().getText().isEmpty()) {
-			b.setVorname(benutzerView.getVornameSucheT().getText());
+			b.setVorname(benutzerView.getVornameT().getText());
 		}		
 		if (!benutzerView.getNachnameT().getText().isEmpty()) {
-			b.setName(benutzerView.getNachnameSucheT().getText());
+			b.setName(benutzerView.getNachnameT().getText());
 		}
 		if (!benutzerView.getStrasseNrT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrT().getText();
@@ -215,7 +215,7 @@ public class BenutzerController {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
 		
-		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty()) {
+		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty() && !benutzerView.getPlzSucheT().getText().isEmpty() && !benutzerView.getOrtSucheT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrT().getText();
 			int plzInt = Integer.parseInt(benutzerView.getPlzT().getText());
 			String ortString = benutzerView.getOrtT().getText();

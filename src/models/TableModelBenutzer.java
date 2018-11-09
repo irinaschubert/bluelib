@@ -3,7 +3,10 @@ package models;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+
+import domain.Adresse;
 import domain.Benutzer;
+import domain.Ort;
 import hilfsklassen.DateConverter;
 
 /**
@@ -23,7 +26,6 @@ public class TableModelBenutzer extends AbstractTableModel {
 		this.benutzerListe = liste;
 		listeSortieren();
 		fireTableDataChanged();
-
 	}
 	
 	public void benutzerHinzufuegen(Benutzer benutzer) {
@@ -80,11 +82,18 @@ public class TableModelBenutzer extends AbstractTableModel {
 		case 2:
 			returnWert = b.getVorname();
 			break;
-		case 3:
-			returnWert = b.getAdresse();
+		case 3:			
+			if(b.getAdresse() != null) {
+				Adresse adresse = b.getAdresse();
+				String strasseNr = adresse.getStrasse();
+				Ort ort = adresse.getOrt();	
+				String ortString = ort.getOrt();
+				int plzInt = ort.getPlz();
+				returnWert = b.getAdresse();
+			}
 			break;
 		case 4:
-			returnWert = b.getStatus();
+			returnWert = b.getBenutzerStatus();
 			break;
 		}
 

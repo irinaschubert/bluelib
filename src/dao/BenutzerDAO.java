@@ -38,6 +38,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 	@Override
 	public Benutzer save(Benutzer domainObject) {
 		Benutzer benutzer = domainObject;
+		
 		Adresse adresse = benutzer.getAdresse();
 		String strasseNr = adresse.getStrasse();
 		Ort ort = adresse.getOrt();	
@@ -47,32 +48,34 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 		ResultSet rs = null;
 		Benutzer a = new Benutzer();
 		int argCounter = 0;
+		
 		String sql = "INSERT INTO "
 				+ "person "
 				+ "(vorname"
 				+ ",nachname"
-				+ ",anrede_id " // left join anrede on person.anrede_id = anrede.id
+				+ ",anrede_id "
 				+ ",strasseUndNr "
-				+ ",ort_id " // left join ort on person.ort_id = ort.id
+				//+ ",ort_id " // left join ort on person.ort_id = ort.id
 				+ (domainObject.getBemerkung() != null ? ",bemerkung ":"")
-				+ ",statusPers_id " // left join statuspers on person.statusPers_id = statuspers.id
+				+ ",statusPers_id "
 				+ (domainObject.getGeburtsdatum() != null ? ",geburtstag ":"")
 				+ (domainObject.getTelefon() != null ? ",telefon ":"")
 				+ (domainObject.getEmail() != null ? ",email ":"")
 				+ (domainObject.getErfassungDatum() != null ? ",erfassungsdatum ":"")
-				+ (domainObject.getErfassungMitarbeiter() != null ? ",person_id ":"") // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
-				+ ",mitarbeiter_id " // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
+				//+ (domainObject.getErfassungMitarbeiter() != null ? ",person_id ":"") // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
+				//+ ",mitarbeiter_id " // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
 				+ ") "
 				+ "VALUES "
-				+ "(?, ?, ?, ?, ?, ? "
+				+ "(?, ?, ?, ?"
 				+ (domainObject.getBemerkung() != null ? ",? ":"")
 				+ ",? "
 				+ (domainObject.getGeburtsdatum() != null?",? ":"")
 				+ (domainObject.getTelefon() != null ? ",? ":"")
 				+ (domainObject.getEmail() != null ? ",? ":"")
 				+ (domainObject.getErfassungDatum() != null ? ",? ":"")
-				+ (domainObject.getErfassungMitarbeiter() != null ? ",? ":"")
-				+ ",?)";
+				//+ (domainObject.getErfassungMitarbeiter() != null ? ",? ":"")
+				//+ ",?)";
+				+ ")";
 		System.out.println(sql);
 			try {
 				conn = dbConnection.getDBConnection();
@@ -82,19 +85,19 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				argCounter++;
 				pstmt.setString(argCounter,domainObject.getName());
 				argCounter++;
-				pstmt.setString(argCounter,domainObject.getAnrede());
+				pstmt.setInt(argCounter,domainObject.getAnrede());
 				argCounter++;
 				pstmt.setString(argCounter,strasseNr);
-				argCounter++;
-				pstmt.setInt(argCounter,plzInt);
-				argCounter++;
-				pstmt.setString(argCounter,ortString); // argCounter = 6
+				//argCounter++;
+				//pstmt.setInt(argCounter,plzInt);
+				//argCounter++;
+				//pstmt.setString(argCounter,ortString); // argCounter = 6
 				if (domainObject.getBemerkung() != null) {
 					argCounter++;
 					pstmt.setString(argCounter,domainObject.getBemerkung());
 				}
 				argCounter++;
-				pstmt.setString(argCounter,domainObject.getBenutzerStatus());
+				pstmt.setInt(argCounter,domainObject.getBenutzerStatus());
 				if (domainObject.getGeburtsdatum() != null) {
 					argCounter++;
 					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
@@ -111,16 +114,17 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					argCounter++;
 					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getErfassungDatum()));
 				}
-				if (domainObject.getErfassungMitarbeiter() != null) {
+				/*if (domainObject.getErfassungMitarbeiter() != null) {
 					argCounter++;
 					String vorname = domainObject.getErfassungMitarbeiter().getVorname();
 					String nachname = domainObject.getErfassungMitarbeiter().getName();
 					String erfassungMA = new String(vorname + " " + nachname);
 					pstmt.setString(argCounter,erfassungMA);
-				}
+				}*/
 				argCounter++;
-				pstmt.setString(argCounter,domainObject.getMitarbeiterStatus());
+				//pstmt.setInt(argCounter,domainObject.getMitarbeiterStatus());
 				System.out.println(pstmt);
+				
 				pstmt.executeUpdate();
 				
 				rs = pstmt.getGeneratedKeys();
@@ -139,8 +143,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
              if(conn != null) conn.close();
          } catch(Exception ex){}
      }
-			
-		return a;
+			return a;
 	}
 	
 
@@ -167,7 +170,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				else {
 					pstmt.setNull(3,java.sql.Types.DATE);
 				}
-				pstmt.setString(5, domainObject.getMitarbeiterStatus());
+				pstmt.setInt(5, domainObject.getMitarbeiterStatus());
 				pstmt.setInt(6,  domainObject.getId());
 				int i = pstmt.executeUpdate();
 				if (i>0) {
@@ -233,7 +236,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ "nachname, "
 				+ "vorname, "
 				+ "StrasseUndNr, "
-				+ "ort_id, "
+				//+ "ort_id, "
 				+ "statusPers_id "
 				+ "FROM person ";
 				
@@ -252,6 +255,20 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					whereCounter++;
 				}
 				
+				if (domainObject.getAdresse() != null) {
+					Benutzer benutzer = domainObject;
+					Adresse adresse = benutzer.getAdresse();
+					String strasseNr = adresse.getStrasse();
+					Ort ort = adresse.getOrt();	
+					String ortString = ort.getOrt();
+					int plzInt = ort.getPlz();
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
+					sql = sql + (" strasseUndNr");
+					sql = sql + (SQLHelfer.likePruefung(strasseNr)?" LIKE": " =");
+					sql = sql + " ?";
+					whereCounter++;
+				}
+				// TODO Ort und PLZ
 					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" statusPers_id = ?");
 				
@@ -268,23 +285,40 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getVorname()));
 					pCounter++;
 				}
-				pstmt.setString(pCounter, domainObject.getBenutzerStatus());
-				
+				if (domainObject.getAdresse() != null) {
+					Benutzer benutzer = domainObject;
+					Adresse adresse = benutzer.getAdresse();
+					String strasseNr = adresse.getStrasse();
+					Ort ort = adresse.getOrt();	
+					String ortString = ort.getOrt();
+					int plzInt = ort.getPlz();
+					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(strasseNr));
+					pCounter++;
+				}
+				// TODO Ort und PLZ
+				pstmt.setInt(pCounter, domainObject.getBenutzerStatus());
 
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
-					 Benutzer a = new Benutzer();
-					 a.setId(rs.getInt(1));
-					 a.setName(rs.getString(2));
-					 a.setVorname(rs.getString(3));
-					 a.setBenutzerStatus(rs.getString(4));
-					 benutzerListe.add(a);
-					 }
-				
+					Benutzer a = new Benutzer();
+					 
+					
+					a.setId(rs.getInt(1));
+					a.setName(rs.getString(2));
+					a.setVorname(rs.getString(3));
+					if(a.getAdresse() != null) {
+						Adresse adresse = a.getAdresse();
+						String strasseNr = adresse.getStrasse();
+						Ort ort = adresse.getOrt();	
+						String ortString = ort.getOrt();
+						int plzInt = ort.getPlz();
+						a.setAdresse(new Adresse(rs.getString(4), new Ort(1234,"Dummyort")));
+					}
+					a.setBenutzerStatus(rs.getInt(5));
+					benutzerListe.add(a);
+					}
 			} catch (SQLException e) {
 				e.printStackTrace();
-	
-
 				   } finally{
 				         try{
 				             if(rs != null) rs.close();
@@ -292,9 +326,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				             if(conn != null) conn.close();
 				         } catch(Exception ex){}
 				     }
-			
 			return benutzerListe;
-		
 	}
 
 	@Override
@@ -304,11 +336,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 		String sql = "SELECT "
 				+ "id, "
 				+ "nachname, "
-				+ "vorname, "
-				+ "geburtsdatum, "
-				+ "todesdatum, "
-				+ "geloescht "
-				+ "FROM benutzer "
+				+ "vorname "
+				+ "FROM person "
 				+ "WHERE id = ?";
 			try {
 				
@@ -320,8 +349,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setId(rs.getInt(1));
 					 a.setName(rs.getString(2));
 					 a.setVorname(rs.getString(3));
-					 a.setGeburtsdatum(rs.getDate(4));
-					 a.setMitarbeiterStatus(rs.getString(5));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -333,9 +360,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
-			
 			}
-			
 			return a;
 	}
 
@@ -347,11 +372,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 		String sql = "SELECT "
 				+ "id, "
 				+ "nachname, "
-				+ "vorname, "
-				+ "geburtsdatum, "
-				+ "todesdatum, "
-				+ "geloescht "
-				+ "FROM benutzer";
+				+ "vorname "
+				+ "FROM person";
 			try {
 				
 				conn = dbConnection.getDBConnection();
@@ -362,8 +384,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setId(rs.getInt(1));
 					 a.setName(rs.getString(2));
 					 a.setVorname(rs.getString(3));
-					 a.setGeburtsdatum(rs.getDate(4));
-					 a.setMitarbeiterStatus(rs.getString(5));
 					 benutzerListe.add(a);}
 				
 			} catch (SQLException e) {

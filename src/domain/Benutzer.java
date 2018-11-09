@@ -9,27 +9,27 @@ import java.util.Date;
  */
 public class Benutzer extends Person {
 
-	private String benutzerStatus;
-	private String mitarbeiterStatus;
+	private int benutzerStatus;
+	private int mitarbeiterStatus;
 	
 	public Benutzer() {
 		setBenutzerStatus(Status.AKTIV);
 		setMitarbeiterStatus(Status.AKTIV);
 	}
 
-	public String getBenutzerStatus() {
+	public int getBenutzerStatus() {
 		return benutzerStatus;
 	}
 
-	public void setBenutzerStatus(String beS) {
+	public void setBenutzerStatus(int beS) {
 		this.benutzerStatus = beS;
 	}
 	
-	public String getMitarbeiterStatus() {
+	public int getMitarbeiterStatus() {
 		return mitarbeiterStatus;
 	}
 
-	public void setMitarbeiterStatus(String maS) {
+	public void setMitarbeiterStatus(int maS) {
 		this.mitarbeiterStatus = maS;
 	}
 	

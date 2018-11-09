@@ -714,9 +714,6 @@ public class BenutzerView {
 	public void schliessen() {
 		frame.dispose();
 	}
-
-
-
 	public JButton getSuchButton() {
 		return suchButton;
 	}

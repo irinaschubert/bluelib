@@ -9,9 +9,9 @@ public class Status {
 
 	private int id;
 	private String bezeichnung;
-	final static public String AKTIV = "Aktiv";
-	final static public String GESPERRT = "Gesperrt";
-	final static public String GELOESCHT = "Gelöscht";
+	final static public int AKTIV = 1;
+	final static public int GESPERRT = 2;
+	final static public int GELOESCHT = 3;
 	
 	public Status() {
 		

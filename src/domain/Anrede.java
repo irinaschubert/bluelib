@@ -9,8 +9,8 @@ public class Anrede {
 	
 	private int id;
 	private String bezeichnung;
-	final static public String FRAU = "Frau";
-	final static public String HERR = "Herr";
+	final static public int FRAU = 2;
+	final static public int HERR = 1;
 	
 
 	public Anrede() {
