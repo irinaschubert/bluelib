@@ -39,7 +39,6 @@ public class TableModelBenutzer extends AbstractTableModel {
 				.thenComparing(Comparator.comparing(Benutzer::getVorname)));
 	}
 	
-	
 	@Override
 	public int getColumnCount() {
 		return COLUMN_NAMES.length;
@@ -82,21 +81,24 @@ public class TableModelBenutzer extends AbstractTableModel {
 		case 2:
 			returnWert = b.getVorname();
 			break;
-		case 3:			
+		case 3:	
+			//TODO
 			if(b.getAdresse() != null) {
 				Adresse adresse = b.getAdresse();
 				String strasseNr = adresse.getStrasse();
-				Ort ort = adresse.getOrt();	
-				String ortString = ort.getOrt();
-				int plzInt = ort.getPlz();
-				returnWert = b.getAdresse();
+				//Ort ort = adresse.getOrt();	
+				//String ortString = ort.getOrt();
+				//int plzInt = ort.getPlz();
+				returnWert = strasseNr;
 			}
+			else {returnWert = "";}
 			break;
 		case 4:
-			returnWert = b.getBenutzerStatus();
+			//TODO
+			int s = b.getBenutzerStatus();
+			returnWert = s;
 			break;
 		}
-
 		return returnWert;
 	}
 }

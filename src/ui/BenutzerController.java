@@ -49,7 +49,6 @@ public class BenutzerController {
 		benutzerService = new BenutzerService();
 		benutzerL = new ArrayList<>();
 		tableModelBenutzer = new TableModelBenutzer();
-//		benutzerL = benutzerService.allebenutzer();
 		tableModelBenutzer.setAndSortListe(benutzerL);
 		view.getBenutzerTabelle().setModel(tableModelBenutzer);
 		view.spaltenBreiteSetzen();
@@ -61,7 +60,6 @@ public class BenutzerController {
 
 	// Buttons
 	private void control() {
-		
 		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
@@ -151,6 +149,7 @@ public class BenutzerController {
 		if (!benutzerView.getNachnameT().getText().isEmpty()) {
 			b.setName(benutzerView.getNachnameT().getText());
 		}
+		// TODO Adresse alle Felder
 		if (!benutzerView.getStrasseNrT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrT().getText();
 			int plzInt = Integer.parseInt(benutzerView.getPlzT().getText());
@@ -203,28 +202,25 @@ public class BenutzerController {
 
 	private Benutzer feldwertezuObjektSuchen() {
 		Benutzer b = new Benutzer();
-		if (!benutzerView.getPKT().getText().isEmpty()) {
-			b.setId(Integer.parseInt(benutzerView.getPKT().getText()));
+		if (!benutzerView.getPKSucheT().getText().isEmpty()) {
+			b.setId(Integer.parseInt(benutzerView.getPKSucheT().getText()));
 		}
-		
 		if (!benutzerView.getNachnameSucheT().getText().isEmpty()) {
 			b.setName(benutzerView.getNachnameSucheT().getText());
 		}
-
 		if (!benutzerView.getVornameSucheT().getText().isEmpty()) {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
-		
+		// TODO Trennen von Suche nach Strasse/Nr und PLZ/Ort
 		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty() && !benutzerView.getPlzSucheT().getText().isEmpty() && !benutzerView.getOrtSucheT().getText().isEmpty()) {
-			String strasse = benutzerView.getStrasseNrT().getText();
-			int plzInt = Integer.parseInt(benutzerView.getPlzT().getText());
-			String ortString = benutzerView.getOrtT().getText();
+			String strasse = benutzerView.getStrasseNrSucheT().getText();
+			int plzInt = Integer.parseInt(benutzerView.getPlzSucheT().getText());
+			String ortString = benutzerView.getOrtSucheT().getText();
 			Ort ort = new Ort(plzInt, ortString);
 			Adresse adresse = new Adresse(strasse, ort);
 			b.setAdresse(adresse);
 		}
-
-        String auswahlStatusString = (String)benutzerView.getStatusCbx().getSelectedItem();
+        String auswahlStatusString = (String)benutzerView.getStatusSucheCbx().getSelectedItem();
         if(auswahlStatusString.equals("aktiv")) {
         	b.setBenutzerStatus(Status.AKTIV);
         }
@@ -234,22 +230,49 @@ public class BenutzerController {
         if(auswahlStatusString.equals("gelöscht")) {
         	b.setBenutzerStatus(Status.GELOESCHT);
         }
-		
 		return b;
 	}
 
 	private void uebernehmen() {
 		Benutzer benutzer = new Benutzer();
 		benutzer = tableModelBenutzer.getGeklicktesObjekt(benutzerView.getBenutzerTabelle().getSelectedRow());
-
+		Adresse adresse = benutzer.getAdresse();
+		String strasseNr = adresse.getStrasse();
+		Ort ort = adresse.getOrt();	
+		String ortString = ort.getOrt();
+		int plzInt = ort.getPlz();
 		benutzerView.getPKT().setText(Integer.toString(benutzer.getId()));
 		benutzerView.getNachnameT().setText(benutzer.getName());
 		benutzerView.getVornameT().setText(benutzer.getVorname());
-
+		benutzerView.getStrasseNrT().setText(strasseNr);
+		benutzerView.getPlzT().setText(Integer.toString(plzInt));
+		benutzerView.getOrtT().setText(ortString);
 		if (benutzer.getGeburtsdatum() != null) {
 			benutzerView.getGeburtsdatumT().setText(DateConverter.convertJavaDateToString(benutzer.getGeburtsdatum()));
 		}
-		//benutzerView.getMitarbeiterCbx().setSelected(benutzer.getMitarbeiter());
+		if (benutzer.getTelefon() != null) {
+			benutzerView.getTelT().setText(benutzer.getTelefon());
+		}
+		if (benutzer.getEmail() != null) {
+			benutzerView.getMailT().setText(benutzer.getEmail());
+		}
+		if (benutzer.getBemerkung() != null) {
+			benutzerView.getBemerkungT().setText(benutzer.getBemerkung());
+		}
+		if (benutzer.getMitarbeiterStatus() == 1) {
+			
+		} else if (benutzer.getMitarbeiterStatus() != 1) {
+			benutzerView.getMitarbeiterCbx().setSelected(false);
+		}
+        if(benutzer.getBenutzerStatus() == Status.AKTIV) {
+        	benutzerView.getStatusSucheCbx().setSelectedItem("aktiv");
+        }
+        if(benutzer.getBenutzerStatus() == Status.GESPERRT) {
+        	benutzerView.getStatusSucheCbx().setSelectedItem("gesperrt");
+        }
+        if(benutzer.getBenutzerStatus() == Status.GELOESCHT) {
+        	benutzerView.getStatusSucheCbx().setSelectedItem("gelöscht");
+        }
 	}
 
 	private void nachArbeitSpeichern(Verifikation v) {

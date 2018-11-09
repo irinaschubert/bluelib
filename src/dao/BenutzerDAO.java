@@ -178,8 +178,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				}
 				else {
 					a = null;
-				}
-								
+				}				
 			}
 	  catch (SQLException e) {
            e.printStackTrace();
@@ -240,6 +239,12 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ "statusPers_id "
 				+ "FROM person ";
 				
+				if (domainObject.getId() != 0) {
+					sql = sql + "WHERE id = ";
+					sql = sql + " ?";
+					whereCounter++;
+				}
+		
 				if (domainObject.getName() != null) {
 					sql = sql + "WHERE nachname";
 					sql = sql + (SQLHelfer.likePruefung(domainObject.getName())?" LIKE": " =");
@@ -259,9 +264,9 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					Benutzer benutzer = domainObject;
 					Adresse adresse = benutzer.getAdresse();
 					String strasseNr = adresse.getStrasse();
-					Ort ort = adresse.getOrt();	
-					String ortString = ort.getOrt();
-					int plzInt = ort.getPlz();
+					//Ort ort = adresse.getOrt();	
+					//String ortString = ort.getOrt();
+					//int plzInt = ort.getPlz();
 					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" strasseUndNr");
 					sql = sql + (SQLHelfer.likePruefung(strasseNr)?" LIKE": " =");
@@ -269,14 +274,19 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					whereCounter++;
 				}
 				// TODO Ort und PLZ
-					sql = sql + (whereCounter > 1?" AND": " WHERE");
-					sql = sql + (" statusPers_id = ?");
+				// TODO Status
+				sql = sql + (whereCounter > 1?" AND": " WHERE");
+				sql = sql + (" statusPers_id = ?");
 				
 			try {
 				
 				int pCounter = 1;
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
+				if (domainObject.getId() != 0) {
+					pstmt.setInt(pCounter,domainObject.getId());
+					pCounter++;
+				}
 				if (domainObject.getName() != null) {
 					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getName()));
 					pCounter++;
@@ -289,9 +299,9 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					Benutzer benutzer = domainObject;
 					Adresse adresse = benutzer.getAdresse();
 					String strasseNr = adresse.getStrasse();
-					Ort ort = adresse.getOrt();	
-					String ortString = ort.getOrt();
-					int plzInt = ort.getPlz();
+					//Ort ort = adresse.getOrt();	
+					//String ortString = ort.getOrt();
+					//int plzInt = ort.getPlz();
 					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(strasseNr));
 					pCounter++;
 				}
@@ -301,19 +311,12 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					Benutzer a = new Benutzer();
-					 
 					
 					a.setId(rs.getInt(1));
 					a.setName(rs.getString(2));
 					a.setVorname(rs.getString(3));
-					if(a.getAdresse() != null) {
-						Adresse adresse = a.getAdresse();
-						String strasseNr = adresse.getStrasse();
-						Ort ort = adresse.getOrt();	
-						String ortString = ort.getOrt();
-						int plzInt = ort.getPlz();
-						a.setAdresse(new Adresse(rs.getString(4), new Ort(1234,"Dummyort")));
-					}
+					// TODO Ort und PLZ
+					a.setAdresse(new Adresse(rs.getString(4), new Ort(1234,"Dummyort")));
 					a.setBenutzerStatus(rs.getInt(5));
 					benutzerListe.add(a);
 					}

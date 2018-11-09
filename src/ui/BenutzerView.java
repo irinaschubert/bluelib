@@ -99,6 +99,7 @@ public class BenutzerView {
 
 	public BenutzerView(String frameTitel) {
 
+		// TODO: neuAendernL in GUI setzen
 		neuAendernL = new JLabel();
 		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 		buttonPanel = new StandardButtonPanel();
@@ -331,7 +332,7 @@ public class BenutzerView {
 		benutzerTabelle.getColumnModel().getColumn(2).setPreferredWidth(40); // Strasse und Nr.
 		benutzerTabelle.getColumnModel().getColumn(3).setPreferredWidth(40); // PLZ
 		benutzerTabelle.getColumnModel().getColumn(3).setPreferredWidth(40); // Ort
-		benutzerTabelle.getColumnModel().getColumn(4).setMaxWidth(20); // Status
+		benutzerTabelle.getColumnModel().getColumn(4).setPreferredWidth(20); // Status
 	}
 	
 	public StandardButtonPanel getButton() {
