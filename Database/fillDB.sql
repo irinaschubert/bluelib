@@ -18,14 +18,6 @@ USE bluelib;
 INSERT INTO statusPers (bezeichnung) VALUES ('aktiv'), ('gesperrt'), ('gelöscht');
 COMMIT;
 
--- -------------------
--- Data for StatusMA
--- -------------------
-START TRANSACTION;
-USE bluelib;
-INSERT INTO statusMA (bezeichnung) VALUES ('aktiv'), ('gesperrt'),('gelöscht');
-COMMIT;
-
 -- ---------------
 -- Data for Ort
 -- ---------------
@@ -38,17 +30,17 @@ COMMIT;
 -- ---------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO stammdaten (name, strasse, land, email, telefon, leihfrist, ort_id) VALUES ('Bluelib','abcdStrasse','CH','info@bluelib.ch','+41791234567', 20, 1);
+INSERT INTO stammdaten (name, strasseUndNr, email, telefon, leihfrist, ort_id) VALUES ('Bluelib','abcdStrasse Nr. 12', 'info@bluelib.ch','+41791234567', 20, 1);
 COMMIT;
 -- ----------------------
 -- Data for Mitarbeiter
 -- ----------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO mitarbeiter (benutzername, passwort, admin, statusMA_id) VALUES ('Mike', 'abcd', 1, (select id from statusMA WHERE bezeichnung = 'aktiv'));
-INSERT INTO mitarbeiter (benutzername, passwort, admin, statusMA_id) VALUES ('Ueli', 'abcd', 1, (select id from statusMA WHERE bezeichnung = 'aktiv'));
-INSERT INTO mitarbeiter (benutzername, passwort, admin, statusMA_id) VALUES ('Irina', 'abcd', 1, (select id from statusMA WHERE bezeichnung = 'aktiv'));
-INSERT INTO mitarbeiter (benutzername, passwort, admin, statusMA_id) VALUES ('Tamara', 'abcd', 1, (select id from statusMA WHERE bezeichnung = 'aktiv'));
+INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Mike', 'abcd', 1, 1);
+INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Ueli', 'abcd', 1, 1);
+INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Irina', 'abcd', 1, 1);
+INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Tamara', 'abcd', 1, 0);
 COMMIT;
 -- -----------------
 -- Data for Person
