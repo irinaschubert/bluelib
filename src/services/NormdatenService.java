@@ -5,9 +5,11 @@ import java.util.List;
 import dao.AnredeDAO;
 import dao.AutorDAO;
 import dao.VerlagDAO;
+import dao.BibliothekDAO;
 import domain.Anrede;
 import domain.Autor;
 import domain.Verlag;
+import domain.Bibliothek;
 
 /**
  * @version 0.2 18.10.2018
@@ -107,6 +109,28 @@ public class NormdatenService {
 	
 	public List<Autor> sucheAutor(Autor autor){
 		return new AutorDAO().getSelektion(autor);
+	}
+	
+	//Bibliotheksdaten
+	public Verifikation aktualisiereBibliothek(Bibliothek Bibliothek) {
+		Verifikation v = new Verifikation();
+		if (new BibliothekDAO().update(Bibliothek)!= null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Die Bibliothek "
+					+ Bibliothek.getName()
+					+" wurde aktualisiert.");
+		}
+		else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Die Bibliothek "
+					+ Bibliothek.getName()
+					+" konnte nicht aktualisiert werden.");
+		}
+		return v;	
+	}
+	
+	public Bibliothek bibliothekAnzeigen(){
+		return new BibliothekDAO().findById(1);
 	}
 }
 

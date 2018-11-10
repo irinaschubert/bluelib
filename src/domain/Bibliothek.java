@@ -7,6 +7,7 @@ package domain;
  */
 public class Bibliothek{
 	
+	private int id;
 	private String name;
 	private String email;
 	private String telefon;
@@ -16,6 +17,14 @@ public class Bibliothek{
 	
 	public Bibliothek() {
 		
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -62,7 +71,7 @@ public class Bibliothek{
 		return leihfrist;
 	}
 
-	public void setLeihfrist(int leihleihfristdauer) {
+	public void setLeihfrist(int leihfrist) {
 		this.leihfrist = leihfrist;
 	}
 	

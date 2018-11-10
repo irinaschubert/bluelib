@@ -7,8 +7,8 @@ import ui.AutorView;
 import ui.HauptController;
 import ui.HauptView;
 import ui.VerlagView;
-import ui.BibliotheksdatenView;
-import ui.BibliotheksdatenController;
+import ui.BibliothekView;
+import ui.BibliothekController;
 import ui.PrototypController;
 import ui.PrototypView;
 
@@ -33,8 +33,8 @@ public class Main {
 		 SwingUtilities.invokeLater(new Runnable() {
 	            @Override
 	            public void run() {                                           
-	            	BibliotheksdatenView view = new BibliotheksdatenView("Bibliotheksdaten");
-	            	new BibliotheksdatenController(view);	                
+	            	BibliothekView view = new BibliothekView("Bibliotheksdaten");
+	            	new BibliothekController(view);	                
 	            }
 	        });  
 
