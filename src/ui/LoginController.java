@@ -12,10 +12,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import dao.MitarbeiterDAO;
 import domain.Autor;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
 import models.TableModelAutor;
+import services.LoginService;
 import services.NormdatenService;
 import services.Verifikation;
 
@@ -35,7 +38,7 @@ public class LoginController {
 	public LoginController(LoginView view, HauptController hauptController) {
 		loginView = view;
 		this.hauptController = hauptController;
-	
+
 		initialisieren();
 		control();
 
@@ -48,8 +51,24 @@ public class LoginController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				hauptController.panelEntfernen();
-			
+				Object String;
+				if ((loginView.getBenutzerNameT().getText().isEmpty())
+						|| (loginView.getPasswortP().getPassword().length == 0)) {
+					JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
+				} else {
+
+					String benutzerName = loginView.getBenutzerNameT().getText();
+					String passWort = new String(loginView.getPasswortP().getPassword());
+					Verifikation v = null;
+					v = new LoginService().loginPruefen(benutzerName, passWort);
+					if (v.isAktionErfolgreich()) {
+						hauptController.initialisierenNachLogin();
+					} else {
+						JOptionPane.showMessageDialog(null, v.getNachricht());
+						loginView.getPasswortP().setText(null);
+					}
+				}
+
 			}
 
 		};
@@ -69,14 +88,10 @@ public class LoginController {
 		// Zuweisen des Actionlisteners zum Abbrechen-Button
 		loginView.getButtonPanel().getButton3().addActionListener(abbrechenActionListener);
 
-
-
 	}
 
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
-
-	
 
 		return keinInputFehler;
 
@@ -84,21 +99,16 @@ public class LoginController {
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
-	
+
 		return keinInputFehler;
 
 	}
 
 	private Autor feldwertezuObjektSpeichern() {
 		Autor a = new Autor();
-		
+
 		return a;
 	}
-
-	
-
-	
-	
 
 	private void felderLeeren() {
 
@@ -106,7 +116,6 @@ public class LoginController {
 		loginView.getBenutzerNameT().setText("");
 		loginView.getPasswortP().setText("");
 
-		
 	}
 
 	public void initialisieren() {

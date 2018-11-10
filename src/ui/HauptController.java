@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingUtilities;
 
+import domain.EingeloggterMA;
+
 /**
  * 
  * Der Hauptcontroller stellt die Menübefehle zur Verfügung und steuert den Aufruf der Views und Controller der jeweiligen Menü-
@@ -71,12 +73,17 @@ public class HauptController {
 
 		return autorBeendenActionListener;
 	}
+	
+	public void initialisierenNachLogin() {
+		hauptView.getJMenuBar().setVisible(true); // Nach der Anmeldung soll die Menubar wieder sichtbar sein
+		hauptView.getAdministrationM().setEnabled(EingeloggterMA.getInstance().getMitarbeiter().isAdmin()); // Disablen Admin-Menü
+		panelEntfernen();
+	}
 
 	/**
 	 * Entfernt den Dialog (JPanel) aus der Hauptview
 	 */
 	public void panelEntfernen() {
-		hauptView.getJMenuBar().setVisible(true); // Nach der Anmeldung soll die Menubar wieder sichtbar sein
 		hauptView.getContentPane().removeAll();
 		hauptView.validate();
 		hauptView.setVisible(true);

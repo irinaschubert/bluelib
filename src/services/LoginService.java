@@ -1,28 +1,33 @@
 package services;
 
-import dao.AutorDAO;
 import dao.MitarbeiterDAO;
+import domain.EingeloggterMA;
 
 /**
- * @version 0.1 16.10.2018
+ * @version 1.0 08.11.2018
  * @author irina
  *
  */
 public class LoginService {
 
-	public LoginService() {}
-	
+	public LoginService() {
+	}
+
 	public Verifikation loginPruefen(String name, String pw) {
 		Verifikation v = new Verifikation();
-		if (new MitarbeiterDAO().loginPruefung(name, pw)) {
+		MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+		int id = mitarbeiterDAO.loginPruefung(name, pw);
+		if (id > -1) {
 			v.setAktionErfolgreich(true);
-			v.setNachricht("Willkommmen");
-		}
-		else {
+
+			// Erstellen der Singleton-Instanz und übergeben des Mitareiterobjektes
+			EingeloggterMA eingeloggterMA = EingeloggterMA.getInstance();
+			eingeloggterMA.setMitarbeiter(mitarbeiterDAO.findById(id));
+		} else {
 			v.setAktionErfolgreich(false);
 			v.setNachricht("Das Login war nicht erfolgreich");
 		}
-		
+
 		return v;
 	}
 }

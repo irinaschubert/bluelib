@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
 /**
  * 
  * Die Klasse stellt die View mit den Menübefehlen bereit
@@ -15,19 +16,19 @@ import javax.swing.JMenuItem;
  *
  */
 public class HauptView extends JFrame {
-	private JMenu ausleiheM = new JMenu("Ausleihe");
+	private JMenuItem ausleiheM = new JMenu("Ausleihe");
 	private JMenuItem ausleiheAusleiheM = new JMenuItem("Ausleihe");
 	private JMenuItem ausleiheRueckgabeM = new JMenuItem("Rückgabe");
-	private JMenu medienM = new JMenu("Medien");
+	private JMenuItem medienM = new JMenu("Medien");
 	private JMenuItem medienBuchM = new JMenuItem("Buch");
 	private JMenuItem medienAutorM = new JMenuItem("Autor");
 	private JMenuItem medienVerlagM = new JMenuItem("Verlag");
-	private JMenu benutzerM = new JMenu("Benutzer");
+	private JMenuItem benutzerM = new JMenu("Benutzer");
 	private JMenuItem benutzerBenutzerM = new JMenuItem("Benutzer");
 	private JMenuItem benutzerLeihlisteM = new JMenuItem("Leihliste");
-	private JMenu auswertungM = new JMenu("Auswertung");
-	private JMenu inventurM = new JMenu("Inventur");
-	private JMenu administrationM = new JMenu("Administration");
+	private JMenuItem auswertungM = new JMenu("Auswertung");
+	private JMenuItem inventurM = new JMenu("Inventur");
+	private JMenuItem administrationM = new JMenu("Administration");
 	private JMenuItem administrationMitarbeiterM = new JMenuItem("Mitarbeiter");
 	private JMenuItem administrationSchagworteM = new JMenuItem("Schlagworte");
 	private JMenuItem administrationStammdatenM = new JMenuItem("Stammdaten");
@@ -53,13 +54,13 @@ public class HauptView extends JFrame {
 		return menuBar;
 	}
 
-	private JMenu erstelleAusleiheMenu() {
+	private JMenuItem erstelleAusleiheMenu() {
 		ausleiheM.add(ausleiheAusleiheM);
 		ausleiheM.add(ausleiheRueckgabeM);
 		return ausleiheM;
 	}
 
-	private JMenu erstelleMedienMenu() {
+	private JMenuItem erstelleMedienMenu() {
 		medienM.add(medienBuchM);
 		medienM.add(medienAutorM);
 		medienM.add(medienVerlagM);
@@ -67,21 +68,21 @@ public class HauptView extends JFrame {
 
 	}
 
-	private JMenu erstelleBenutzerMenu() {
+	private JMenuItem erstelleBenutzerMenu() {
 		benutzerM.add(benutzerBenutzerM);
 		benutzerM.add(benutzerLeihlisteM);
 		return benutzerM;
 	}
 
-	private JMenu erstelleAuswertungMenu() {
+	private JMenuItem erstelleAuswertungMenu() {
 		return auswertungM;
 	}
 
-	private JMenu erstelleInventurMenu() {
+	private JMenuItem erstelleInventurMenu() {
 		return inventurM;
 	}
 
-	private JMenu erstelleAdministrationMenu() {
+	private JMenuItem erstelleAdministrationMenu() {
 		administrationM.add(administrationMitarbeiterM);
 		administrationM.add(administrationSchagworteM);
 		administrationM.add(administrationStammdatenM);
@@ -92,7 +93,7 @@ public class HauptView extends JFrame {
 		return beendenM;
 	}
 
-	public JMenu getAusleiheM() {
+	public JMenuItem getAusleiheM() {
 		return ausleiheM;
 	}
 
@@ -116,11 +117,11 @@ public class HauptView extends JFrame {
 		this.ausleiheRueckgabeM = ausleiheRueckgabeM;
 	}
 
-	public JMenu getMedienM() {
+	public JMenuItem getMedienM() {
 		return medienM;
 	}
 
-	public void setMedienM(JMenu medienM) {
+	public void setMedienM(JMenuItem medienM) {
 		this.medienM = medienM;
 	}
 
@@ -148,11 +149,11 @@ public class HauptView extends JFrame {
 		this.medienVerlagM = medienVerlagM;
 	}
 
-	public JMenu getBenutzerM() {
+	public JMenuItem getBenutzerM() {
 		return benutzerM;
 	}
 
-	public void setBenutzerM(JMenu benutzerM) {
+	public void setBenutzerM(JMenuItem benutzerM) {
 		this.benutzerM = benutzerM;
 	}
 
@@ -172,27 +173,27 @@ public class HauptView extends JFrame {
 		this.benutzerLeihlisteM = benutzerLeihlisteM;
 	}
 
-	public JMenu getAuswertungM() {
+	public JMenuItem getAuswertungM() {
 		return auswertungM;
 	}
 
-	public void setAuswertungM(JMenu auswertungM) {
+	public void setAuswertungM(JMenuItem auswertungM) {
 		this.auswertungM = auswertungM;
 	}
 
-	public JMenu getInventurM() {
+	public JMenuItem getInventurM() {
 		return inventurM;
 	}
 
-	public void setInventurM(JMenu inventurM) {
+	public void setInventurM(JMenuItem inventurM) {
 		this.inventurM = inventurM;
 	}
 
-	public JMenu getAdministrationM() {
+	public JMenuItem getAdministrationM() {
 		return administrationM;
 	}
 
-	public void setAdministrationM(JMenu administrationM) {
+	public void setAdministrationM(JMenuItem administrationM) {
 		this.administrationM = administrationM;
 	}
 
@@ -224,10 +225,9 @@ public class HauptView extends JFrame {
 		return beendenM;
 	}
 
-	public void setBeendenM(JMenu beendenM) {
+	public void setBeendenM(JMenuItem beendenM) {
 		this.beendenM = beendenM;
 	}
-
 
 	public void setMenuBar(JMenuBar menuBar) {
 		this.menuBar = menuBar;
