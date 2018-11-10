@@ -9,15 +9,14 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class HashRechner {
 	
-	String hash;
+
 	
-	public HashRechner() {
-		hash = new String();
-	}
-	
-	public String hashBerechnen(String eingabe) {
-		hash = DigestUtils.md5Hex(eingabe);
-		return hash;
+	public static String hashBerechnen(String eingabe) {
+		String returnValue = null;
+		if (!eingabe.isEmpty()) {
+			returnValue = DigestUtils.md5Hex(eingabe);
+		}
+		return returnValue;
 	}
 
 }

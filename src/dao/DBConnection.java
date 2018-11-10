@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 public final class DBConnection {
 
 	private static final DBConnection INSTANCE = new DBConnection();
+	private String dbConnectionString;
+	DBConnectionInfo dbConnectionInfo;
 	private DBConnection() {
 		
 		try {
@@ -28,6 +30,8 @@ public final class DBConnection {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
+		dbConnectionInfo = DBConnectionInfo.getInstance();
 		
 	}
 	
@@ -37,7 +41,7 @@ public final class DBConnection {
 
 	public  Connection getDBConnection() throws SQLException {
 
-		return DriverManager.getConnection(DBConnectionInfo.getConnString());
+		return DriverManager.getConnection(dbConnectionInfo.getConnString());
 	}
 
 	public void closeConnection(Connection conn) throws SQLException {
