@@ -37,10 +37,10 @@ COMMIT;
 -- ----------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Mike', 'abcd', 1, 1);
-INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Ueli', 'abcd', 1, 1);
-INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Irina', 'abcd', 1, 1);
-INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Tamara', 'abcd', 1, 0);
+INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Mike', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
+INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Ueli', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
+INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Irina', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
+INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Tamara', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
 COMMIT;
 -- -----------------
 -- Data for Person
