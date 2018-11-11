@@ -83,11 +83,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 
 			}
 			if (domainObject.getPasswort() != null) {
-				// TODO Hashwert muss in der DB noch eingetragen werden, sonst ist ein Login
-				// nicht möglich
-//					pstmt.setString(pCounter++,HashRechner.hashBerechnen(domainObject.getBenutzername()));
-				// TODO Auto-generated method stub
-				pstmt.setString(pCounter++, domainObject.getBenutzername());
+				pstmt.setString(pCounter++,HashRechner.hashBerechnen(domainObject.getBenutzername()));
 
 			}
 			pstmt.setBoolean(pCounter++, domainObject.isAktiv());
@@ -194,10 +190,8 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(pCounter++, benutzername);
-			// TODO Hashwert muss in der DB noch eingetragen werden, sonst ist ein Login
-			// nicht möglich
-//				pstmt.setString(pCounter++, HashRechner.hashBerechnen(passwort));
-			pstmt.setString(pCounter++, passwort);
+			pstmt.setString(pCounter++, HashRechner.hashBerechnen(passwort));
+
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
