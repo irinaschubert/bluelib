@@ -9,9 +9,15 @@ public class Ort {
 	private int id;
 	private int plz;
 	private String ort;
-    
+	
 	public Ort() {
     	this.id = 0;
+    	this.plz = 0;
+    	this.ort = "";
+    }
+    
+	public Ort(int id) {
+    	this.id = id;
     	this.plz = 0;
     	this.ort = "";
     }

@@ -74,7 +74,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				//+ (domainObject.getErfassungMitarbeiter() != null ? ",? ":"")
 				//+ ",?)";
 				+ ")";
-		System.out.println(sql);
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -121,7 +120,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				}*/
 				argCounter++;
 				//pstmt.setInt(argCounter,domainObject.getMitarbeiterStatus());
-				System.out.println(pstmt);
 				
 				pstmt.executeUpdate();
 				
@@ -247,7 +245,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					sql = sql + " ?";
 					whereCounter++;
 				}
-				
 				if (domainObject.getVorname() != null) {
 					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" vorname");
@@ -255,7 +252,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					sql = sql + " ?";
 					whereCounter++;
 				}
-				
 				if (domainObject.getAdresse() != null) {
 					Adresse adresse = domainObject.getAdresse();
 					String strasseNr = adresse.getStrasse();
@@ -293,7 +289,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					pCounter++;
 				}
 				if (domainObject.getAdresse() != null) {
-					System.out.println("allo");
 					Adresse adresse = domainObject.getAdresse();
 					String strasseNr = adresse.getStrasse();
 					Ort ort = adresse.getOrt();	
@@ -343,13 +338,11 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 		Benutzer a = new Benutzer();
 		ResultSet rs = null;
 		String sql = "SELECT "
-				+ "id, "
-				+ "nachname, "
-				+ "vorname "
+				+ "id, vorname, nachname, strasseUndNr, ort_id, geburtstag, "
+				+ "telefon, email, bemerkung, erfassungsdatum, person_id, anrede_id "
 				+ "FROM person "
 				+ "WHERE id = ?";
 			try {
-				
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1,id);
@@ -358,6 +351,14 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setId(rs.getInt(1));
 					 a.setName(rs.getString(2));
 					 a.setVorname(rs.getString(3));
+					 a.setAdresse(new Adresse(rs.getString(4), new Ort(rs.getInt(5))));
+					 a.setGeburtsdatum(rs.getDate(6));
+					 a.setTelefon(rs.getString(7));
+					 a.setEmail(rs.getString(8));
+					 a.setBemerkung(rs.getString(9));
+					 a.setErfassungDatum(rs.getDate(10));
+					 //a.setErfassungMitarbeiter(rs.getInt(11));
+					 a.setAnrede(rs.getInt(12));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

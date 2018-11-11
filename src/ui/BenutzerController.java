@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import dao.BenutzerDAO;
 import dao.OrtDAO;
 import domain.Adresse;
 import domain.Anrede;
@@ -182,7 +183,6 @@ public class BenutzerController {
 		if (!benutzerView.getNachnameT().getText().isEmpty()) {
 			b.setName(benutzerView.getNachnameT().getText());
 		}
-		// TODO Adresse alle Felder
 		if (!benutzerView.getStrasseNrT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrT().getText();
 			Ort plzSelected = (Ort) benutzerView.getPlzCbx().getSelectedItem();
@@ -247,7 +247,7 @@ public class BenutzerController {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
 		// TODO Trennen von Suche nach Strasse/Nr und PLZ/Ort
-		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty() && !benutzerView.getOrtSucheT().getText().isEmpty()) {
+		if (!benutzerView.getOrtSucheT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrSucheT().getText();
 			Ort plzSelected = (Ort) benutzerView.getPlzSucheCbx().getSelectedItem();
 			int ortId = plzSelected.getId();
@@ -271,9 +271,11 @@ public class BenutzerController {
 	}
 
 	private void uebernehmen() {
+		felderLeeren();
 		Benutzer benutzer = new Benutzer();
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		benutzer = tableModelBenutzer.getGeklicktesObjekt(benutzerView.getBenutzerTabelle().getSelectedRow());
-		benutzerView.getPKT().setText(Integer.toString(benutzer.getId()));
+		benutzer = benutzerDAO.findById(benutzer.getId());
 		benutzerView.getNachnameT().setText(benutzer.getName());
 		benutzerView.getVornameT().setText(benutzer.getVorname());
 		if(benutzer.getAdresse() != null) {
@@ -380,6 +382,7 @@ public class BenutzerController {
 		
 		PlzRenderer plzR = new PlzRenderer();
 		benutzerView.getPlzCbx().setRenderer(plzR);
+		benutzerView.getPlzCbx().addItem(new Ort(0, 0));
 		benutzerView.getPlzCbx().addItem(new Ort(1, 1000));
 		benutzerView.getPlzCbx().addItem(new Ort(2, 1003));
 		benutzerView.getPlzCbx().addItem(new Ort(3, 1004));
@@ -389,6 +392,7 @@ public class BenutzerController {
 		
 		PlzSucheRenderer plzSucheR = new PlzSucheRenderer();
 		benutzerView.getPlzSucheCbx().setRenderer(plzSucheR);
+		benutzerView.getPlzSucheCbx().addItem(new Ort(0, 0));
 		benutzerView.getPlzSucheCbx().addItem(new Ort(1, 1000));
 		benutzerView.getPlzSucheCbx().addItem(new Ort(2, 1003));
 		benutzerView.getPlzSucheCbx().addItem(new Ort(3, 1004));
