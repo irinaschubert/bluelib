@@ -53,7 +53,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ ",nachname"
 				+ ",anrede_id "
 				+ ",strasseUndNr "
-				+ ",ort_id " // left join ort on person.ort_id = ort.id
+				+ ",ort_id "
 				+ (domainObject.getBemerkung() != null ? ",bemerkung ":"")
 				+ ",statusPers_id "
 				+ (domainObject.getGeburtsdatum() != null ? ",geburtstag ":"")
@@ -87,8 +87,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				pstmt.setString(argCounter,strasseNr);
 				argCounter++;
 				pstmt.setInt(argCounter,ortId);
-				//argCounter++;
-				//pstmt.setString(argCounter,ortString); // argCounter = 6
 				if (domainObject.getBemerkung() != null) {
 					argCounter++;
 					pstmt.setString(argCounter,domainObject.getBemerkung());
@@ -137,37 +135,85 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
              if(rs != null) rs.close();
              if(pstmt != null) pstmt.close();
              if(conn != null) conn.close();
-         } catch(Exception ex){}
-     }
-			return b;
+        } catch(Exception ex){}
+    }
+	return b;
 	}
 	
 
 	@Override
 	public Benutzer update(Benutzer domainObject) {
+		Adresse adresse = domainObject.getAdresse();
+		String strasseNr = adresse.getStrasse();
+		Ort ort = adresse.getOrt();	
+		int ortId = ort.getId();
+		String ortString = ort.getOrt();
+		int plzInt = ort.getPlz();
 		ResultSet rs = null;
 		Benutzer a = new Benutzer();
-		String sql = "UPDATE benutzer SET "
+		String sql = "UPDATE person SET "
 				+ "vorname = ? "
 				+ ",nachname = ? "
-				+ ",geburtsdatum = ?"
-				+ ",todesdatum = ? "
-				+ ",geloescht = ?"
+				+ ",anrede_id = ? "
+				+ ",strasseUndNr = ? "
+				+ ",ort_id = ? "
+				+ ",bemerkung = ? "
+				+ ",statusPers_id = ? "
+				+ ",geburtstag = ? "
+				+ ",telefon = ? "
+				+ ",email = ? "
+				+ ",erfassungsdatum = ? "
 				+ " WHERE id = ?";
+				//+ (domainObject.getErfassungMitarbeiter() != null ? ",person_id ":"") // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
+				//+ ",mitarbeiter_id " // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
+				
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1,domainObject.getVorname());
 				pstmt.setString(2,domainObject.getName());
-				
-				if (domainObject.getGeburtsdatum() != null) {
-				pstmt.setDate(3,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
+				pstmt.setInt(3,domainObject.getAnrede());
+				if(domainObject.getAdresse() != null){
+					pstmt.setString(4,strasseNr);
+					pstmt.setInt(5,ortId);
 				}
 				else {
-					pstmt.setNull(3,java.sql.Types.DATE);
+					pstmt.setString(4,"");
+					pstmt.setInt(5,0);
 				}
-				pstmt.setInt(5, domainObject.getMitarbeiterStatus());
-				pstmt.setInt(6,  domainObject.getId());
+				if(domainObject.getBemerkung() != null) {
+					pstmt.setString(6,domainObject.getBemerkung());
+				}
+				else {
+					pstmt.setString(6,"");
+				}
+				pstmt.setInt(7,domainObject.getBenutzerStatus());
+				if (domainObject.getGeburtsdatum() != null) {
+					pstmt.setDate(8,DateConverter.convertJavaDateToSQLDateN(domainObject.getGeburtsdatum()));
+				}
+				else {
+					pstmt.setNull(8,java.sql.Types.DATE);
+				}
+				if (domainObject.getTelefon() != null) {
+					pstmt.setString(9, domainObject.getTelefon());
+				}
+				else {
+					pstmt.setString(9,"");
+				}
+				if (domainObject.getEmail() != null) {
+					pstmt.setString(10,  domainObject.getEmail());
+				}
+				else {
+					pstmt.setString(10,"");
+				}
+				if (domainObject.getErfassungDatum() != null) {
+					pstmt.setDate(11,DateConverter.convertJavaDateToSQLDateN(domainObject.getErfassungDatum()));
+				}
+				else {
+					pstmt.setNull(11,java.sql.Types.DATE);
+				}
+				pstmt.setInt(12,  domainObject.getId());
+				System.out.println(pstmt);
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					a = domainObject;
@@ -185,28 +231,24 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
              if(conn != null) conn.close();
          } catch(Exception ex){}
      }
-			
 		return a;
 	}
 	
-
 	@Override
 	public boolean delete(Benutzer domainObject) {
 		ResultSet rs = null;
 		boolean geloescht = false;
 		String sql = "DELETE FROM "
-				+ "benutzer "
+				+ "person "
 				+ "WHERE id = ?";
-			try {
-				
+			try {		
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, domainObject.getId());
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					geloescht = true;
-				}
-								
+				}				
 			}
 	  catch (SQLException e) {
            e.printStackTrace();
@@ -217,11 +259,9 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
              if(conn != null) conn.close();
          } catch(Exception ex){}
      }
-			
 		return geloescht;
 	}
 	
-
 	@Override
 	public List<Benutzer> getSelektion(Benutzer domainObject) {
 		ResultSet rs = null;
@@ -339,7 +379,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 		ResultSet rs = null;
 		String sql = "SELECT "
 				+ "id, vorname, nachname, strasseUndNr, ort_id, geburtstag, "
-				+ "telefon, email, bemerkung, erfassungsdatum, person_id, anrede_id "
+				+ "telefon, email, bemerkung, erfassungsdatum, person_id, anrede_id, statusPers_id "
 				+ "FROM person "
 				+ "WHERE id = ?";
 			try {
@@ -359,6 +399,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setErfassungDatum(rs.getDate(10));
 					 //a.setErfassungMitarbeiter(rs.getInt(11));
 					 a.setAnrede(rs.getInt(12));
+					 a.setBenutzerStatus(rs.getInt(13));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -373,7 +414,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 			}
 			return a;
 	}
-
 
 	@Override
 	public List<Benutzer> findAll() {

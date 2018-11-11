@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
+import dao.BenutzerDAO;
 import domain.Adresse;
 import domain.Benutzer;
 import domain.Ort;
@@ -68,9 +69,11 @@ public class TableModelBenutzer extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Benutzer b = benutzerListe.get(rowIndex);
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
+		Benutzer a = benutzerListe.get(rowIndex);
+		Benutzer b = benutzerDAO.findById(a.getId());
 		Object returnWert = new Object();
-
+		
 		switch (columnIndex) {
 		case 0:
 			returnWert = b.getId();
@@ -86,16 +89,34 @@ public class TableModelBenutzer extends AbstractTableModel {
 			if(b.getAdresse() != null) {
 				Adresse adresse = b.getAdresse();
 				String strasseNr = adresse.getStrasse();
-				//Ort ort = adresse.getOrt();	
-				//String ortString = ort.getOrt();
-				//int plzInt = ort.getPlz();
 				returnWert = strasseNr;
 			}
 			else {returnWert = "";}
 			break;
 		case 4:
+			if(b.getAdresse() != null) {
+				Adresse adresse = b.getAdresse();
+				Ort ort = adresse.getOrt();	
+				String ortString = ort.getOrt();
+				int plz = ort.getPlz();
+				returnWert = new String(plz + " " + ortString);
+			}
+			else {returnWert = "";}
+		case 5:
 			//TODO
-			int s = b.getBenutzerStatus();
+			String s = Integer.toString(b.getBenutzerStatus());
+			if(s.equals("1")) {
+				returnWert = "Aktiv";
+			}
+			if(s.equals("2")) {
+				returnWert = "Gesperrt";
+			}
+			if(s.equals("3")) {
+				returnWert = "Gelöscht";
+			}
+			else {
+				returnWert = "";
+			}
 			returnWert = s;
 			break;
 		}

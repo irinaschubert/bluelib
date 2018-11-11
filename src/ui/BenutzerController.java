@@ -276,6 +276,7 @@ public class BenutzerController {
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		benutzer = tableModelBenutzer.getGeklicktesObjekt(benutzerView.getBenutzerTabelle().getSelectedRow());
 		benutzer = benutzerDAO.findById(benutzer.getId());
+		benutzerView.getPKT().setText(Integer.toString(benutzer.getId()));
 		benutzerView.getNachnameT().setText(benutzer.getName());
 		benutzerView.getVornameT().setText(benutzer.getVorname());
 		if(benutzer.getAdresse() != null) {
