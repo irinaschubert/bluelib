@@ -126,9 +126,10 @@ public class BenutzerController {
 		ActionListener plzCbxSucheListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox c = (JComboBox) e.getSource();
-				Ort ort = (Ort) c.getSelectedItem();
+				int ortId = c.getSelectedIndex();
 				OrtDAO ortDAO = new OrtDAO();
-				Ort ortFromDao = ortDAO.findById(ort.getId());
+				Ort ortFromDao = ortDAO.findById(ortId);
+				Ort ort = new Ort();
 				ort.setId(ortFromDao.getId());
 				ort.setPlz(ortFromDao.getPlz());
 				ort.setOrt(ortFromDao.getOrt());
@@ -141,9 +142,10 @@ public class BenutzerController {
 		ActionListener plzCbxListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox c = (JComboBox) e.getSource();
-				Ort ort = (Ort) c.getSelectedItem();
+				int ortId = c.getSelectedIndex();
 				OrtDAO ortDAO = new OrtDAO();
-				Ort ortFromDao = ortDAO.findById(ort.getId());
+				Ort ortFromDao = ortDAO.findById(ortId);
+				Ort ort = new Ort();
 				ort.setId(ortFromDao.getId());
 				ort.setPlz(ortFromDao.getPlz());
 				ort.setOrt(ortFromDao.getOrt());
@@ -246,13 +248,15 @@ public class BenutzerController {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
 		// TODO Trennen von Suche nach Strasse/Nr und PLZ/Ort
-		if (!benutzerView.getOrtSucheT().getText().isEmpty()) {
+		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrSucheT().getText();
-			Ort plzSelected = (Ort) benutzerView.getPlzSucheCbx().getSelectedItem();
-			int ortId = plzSelected.getId();
-			int plz = plzSelected.getPlz();
-			String ortString = benutzerView.getOrtSucheT().getText();
-			Ort ort = new Ort(ortId, plz, ortString);
+			int plzSelectedId = benutzerView.getPlzSucheCbx().getSelectedIndex();
+			OrtDAO ortDAO = new OrtDAO();
+			Ort ortFromDao = ortDAO.findById(plzSelectedId);
+			Ort ort = new Ort();
+			ort.setId(ortFromDao.getId());
+			ort.setPlz(ortFromDao.getPlz());
+			ort.setOrt(ortFromDao.getOrt());
 			Adresse adresse = new Adresse(strasse, ort);
 			b.setAdresse(adresse);
 		}
@@ -281,9 +285,10 @@ public class BenutzerController {
 		if(benutzer.getAdresse() != null) {
 			Adresse adresse = benutzer.getAdresse();
 			String strasseNr = adresse.getStrasse();
-			int ortId = adresse.getId();
+			Ort ort = adresse.getOrt();
+			int ortId = ort.getId();
 			benutzerView.getStrasseNrT().setText(strasseNr);
-			benutzerView.getPlzCbx().setSelectedIndex(ortId + 1);
+			benutzerView.getPlzCbx().setSelectedIndex(ortId);
 		}
 		if (benutzer.getGeburtsdatum() != null) {
 			benutzerView.getGeburtsdatumT().setText(DateConverter.convertJavaDateToString(benutzer.getGeburtsdatum()));

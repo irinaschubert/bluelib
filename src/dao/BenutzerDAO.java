@@ -298,6 +298,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					sql = sql + (SQLHelfer.likePruefung(strasseNr)?" LIKE": " =");
 					sql = sql + " ?";
 					whereCounter++;
+				}
+				if (domainObject.getAdresse() != null) {
 					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" ort_id = ");
 					sql = sql + " ?";
@@ -358,6 +360,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 	@Override
 	public Benutzer findById(int id) {
 		Benutzer a = new Benutzer();
+		OrtDAO ortDao = new OrtDAO();
 		ResultSet rs = null;
 		String sql = "SELECT "
 				+ "id, vorname, nachname, strasseUndNr, ort_id, geburtstag, "
@@ -373,7 +376,10 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setId(rs.getInt(1));
 					 a.setVorname(rs.getString(2));
 					 a.setName(rs.getString(3));
-					 a.setAdresse(new Adresse(rs.getString(4), new Ort(rs.getInt(5))));
+					 Ort ort = ortDao.findById(rs.getInt(5));
+					 int plz = ort.getPlz();
+					 String ortString = ort.getOrt();
+					 a.setAdresse(new Adresse(rs.getString(4), new Ort(rs.getInt(5), plz, ortString)));
 					 a.setGeburtsdatum(rs.getDate(6));
 					 a.setTelefon(rs.getString(7));
 					 a.setEmail(rs.getString(8));
