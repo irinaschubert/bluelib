@@ -57,7 +57,6 @@ public class BenutzerService {
 	
 	public Verifikation sichereBenutzer(Benutzer benutzer) {
 		Verifikation v = new Verifikation();
-		
 		if (new BenutzerDAO().save(benutzer) != null) {
 			v.setAktionErfolgreich(true);
 			v.setNachricht("Der Benutzer "

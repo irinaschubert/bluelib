@@ -8,18 +8,11 @@ package domain;
 public class Anrede {
 	
 	private int id;
-	private String bezeichnung;
-	final static public int FRAU = 2;
-	final static public int HERR = 1;
-	
+	private String bezeichnung;	
 
-	public Anrede() {
-		
-	}
-	
-	public static String[] getAnreden() {
-		String[] anreden = {"Frau", "Herr"};
-		return anreden;
+	public Anrede(int id, String bezeichnung) {
+		this.id = id;
+		this.bezeichnung = bezeichnung;
 	}
 
 	public int getId() {

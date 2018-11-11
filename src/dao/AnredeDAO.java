@@ -64,36 +64,7 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 
 	@Override
 	public List<Anrede> findAll() {
-
-		String sql = "SELECT * "
-				+ "FROM anrede";
-	
-			try {
-				
-				dbConnection = DBConnection.getInstance();
-				conn = dbConnection.getDBConnection();
-				pstmt = conn.prepareStatement(sql);
-				mRS = pstmt.executeQuery();
-				while(mRS.next()) {
-					 Anrede a = new Anrede();
-					 a.setId(mRS.getInt(1));
-					 a.setBezeichnung(mRS.getString(2));
-					 anredeListe.add(a);}
-				pstmt.executeQuery();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			finally {
-						try {
-							dbConnection.closeConnection(conn);
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-			
-			}
-			
-			return anredeListe;
+		return null;
 	}
 
 	

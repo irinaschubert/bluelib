@@ -26,7 +26,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import domain.Anrede;
+import domain.Ort;
 import domain.Status;
+import dao.OrtDAO;
 
 /**
  * Zeigt alle Benutzer an und ermoeglicht die Erfassung neuer Benutzer
@@ -36,10 +38,14 @@ import domain.Status;
  *
  */
 public class BenutzerView {
+	private OrtDAO ortDAO;
+	private PlzRenderer plzR;
+	private PlzSucheRenderer plzSucheR;
+	private AnredeRenderer anredeR;
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
-	JPanel benutzerNeuBearbeitenPanel;
-	JPanel benutzerSuchenPanel;
+	private JPanel benutzerNeuBearbeitenPanel;
+	private JPanel benutzerSuchenPanel;
 	private JPanel benutzerListe;
 	private JPanel centerPanel;
 	
@@ -72,7 +78,6 @@ public class BenutzerView {
 	private JTextField vornameT;
 	private JTextField nachnameT;
 	private JTextField strasseNrT;
-	private JTextField plzT;
 	private JTextField ortT;
 	private JTextField geburtsdatumT;
 	private JTextField telT;
@@ -80,6 +85,7 @@ public class BenutzerView {
 	private JTextField bemerkungT;
 	private JTextField erfasstVonT;
 	private JTextField erfasstAmT;
+	private JComboBox plzCbx;
 	private JComboBox anredeCbx;
 	private JComboBox statusCbx;
 	private JCheckBox mitarbeiterCbx;
@@ -88,8 +94,8 @@ public class BenutzerView {
 	private JTextField vornameSucheT;
 	private JTextField nachnameSucheT;
 	private JTextField strasseNrSucheT;
-	private JTextField plzSucheT;
 	private JTextField ortSucheT;
+	private JComboBox plzSucheCbx;
 	private JComboBox statusSucheCbx;
 	
 	private JButton suchButton;
@@ -128,7 +134,7 @@ public class BenutzerView {
 		frame = new JFrame("BlueLib");
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(600, 800);
+		frame.setSize(800, 800);
 		frame.setVisible(true);
 
 		frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
@@ -156,7 +162,6 @@ public class BenutzerView {
 		strasseNrL = new JLabel();
 		strasseNrT = new JTextField();
 		plzL = new JLabel();
-		plzT = new JTextField();
 		ortL = new JLabel();
 		ortT = new JTextField();
 		geburtsdatumL = new JLabel();
@@ -177,9 +182,14 @@ public class BenutzerView {
 		statusCbx = new JComboBox(Status.getStatus());
 		statusCbx.setSelectedIndex(0);
 		anredeL = new JLabel();
-		anredeCbx = new JComboBox(Anrede.getAnreden());
+		anredeCbx = new JComboBox();
+		anredeR = new AnredeRenderer();
+		anredeCbx.setRenderer(anredeR);
+		anredeCbx.addItem(new Anrede(1, "Herr"));
+		anredeCbx.addItem(new Anrede(2, "Frau"));
 		anredeCbx.setSelectedIndex(0);
-		
+		plzCbx = new JComboBox();
+				
         // Formularfelder
         formularHelfer.addLabel(PKL, benutzerNeuBearbeitenPanel);
         Dimension PKFeldgroesse = PKT.getPreferredSize();
@@ -199,17 +209,17 @@ public class BenutzerView {
         formularHelfer.addLabel(strasseNrL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(strasseNrT, benutzerNeuBearbeitenPanel);
 
-        formularHelfer.addLabel(ortL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addMiddleField(ortT, benutzerNeuBearbeitenPanel);
+        formularHelfer.addLabel(plzL, benutzerNeuBearbeitenPanel);
+        formularHelfer.addMiddleField(plzCbx, benutzerNeuBearbeitenPanel);
         
-        JPanel plzPanel = new JPanel();
-        plzPanel.setLayout(new GridBagLayout());
-        formularHelfer.addLabel(plzL, plzPanel);
-        Dimension plzFeldgroesse = plzT.getPreferredSize();
-        plzFeldgroesse.width = 80;
-        plzT.setPreferredSize(plzFeldgroesse);
-        formularHelfer.addLabel(plzT, plzPanel);
-        formularHelfer.addLabel(plzPanel, benutzerNeuBearbeitenPanel);
+        JPanel ortPanel = new JPanel();
+        ortPanel.setLayout(new GridBagLayout());
+        formularHelfer.addLabel(ortL, ortPanel);
+        Dimension ortFeldgroesse = ortT.getPreferredSize();
+        ortFeldgroesse.width = 350;
+        ortT.setPreferredSize(ortFeldgroesse);
+        formularHelfer.addLabel(ortT, ortPanel);
+        formularHelfer.addLabel(ortPanel, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(new JPanel(), benutzerNeuBearbeitenPanel);
         
         formularHelfer.addLabel(geburtsdatumL, benutzerNeuBearbeitenPanel);
@@ -260,12 +270,13 @@ public class BenutzerView {
 		strasseNrSucheL = new JLabel();
 		strasseNrSucheT = new JTextField();
 		plzSucheL = new JLabel();
-		plzSucheT = new JTextField();
 		ortSucheL = new JLabel();
 		ortSucheT = new JTextField();
 		statusSucheL = new JLabel();
 		statusSucheCbx = new JComboBox(Status.getStatus());
 		statusSucheCbx.setSelectedIndex(0);
+		ortDAO = new OrtDAO();
+		plzSucheCbx = new JComboBox();
 		
 		// Formularfelder
         formularHelfer.addLabel(PKSucheL, benutzerSuchenPanel);
@@ -286,17 +297,17 @@ public class BenutzerView {
         formularHelfer.addLabel(strasseNrSucheL, benutzerSuchenPanel);
         formularHelfer.addLastField(strasseNrSucheT, benutzerSuchenPanel);
         
-        formularHelfer.addLabel(ortSucheL, benutzerSuchenPanel);
-        formularHelfer.addMiddleField(ortSucheT, benutzerSuchenPanel);
+        formularHelfer.addLabel(plzSucheL, benutzerSuchenPanel);
+        formularHelfer.addMiddleField(plzSucheCbx, benutzerSuchenPanel);
         
-        JPanel plzSuchePanel = new JPanel();
-        plzSuchePanel.setLayout(new GridBagLayout());
-        formularHelfer.addLabel(plzSucheL, plzSuchePanel);
-        Dimension plzSucheFeldgroesse = plzSucheT.getPreferredSize();
-        plzSucheFeldgroesse.width = 80;
-        plzSucheT.setPreferredSize(plzSucheFeldgroesse);
-        formularHelfer.addLabel(plzSucheT, plzSuchePanel);
-        formularHelfer.addLabel(plzSuchePanel, benutzerSuchenPanel);
+        JPanel ortSuchePanel = new JPanel();
+        ortSuchePanel.setLayout(new GridBagLayout());
+        formularHelfer.addLabel(ortSucheL, ortSuchePanel);
+        Dimension ortSucheFeldgroesse = ortSucheT.getPreferredSize();
+        ortSucheFeldgroesse.width = 350;
+        ortSucheT.setPreferredSize(ortSucheFeldgroesse);
+        formularHelfer.addLabel(ortSucheT, ortSuchePanel);
+        formularHelfer.addLabel(ortSuchePanel, benutzerSuchenPanel);
         formularHelfer.addLastField(new JPanel(), benutzerSuchenPanel);
         
         formularHelfer.addLabel(statusSucheL, benutzerSuchenPanel);
@@ -559,14 +570,6 @@ public class BenutzerView {
 		this.strasseNrT = strasseNrT;
 	}
 
-	public JTextField getPlzT() {
-		return plzT;
-	}
-
-	public void setPlzT(JTextField plzT) {
-		this.plzT = plzT;
-	}
-
 	public JTextField getOrtT() {
 		return ortT;
 	}
@@ -622,6 +625,14 @@ public class BenutzerView {
 	public void setErfasstAmT(JTextField erfasstAmT) {
 		this.erfasstAmT = erfasstAmT;
 	}
+	
+	public JComboBox getPlzCbx() {
+		return plzCbx;
+	}
+
+	public void setPlzCbx(JComboBox plzCbx) {
+		this.plzCbx = plzCbx;
+	}
 
 	public JComboBox getStatusCbx() {
 		return statusCbx;
@@ -671,12 +682,12 @@ public class BenutzerView {
 		this.strasseNrSucheT = strasseNrSucheT;
 	}
 
-	public JTextField getPlzSucheT() {
-		return plzSucheT;
+	public JComboBox getPlzSucheCbx() {
+		return plzSucheCbx;
 	}
 
-	public void setPlzSucheT(JTextField plzSucheT) {
-		this.plzSucheT = plzSucheT;
+	public void setPlzSucheCbx(JComboBox plzSucheCbx) {
+		this.plzSucheCbx = plzSucheCbx;
 	}
 
 	public JTextField getOrtSucheT() {
@@ -696,6 +707,10 @@ public class BenutzerView {
 	}
 
 	public JPanel getBenutzerNeuBearbeitenPanel() {
+		return benutzerNeuBearbeitenPanel;
+	}
+	
+	public JPanel getBenutzerSuchenPanel() {
 		return benutzerNeuBearbeitenPanel;
 	}
 
@@ -730,5 +745,4 @@ public class BenutzerView {
 	public void setNeuAendernL(JLabel neuAendernL) {
 		this.neuAendernL = neuAendernL;
 	}
-
 }
