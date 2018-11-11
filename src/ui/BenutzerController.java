@@ -283,7 +283,7 @@ public class BenutzerController {
 			String strasseNr = adresse.getStrasse();
 			int ortId = adresse.getId();
 			benutzerView.getStrasseNrT().setText(strasseNr);
-			benutzerView.getPlzCbx().setSelectedItem(ortId);
+			benutzerView.getPlzCbx().setSelectedIndex(ortId + 1);
 		}
 		if (benutzer.getGeburtsdatum() != null) {
 			benutzerView.getGeburtsdatumT().setText(DateConverter.convertJavaDateToString(benutzer.getGeburtsdatum()));
@@ -303,13 +303,19 @@ public class BenutzerController {
 			benutzerView.getMitarbeiterCbx().setSelected(false);
 		}
         if(benutzer.getBenutzerStatus() == Status.AKTIV) {
-        	benutzerView.getStatusSucheCbx().setSelectedItem("aktiv");
+        	benutzerView.getStatusCbx().setSelectedIndex(0);
         }
         if(benutzer.getBenutzerStatus() == Status.GESPERRT) {
-        	benutzerView.getStatusSucheCbx().setSelectedItem("gesperrt");
+        	benutzerView.getStatusCbx().setSelectedIndex(1);
         }
         if(benutzer.getBenutzerStatus() == Status.GELOESCHT) {
-        	benutzerView.getStatusSucheCbx().setSelectedItem("gelöscht");
+        	benutzerView.getStatusCbx().setSelectedIndex(2);
+        }
+        if(benutzer.getAnrede() == 1) {
+        	benutzerView.getAnredeCbx().setSelectedIndex(0);
+        }
+        if(benutzer.getAnrede() == 2) {
+        	benutzerView.getAnredeCbx().setSelectedIndex(1);
         }
 	}
 

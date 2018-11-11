@@ -173,14 +173,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				pstmt.setString(1,domainObject.getVorname());
 				pstmt.setString(2,domainObject.getName());
 				pstmt.setInt(3,domainObject.getAnrede());
-				if(domainObject.getAdresse() != null){
-					pstmt.setString(4,strasseNr);
-					pstmt.setInt(5,ortId);
-				}
-				else {
-					pstmt.setString(4,"");
-					pstmt.setInt(5,0);
-				}
+				pstmt.setString(4,strasseNr);
+				pstmt.setInt(5,ortId);
 				if(domainObject.getBemerkung() != null) {
 					pstmt.setString(6,domainObject.getBemerkung());
 				}
@@ -212,6 +206,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				else {
 					pstmt.setNull(11,java.sql.Types.DATE);
 				}
+				// TODO ErfassungMA
 				pstmt.setInt(12,  domainObject.getId());
 				int i = pstmt.executeUpdate();
 				if (i>0) {
@@ -345,19 +340,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					Benutzer b = new Benutzer();
-					b.setId(rs.getInt(1));
-					b.setName(rs.getString(2));
-					b.setVorname(rs.getString(3));
-					if(domainObject.getAdresse() != null) {
-						Adresse adresse = domainObject.getAdresse();
-						String strasseNr = adresse.getStrasse();
-						Ort ort = adresse.getOrt();	
-						int ortId = ort.getId();
-						String ortString = ort.getOrt();
-						int plz = ort.getPlz();
-						b.setAdresse(new Adresse(rs.getString(4), new Ort(rs.getInt(5), ortString)));
-					}
-					b.setBenutzerStatus(rs.getInt(6));
+					b = findById(rs.getInt(1));					
 					benutzerListe.add(b);
 					}
 			} catch (SQLException e) {

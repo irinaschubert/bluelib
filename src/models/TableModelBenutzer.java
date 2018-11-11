@@ -70,8 +70,7 @@ public class TableModelBenutzer extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
-		Benutzer a = benutzerListe.get(rowIndex);
-		Benutzer b = benutzerDAO.findById(a.getId());
+		Benutzer b = benutzerDAO.findById(benutzerListe.get(rowIndex).getId());
 		Object returnWert = new Object();
 		
 		switch (columnIndex) {
