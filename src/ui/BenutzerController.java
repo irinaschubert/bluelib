@@ -155,7 +155,8 @@ public class BenutzerController {
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
-		if (benutzerView.getNachnameT().getText().isEmpty() || (benutzerView.getVornameT().getText().isEmpty())) {
+		if (benutzerView.getNachnameT().getText().isEmpty() || (benutzerView.getVornameT().getText().isEmpty())
+				|| benutzerView.getStrasseNrT().getText().isEmpty() || benutzerView.getPlzCbx().getSelectedIndex() == 0) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 			keinInputFehler = false;
 		}
@@ -205,9 +206,7 @@ public class BenutzerController {
 		if (!benutzerView.getBemerkungT().getText().isEmpty()) {
 			b.setBemerkung(benutzerView.getBemerkungT().getText());
 		}
-		if(benutzerView.getMitarbeiterCbx().isSelected()) {
-			b.setMitarbeiterStatus(Status.AKTIV);
-		}
+		// TODO Dropdown richtig aufsetzen (wie PLZ mit Renderer etc.)
 		String auswahlStatusString = (String)benutzerView.getStatusCbx().getSelectedItem();
         if(auswahlStatusString.equals("aktiv")) {
         	b.setBenutzerStatus(Status.AKTIV);

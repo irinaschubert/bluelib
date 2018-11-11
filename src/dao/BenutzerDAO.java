@@ -213,7 +213,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					pstmt.setNull(11,java.sql.Types.DATE);
 				}
 				pstmt.setInt(12,  domainObject.getId());
-				System.out.println(pstmt);
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					a = domainObject;
@@ -389,8 +388,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
 					 a.setId(rs.getInt(1));
-					 a.setName(rs.getString(2));
-					 a.setVorname(rs.getString(3));
+					 a.setVorname(rs.getString(2));
+					 a.setName(rs.getString(3));
 					 a.setAdresse(new Adresse(rs.getString(4), new Ort(rs.getInt(5))));
 					 a.setGeburtsdatum(rs.getDate(6));
 					 a.setTelefon(rs.getString(7));
