@@ -13,7 +13,7 @@ import interfaces.DAOInterface;
 import services.HashRechner;
 
 /**
- * @version 0.1 28.10.2018
+ * @version 1.0 2018-11-10
  * @author Mike
  *
  */
