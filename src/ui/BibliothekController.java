@@ -76,13 +76,20 @@ public class BibliothekController {
 
 		System.out.println(b.getEmail());
 		
-		//bibliothekView.setNameT(b.getName()); //evtl seters in der Biblio View machen
+		bibliothekView.getNameT().setText(b.getName());
+		bibliothekView.getStrasseUndNrT().setText(b.getStrasseUndNr());
+		bibliothekView.getEmailT().setText(b.getEmail());
+		bibliothekView.getTelT().setText(b.getTelefon());
+		//bibliothekView.getLeihfristT().setText(b.getLeihfrist());
+		
+		/*
 		// Wie update dann die View?
 		b.setName(bibliothekView.getNameT().getText());
 		b.setStrasseUndNr(bibliothekView.getStrasseUndNrT().getText());
 		b.setEmail(bibliothekView.getEmailT().getText());
 		b.setTelefon(bibliothekView.getTelT().getText());
 		b.setLeihfrist(Integer.parseInt(bibliothekView.getTelT().getText()));
+		*/
 		
 	}
 
@@ -101,6 +108,6 @@ public class BibliothekController {
 		;
 		bibliothekView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
 		bibliothekView.getButtonPanel().getButton4().setText(ButtonNamen.ABBRECHEN.getName());
-		//biblioitheksFelderFuellen(); //Mehtode muss korigiert werden
+		biblioitheksFelderFuellen(); //Mehtode muss korigiert werden
 	}
 }

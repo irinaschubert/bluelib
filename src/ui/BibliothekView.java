@@ -170,7 +170,7 @@ public class BibliothekView {
 		return leihfristL;
 	}
 
-	public JTextField setLeihfristT() {
+	public JTextField getLeihfristT() {
 		return leihfristT;
 	}
 
