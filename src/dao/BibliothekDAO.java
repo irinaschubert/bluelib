@@ -89,27 +89,20 @@ public class BibliothekDAO implements DAOInterface<Bibliothek> {
 	public Bibliothek findById(int id) {
 		Bibliothek b = new Bibliothek();
 		ResultSet rs = null;
-		String sql = "SELECT " 
-				+ "id, " 
-				+ "name, " 
-				+ "strasseUndNr, " 
-				+ "email, " 
-				+ "telefon, " 
-				+ "leihfrist "
-				+ "FROM stammdaten "
-				+ "WHERE id = ?";
+		String sql = "SELECT " + "id, " + "name, " + "strasseUndNr, " + "email, " + "telefon, " + "leihfrist "
+				+ "FROM stammdaten " + "WHERE id = ?";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				 b.setId(rs.getInt(1));
-				 b.setName(rs.getString(2));
-				 b.setStrasseUndNr(rs.getString(3));
-				 b.setEmail(rs.getString(4));
-				 b.setTelefon(rs.getString(5));
-				 b.setLeihfrist(rs.getInt(6));
+			while (rs.next()) {
+				b.setId(rs.getInt(1));
+				b.setName(rs.getString(2));
+				b.setStrasseUndNr(rs.getString(3));
+				b.setEmail(rs.getString(4));
+				b.setTelefon(rs.getString(5));
+				b.setLeihfrist(rs.getInt(6));
 			}
 
 		} catch (SQLException e) {

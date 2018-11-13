@@ -21,23 +21,7 @@ import ui.PrototypView;
 public class Main {
 
 	public static void main(String[] args) {
-
-//		 SwingUtilities.invokeLater(new Runnable() {
-//	            @Override
-//	            public void run() {                                           
-//	                PrototypView view = new PrototypView("test"); 
-//	                new PrototypController(view);
-//	                
-//	            }
-//	        });  
-		SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {                                           
-	            	BibliothekView view = new BibliothekView("Bibliotheksdaten");
-	            	new BibliothekController(view);	                
-	            }
-	    });  
-
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -46,7 +30,25 @@ public class Main {
 
 			}
 		});
-/*
+		/*
+		 SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {                                           
+	                PrototypView view = new PrototypView("test"); 
+	                new PrototypController(view);
+	                
+	            }
+        });  
+		SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {                                           
+	            	BibliothekView view = new BibliothekView("Bibliotheksdaten");
+	            	new BibliothekController(view);	                
+	            }
+	    });  
+
+		
+
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

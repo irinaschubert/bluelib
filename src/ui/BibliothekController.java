@@ -66,26 +66,28 @@ public class BibliothekController {
 			keinInputFehler = false;
 		}
 		try {
-			Integer.parseInt(bibliothekView.getLeihfristT().getText());			
+			Integer.parseInt(bibliothekView.getLeihfristT().getText());
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, "Üngültige Leihfrist. Bitte eine Zahl zwischen 0 und 365 eingeben");
-			//e.printStackTrace();
+			// e.printStackTrace();
 			keinInputFehler = false;
 			return keinInputFehler;
 		} finally {
-			
+
 		}
-		if (Integer.parseInt(bibliothekView.getLeihfristT().getText()) < 0 || Integer.parseInt(bibliothekView.getLeihfristT().getText()) > 365) {
-			//System.out.println(Integer.parseInt(bibliothekView.getLeihfristT().getText()) >= 0);
+		if (Integer.parseInt(bibliothekView.getLeihfristT().getText()) < 0
+				|| Integer.parseInt(bibliothekView.getLeihfristT().getText()) > 365) {
+			// System.out.println(Integer.parseInt(bibliothekView.getLeihfristT().getText())
+			// >= 0);
 			JOptionPane.showMessageDialog(null, "Üngültige Leihfrist. Die Leihfrist kann von 0 bis 365 Tagen sein");
 			keinInputFehler = false;
-			}
+		}
 		return keinInputFehler;
 	}
 
 	private Bibliothek feldwertezuObjektSpeichern() {
 		Bibliothek b = new Bibliothek();
-		b.setId(1); //Es soll nur ein Objekt geben
+		b.setId(1); // Es soll nur ein Objekt geben
 		b.setName(bibliothekView.getNameT().getText());
 		b.setStrasseUndNr(bibliothekView.getStrasseUndNrT().getText());
 		b.setEmail(bibliothekView.getEmailT().getText());
@@ -93,15 +95,15 @@ public class BibliothekController {
 		b.setLeihfrist(Integer.parseInt(bibliothekView.getLeihfristT().getText()));
 		return b;
 	}
-	
+
 	private void biblioitheksFelderFuellen() {
-		Bibliothek b = normdatenService.bibliothekAnzeigen(); //Bibliothek bestücken
+		Bibliothek b = normdatenService.bibliothekAnzeigen(); // Bibliothek bestücken
 		bibliothekView.getNameT().setText(b.getName());
 		bibliothekView.getStrasseUndNrT().setText(b.getStrasseUndNr());
 		bibliothekView.getEmailT().setText(b.getEmail());
 		bibliothekView.getTelT().setText(b.getTelefon());
 		bibliothekView.getLeihfristT().setText(String.valueOf(b.getLeihfrist()));
-		
+
 	}
 
 	public void initialisieren() {
@@ -112,12 +114,12 @@ public class BibliothekController {
 		bibliothekView.getTelL().setText("Tel.:");
 		bibliothekView.getLeihfristL().setText("Leihfrist:*");
 
-		//bibliothekView.getNameT().setEditable(false);
+		// bibliothekView.getNameT().setEditable(false);
 		bibliothekView.getButtonPanel().getButton1().setVisible(false);
 		bibliothekView.getButtonPanel().getButton2().setVisible(false);
 		bibliothekView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
 		bibliothekView.getButtonPanel().getButton4().setText(ButtonNamen.ABBRECHEN.getName());
-		
+
 		biblioitheksFelderFuellen();
 	}
 }

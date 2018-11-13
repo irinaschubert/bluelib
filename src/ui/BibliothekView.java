@@ -121,7 +121,7 @@ public class BibliothekView {
 	public JLabel getNameL() {
 		return nameL;
 	}
-	
+
 	public JTextField getNameT() {
 		return nameT;
 	}
