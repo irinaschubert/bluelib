@@ -17,6 +17,29 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.util.LinkedHashMap;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -44,13 +67,21 @@ public class BibliothekView {
 	private JTextField telT;
 	private JTextField leihfristT;
 	private LinkedHashMap<JLabel, JComponent> componentTable = new LinkedHashMap<>();
+	private static int HOEHE = 650;
+	private static int BREITE = 500;
 
 	public BibliothekView(String frameTitel) {
-
+		
+		
 		buttonPanel = new StandardButtonPanel();
-		bibliPanel = createBibliothekPanel();
+		
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		centerPanel.add(createBibliothekPanel(), BorderLayout.NORTH);
+		
+		
+		bibliPanel = createBibliothekPanel();
+		
 
 		centerPanel.add(bibliPanel, BorderLayout.SOUTH);
 
@@ -63,6 +94,9 @@ public class BibliothekView {
 		frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
 		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+		
+		
+		//this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
 
 	/**
