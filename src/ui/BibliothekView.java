@@ -49,7 +49,7 @@ import javax.swing.border.EmptyBorder;
  * @author Mike
  *
  */
-public class BibliothekView {
+public class BibliothekView extends JPanel {
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
 	private JPanel bibliPanel;
@@ -71,20 +71,24 @@ public class BibliothekView {
 	private static int BREITE = 500;
 
 	public BibliothekView(String frameTitel) {
-		
-		
+				
 		buttonPanel = new StandardButtonPanel();
 		
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.add(createBibliothekPanel(), BorderLayout.NORTH);
 		
-		
-		bibliPanel = createBibliothekPanel();
-		
+		this.setLayout(new BorderLayout());
+		// Titel des Panels
+		this.add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		centerPanel.add(bibliPanel, BorderLayout.SOUTH);
 
+		//centerPanel.add(bibliPanel, BorderLayout.SOUTH);
+		
+		
+		/*
 		frame = new JFrame("View");
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,8 +99,8 @@ public class BibliothekView {
 		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 		
-		
-		//this.setPreferredSize(new Dimension(BREITE, HOEHE));
+		*/
+		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
 
 	/**
@@ -198,10 +202,6 @@ public class BibliothekView {
 
 	public JTextField getLeihfristT() {
 		return leihfristT;
-	}
-
-	public LinkedHashMap<JLabel, JComponent> getComponents() {
-		return componentTable;
 	}
 
 	public void schliessen() {
