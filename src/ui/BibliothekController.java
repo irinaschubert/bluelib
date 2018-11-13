@@ -67,7 +67,7 @@ public class BibliothekController {
 		b.setStrasseUndNr(bibliothekView.getStrasseUndNrT().getText());
 		b.setEmail(bibliothekView.getEmailT().getText());
 		b.setTelefon(bibliothekView.getTelT().getText());
-		b.setLeihfrist(Integer.parseInt(bibliothekView.getTelT().getText()));
+		b.setLeihfrist(Integer.parseInt(bibliothekView.getLeihfristT().getText()));
 		return b;
 	}
 	
@@ -80,7 +80,7 @@ public class BibliothekController {
 		bibliothekView.getStrasseUndNrT().setText(b.getStrasseUndNr());
 		bibliothekView.getEmailT().setText(b.getEmail());
 		bibliothekView.getTelT().setText(b.getTelefon());
-		//bibliothekView.getLeihfristT().setText(b.getLeihfrist());
+		bibliothekView.getLeihfristT().setText(String.valueOf(b.getLeihfrist()));
 		
 		/*
 		// Wie update dann die View?
