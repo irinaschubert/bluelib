@@ -15,7 +15,6 @@ import ui.PrototypView;
 /**
  * @version 0.1 16.10.2018
  * @author BlueLib
- *
  */
 
 public class Main {
