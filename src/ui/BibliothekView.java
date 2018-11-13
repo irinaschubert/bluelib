@@ -71,35 +71,17 @@ public class BibliothekView extends JPanel {
 	private static int BREITE = 500;
 
 	public BibliothekView(String frameTitel) {
-				
+
 		buttonPanel = new StandardButtonPanel();
-		
+
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.add(createBibliothekPanel(), BorderLayout.NORTH);
-		
+
 		this.setLayout(new BorderLayout());
-		// Titel des Panels
 		this.add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-
-
-		//centerPanel.add(bibliPanel, BorderLayout.SOUTH);
-		
-		
-		/*
-		frame = new JFrame("View");
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(500, 300);
-		frame.setVisible(true);
-
-		frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
-		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
-		frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-		
-		*/
 		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
 
@@ -159,7 +141,7 @@ public class BibliothekView extends JPanel {
 	public JLabel getNameL() {
 		return nameL;
 	}
-	
+
 	public JTextField getNameT() {
 		return nameT;
 	}
