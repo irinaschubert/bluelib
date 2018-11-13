@@ -122,14 +122,6 @@ public class BibliothekView {
 		return nameL;
 	}
 	
-	/*
-	public JTextField setNameL(String name) {
-		this.nameT = name;
-	}
-	*/
-
-	
-
 	public JTextField getNameT() {
 		return nameT;
 	}

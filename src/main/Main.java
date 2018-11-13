@@ -37,7 +37,7 @@ public class Main {
 	            	new BibliothekController(view);	                
 	            }
 	    });  
-
+/*
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -54,6 +54,7 @@ public class Main {
 				new VerlagController(view);
 			}
 		});
+		*/
 	}
 
 }
