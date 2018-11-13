@@ -33,9 +33,11 @@ public class BibliothekController {
 	private BibliothekView bibliothekView;
 	private NormdatenService normdatenService;
 	private Bibliothek bibliothekSuchobjekt;
+	private HauptController hauptController;
 
-	public BibliothekController(BibliothekView view) {
+	public BibliothekController(BibliothekView view, HauptController hauptController) {
 		bibliothekView = view;
+		this.hauptController = hauptController;
 		normdatenService = new NormdatenService();
 		bibliothekSuchobjekt = new Bibliothek();
 		initialisieren();
@@ -57,6 +59,18 @@ public class BibliothekController {
 			}
 		};
 		bibliothekView.getButtonPanel().getButton3().addActionListener(sichernBibliothekActionListener);
+
+		ActionListener schliessenButtonActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				hauptController.panelEntfernen();
+			}
+
+		};
+		// Zuweisen des Actionlisteners zum Schliessen-Button
+		bibliothekView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
+
 	}
 
 	private boolean inputValidierungSpeichern() {

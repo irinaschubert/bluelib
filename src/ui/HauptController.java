@@ -40,7 +40,32 @@ public class HauptController {
 
 		hauptView.getMedienAutorM().addActionListener(autorMenueActionListener());
 		hauptView.getBeendenM().addActionListener(beendenActionLIstener());
+		hauptView.getAdministrationStammdatenM().addActionListener(stammdatenMenuActionListener());
 
+	}
+
+	private ActionListener stammdatenMenuActionListener() {
+		ActionListener stammdatenMenuActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						BibliothekView bibliothekView = new BibliothekView("Bibliotheksdaten");
+						new BibliothekController(bibliothekView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(bibliothekView.getPreferredSize()));
+						hauptView.getContentPane().add(bibliothekView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+
+					}
+				});
+
+			}
+		};
+		return stammdatenMenuActionListener;
 	}
 
 	private ActionListener autorMenueActionListener() {
