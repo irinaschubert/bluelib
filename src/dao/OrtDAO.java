@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import domain.Ort;
 import interfaces.DAOInterface;
@@ -68,8 +69,31 @@ public class OrtDAO implements DAOInterface<Ort> {
 	
 
 	@Override
-	public List<Ort> findAll() {
-		return null;
+	public ArrayList<Ort> findAll() {
+		ArrayList<Ort> ortL = new ArrayList<>();
+		String sql = "SELECT id, plz, ort from ort";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			mRS = pstmt.executeQuery();
+			while(mRS.next()) {
+				Ort o = new Ort();
+				o.setId(mRS.getInt(1));
+				o.setPlz(mRS.getInt(2));
+				o.setOrt(mRS.getString(3));
+				ortL.add(o);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ortL;
 	}
 
 }

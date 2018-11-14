@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 import dao.BenutzerDAO;
 import dao.OrtDAO;
+import dao.StatusDAO;
 import domain.Adresse;
 import domain.Anrede;
 import domain.Benutzer;
@@ -45,11 +46,15 @@ public class BenutzerController {
 	private List<Benutzer> benutzerL;
 	private TableModelBenutzer tableModelBenutzer;
 	private Benutzer benutzerSuchobjekt;
+	private OrtDAO ortDao;
+	private StatusDAO statusDao;
 
 	public BenutzerController(BenutzerView view) {
 		benutzerView = view;
 		benutzerService = new BenutzerService();
 		benutzerL = new ArrayList<>();
+		ortDao = new OrtDAO();
+		statusDao = new StatusDAO();
 		tableModelBenutzer = new TableModelBenutzer();
 		tableModelBenutzer.setAndSortListe(benutzerL);
 		view.getBenutzerTabelle().setModel(tableModelBenutzer);
@@ -241,7 +246,7 @@ public class BenutzerController {
 		if (!benutzerView.getVornameSucheT().getText().isEmpty()) {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
-		if (benutzerView.getPlzSucheCbx().getSelectedIndex() != 0) {
+		if (benutzerView.getPlzSucheCbx().getSelectedIndex() != -1) {
 			Ort plzSelected = (Ort) benutzerView.getPlzSucheCbx().getSelectedItem();
 			OrtDAO ortDAO = new OrtDAO();
 			Ort ortFromDao = ortDAO.findById(plzSelected.getId());
@@ -380,41 +385,41 @@ public class BenutzerController {
 		
 		StatusRenderer statusR = new StatusRenderer();
 		benutzerView.getStatusCbx().setRenderer(statusR);
-		benutzerView.getStatusCbx().addItem(new Status(1,"Aktiv"));
-		benutzerView.getStatusCbx().addItem(new Status(2,"Gesperrt"));
-		benutzerView.getStatusCbx().addItem(new Status(3,"Gelöscht"));
+		for(Status s : statusDao.findAll()) {
+			benutzerView.getStatusCbx().addItem(s);
+		}
 		benutzerView.getStatusCbx().setSelectedIndex(0);
 		
 		StatusSucheRenderer statusSucheR = new StatusSucheRenderer();
 		benutzerView.getStatusSucheCbx().setRenderer(statusSucheR);
 		benutzerView.getStatusSucheCbx().addItem(new Status(0,"alle"));
-		benutzerView.getStatusSucheCbx().addItem(new Status(1,"Aktiv"));
-		benutzerView.getStatusSucheCbx().addItem(new Status(2,"Gesperrt"));
-		benutzerView.getStatusSucheCbx().addItem(new Status(3,"Gelöscht"));
+		for(Status s : statusDao.findAll()) {
+			benutzerView.getStatusSucheCbx().addItem(s);
+		}
 		benutzerView.getStatusSucheCbx().setSelectedIndex(0);
 		
 		PlzRenderer plzR = new PlzRenderer();
 		benutzerView.getPlzCbx().setRenderer(plzR);
-		benutzerView.getPlzCbx().addItem(new Ort(0, 0));
-		benutzerView.getPlzCbx().addItem(new Ort(1, 1000));
-		benutzerView.getPlzCbx().addItem(new Ort(2, 1003));
-		benutzerView.getPlzCbx().addItem(new Ort(3, 1004));
-		benutzerView.getPlzCbx().addItem(new Ort(4, 1005));
+		benutzerView.getPlzCbx().addItem(null);
+		for(Ort o : ortDao.findAll()) {
+			benutzerView.getPlzCbx().addItem(o);
+		}
 		benutzerView.getPlzCbx().setMaximumRowCount(10);
 		benutzerView.getPlzCbx().setSelectedIndex(0);
 		
 		PlzSucheRenderer plzSucheR = new PlzSucheRenderer();
 		benutzerView.getPlzSucheCbx().setRenderer(plzSucheR);
-		benutzerView.getPlzSucheCbx().addItem(new Ort(0, 0));
-		benutzerView.getPlzSucheCbx().addItem(new Ort(1, 1000));
-		benutzerView.getPlzSucheCbx().addItem(new Ort(2, 1003));
-		benutzerView.getPlzSucheCbx().addItem(new Ort(3, 1004));
-		benutzerView.getPlzSucheCbx().addItem(new Ort(4, 1005));
+		benutzerView.getPlzSucheCbx().addItem(null);
+		for(Ort o : ortDao.findAll()) {
+			benutzerView.getPlzSucheCbx().addItem(o);
+		}
 		benutzerView.getPlzSucheCbx().setMaximumRowCount(10);
 		benutzerView.getPlzSucheCbx().setSelectedIndex(0);
 		
 		benutzerView.getSuchButton().setText("Suchen");
 		benutzerView.getPKT().setEditable(false);
+		benutzerView.getOrtT().setEditable(false);
+		benutzerView.getOrtSucheT().setEditable(false);
 		benutzerView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
 		benutzerView.getButtonPanel().getButton2().setVisible(false);
 		benutzerView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());

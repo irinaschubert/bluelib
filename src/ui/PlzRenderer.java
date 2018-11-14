@@ -17,7 +17,11 @@ public class PlzRenderer extends BasicComboBoxRenderer {
 	    }
 	    if (index == -1) {
 	    	Ort ort = (Ort) value;
-	    	setText("" + ort.getPlz());
+	    	if(ort == null) {
+	    		setText("");
+	    	}else {
+	    		setText("" + ort.getPlz());
+	    	}
 	    }
 	    return this;
 	  }

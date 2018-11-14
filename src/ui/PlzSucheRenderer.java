@@ -17,7 +17,11 @@ public class PlzSucheRenderer extends BasicComboBoxRenderer {
 	    }
 	    if (index == -1) {
 	    	Ort ort = (Ort) value;
-	    	setText("" + ort.getPlz());
+	    	if(ort == null) {
+	    		setText("alle");
+	    	}else {
+	    		setText("" + ort.getPlz());
+	    	}
 	    }
 	    return this;
 	  }

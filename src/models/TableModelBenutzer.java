@@ -102,15 +102,15 @@ public class TableModelBenutzer extends AbstractTableModel {
 		case 5:
 			int s = b.getBenutzerStatus();
 			if(s == 1) {
-				returnWert = "Aktiv";
+				returnWert = "aktiv";
 				break;
 			}
 			if(s == 2) {
-				returnWert = "Gesperrt";
+				returnWert = "gesperrt";
 				break;
 			}
 			if(s == 3) {
-				returnWert = "Gelöscht";
+				returnWert = "gelöscht";
 				break;
 			}
 			else {
