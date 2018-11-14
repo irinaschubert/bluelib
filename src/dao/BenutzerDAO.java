@@ -285,7 +285,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				if (domainObject.getAdresse() != null) {
 					Adresse adresse = domainObject.getAdresse();
 					
-					if(adresse.getStrasse() != null || !adresse.getStrasse().equals("") || adresse.getStrasse() != "") {
+					if(!adresse.getStrasse().equals("")) {
 						String strasseNr = adresse.getStrasse();
 						sql = sql + (whereCounter > 1?" AND": " WHERE");
 						sql = sql + (" strasseUndNr");
@@ -322,7 +322,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				}
 				if (domainObject.getAdresse() != null) {
 					Adresse adresse = domainObject.getAdresse();
-					if(adresse.getStrasse() != null || !adresse.getStrasse().equals("") || adresse.getStrasse() != "") {
+					if(!adresse.getStrasse().equals("")) {
 						String strasseNr = adresse.getStrasse();
 						pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(strasseNr));
 						pCounter++;

@@ -243,17 +243,13 @@ public class BenutzerController {
 		}
 		if (benutzerView.getPlzSucheCbx().getSelectedIndex() != 0) {
 			Ort plzSelected = (Ort) benutzerView.getPlzSucheCbx().getSelectedItem();
-			/*System.out.println(plzSelected.getOrt());
 			OrtDAO ortDAO = new OrtDAO();
 			Ort ortFromDao = ortDAO.findById(plzSelected.getId());
 			Ort ort = new Ort();
 			ort.setId(ortFromDao.getId());
 			ort.setPlz(ortFromDao.getPlz());
-			ort.setOrt(ortFromDao.getOrt());*/
-			
-			int ortId = plzSelected.getId();
-			
-			Adresse adresse = new Adresse("", new Ort(ortId));
+			ort.setOrt(ortFromDao.getOrt());
+			Adresse adresse = new Adresse(ortFromDao);
 			b.setAdresse(adresse);
 		}
 		

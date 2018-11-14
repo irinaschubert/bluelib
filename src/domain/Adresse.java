@@ -17,8 +17,10 @@ public class Adresse {
     }
     public Adresse(String strasse) {
     	this.strasse = strasse;
+    	this.ort = new Ort(0,0,"");
     }
     public Adresse(Ort ort) {
+    	this.strasse = "";
     	this.ort = ort;
     }
 
