@@ -10,7 +10,7 @@ import java.util.Date;
 public abstract class Person {
 	
 	private int id;
-	private int anrede;
+	private Anrede anrede;
 	private String name;
 	private String vorname;
 	private Date geburtsdatum;
@@ -33,11 +33,11 @@ public abstract class Person {
 		this.id = id;
 	}
 
-	public int getAnrede() {
+	public Anrede getAnrede() {
 		return anrede;
 	}
 
-	public void setAnrede(int anrede) {
+	public void setAnrede(Anrede anrede) {
 		this.anrede = anrede;
 	}
 

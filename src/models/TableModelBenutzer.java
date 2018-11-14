@@ -100,17 +100,17 @@ public class TableModelBenutzer extends AbstractTableModel {
 			returnWert = new String(plz + " " + ortString);
 			break;
 		case 5:
-			int s = b.getBenutzerStatus();
-			if(s == 1) {
-				returnWert = "aktiv";
+			Status s = b.getBenutzerStatus();
+			if(s.getId() == 1) {
+				returnWert = s.getBezeichnungFromId(1);
 				break;
 			}
-			if(s == 2) {
-				returnWert = "gesperrt";
+			if(s.getId() == 2) {
+				returnWert = s.getBezeichnungFromId(2);
 				break;
 			}
-			if(s == 3) {
-				returnWert = "gelöscht";
+			if(s.getId() == 3) {
+				returnWert = s.getBezeichnungFromId(3);
 				break;
 			}
 			else {

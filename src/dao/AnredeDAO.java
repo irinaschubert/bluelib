@@ -8,13 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Anrede;
+import domain.Status;
 import interfaces.DAOInterface;
 
 /**
- * Holt sich die Anrededaten
- * 
- * Die SQL-Fehler müssen in Try-Catch-Blöcken abgefangen werden throws Excecption, würde die SQL-Fehler durch
- * alle nachfolgenden Klassen weiterziehen und müsste im Interface implementiert werden
  * 
  * @version 0.1 16.10.2018
  * @author Schmutz
@@ -26,10 +23,9 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 	private Connection conn = null; 
 	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
-	private List<Anrede> anredeListe = null;
 	
 	public AnredeDAO(){
-		anredeListe = new ArrayList<Anrede>();
+		dbConnection = DBConnection.getInstance();
 	}
 	
 	@Override
@@ -58,13 +54,56 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 
 	@Override
 	public Anrede findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Anrede a = new Anrede();
+		String sql = "SELECT id, bezeichnung from anrede WHERE id = ?";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			mRS = pstmt.executeQuery();
+			while(mRS.next()) {
+				a.setId(mRS.getInt(1));
+				a.setBezeichnung(mRS.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return a;
 	}
+	
 
 	@Override
-	public List<Anrede> findAll() {
-		return null;
+	public ArrayList<Anrede> findAll() {
+		ArrayList<Anrede> allAnrede = new ArrayList<>();
+		String sql = "SELECT id, bezeichnung from anrede";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			mRS = pstmt.executeQuery();
+			while(mRS.next()) {
+				Anrede a = new Anrede();
+				a.setId(mRS.getInt(1));
+				a.setBezeichnung(mRS.getString(2));
+				allAnrede.add(a);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return allAnrede;
 	}
 
 	

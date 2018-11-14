@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import dao.AnredeDAO;
 import dao.BenutzerDAO;
 import dao.OrtDAO;
 import dao.StatusDAO;
@@ -48,6 +49,7 @@ public class BenutzerController {
 	private Benutzer benutzerSuchobjekt;
 	private OrtDAO ortDao;
 	private StatusDAO statusDao;
+	private AnredeDAO anredeDao;
 
 	public BenutzerController(BenutzerView view) {
 		benutzerView = view;
@@ -55,6 +57,7 @@ public class BenutzerController {
 		benutzerL = new ArrayList<>();
 		ortDao = new OrtDAO();
 		statusDao = new StatusDAO();
+		anredeDao = new AnredeDAO();
 		tableModelBenutzer = new TableModelBenutzer();
 		tableModelBenutzer.setAndSortListe(benutzerL);
 		view.getBenutzerTabelle().setModel(tableModelBenutzer);
@@ -130,7 +133,7 @@ public class BenutzerController {
 		//Dropdown PLZ/Ort Suche
 		ActionListener plzCbxSucheListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JComboBox c = (JComboBox) e.getSource();
+				JComboBox<Ort> c = (JComboBox<Ort>) e.getSource();
 				int ortId = c.getSelectedIndex();
 				OrtDAO ortDAO = new OrtDAO();
 				Ort ortFromDao = ortDAO.findById(ortId);
@@ -146,7 +149,7 @@ public class BenutzerController {
 		//Dropdown PLZ/Ort Neu/Bearbeiten
 		ActionListener plzCbxListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JComboBox c = (JComboBox) e.getSource();
+				JComboBox<Ort> c = (JComboBox) e.getSource();
 				int ortId = c.getSelectedIndex();
 				OrtDAO ortDAO = new OrtDAO();
 				Ort ortFromDao = ortDAO.findById(ortId);
@@ -214,17 +217,11 @@ public class BenutzerController {
 			b.setBemerkung(benutzerView.getBemerkungT().getText());
 		}
 		Status statusSelected = (Status)benutzerView.getStatusCbx().getSelectedItem();
-        int status = statusSelected.getId();
-        b.setBenutzerStatus(status);
-		
-		// TODO Anrede-Dropdown richtig aufsetzen
+        b.setBenutzerStatus(statusSelected);
+
         Anrede auswahlAnrede = (Anrede)benutzerView.getAnredeCbx().getSelectedItem();
-        if(auswahlAnrede.getBezeichnung().equals("Frau")) {
-        	b.setAnrede(2);
-        }
-        if(auswahlAnrede.getBezeichnung().equals("Herr")) {
-        	b.setAnrede(1);
-        }
+        b.setAnrede(auswahlAnrede);
+        
         if (!benutzerView.getErfasstVonT().getText().isEmpty()) {
         	// TODO Erfassungsmitarbeiter
 			//b.setErfassungMitarbeiter(benutzerView.getErfasstVonT().getText());
@@ -257,22 +254,18 @@ public class BenutzerController {
 			Adresse adresse = new Adresse(ortFromDao);
 			b.setAdresse(adresse);
 		}
-		
 		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrSucheT().getText();
 			Adresse adresse = new Adresse(strasse, null);
 			b.setAdresse(adresse);
 		}
-		
 		Status statusSelected = (Status)benutzerView.getStatusSucheCbx().getSelectedItem();
-        int status = statusSelected.getId();
-        b.setBenutzerStatus(status);
+        b.setBenutzerStatus(statusSelected);
 		return b;
 	}
 
 	private void uebernehmen() {
 		felderLeeren();
-		
 		Benutzer benutzer = new Benutzer();
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		benutzer = tableModelBenutzer.getGeklicktesObjekt(benutzerView.getBenutzerTabelle().getSelectedRow());
@@ -308,13 +301,8 @@ public class BenutzerController {
 		}else {
 			benutzerView.getBemerkungT().setText("");
 		}
-		benutzerView.getStatusCbx().setSelectedIndex(benutzer.getBenutzerStatus() - 1);
-        if(benutzer.getAnrede() == 1) {
-        	benutzerView.getAnredeCbx().setSelectedIndex(0);
-        }
-        if(benutzer.getAnrede() == 2) {
-        	benutzerView.getAnredeCbx().setSelectedIndex(1);
-        }
+		benutzerView.getStatusCbx().setSelectedItem(benutzer.getBenutzerStatus());
+		benutzerView.getAnredeCbx().setSelectedItem(benutzer.getAnrede());
 	}
 
 	private void nachArbeitSpeichern(Verifikation v) {
@@ -330,19 +318,6 @@ public class BenutzerController {
 
 	// Felder leeren
 	private void felderLeeren() {
-		/*for(Component control : benutzerView.getBenutzerSuchenPanel().getComponents())
-		{
-		    if(control instanceof JTextField)
-		    {
-		        JTextField ctrl = (JTextField) control;
-		        ctrl.setText("");
-		    }
-		    else if (control instanceof JComboBox)
-		    {
-		        JComboBox ctr = (JComboBox) control;
-		        ctr.setSelectedIndex(0);
-		    }
-		}*/
 		for(Component control : benutzerView.getBenutzerNeuBearbeitenPanel().getComponents())
 		{
 		    if(control instanceof JTextField)
@@ -392,7 +367,7 @@ public class BenutzerController {
 		
 		StatusSucheRenderer statusSucheR = new StatusSucheRenderer();
 		benutzerView.getStatusSucheCbx().setRenderer(statusSucheR);
-		benutzerView.getStatusSucheCbx().addItem(new Status(0,"alle"));
+		benutzerView.getStatusSucheCbx().addItem(null);
 		for(Status s : statusDao.findAll()) {
 			benutzerView.getStatusSucheCbx().addItem(s);
 		}
@@ -415,6 +390,13 @@ public class BenutzerController {
 		}
 		benutzerView.getPlzSucheCbx().setMaximumRowCount(10);
 		benutzerView.getPlzSucheCbx().setSelectedIndex(0);
+		
+		AnredeRenderer anredeR = new AnredeRenderer();
+		benutzerView.getAnredeCbx().setRenderer(anredeR);
+		for(Anrede a : anredeDao.findAll()) {
+			benutzerView.getAnredeCbx().addItem(a);
+		}
+		benutzerView.getAnredeCbx().setSelectedIndex(0);
 		
 		benutzerView.getSuchButton().setText("Suchen");
 		benutzerView.getPKT().setEditable(false);

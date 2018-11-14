@@ -1,5 +1,7 @@
 package domain;
 
+import dao.StatusDAO;
+
 /**
  * @version 0.1 16.10.2018
  * @author irina
@@ -15,6 +17,10 @@ public class Status {
 		this.bezeichnung = bezeichnung;
 	}
 	
+	public Status(int id) {
+		this.id = id;
+	}
+	
 	public Status() {
 		this.id = 0;
 		this.bezeichnung = "";
@@ -28,6 +34,12 @@ public class Status {
 		this.id = id;
 	}
 
+	public String getBezeichnungFromId(int id) {
+		StatusDAO statusDao = new StatusDAO();
+		Status s = statusDao.findById(id);
+		return s.getBezeichnung();
+	}
+	
 	public String getBezeichnung() {
 		return bezeichnung;
 	}

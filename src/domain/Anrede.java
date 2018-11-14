@@ -15,6 +15,10 @@ public class Anrede {
 		this.bezeichnung = bezeichnung;
 	}
 
+	public Anrede() {
+		
+	}
+
 	public int getId() {
 		return id;
 	}

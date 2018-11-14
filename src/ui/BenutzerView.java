@@ -38,9 +38,6 @@ import dao.OrtDAO;
  *
  */
 public class BenutzerView {
-	private OrtDAO ortDAO;
-	private PlzRenderer plzR;
-	private PlzSucheRenderer plzSucheR;
 	private AnredeRenderer anredeR;
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
@@ -177,11 +174,6 @@ public class BenutzerView {
 		statusCbx = new JComboBox<>();
 		anredeL = new JLabel();
 		anredeCbx = new JComboBox<>();
-		anredeR = new AnredeRenderer();
-		anredeCbx.setRenderer(anredeR);
-		anredeCbx.addItem(new Anrede(1, "Herr"));
-		anredeCbx.addItem(new Anrede(2, "Frau"));
-		anredeCbx.setSelectedIndex(0);
 		plzCbx = new JComboBox<>();
 				
         // Formularfelder
@@ -261,7 +253,6 @@ public class BenutzerView {
 		ortSucheT = new JTextField();
 		statusSucheL = new JLabel();
 		statusSucheCbx = new JComboBox<>();
-		ortDAO = new OrtDAO();
 		plzSucheCbx = new JComboBox<>();
 		
 		// Formularfelder
@@ -324,12 +315,11 @@ public class BenutzerView {
 
 	public void spaltenBreiteSetzen() {
 		benutzerTabelle.getColumnModel().getColumn(0).setPreferredWidth(10); // ID
-		benutzerTabelle.getColumnModel().getColumn(0).setPreferredWidth(60); // Name
-		benutzerTabelle.getColumnModel().getColumn(1).setPreferredWidth(60); // Vorname
-		benutzerTabelle.getColumnModel().getColumn(2).setPreferredWidth(40); // Strasse und Nr.
-		benutzerTabelle.getColumnModel().getColumn(3).setPreferredWidth(40); // PLZ
-		benutzerTabelle.getColumnModel().getColumn(3).setPreferredWidth(40); // Ort
-		benutzerTabelle.getColumnModel().getColumn(4).setPreferredWidth(20); // Status
+		benutzerTabelle.getColumnModel().getColumn(1).setPreferredWidth(40); // Name
+		benutzerTabelle.getColumnModel().getColumn(2).setPreferredWidth(40); // Vorname
+		benutzerTabelle.getColumnModel().getColumn(3).setPreferredWidth(50); // Strasse und Nr.
+		benutzerTabelle.getColumnModel().getColumn(4).setPreferredWidth(40); // PLZ und Ort
+		benutzerTabelle.getColumnModel().getColumn(5).setPreferredWidth(30); // Status
 	}
 	
 	public StandardButtonPanel getButton() {

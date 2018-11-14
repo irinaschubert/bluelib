@@ -68,8 +68,8 @@ public class StatusDAO implements DAOInterface<Status> {
 	
 
 	@Override
-	public List<Status> findAll() {
-		List<Status> allStatus = new ArrayList<>();
+	public ArrayList<Status> findAll() {
+		ArrayList<Status> allStatus = new ArrayList<>();
 		String sql = "SELECT id, bezeichnung from statuspers";
 		try {
 			conn = dbConnection.getDBConnection();

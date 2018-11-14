@@ -7,17 +7,17 @@ package domain;
  */
 public class Benutzer extends Person {
 
-	private int benutzerStatus;
+	private Status benutzerStatus;
 	
 	public Benutzer() {
-		setBenutzerStatus(1); // Benutzer hat zu Beginn den Status aktiv
+		this.benutzerStatus = new Status(1);
 	}
 
-	public int getBenutzerStatus() {
+	public Status getBenutzerStatus() {
 		return benutzerStatus;
 	}
 
-	public void setBenutzerStatus(int beS) {
+	public void setBenutzerStatus(Status beS) {
 		this.benutzerStatus = beS;
 	}
 		
