@@ -93,54 +93,45 @@ public class BenutzerView extends JPanel {
 	private static int BREITE = 1000;
 
 	public BenutzerView(String panelTitel) {
-
-		// TODO: neuAendernL in GUI setzen
-		neuAendernL = new JLabel();
-		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
-		buttonPanel = new StandardButtonPanel();
-		benutzerListe = new JPanel();
-		benutzerNeuBearbeitenPanel = createNeuerBenutzerPanel();
-		
-		centerPanel = new JPanel(new BorderLayout());
-		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		suchButton = new JButton();
 		
 		new JLabel(panelTitel);
+		benutzerListe = new JPanel();
+		suchButton = new JButton();
+		
 		benutzerTabelle = new JTable();
 		benutzerTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scroll = new JScrollPane(benutzerTabelle);
-
+		
 		JPanel tabellenPanel = new JPanel();
 		tabellenPanel.setLayout(new BoxLayout(tabellenPanel, BoxLayout.Y_AXIS));
 		JLabel tabellenTitel = new JLabel("Gefundene Benutzer:");
 		tabellenPanel.add(tabellenTitel);
 		tabellenPanel.add(scroll);
+		
+		benutzerNeuBearbeitenPanel = createNeuerBenutzerPanel();
+		buttonPanel = new StandardButtonPanel();
 
+		centerPanel = new JPanel(new BorderLayout());
+		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.add(createSuchePanel(), BorderLayout.NORTH);
 		centerPanel.add(tabellenPanel, BorderLayout.CENTER);
 		centerPanel.add(benutzerNeuBearbeitenPanel, BorderLayout.SOUTH);
 		
 		this.setLayout(new BorderLayout());
-		// Titel des Panels
 		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-
-		// Definiert die Grösse des Panels. Die HauptView passt sich an
 		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
 
-	/**
-	 * Label und Inputfelder
-	 * 
-	 * @return JPanel
-	 */
 	private JPanel createNeuerBenutzerPanel() {
 		benutzerNeuBearbeitenPanel = new JPanel();
 		benutzerNeuBearbeitenPanel.setLayout(new GridBagLayout());
 		benutzerNeuBearbeitenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
+        neuAendernL = new JLabel();
+		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 		PKL = new JLabel();
 		PKT = new JTextField();
 		nachnameL = new JLabel();
@@ -171,15 +162,16 @@ public class BenutzerView extends JPanel {
 		plzCbx = new JComboBox<>();
 				
         // Formularfelder
-        formularHelfer.addLabel(PKL, benutzerNeuBearbeitenPanel);
-        Dimension PKFeldgroesse = PKT.getPreferredSize();
-        PKFeldgroesse.width = 200;
-        PKT.setPreferredSize(PKFeldgroesse);
-        JPanel pk = new JPanel();
-        pk.setLayout(new BorderLayout());
-        pk.add(PKT, BorderLayout.WEST);
-        formularHelfer.addLastField(pk, benutzerNeuBearbeitenPanel);
-        
+		
+		formularHelfer.addLabel(PKL, benutzerNeuBearbeitenPanel);
+        formularHelfer.addMiddleField(PKT, benutzerNeuBearbeitenPanel);
+		
+		JPanel warningPanel = new JPanel();
+		warningPanel.setLayout(new GridBagLayout());
+        formularHelfer.addLabel(neuAendernL, warningPanel);
+        formularHelfer.addLabel(warningPanel, benutzerNeuBearbeitenPanel);
+        formularHelfer.addLastField(new JPanel(), benutzerNeuBearbeitenPanel);
+		
         formularHelfer.addLabel(nachnameL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(nachnameT, benutzerNeuBearbeitenPanel);
         
@@ -664,7 +656,7 @@ public class BenutzerView extends JPanel {
 	}
 	
 	public JPanel getBenutzerSuchenPanel() {
-		return benutzerNeuBearbeitenPanel;
+		return benutzerSuchenPanel;
 	}
 
 	public JPanel getBenutzerListe() {

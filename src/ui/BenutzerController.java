@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dao.AnredeDAO;
@@ -128,7 +130,7 @@ public class BenutzerController {
 		};
 		benutzerView.getBenutzerTabelle().addMouseListener(doppelKlick);
 		
-		//Dropdown PLZ/Ort Suche
+		//Dropdown PLZ Suche
 		ActionListener plzCbxSucheListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<Ort> c = (JComboBox<Ort>) e.getSource();
@@ -144,7 +146,7 @@ public class BenutzerController {
 		};
 		benutzerView.getPlzSucheCbx().addActionListener(plzCbxSucheListener);
 		
-		//Dropdown PLZ/Ort Neu/Bearbeiten
+		//Dropdown PLZ Neu/Bearbeiten
 		ActionListener plzCbxListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<Ort> c = (JComboBox) e.getSource();
@@ -316,18 +318,29 @@ public class BenutzerController {
 
 	// Felder leeren
 	private void felderLeeren() {
-		for(Component control : benutzerView.getBenutzerNeuBearbeitenPanel().getComponents())
-		{
-		    if(control instanceof JTextField)
-		    {
-		        JTextField ctrl = (JTextField) control;
-		        ctrl.setText("");
-		    }
-		    else if (control instanceof JComboBox)
-		    {
-		        JComboBox<Object> ctr = (JComboBox) control;
-		        ctr.setSelectedIndex(0);
-		    }
+		Component[] components = benutzerView.getBenutzerNeuBearbeitenPanel().getComponents();
+		
+		for (int i = 0; i < components.length; ++i) {
+			
+		   if (components[i] instanceof Container) {
+			   
+		       Container subContainer = (Container)components[i];
+		       Component[] containers = subContainer.getComponents();
+		       
+		       for(Component containerComponent : containers)
+				{
+				    if(containerComponent instanceof JTextField)
+				    {
+				        JTextField compo = (JTextField) containerComponent;
+				        compo.setText("");
+				    }
+				    else if (containerComponent instanceof JComboBox)
+				    {
+				        JComboBox<Object> compo = (JComboBox) containerComponent;
+				        compo.setSelectedIndex(0);
+				    }
+				}
+		   }
 		}
 	}
 
