@@ -243,7 +243,7 @@ public class BenutzerController {
         	b.setErfassungMitarbeiter(EingeloggterMA.getInstance().getMitarbeiter());
         }
         if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
-        	b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstVonT().getText()));
+        	b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));
 		}else {
 			Date date = new Date();
         	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -321,8 +321,8 @@ public class BenutzerController {
 		}else {
 			benutzerView.getBemerkungT().setText("");
 		}
-		benutzerView.getStatusCbx().setSelectedItem(benutzer.getBenutzerStatus());
-		benutzerView.getAnredeCbx().setSelectedItem(benutzer.getAnrede());
+		benutzerView.getStatusCbx().setSelectedIndex(benutzer.getBenutzerStatus().getId() -1 );
+		benutzerView.getAnredeCbx().setSelectedIndex(benutzer.getAnrede().getId() - 1);
 		if (benutzer.getErfassungMitarbeiter() != null) {
         	benutzerView.getErfasstVonT().setText(benutzer.getErfassungMitarbeiter().getBenutzername());
 		}else {
