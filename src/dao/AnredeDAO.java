@@ -8,13 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Anrede;
-import domain.Status;
 import interfaces.DAOInterface;
 
 /**
  * 
- * @version 0.1 16.10.2018
- * @author Schmutz
+ * @version 0.1 14.11.2018
+ * @author irina
  */
 
 public class AnredeDAO implements DAOInterface<Anrede> {

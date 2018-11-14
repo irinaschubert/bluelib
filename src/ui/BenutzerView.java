@@ -2,17 +2,12 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.util.LinkedHashMap;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -28,17 +23,15 @@ import javax.swing.border.EmptyBorder;
 import domain.Anrede;
 import domain.Ort;
 import domain.Status;
-import dao.OrtDAO;
 
 /**
- * Zeigt alle Benutzer an und ermoeglicht die Erfassung neuer Benutzer
+ * Suche nach, neu Erstellen und Bearbeiten von Benutzern
  * 
  * @version 1.0 06.11.2018
  * @author irina
  *
  */
 public class BenutzerView {
-	private AnredeRenderer anredeR;
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
 	private JPanel benutzerNeuBearbeitenPanel;
@@ -128,7 +121,7 @@ public class BenutzerView {
 		frame = new JFrame("BlueLib");
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(800, 800);
+		frame.setSize(800, 1000);
 		frame.setVisible(true);
 
 		frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
@@ -289,7 +282,6 @@ public class BenutzerView {
         
         formularHelfer.addLabel(statusSucheL, benutzerSuchenPanel);
         formularHelfer.addLastField(statusSucheCbx, benutzerSuchenPanel);
-        
         
         JPanel suchButtonPanel = new JPanel();
         suchButtonPanel.setLayout(new GridBagLayout());

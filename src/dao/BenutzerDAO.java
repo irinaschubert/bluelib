@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Adresse;
-import domain.Anrede;
 import domain.Benutzer;
 import domain.Ort;
 import domain.Status;

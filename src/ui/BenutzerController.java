@@ -8,10 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -28,7 +25,6 @@ import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
 import models.TableModelBenutzer;
 import services.BenutzerService;
-import services.NormdatenService;
 import services.Verifikation;
 
 /**
