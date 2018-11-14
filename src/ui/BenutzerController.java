@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import dao.AnredeDAO;
@@ -332,6 +333,11 @@ public class BenutzerController {
 				    if(containerComponent instanceof JTextField)
 				    {
 				        JTextField compo = (JTextField) containerComponent;
+				        compo.setText("");
+				    }
+				    else if(containerComponent instanceof JTextArea)
+				    {
+				    	JTextArea compo = (JTextArea) containerComponent;
 				        compo.setText("");
 				    }
 				    else if (containerComponent instanceof JComboBox)

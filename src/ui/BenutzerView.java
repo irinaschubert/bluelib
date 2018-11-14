@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.LinkedHashMap;
 
@@ -15,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -71,7 +73,7 @@ public class BenutzerView extends JPanel {
 	private JTextField geburtsdatumT;
 	private JTextField telT;
 	private JTextField mailT;
-	private JTextField bemerkungT;
+	private JTextArea bemerkungT;
 	private JTextField erfasstVonT;
 	private JTextField erfasstAmT;
 	private JComboBox<Ort> plzCbx;
@@ -150,7 +152,7 @@ public class BenutzerView extends JPanel {
 		mailL = new JLabel();
 		mailT = new JTextField();
 		bemerkungL = new JLabel();
-		bemerkungT = new JTextField();
+		bemerkungT = new JTextArea();
 		erfasstVonL = new JLabel();
 		erfasstVonT = new JTextField();
 		erfasstAmL = new JLabel();
@@ -171,6 +173,9 @@ public class BenutzerView extends JPanel {
         formularHelfer.addLabel(neuAendernL, warningPanel);
         formularHelfer.addLabel(warningPanel, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(new JPanel(), benutzerNeuBearbeitenPanel);
+        
+        formularHelfer.addLabel(anredeL, benutzerNeuBearbeitenPanel);
+        formularHelfer.addLastField(anredeCbx, benutzerNeuBearbeitenPanel);
 		
         formularHelfer.addLabel(nachnameL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(nachnameT, benutzerNeuBearbeitenPanel);
@@ -204,13 +209,12 @@ public class BenutzerView extends JPanel {
         formularHelfer.addLastField(mailT, benutzerNeuBearbeitenPanel);
         
         formularHelfer.addLabel(bemerkungL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(bemerkungT, benutzerNeuBearbeitenPanel);
+        formularHelfer.addLastField(new JScrollPane(bemerkungT), benutzerNeuBearbeitenPanel);
         
         formularHelfer.addLabel(statusL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(statusCbx, benutzerNeuBearbeitenPanel);
         
-        formularHelfer.addLabel(anredeL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(anredeCbx, benutzerNeuBearbeitenPanel);
+        
         
         formularHelfer.addLabel(erfasstVonL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(erfasstVonT, benutzerNeuBearbeitenPanel);
@@ -283,7 +287,6 @@ public class BenutzerView extends JPanel {
         suchButtonGroesse.width = 100;
         suchButtonGroesse.height = 25;
         suchButton.setPreferredSize(suchButtonGroesse);
-        
         formularHelfer.addLabel(suchButton, suchButtonPanel);
         formularHelfer.addLastField(suchButtonPanel, benutzerSuchenPanel);
         
@@ -555,11 +558,11 @@ public class BenutzerView extends JPanel {
 		this.mailT = mailT;
 	}
 
-	public JTextField getBemerkungT() {
+	public JTextArea getBemerkungT() {
 		return bemerkungT;
 	}
 
-	public void setBemerkungT(JTextField bemerkungT) {
+	public void setBemerkungT(JTextArea bemerkungT) {
 		this.bemerkungT = bemerkungT;
 	}
 
