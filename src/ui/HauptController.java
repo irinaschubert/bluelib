@@ -11,7 +11,7 @@ import services.LoginService;
 /**
  * 
  * Der Hauptcontroller stellt die Menübefehle zur Verfügung und steuert den
- * Aufruf der Views und Controller der jeweiligen Menü- befehle
+ * Aufruf der Views und Controller der jeweiligen Menübefehle
  * 
  * @version 2018-11-07
  * @author Schmutz
@@ -37,18 +37,39 @@ public class HauptController {
 
 //	Definierten des Listeners für die Button-Klicks
 	private void control() {
-
 		hauptView.getMedienAutorM().addActionListener(autorMenueActionListener());
-		hauptView.getBeendenM().addActionListener(beendenActionLIstener());
+		hauptView.getBeendenM().addActionListener(beendenActionListener());
 		hauptView.getAdministrationStammdatenM().addActionListener(stammdatenMenuActionListener());
+		hauptView.getMedienVerlagM().addActionListener(verlagMenueActionListener());
+		hauptView.getBenutzerBenutzerM().addActionListener(benutzerMenuActionListener());
 
 	}
 
+	private ActionListener benutzerMenuActionListener() {
+		ActionListener benutzerMenuActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						BenutzerView benutzerView = new BenutzerView("Benutzer");
+						new BenutzerController(benutzerView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(benutzerView.getPreferredSize()));
+						hauptView.getContentPane().add(benutzerView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return benutzerMenuActionListener;
+	}
+	
 	private ActionListener stammdatenMenuActionListener() {
 		ActionListener stammdatenMenuActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -59,10 +80,8 @@ public class HauptController {
 						hauptView.getContentPane().add(bibliothekView);
 						hauptView.validate();
 						hauptView.setVisible(true);
-
 					}
 				});
-
 			}
 		};
 		return stammdatenMenuActionListener;
@@ -70,10 +89,8 @@ public class HauptController {
 
 	private ActionListener autorMenueActionListener() {
 		ActionListener autorMenuActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -84,33 +101,48 @@ public class HauptController {
 						hauptView.getContentPane().add(autorView);
 						hauptView.validate();
 						hauptView.setVisible(true);
-
 					}
 				});
-
 			}
 		};
-
 		return autorMenuActionListener;
 	}
+	
+	private ActionListener verlagMenueActionListener() {
+		ActionListener verlagMenueActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						VerlagView verlagView = new VerlagView("Verlag");
+						new VerlagController(verlagView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(verlagView.getPreferredSize()));
+						hauptView.getContentPane().add(verlagView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return verlagMenueActionListener;
+	}
 
-	private ActionListener beendenActionLIstener() {
+	private ActionListener beendenActionListener() {
 		ActionListener autorBeendenActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				applikationSchliessen();
-
 			}
 		};
-
 		return autorBeendenActionListener;
 	}
 
 	public void initialisierenNachLogin() {
 		hauptView.getJMenuBar().setVisible(true); // Nach der Anmeldung soll die Menubar wieder sichtbar sein
 		hauptView.getAdministrationM().setEnabled(EingeloggterMA.getInstance().getMitarbeiter().isAdmin()); // Disablen
-																											// Admin-Menü
+																										// Admin-Menü
 		panelEntfernen();
 	}
 

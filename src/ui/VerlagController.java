@@ -35,9 +35,11 @@ public class VerlagController {
 	private List<Verlag> verlagL;
 	private TableModelVerlag tableModelVerlag;
 	private Verlag verlagSuchobjekt;
+	private HauptController hauptController;
 
-	public VerlagController(VerlagView view) {
+	public VerlagController(VerlagView view, HauptController hauptController) {
 		verlagView = view;
+		this.hauptController = hauptController;
 		normdatenService = new NormdatenService();
 		verlagL = new ArrayList<>();
 		tableModelVerlag = new TableModelVerlag();
@@ -96,15 +98,17 @@ public class VerlagController {
 		};
 		verlagView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
 
-		// Abbrechen
-		ActionListener abbrechenButtonActionListener = new ActionListener() {
+		// Schliessen
+		ActionListener schliessenButtonActionListener = new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				verlagView.schliessen();
+				hauptController.panelEntfernen();
 			}
-		};
-		verlagView.getButtonPanel().getButton4().addActionListener(abbrechenButtonActionListener);
 
+		};
+		verlagView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
+		
 		// Doppelklick = Uebernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
@@ -207,20 +211,20 @@ public class VerlagController {
 	}
 
 	private void uebernehmen() {
-		Verlag Verlag = new Verlag();
-		Verlag = tableModelVerlag.getGeklicktesObjekt(verlagView.getVerlagTabelle().getSelectedRow());
+		Verlag verlag = new Verlag();
+		verlag = tableModelVerlag.getGeklicktesObjekt(verlagView.getVerlagTabelle().getSelectedRow());
 
-		verlagView.getPKT().setText(Integer.toString(Verlag.getId()));
-		verlagView.getNameT().setText(Verlag.getName());
+		verlagView.getPKT().setText(Integer.toString(verlag.getId()));
+		verlagView.getNameT().setText(verlag.getName());
 
-		if (Verlag.getGruendungsDatum() != null) {
-			verlagView.getGruendungsDatumT().setText(DateConverter.convertJavaDateToString(Verlag.getGruendungsDatum()));
+		if (verlag.getGruendungsDatum() != null) {
+			verlagView.getGruendungsDatumT().setText(DateConverter.convertJavaDateToString(verlag.getGruendungsDatum()));
 		}
 
-		if (Verlag.getEndDatum() != null) {
-			verlagView.getEndDatumT().setText(DateConverter.convertJavaDateToString(Verlag.getEndDatum()));
+		if (verlag.getEndDatum() != null) {
+			verlagView.getEndDatumT().setText(DateConverter.convertJavaDateToString(verlag.getEndDatum()));
 		}
-		verlagView.getGeloeschtCbx().setSelected(Verlag.getGeloescht());
+		verlagView.getGeloeschtCbx().setSelected(verlag.getGeloescht());
 	}
 
 	private void nachArbeitSpeichern(Verifikation v) {
@@ -238,7 +242,7 @@ public class VerlagController {
 	private void suchFelderLeeren() {
 
 		// Felder leeren
-		for (JComponent t : verlagView.getComponents().values()) {
+		for (JComponent t : verlagView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
 			}
@@ -261,7 +265,7 @@ public class VerlagController {
 		verlagView.getNameSucheL().setText("Name:*");
 		verlagView.getGruendungsDatumSucheL().setText("Gründungsdatum:");
 		verlagView.getEndDatumSucheL().setText("Enddatum:");
-		verlagView.getGeloeschtSucheL().setText("Löschvormerkung:");
+		verlagView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		verlagView.getSuchButton().setText("Suchen");
 		verlagView.getPKT().setEditable(false);
 		verlagView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());

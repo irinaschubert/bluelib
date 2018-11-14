@@ -31,7 +31,7 @@ import domain.Status;
  * @author irina
  *
  */
-public class BenutzerView {
+public class BenutzerView extends JPanel {
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
 	private JPanel benutzerNeuBearbeitenPanel;
@@ -89,8 +89,10 @@ public class BenutzerView {
 	private JButton suchButton;
 	private JTable benutzerTabelle;
 	private LinkedHashMap<JLabel, JComponent> componentsNeuAktualisieren = new LinkedHashMap<>();
+	private static int HOEHE = 800;
+	private static int BREITE = 1000;
 
-	public BenutzerView(String frameTitel) {
+	public BenutzerView(String panelTitel) {
 
 		// TODO: neuAendernL in GUI setzen
 		neuAendernL = new JLabel();
@@ -103,7 +105,7 @@ public class BenutzerView {
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		suchButton = new JButton();
 		
-		new JLabel(frameTitel);
+		new JLabel(panelTitel);
 		benutzerTabelle = new JTable();
 		benutzerTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scroll = new JScrollPane(benutzerTabelle);
@@ -117,16 +119,15 @@ public class BenutzerView {
 		centerPanel.add(createSuchePanel(), BorderLayout.NORTH);
 		centerPanel.add(tabellenPanel, BorderLayout.CENTER);
 		centerPanel.add(benutzerNeuBearbeitenPanel, BorderLayout.SOUTH);
+		
+		this.setLayout(new BorderLayout());
+		// Titel des Panels
+		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		frame = new JFrame("BlueLib");
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(800, 1000);
-		frame.setVisible(true);
-
-		frame.getContentPane().add(new StandardTitelPanel(frameTitel), BorderLayout.NORTH);
-		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
-		frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+		// Definiert die Grösse des Panels. Die HauptView passt sich an
+		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
 
 	/**
@@ -675,7 +676,7 @@ public class BenutzerView {
 		return benutzerTabelle;
 	}
 
-	public LinkedHashMap<JLabel, JComponent> getComponents() {
+	public LinkedHashMap<JLabel, JComponent> getComponentsNeuAktualisieren() {
 		return componentsNeuAktualisieren;
 	}
 

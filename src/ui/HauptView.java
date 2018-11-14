@@ -1,7 +1,5 @@
 package ui;
 
-import java.awt.MenuBar;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,7 +28,7 @@ public class HauptView extends JFrame {
 	private JMenuItem inventurM = new JMenu("Inventur");
 	private JMenuItem administrationM = new JMenu("Administration");
 	private JMenuItem administrationMitarbeiterM = new JMenuItem("Mitarbeiter");
-	private JMenuItem administrationSchagworteM = new JMenuItem("Schlagworte");
+	private JMenuItem administrationSchlagworteM = new JMenuItem("Schlagworte");
 	private JMenuItem administrationStammdatenM = new JMenuItem("Stammdaten");
 	private JMenuItem beendenM = new JMenuItem("Beenden");
 	private JMenuBar menuBar = new JMenuBar();
@@ -39,7 +37,7 @@ public class HauptView extends JFrame {
 
 		setJMenuBar(erstelleMenuBar());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(500, 600);
+		setSize(800, 1000);
 		setVisible(true);
 	}
 
@@ -84,7 +82,7 @@ public class HauptView extends JFrame {
 
 	private JMenuItem erstelleAdministrationMenu() {
 		administrationM.add(administrationMitarbeiterM);
-		administrationM.add(administrationSchagworteM);
+		administrationM.add(administrationSchlagworteM);
 		administrationM.add(administrationStammdatenM);
 		return administrationM;
 	}
@@ -206,11 +204,11 @@ public class HauptView extends JFrame {
 	}
 
 	public JMenuItem getAdministrationSchagworteM() {
-		return administrationSchagworteM;
+		return administrationSchlagworteM;
 	}
 
-	public void setAdministrationSchagworteM(JMenuItem administrationSchagworteM) {
-		this.administrationSchagworteM = administrationSchagworteM;
+	public void setAdministrationSchagworteM(JMenuItem administrationSchlagworteM) {
+		this.administrationSchlagworteM = administrationSchlagworteM;
 	}
 
 	public JMenuItem getAdministrationStammdatenM() {

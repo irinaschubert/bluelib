@@ -46,9 +46,11 @@ public class BenutzerController {
 	private OrtDAO ortDao;
 	private StatusDAO statusDao;
 	private AnredeDAO anredeDao;
+	private HauptController hauptController;
 
-	public BenutzerController(BenutzerView view) {
+	public BenutzerController(BenutzerView view, HauptController hauptController) {
 		benutzerView = view;
+		this.hauptController = hauptController;
 		benutzerService = new BenutzerService();
 		benutzerL = new ArrayList<>();
 		ortDao = new OrtDAO();
@@ -109,7 +111,7 @@ public class BenutzerController {
 		ActionListener schliessenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				benutzerView.schliessen();
+				hauptController.panelEntfernen();
 			}
 		};
 		benutzerView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);

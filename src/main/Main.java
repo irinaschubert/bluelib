@@ -1,16 +1,8 @@
 package main;
 
 import javax.swing.SwingUtilities;
-import ui.AutorController;
-import ui.VerlagController;
-import ui.AutorView;
 import ui.HauptController;
 import ui.HauptView;
-import ui.VerlagView;
-import ui.BibliothekView;
-import ui.BibliothekController;
-import ui.PrototypController;
-import ui.PrototypView;
 
 /**
  * @version 0.1 16.10.2018
