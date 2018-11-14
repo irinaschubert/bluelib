@@ -21,32 +21,6 @@ public class Main {
 
 			}
 		});
-		/*
-		 SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {                                           
-	                PrototypView view = new PrototypView("test"); 
-	                new PrototypController(view);
-	                
-	            }
-        });  
-		SwingUtilities.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {                                           
-	            	BibliothekView view = new BibliothekView("Bibliotheksdaten");
-	            	new BibliothekController(view);	                
-	            }
-	    });  
-
-
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				VerlagView view = new VerlagView("Verlag");
-				new VerlagController(view);
-			}
-		});
-		*/
 	}
 
 }
