@@ -62,7 +62,6 @@ public class BenutzerView {
 	private JLabel bemerkungL;
 	private JLabel statusL;
 	private JLabel anredeL;
-	private JLabel mitarbeiterL;
 	private JLabel erfasstVonL;
 	private JLabel erfasstAmL;
 	
@@ -85,22 +84,20 @@ public class BenutzerView {
 	private JTextField bemerkungT;
 	private JTextField erfasstVonT;
 	private JTextField erfasstAmT;
-	private JComboBox plzCbx;
-	private JComboBox anredeCbx;
-	private JComboBox statusCbx;
-	private JCheckBox mitarbeiterCbx;
+	private JComboBox<Ort> plzCbx;
+	private JComboBox<Anrede> anredeCbx;
+	private JComboBox<Status> statusCbx;
 	
 	private JTextField PKSucheT;
 	private JTextField vornameSucheT;
 	private JTextField nachnameSucheT;
 	private JTextField strasseNrSucheT;
 	private JTextField ortSucheT;
-	private JComboBox plzSucheCbx;
-	private JComboBox statusSucheCbx;
+	private JComboBox<Ort> plzSucheCbx;
+	private JComboBox<Status> statusSucheCbx;
 	
 	private JButton suchButton;
 	private JTable benutzerTabelle;
-	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
 	private LinkedHashMap<JLabel, JComponent> componentsNeuAktualisieren = new LinkedHashMap<>();
 
 	public BenutzerView(String frameTitel) {
@@ -172,23 +169,20 @@ public class BenutzerView {
 		mailT = new JTextField();
 		bemerkungL = new JLabel();
 		bemerkungT = new JTextField();
-		mitarbeiterL = new JLabel();
-		mitarbeiterCbx = new JCheckBox();
 		erfasstVonL = new JLabel();
 		erfasstVonT = new JTextField();
 		erfasstAmL = new JLabel();
 		erfasstAmT = new JTextField();
 		statusL = new JLabel();
-		statusCbx = new JComboBox(Status.getStatus());
-		statusCbx.setSelectedIndex(0);
+		statusCbx = new JComboBox<>();
 		anredeL = new JLabel();
-		anredeCbx = new JComboBox();
+		anredeCbx = new JComboBox<>();
 		anredeR = new AnredeRenderer();
 		anredeCbx.setRenderer(anredeR);
 		anredeCbx.addItem(new Anrede(1, "Herr"));
 		anredeCbx.addItem(new Anrede(2, "Frau"));
 		anredeCbx.setSelectedIndex(0);
-		plzCbx = new JComboBox();
+		plzCbx = new JComboBox<>();
 				
         // Formularfelder
         formularHelfer.addLabel(PKL, benutzerNeuBearbeitenPanel);
@@ -234,9 +228,6 @@ public class BenutzerView {
         formularHelfer.addLabel(bemerkungL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(bemerkungT, benutzerNeuBearbeitenPanel);
         
-        formularHelfer.addLabel(mitarbeiterL, benutzerNeuBearbeitenPanel);
-        formularHelfer.addLastField(mitarbeiterCbx, benutzerNeuBearbeitenPanel);
-        
         formularHelfer.addLabel(statusL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(statusCbx, benutzerNeuBearbeitenPanel);
         
@@ -257,10 +248,6 @@ public class BenutzerView {
 		benutzerSuchenPanel.setLayout(new GridBagLayout());
 		benutzerSuchenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
-		
-		statusSucheCbx = new JComboBox(Status.getStatus());
-		statusSucheCbx.setSelectedIndex(0);
-		
 		PKSucheL = new JLabel();
 		PKSucheT = new JTextField();
 		nachnameSucheL = new JLabel();
@@ -273,10 +260,9 @@ public class BenutzerView {
 		ortSucheL = new JLabel();
 		ortSucheT = new JTextField();
 		statusSucheL = new JLabel();
-		statusSucheCbx = new JComboBox(Status.getStatus());
-		statusSucheCbx.setSelectedIndex(0);
+		statusSucheCbx = new JComboBox<>();
 		ortDAO = new OrtDAO();
-		plzSucheCbx = new JComboBox();
+		plzSucheCbx = new JComboBox<>();
 		
 		// Formularfelder
         formularHelfer.addLabel(PKSucheL, benutzerSuchenPanel);
@@ -449,15 +435,7 @@ public class BenutzerView {
 	public void setStatusL(JLabel statusL) {
 		this.statusL = statusL;
 	}
-
-	public JLabel getMitarbeiterL() {
-		return mitarbeiterL;
-	}
-
-	public void setMitarbeiterL(JLabel mitarbeiterL) {
-		this.mitarbeiterL = mitarbeiterL;
-	}
-
+	
 	public JLabel getErfasstVonL() {
 		return erfasstVonL;
 	}
@@ -538,11 +516,11 @@ public class BenutzerView {
 		PKT = pKT;
 	}
 
-	public JComboBox getAnredeCbx() {
+	public JComboBox<Anrede> getAnredeCbx() {
 		return anredeCbx;
 	}
 
-	public void setAnredeCbx(JComboBox anredeCbx) {
+	public void setAnredeCbx(JComboBox<Anrede> anredeCbx) {
 		this.anredeCbx = anredeCbx;
 	}
 
@@ -626,28 +604,20 @@ public class BenutzerView {
 		this.erfasstAmT = erfasstAmT;
 	}
 	
-	public JComboBox getPlzCbx() {
+	public JComboBox<Ort> getPlzCbx() {
 		return plzCbx;
 	}
 
-	public void setPlzCbx(JComboBox plzCbx) {
+	public void setPlzCbx(JComboBox<Ort> plzCbx) {
 		this.plzCbx = plzCbx;
 	}
 
-	public JComboBox getStatusCbx() {
+	public JComboBox<Status> getStatusCbx() {
 		return statusCbx;
 	}
 
-	public void setStatusCbx(JComboBox statusCbx) {
+	public void setStatusCbx(JComboBox<Status> statusCbx) {
 		this.statusCbx = statusCbx;
-	}
-
-	public JCheckBox getMitarbeiterCbx() {
-		return mitarbeiterCbx;
-	}
-
-	public void setMitarbeiterCbx(JCheckBox mitarbeiterCbx) {
-		this.mitarbeiterCbx = mitarbeiterCbx;
 	}
 
 	public JTextField getPKSucheT() {
@@ -682,11 +652,11 @@ public class BenutzerView {
 		this.strasseNrSucheT = strasseNrSucheT;
 	}
 
-	public JComboBox getPlzSucheCbx() {
+	public JComboBox<Ort> getPlzSucheCbx() {
 		return plzSucheCbx;
 	}
 
-	public void setPlzSucheCbx(JComboBox plzSucheCbx) {
+	public void setPlzSucheCbx(JComboBox<Ort> plzSucheCbx) {
 		this.plzSucheCbx = plzSucheCbx;
 	}
 
@@ -698,11 +668,11 @@ public class BenutzerView {
 		this.ortSucheT = ortSucheT;
 	}
 
-	public JComboBox getStatusSucheCbx() {
+	public JComboBox<Status> getStatusSucheCbx() {
 		return statusSucheCbx;
 	}
 
-	public void setStatusSucheCbx(JComboBox statusSucheCbx) {
+	public void setStatusSucheCbx(JComboBox<Status> statusSucheCbx) {
 		this.statusSucheCbx = statusSucheCbx;
 	}
 

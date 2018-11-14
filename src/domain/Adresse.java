@@ -15,6 +15,12 @@ public class Adresse {
     	this.strasse = strasse;
     	this.ort = ort;
     }
+    public Adresse(String strasse) {
+    	this.strasse = strasse;
+    }
+    public Adresse(Ort ort) {
+    	this.ort = ort;
+    }
 
 	public Ort getOrt() {
 		return ort;

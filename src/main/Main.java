@@ -32,14 +32,14 @@ public class Main {
 	        });  
 		 
 
-		 SwingUtilities.invokeLater(new Runnable() {
+		 /*SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				HauptView view = new HauptView("Hauptview");
 				new HauptController(view);
 
 			}
-		});
+		});*/
 
 	}
 

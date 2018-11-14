@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.AnredeDAO;
-import dao.AutorDAO;
 import dao.BenutzerDAO;
-import dao.VerlagDAO;
 import domain.Anrede;
 import domain.Ausleihe;
-import domain.Autor;
 import domain.Benutzer;
-import domain.Verlag;
 
 /**
  * @version 0.1 16.10.2018

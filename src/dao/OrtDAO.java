@@ -20,22 +20,22 @@ public class OrtDAO implements DAOInterface<Ort> {
 	}
 	
 	@Override
-	public Ort save(Ort domainObject) {
+	public Ort save(Ort ortObject) {
 		return null;
      }
 
 	@Override
-	public Ort update(Ort domainObject) {			
+	public Ort update(Ort ortObject) {			
 		return null;
 	}
 
 	@Override
-	public boolean delete(Ort domainObject) {
+	public boolean delete(Ort ortObject) {
 		return false;
 }
 
 	@Override
-	public List<Ort> getSelektion(Ort domainObject) {
+	public List<Ort> getSelektion(Ort ortObject) {
 		return null;
 	}
 

@@ -83,8 +83,7 @@ public class TableModelBenutzer extends AbstractTableModel {
 		case 2:
 			returnWert = b.getVorname();
 			break;
-		case 3:	
-			//TODO
+		case 3:
 			if(b.getAdresse() != null) {
 				Adresse adresse = b.getAdresse();
 				String strasseNr = adresse.getStrasse();
@@ -93,31 +92,30 @@ public class TableModelBenutzer extends AbstractTableModel {
 			else {returnWert = "";}
 			break;
 		case 4:
-			if(b.getAdresse() != null) {
-				Adresse adresse = b.getAdresse();
-				Ort ort = adresse.getOrt();	
-				String ortString = ort.getOrt();
-				int plz = ort.getPlz();
-				returnWert = new String(plz + " " + ortString);
-			}
-			else {returnWert = "";}
+			Adresse adresse = b.getAdresse();
+			Ort ort = adresse.getOrt();	
+			String ortString = ort.getOrt();
+			int plz = ort.getPlz();
+			returnWert = new String(plz + " " + ortString);
+			break;
 		case 5:
-			//TODO
-			String s = Integer.toString(b.getBenutzerStatus());
-			if(s.equals("1")) {
+			int s = b.getBenutzerStatus();
+			if(s == 1) {
 				returnWert = "Aktiv";
+				break;
 			}
-			if(s.equals("2")) {
+			if(s == 2) {
 				returnWert = "Gesperrt";
+				break;
 			}
-			if(s.equals("3")) {
+			if(s == 3) {
 				returnWert = "Gelöscht";
+				break;
 			}
 			else {
 				returnWert = "";
+				break;
 			}
-			returnWert = s;
-			break;
 		}
 		return returnWert;
 	}

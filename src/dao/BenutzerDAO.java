@@ -37,15 +37,14 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 
 	@Override
 	public Benutzer save(Benutzer domainObject) {
+		ResultSet rs = null;
+		Benutzer b = new Benutzer();
+		int argCounter = 0;
+		
 		Adresse adresse = domainObject.getAdresse();
 		String strasseNr = adresse.getStrasse();
 		Ort ort = adresse.getOrt();	
 		int ortId = ort.getId();
-		String ortString = ort.getOrt();
-		int plzInt = ort.getPlz();
-		ResultSet rs = null;
-		Benutzer b = new Benutzer();
-		int argCounter = 0;
 		
 		String sql = "INSERT INTO "
 				+ "person "
@@ -117,7 +116,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					pstmt.setString(argCounter,erfassungMA);
 				}*/
 				argCounter++;
-				//pstmt.setInt(argCounter,domainObject.getMitarbeiterStatus());
 				
 				pstmt.executeUpdate();
 				
@@ -147,8 +145,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 		String strasseNr = adresse.getStrasse();
 		Ort ort = adresse.getOrt();	
 		int ortId = ort.getId();
-		String ortString = ort.getOrt();
-		int plzInt = ort.getPlz();
 		ResultSet rs = null;
 		Benutzer a = new Benutzer();
 		String sql = "UPDATE person SET "
@@ -208,6 +204,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				}
 				// TODO ErfassungMA
 				pstmt.setInt(12,  domainObject.getId());
+				
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					a = domainObject;
@@ -269,8 +266,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ "statusPers_id "
 				+ "FROM person ";
 				if (domainObject.getId() != 0) {
-					sql = sql + "WHERE id = ";
-					sql = sql + " ?";
+					sql = sql + "WHERE id = ?";
 					whereCounter++;
 				}
 				if (domainObject.getName() != null) {
@@ -288,26 +284,31 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				}
 				if (domainObject.getAdresse() != null) {
 					Adresse adresse = domainObject.getAdresse();
-					String strasseNr = adresse.getStrasse();
-					Ort ort = adresse.getOrt();
-					int ortId = ort.getId();
-					String ortString = ort.getOrt();
-					int plz = ort.getPlz();
-					sql = sql + (whereCounter > 1?" AND": " WHERE");
-					sql = sql + (" strasseUndNr");
-					sql = sql + (SQLHelfer.likePruefung(strasseNr)?" LIKE": " =");
-					sql = sql + " ?";
-					whereCounter++;
-				}
-				if (domainObject.getAdresse() != null) {
-					sql = sql + (whereCounter > 1?" AND": " WHERE");
-					sql = sql + (" ort_id = ");
-					sql = sql + " ?";
-					whereCounter++;
+					
+					if(adresse.getStrasse() != null || !adresse.getStrasse().equals("") || adresse.getStrasse() != "") {
+						String strasseNr = adresse.getStrasse();
+						sql = sql + (whereCounter > 1?" AND": " WHERE");
+						sql = sql + (" strasseUndNr");
+						sql = sql + (SQLHelfer.likePruefung(strasseNr)?" LIKE": " =");
+						sql = sql + " ?";
+						whereCounter++;
+					}
+					if(adresse.getOrt() != null) {
+						Ort ort = adresse.getOrt();
+						String ortString = ort.getOrt();
+						sql = sql + (whereCounter > 1?" AND": " WHERE");
+						sql = sql + (" ort_id");
+						sql = sql + (SQLHelfer.likePruefung(ortString)?" LIKE": " =");
+						sql = sql + " ?";
+						whereCounter++;
+					}
 				}
 				// TODO Status
-				sql = sql + (whereCounter > 1?" AND": " WHERE");
-				sql = sql + (" statusPers_id = ?");
+				if (domainObject.getBenutzerStatus() != 0) {
+					sql = sql + (whereCounter > 1?" AND": " WHERE");
+					sql = sql + (" statusPers_id = ?");
+				}
+				
 			try {
 				int pCounter = 1;
 				conn = dbConnection.getDBConnection();
@@ -329,20 +330,20 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					String strasseNr = adresse.getStrasse();
 					Ort ort = adresse.getOrt();	
 					int ortId = ort.getId();
-					String ortString = ort.getOrt();
-					int plz = ort.getPlz();
 					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(strasseNr));
 					pCounter++;
 					pstmt.setInt(pCounter,ortId);
 					pCounter++;
 				}
-				pstmt.setInt(pCounter, domainObject.getBenutzerStatus());
-				pCounter++;
+				if (domainObject.getBenutzerStatus() != 0) {
+					pstmt.setInt(pCounter, domainObject.getBenutzerStatus());
+				}
 				
 				rs = pstmt.executeQuery();
+				
 				while(rs.next()) {
 					Benutzer b = new Benutzer();
-					b = findById(rs.getInt(1));					
+					b = findById(rs.getInt(1));				
 					benutzerListe.add(b);
 					}
 			} catch (SQLException e) {
@@ -361,6 +362,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 	public Benutzer findById(int id) {
 		Benutzer a = new Benutzer();
 		OrtDAO ortDao = new OrtDAO();
+		StatusDAO statusDAO = new StatusDAO();
 		ResultSet rs = null;
 		String sql = "SELECT "
 				+ "id, vorname, nachname, strasseUndNr, ort_id, geburtstag, "
@@ -387,7 +389,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setErfassungDatum(rs.getDate(10));
 					 //a.setErfassungMitarbeiter(rs.getInt(11));
 					 a.setAnrede(rs.getInt(12));
-					 a.setBenutzerStatus(rs.getInt(13));
+					 Status status = statusDAO.findById(rs.getInt(13));
+					 a.setBenutzerStatus(status.getId());
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

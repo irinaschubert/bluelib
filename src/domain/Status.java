@@ -9,17 +9,15 @@ public class Status {
 
 	private int id;
 	private String bezeichnung;
-	final static public int AKTIV = 1;
-	final static public int GESPERRT = 2;
-	final static public int GELOESCHT = 3;
 	
-	public Status() {
-		
+	public Status(int id, String bezeichnung) {
+		this.id = id;
+		this.bezeichnung = bezeichnung;
 	}
 	
-	public static String[] getStatus() {
-		String[] anreden = {"aktiv", "gesperrt", "gelöscht"};
-		return anreden;
+	public Status() {
+		this.id = 0;
+		this.bezeichnung = "";
 	}
 
 	public int getId() {

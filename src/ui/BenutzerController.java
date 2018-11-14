@@ -208,17 +208,11 @@ public class BenutzerController {
 		if (!benutzerView.getBemerkungT().getText().isEmpty()) {
 			b.setBemerkung(benutzerView.getBemerkungT().getText());
 		}
-		// TODO Dropdown richtig aufsetzen (wie PLZ mit Renderer etc.)
-		String auswahlStatusString = (String)benutzerView.getStatusCbx().getSelectedItem();
-        if(auswahlStatusString.equals("aktiv")) {
-        	b.setBenutzerStatus(Status.AKTIV);
-        }
-        if(auswahlStatusString.equals("gesperrt")) {
-        	b.setBenutzerStatus(Status.GESPERRT);
-        }
-        if(auswahlStatusString.equals("gelöscht")) {
-        	b.setBenutzerStatus(Status.GELOESCHT);
-        }
+		Status statusSelected = (Status)benutzerView.getStatusCbx().getSelectedItem();
+        int status = statusSelected.getId();
+        b.setBenutzerStatus(status);
+		
+		// TODO Anrede-Dropdown richtig aufsetzen
         Anrede auswahlAnrede = (Anrede)benutzerView.getAnredeCbx().getSelectedItem();
         if(auswahlAnrede.getBezeichnung().equals("Frau")) {
         	b.setAnrede(2);
@@ -227,7 +221,7 @@ public class BenutzerController {
         	b.setAnrede(1);
         }
         if (!benutzerView.getErfasstVonT().getText().isEmpty()) {
-        	// TODO
+        	// TODO Erfassungsmitarbeiter
 			//b.setErfassungMitarbeiter(benutzerView.getErfasstVonT().getText());
 		}
         if (!benutzerView.getErfasstAmT().getText().isEmpty()) {
@@ -248,33 +242,33 @@ public class BenutzerController {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
 		// TODO Trennen von Suche nach Strasse/Nr und PLZ/Ort
-		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty()) {
-			String strasse = benutzerView.getStrasseNrSucheT().getText();
-			int plzSelectedId = benutzerView.getPlzSucheCbx().getSelectedIndex();
+		if (benutzerView.getPlzSucheCbx().getSelectedIndex() != 0) {
+			Ort plzSelected = (Ort) benutzerView.getPlzSucheCbx().getSelectedItem();
 			OrtDAO ortDAO = new OrtDAO();
-			Ort ortFromDao = ortDAO.findById(plzSelectedId);
+			Ort ortFromDao = ortDAO.findById(plzSelected.getId());
 			Ort ort = new Ort();
 			ort.setId(ortFromDao.getId());
 			ort.setPlz(ortFromDao.getPlz());
 			ort.setOrt(ortFromDao.getOrt());
-			Adresse adresse = new Adresse(strasse, ort);
+			Adresse adresse = new Adresse("", ort);
 			b.setAdresse(adresse);
 		}
-        String auswahlStatusString = (String)benutzerView.getStatusSucheCbx().getSelectedItem();
-        if(auswahlStatusString.equals("aktiv")) {
-        	b.setBenutzerStatus(Status.AKTIV);
-        }
-        if(auswahlStatusString.equals("gesperrt")) {
-        	b.setBenutzerStatus(Status.GESPERRT);
-        }
-        if(auswahlStatusString.equals("gelöscht")) {
-        	b.setBenutzerStatus(Status.GELOESCHT);
-        }
+		
+		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty()) {
+			String strasse = benutzerView.getStrasseNrSucheT().getText();
+			Adresse adresse = new Adresse(strasse, null);
+			b.setAdresse(adresse);
+		}
+		
+		Status statusSelected = (Status)benutzerView.getStatusSucheCbx().getSelectedItem();
+        int status = statusSelected.getId();
+        b.setBenutzerStatus(status);
 		return b;
 	}
 
 	private void uebernehmen() {
 		felderLeeren();
+		
 		Benutzer benutzer = new Benutzer();
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		benutzer = tableModelBenutzer.getGeklicktesObjekt(benutzerView.getBenutzerTabelle().getSelectedRow());
@@ -302,20 +296,7 @@ public class BenutzerController {
 		if (benutzer.getBemerkung() != null) {
 			benutzerView.getBemerkungT().setText(benutzer.getBemerkung());
 		}
-		if (benutzer.getMitarbeiterStatus() == 1) {
-			
-		} else if (benutzer.getMitarbeiterStatus() != 1) {
-			benutzerView.getMitarbeiterCbx().setSelected(false);
-		}
-        if(benutzer.getBenutzerStatus() == Status.AKTIV) {
-        	benutzerView.getStatusCbx().setSelectedIndex(0);
-        }
-        if(benutzer.getBenutzerStatus() == Status.GESPERRT) {
-        	benutzerView.getStatusCbx().setSelectedIndex(1);
-        }
-        if(benutzer.getBenutzerStatus() == Status.GELOESCHT) {
-        	benutzerView.getStatusCbx().setSelectedIndex(2);
-        }
+		benutzerView.getStatusCbx().setSelectedIndex(benutzer.getBenutzerStatus() - 1);
         if(benutzer.getAnrede() == 1) {
         	benutzerView.getAnredeCbx().setSelectedIndex(0);
         }
@@ -337,7 +318,7 @@ public class BenutzerController {
 
 	// Felder leeren
 	private void felderLeeren() {
-		for(Component control : benutzerView.getBenutzerSuchenPanel().getComponents())
+		/*for(Component control : benutzerView.getBenutzerSuchenPanel().getComponents())
 		{
 		    if(control instanceof JTextField)
 		    {
@@ -349,7 +330,7 @@ public class BenutzerController {
 		        JComboBox ctr = (JComboBox) control;
 		        ctr.setSelectedIndex(0);
 		    }
-		}
+		}*/
 		for(Component control : benutzerView.getBenutzerNeuBearbeitenPanel().getComponents())
 		{
 		    if(control instanceof JTextField)
@@ -359,7 +340,7 @@ public class BenutzerController {
 		    }
 		    else if (control instanceof JComboBox)
 		    {
-		        JComboBox ctr = (JComboBox) control;
+		        JComboBox<Object> ctr = (JComboBox) control;
 		        ctr.setSelectedIndex(0);
 		    }
 		}
@@ -377,7 +358,6 @@ public class BenutzerController {
 		benutzerView.getTelL().setText("Telefonnummer:");
 		benutzerView.getMailL().setText("E-Mailadresse:");
 		benutzerView.getBemerkungL().setText("Bemerkung: ");
-		benutzerView.getMitarbeiterL().setText("MA:");
 		benutzerView.getStatusL().setText("Status:");
 		benutzerView.getAnredeL().setText("Anrede:");
 		benutzerView.getErfasstAmL().setText("Erfasst am:");
@@ -390,6 +370,20 @@ public class BenutzerController {
 		benutzerView.getPlzSucheL().setText("PLZ:");
 		benutzerView.getOrtSucheL().setText("Ort:");
 		benutzerView.getStatusSucheL().setText("Status:");
+		
+		StatusRenderer statusR = new StatusRenderer();
+		benutzerView.getStatusCbx().setRenderer(statusR);
+		benutzerView.getStatusCbx().addItem(new Status(1,"Aktiv"));
+		benutzerView.getStatusCbx().addItem(new Status(2,"Gesperrt"));
+		benutzerView.getStatusCbx().addItem(new Status(3,"Gelöscht"));
+		benutzerView.getStatusCbx().setSelectedIndex(0);
+		
+		StatusSucheRenderer statusSucheR = new StatusSucheRenderer();
+		benutzerView.getStatusSucheCbx().setRenderer(statusSucheR);
+		benutzerView.getStatusSucheCbx().addItem(new Status(1,"Aktiv"));
+		benutzerView.getStatusSucheCbx().addItem(new Status(2,"Gesperrt"));
+		benutzerView.getStatusSucheCbx().addItem(new Status(3,"Gelöscht"));
+		benutzerView.getStatusSucheCbx().setSelectedIndex(0);
 		
 		PlzRenderer plzR = new PlzRenderer();
 		benutzerView.getPlzCbx().setRenderer(plzR);
