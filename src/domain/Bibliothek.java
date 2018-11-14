@@ -7,15 +7,24 @@ package domain;
  */
 public class Bibliothek{
 	
+	private int id;
 	private String name;
 	private String email;
 	private String telefon;
 	private String oeffnungszeiten;
-	private Adresse adresse;
-	private int leihdauer; // Anz. Tage
+	private String strasseUndNr;
+	private int leihfrist; // Anz. Tage
 	
 	public Bibliothek() {
 		
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -50,20 +59,20 @@ public class Bibliothek{
 		this.oeffnungszeiten = oeffnungszeiten;
 	}
 
-	public Adresse getAdresse() {
-		return adresse;
+	public String getStrasseUndNr() {
+		return strasseUndNr;
 	}
 
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
+	public void setStrasseUndNr(String strasseUndNr) {
+		this.strasseUndNr = strasseUndNr;
 	}
 
-	public int getLeihdauer() {
-		return leihdauer;
+	public int getLeihfrist() {
+		return leihfrist;
 	}
 
-	public void setLeihdauer(int leihdauer) {
-		this.leihdauer = leihdauer;
+	public void setLeihfrist(int leihfrist) {
+		this.leihfrist = leihfrist;
 	}
 	
 	

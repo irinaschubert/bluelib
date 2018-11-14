@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.SwingUtilities;
 
 import domain.EingeloggterMA;
+import services.LoginService;
 
 /**
  * 
- * Der Hauptcontroller stellt die Menübefehle zur Verfügung und steuert den Aufruf der Views und Controller der jeweiligen Menü-
- * befehle
+ * Der Hauptcontroller stellt die Menübefehle zur Verfügung und steuert den
+ * Aufruf der Views und Controller der jeweiligen Menü- befehle
+ * 
  * @version 2018-11-07
  * @author Schmutz
  *
@@ -19,11 +21,17 @@ import domain.EingeloggterMA;
 public class HauptController {
 	HauptView hauptView;
 	HauptController hauptController;
+	Boolean entwicklung = true;
 
 	public HauptController(HauptView hauptView) {
 		this.hauptView = hauptView;
 		this.hauptController = this;
-		initialisieren();
+		if (entwicklung) {
+			selbstInitialisation();
+		} else {
+
+			initialisieren();
+		}
 		control();
 	}
 
@@ -32,7 +40,32 @@ public class HauptController {
 
 		hauptView.getMedienAutorM().addActionListener(autorMenueActionListener());
 		hauptView.getBeendenM().addActionListener(beendenActionLIstener());
+		hauptView.getAdministrationStammdatenM().addActionListener(stammdatenMenuActionListener());
 
+	}
+
+	private ActionListener stammdatenMenuActionListener() {
+		ActionListener stammdatenMenuActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						BibliothekView bibliothekView = new BibliothekView("Bibliotheksdaten");
+						new BibliothekController(bibliothekView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(bibliothekView.getPreferredSize()));
+						hauptView.getContentPane().add(bibliothekView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+
+					}
+				});
+
+			}
+		};
+		return stammdatenMenuActionListener;
 	}
 
 	private ActionListener autorMenueActionListener() {
@@ -73,10 +106,11 @@ public class HauptController {
 
 		return autorBeendenActionListener;
 	}
-	
+
 	public void initialisierenNachLogin() {
 		hauptView.getJMenuBar().setVisible(true); // Nach der Anmeldung soll die Menubar wieder sichtbar sein
-		hauptView.getAdministrationM().setEnabled(EingeloggterMA.getInstance().getMitarbeiter().isAdmin()); // Disablen Admin-Menü
+		hauptView.getAdministrationM().setEnabled(EingeloggterMA.getInstance().getMitarbeiter().isAdmin()); // Disablen
+																											// Admin-Menü
 		panelEntfernen();
 	}
 
@@ -98,7 +132,7 @@ public class HauptController {
 				LoginView loginView = new LoginView("Login");
 				new LoginController(loginView, hauptController);
 				hauptView.getContentPane().removeAll();
-				//hauptView.setSize(new Dimension(loginView.getPreferredSize()));
+				// hauptView.setSize(new Dimension(loginView.getPreferredSize()));
 				hauptView.getContentPane().add(loginView);
 				hauptView.validate();
 				hauptView.setVisible(true);
@@ -106,7 +140,11 @@ public class HauptController {
 			}
 		});
 	}
-	
+
+	private void selbstInitialisation() {
+		new LoginService().loginPruefen("Mike", "abdc");
+	}
+
 	public void applikationSchliessen() {
 		hauptView.dispose();
 		System.exit(0);
