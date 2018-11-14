@@ -241,16 +241,19 @@ public class BenutzerController {
 		if (!benutzerView.getVornameSucheT().getText().isEmpty()) {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
-		// TODO Trennen von Suche nach Strasse/Nr und PLZ/Ort
 		if (benutzerView.getPlzSucheCbx().getSelectedIndex() != 0) {
 			Ort plzSelected = (Ort) benutzerView.getPlzSucheCbx().getSelectedItem();
+			/*System.out.println(plzSelected.getOrt());
 			OrtDAO ortDAO = new OrtDAO();
 			Ort ortFromDao = ortDAO.findById(plzSelected.getId());
 			Ort ort = new Ort();
 			ort.setId(ortFromDao.getId());
 			ort.setPlz(ortFromDao.getPlz());
-			ort.setOrt(ortFromDao.getOrt());
-			Adresse adresse = new Adresse("", ort);
+			ort.setOrt(ortFromDao.getOrt());*/
+			
+			int ortId = plzSelected.getId();
+			
+			Adresse adresse = new Adresse("", new Ort(ortId));
 			b.setAdresse(adresse);
 		}
 		
@@ -286,15 +289,23 @@ public class BenutzerController {
 		}
 		if (benutzer.getGeburtsdatum() != null) {
 			benutzerView.getGeburtsdatumT().setText(DateConverter.convertJavaDateToString(benutzer.getGeburtsdatum()));
+		}else {
+			benutzerView.getGeburtsdatumT().setText("");
 		}
 		if (benutzer.getTelefon() != null) {
 			benutzerView.getTelT().setText(benutzer.getTelefon());
+		}else {
+			benutzerView.getTelT().setText("");
 		}
 		if (benutzer.getEmail() != null) {
 			benutzerView.getMailT().setText(benutzer.getEmail());
+		}else {
+			benutzerView.getMailT().setText("");
 		}
 		if (benutzer.getBemerkung() != null) {
 			benutzerView.getBemerkungT().setText(benutzer.getBemerkung());
+		}else {
+			benutzerView.getBemerkungT().setText("");
 		}
 		benutzerView.getStatusCbx().setSelectedIndex(benutzer.getBenutzerStatus() - 1);
         if(benutzer.getAnrede() == 1) {
@@ -380,6 +391,7 @@ public class BenutzerController {
 		
 		StatusSucheRenderer statusSucheR = new StatusSucheRenderer();
 		benutzerView.getStatusSucheCbx().setRenderer(statusSucheR);
+		benutzerView.getStatusSucheCbx().addItem(new Status(0,"alle"));
 		benutzerView.getStatusSucheCbx().addItem(new Status(1,"Aktiv"));
 		benutzerView.getStatusSucheCbx().addItem(new Status(2,"Gesperrt"));
 		benutzerView.getStatusSucheCbx().addItem(new Status(3,"Gelöscht"));

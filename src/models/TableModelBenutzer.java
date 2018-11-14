@@ -8,6 +8,7 @@ import dao.BenutzerDAO;
 import domain.Adresse;
 import domain.Benutzer;
 import domain.Ort;
+import domain.Status;
 import hilfsklassen.DateConverter;
 
 /**

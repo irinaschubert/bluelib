@@ -294,16 +294,11 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 						whereCounter++;
 					}
 					if(adresse.getOrt() != null) {
-						Ort ort = adresse.getOrt();
-						String ortString = ort.getOrt();
 						sql = sql + (whereCounter > 1?" AND": " WHERE");
-						sql = sql + (" ort_id");
-						sql = sql + (SQLHelfer.likePruefung(ortString)?" LIKE": " =");
-						sql = sql + " ?";
+						sql = sql + (" ort_id = ?");
 						whereCounter++;
 					}
 				}
-				// TODO Status
 				if (domainObject.getBenutzerStatus() != 0) {
 					sql = sql + (whereCounter > 1?" AND": " WHERE");
 					sql = sql + (" statusPers_id = ?");
@@ -327,13 +322,17 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				}
 				if (domainObject.getAdresse() != null) {
 					Adresse adresse = domainObject.getAdresse();
-					String strasseNr = adresse.getStrasse();
-					Ort ort = adresse.getOrt();	
-					int ortId = ort.getId();
-					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(strasseNr));
-					pCounter++;
-					pstmt.setInt(pCounter,ortId);
-					pCounter++;
+					if(adresse.getStrasse() != null || !adresse.getStrasse().equals("") || adresse.getStrasse() != "") {
+						String strasseNr = adresse.getStrasse();
+						pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(strasseNr));
+						pCounter++;
+					}
+					if(adresse.getOrt() != null) {
+						Ort ort = adresse.getOrt();
+						int ortId = ort.getId();
+						pstmt.setInt(pCounter,ortId);
+						pCounter++;
+					}
 				}
 				if (domainObject.getBenutzerStatus() != 0) {
 					pstmt.setInt(pCounter, domainObject.getBenutzerStatus());
