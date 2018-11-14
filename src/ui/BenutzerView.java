@@ -91,45 +91,46 @@ public class BenutzerView extends JPanel {
 	private JButton suchButton;
 	private JTable benutzerTabelle;
 	private LinkedHashMap<JLabel, JComponent> componentsNeuAktualisieren = new LinkedHashMap<>();
-	private static int HOEHE = 800;
-	private static int BREITE = 1000;
+	private static int HOEHE = 950;
+	private static int BREITE = 750;
 
 	public BenutzerView(String panelTitel) {
 		
 		new JLabel(panelTitel);
 		benutzerListe = new JPanel();
-		suchButton = new JButton();
-		
-		benutzerTabelle = new JTable();
-		benutzerTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane scroll = new JScrollPane(benutzerTabelle);
-		
-		JPanel tabellenPanel = new JPanel();
-		tabellenPanel.setLayout(new BoxLayout(tabellenPanel, BoxLayout.Y_AXIS));
-		JLabel tabellenTitel = new JLabel("Gefundene Benutzer:");
-		tabellenPanel.add(tabellenTitel);
-		tabellenPanel.add(scroll);
-		
-		benutzerNeuBearbeitenPanel = createNeuerBenutzerPanel();
 		buttonPanel = new StandardButtonPanel();
+		suchButton = new JButton();
 
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.add(createSuchePanel(), BorderLayout.NORTH);
-		centerPanel.add(tabellenPanel, BorderLayout.CENTER);
-		centerPanel.add(benutzerNeuBearbeitenPanel, BorderLayout.SOUTH);
+		centerPanel.add(createTabellenPanel(), BorderLayout.CENTER);
+		centerPanel.add(createNeuerBenutzerPanel(), BorderLayout.SOUTH);
 		
 		this.setLayout(new BorderLayout());
 		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
-		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
 
+	private JPanel createTabellenPanel() {
+		benutzerTabelle = new JTable();
+		benutzerTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JPanel tabellenPanel = new JPanel();
+		tabellenPanel.setLayout(new BoxLayout(tabellenPanel, BoxLayout.Y_AXIS));
+		JLabel tabellenTitel = new JLabel("Gefundene Benutzer:");
+		tabellenPanel.add(tabellenTitel);
+		tabellenPanel.add(new JScrollPane(benutzerTabelle));
+		tabellenPanel.setPreferredSize(new Dimension(680,200));
+		return tabellenPanel;
+	}
+	
 	private JPanel createNeuerBenutzerPanel() {
 		benutzerNeuBearbeitenPanel = new JPanel();
 		benutzerNeuBearbeitenPanel.setLayout(new GridBagLayout());
 		benutzerNeuBearbeitenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		//benutzerNeuBearbeitenPanel.setPreferredSize(new Dimension(680,400));
         FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
         neuAendernL = new JLabel();
@@ -152,7 +153,7 @@ public class BenutzerView extends JPanel {
 		mailL = new JLabel();
 		mailT = new JTextField();
 		bemerkungL = new JLabel();
-		bemerkungT = new JTextArea();
+		bemerkungT = new JTextArea(2,1);
 		erfasstVonL = new JLabel();
 		erfasstVonT = new JTextField();
 		erfasstAmL = new JLabel();
@@ -229,6 +230,7 @@ public class BenutzerView extends JPanel {
 		benutzerSuchenPanel = new JPanel();
 		benutzerSuchenPanel.setLayout(new GridBagLayout());
 		benutzerSuchenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		//benutzerSuchenPanel.setPreferredSize(new Dimension(680,210));
         FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 		PKSucheL = new JLabel();
 		PKSucheT = new JTextField();

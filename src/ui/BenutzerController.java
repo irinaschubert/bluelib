@@ -7,7 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -17,11 +23,14 @@ import javax.swing.JTextField;
 
 import dao.AnredeDAO;
 import dao.BenutzerDAO;
+import dao.MitarbeiterDAO;
 import dao.OrtDAO;
 import dao.StatusDAO;
 import domain.Adresse;
 import domain.Anrede;
 import domain.Benutzer;
+import domain.EingeloggterMA;
+import domain.Mitarbeiter;
 import domain.Ort;
 import domain.Status;
 import hilfsklassen.ButtonNamen;
@@ -223,11 +232,22 @@ public class BenutzerController {
         Anrede auswahlAnrede = (Anrede)benutzerView.getAnredeCbx().getSelectedItem();
         b.setAnrede(auswahlAnrede);
         
-        if (!benutzerView.getErfasstVonT().getText().isEmpty()) {
-        	// TODO Erfassungsmitarbeiter
-			//b.setErfassungMitarbeiter(benutzerView.getErfasstVonT().getText());
+        if (benutzerView.getErfasstVonT().getText().isEmpty() || benutzerView.getErfasstVonT().getText().equals("")) {
+        	Mitarbeiter ma = EingeloggterMA.getInstance().getMitarbeiter();
+        	System.out.println(ma.getName());
+			b.setErfassungMitarbeiter(EingeloggterMA.getInstance().getMitarbeiter());
+		}else {
+			String maString = benutzerView.getErfasstVonT().getText();
+			MitarbeiterDAO maDAO = new MitarbeiterDAO();
+			//Mitarbeiter ma = maDAO.findByName();
+			b.setErfassungMitarbeiter(new Mitarbeiter());
 		}
-        if (!benutzerView.getErfasstAmT().getText().isEmpty()) {
+        if (benutzerView.getErfasstAmT().getText().isEmpty() || benutzerView.getErfasstAmT().getText().equals("")) {
+        	Date date = new Date();
+        	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        	System.out.println(sdf.format(date));
+			b.setErfassungDatum(date);
+		}else {
 			b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));
 		}
 		return b;
@@ -419,6 +439,8 @@ public class BenutzerController {
 		benutzerView.getPKT().setEditable(false);
 		benutzerView.getOrtT().setEditable(false);
 		benutzerView.getOrtSucheT().setEditable(false);
+		benutzerView.getErfasstVonT().setEditable(false);
+		benutzerView.getErfasstAmT().setEditable(false);
 		benutzerView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
 		benutzerView.getButtonPanel().getButton2().setVisible(false);
 		benutzerView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());

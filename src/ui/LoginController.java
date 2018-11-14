@@ -2,24 +2,12 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
-import dao.MitarbeiterDAO;
 import domain.Autor;
 import hilfsklassen.ButtonNamen;
-import hilfsklassen.DateConverter;
-import models.TableModelAutor;
 import services.LoginService;
-import services.NormdatenService;
 import services.Verifikation;
 
 /**
@@ -44,7 +32,7 @@ public class LoginController {
 
 	}
 
-//	Definierten des Listeners für die Button-Klicks
+//	Definieren des Listeners für die Button-Klicks
 	private void control() {
 
 		ActionListener anmeldenActionListener = new ActionListener() {
@@ -68,9 +56,7 @@ public class LoginController {
 						loginView.getPasswortP().setText(null);
 					}
 				}
-
 			}
-
 		};
 
 		// Zuweisen des Actionlisteners zum Anmelden-Button
@@ -82,12 +68,10 @@ public class LoginController {
 			public void actionPerformed(ActionEvent e) {
 				hauptController.applikationSchliessen();
 			}
-
 		};
 
 		// Zuweisen des Actionlisteners zum Abbrechen-Button
 		loginView.getButtonPanel().getButton3().addActionListener(abbrechenActionListener);
-
 	}
 
 	private boolean inputValidierungSuchen() {

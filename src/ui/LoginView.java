@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -34,9 +33,7 @@ public class LoginView extends JPanel {
 		passwortL = new JLabel();
 		passwortL.setBorder(new EmptyBorder(0, 0, 0, 10));
 		
-		
 		this.setLayout(new BorderLayout());
-		// Titel des Panels
 		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
 		this.add(erstellePanel(), BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
@@ -50,8 +47,6 @@ public class LoginView extends JPanel {
 		placeComp(benutzerNameT, panel, 1,0,-1,-1, GridBagConstraints.HORIZONTAL, 1);
 		placeComp(passwortP, panel, 1,1,-1,-1, GridBagConstraints.HORIZONTAL, 1);
 		return panel;
-		
-		
 	}
 	
 	  public void placeComp(JComponent comp, JPanel panel, int x, int y, int w, int h, int fill, int weight) {
