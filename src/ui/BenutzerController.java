@@ -15,7 +15,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -232,23 +235,19 @@ public class BenutzerController {
         Anrede auswahlAnrede = (Anrede)benutzerView.getAnredeCbx().getSelectedItem();
         b.setAnrede(auswahlAnrede);
         
-        if (benutzerView.getErfasstVonT().getText().isEmpty() || benutzerView.getErfasstVonT().getText().equals("")) {
-        	Mitarbeiter ma = EingeloggterMA.getInstance().getMitarbeiter();
-        	System.out.println(ma.getName());
-			b.setErfassungMitarbeiter(EingeloggterMA.getInstance().getMitarbeiter());
-		}else {
-			String maString = benutzerView.getErfasstVonT().getText();
-			MitarbeiterDAO maDAO = new MitarbeiterDAO();
-			//Mitarbeiter ma = maDAO.findByName();
-			b.setErfassungMitarbeiter(new Mitarbeiter());
+        if (!benutzerView.getErfasstVonT().getText().isEmpty() || !benutzerView.getErfasstVonT().getText().equals("")) {
+        	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+        	b.setErfassungMitarbeiter(mitarbeiterDAO.findByBenutzername(benutzerView.getErfasstVonT().getText()));
 		}
-        if (benutzerView.getErfasstAmT().getText().isEmpty() || benutzerView.getErfasstAmT().getText().equals("")) {
-        	Date date = new Date();
-        	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        	System.out.println(sdf.format(date));
-			b.setErfassungDatum(date);
+        else {
+        	b.setErfassungMitarbeiter(EingeloggterMA.getInstance().getMitarbeiter());
+        }
+        if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
+        	b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstVonT().getText()));
 		}else {
-			b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));
+			Date date = new Date();
+        	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			b.setErfassungDatum(date);
 		}
 		return b;
 	}
@@ -324,6 +323,16 @@ public class BenutzerController {
 		}
 		benutzerView.getStatusCbx().setSelectedItem(benutzer.getBenutzerStatus());
 		benutzerView.getAnredeCbx().setSelectedItem(benutzer.getAnrede());
+		if (benutzer.getErfassungMitarbeiter() != null) {
+        	benutzerView.getErfasstVonT().setText(benutzer.getErfassungMitarbeiter().getBenutzername());
+		}else {
+			benutzerView.getErfasstVonT().setText("");
+		}
+        if (benutzer.getErfassungDatum() != null) {
+			benutzerView.getErfasstAmT().setText(DateConverter.convertJavaDateToString(benutzer.getErfassungDatum()));
+		}else {
+			benutzerView.getErfasstAmT().setText("");
+		}
 	}
 
 	private void nachArbeitSpeichern(Verifikation v) {
@@ -339,6 +348,19 @@ public class BenutzerController {
 
 	// Felder leeren
 	private void felderLeeren() {
+		for (Component t : benutzerView.getBenutzerNeuBearbeitenPanel().getComponents()) {
+			if (t instanceof JTextField) {
+				((JTextField) t).setText("");
+			}
+			if (t instanceof JTextArea) {
+				((JTextArea) t).setText("");
+			}
+			if (t instanceof JComboBox) {
+				((JComboBox) t).setSelectedIndex(0);
+			}
+
+		}
+		
 		Component[] components = benutzerView.getBenutzerNeuBearbeitenPanel().getComponents();
 		
 		for (int i = 0; i < components.length; ++i) {

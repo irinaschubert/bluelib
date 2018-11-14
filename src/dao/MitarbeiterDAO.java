@@ -144,7 +144,6 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 				m.setPasswort(rs.getString(pCounter++));
 				m.setAdmin(rs.getBoolean(pCounter++));
 				m.setAktiv(rs.getBoolean(pCounter++));
-
 			}
 
 		} catch (SQLException e) {
@@ -161,10 +160,52 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			} catch (Exception ex) {
 			}
 		}
-
 		return m;
 	}
 
+	public Mitarbeiter findByBenutzername(String benutzername) {
+		ResultSet rs = null;
+		Mitarbeiter m = null;
+		String sql = "SELECT " + "id, " + "benutzername, " + "passwort, " + "admin, " + "aktiv " + "FROM mitarbeiter ";
+		sql = sql + ("WHERE benutzername LIKE ? ");
+
+		try {
+
+			int pCounter = 1;
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, benutzername);
+
+			rs = pstmt.executeQuery();
+			pCounter = 1;
+			while (rs.next()) {
+				m = new Mitarbeiter();
+				m.setId(rs.getInt(pCounter++));
+				m.setBenutzername(rs.getString(pCounter++));
+				m.setPasswort(rs.getString(pCounter++));
+				m.setAdmin(rs.getBoolean(pCounter++));
+				m.setAktiv(rs.getBoolean(pCounter++));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+			}
+		}
+		return m;
+	}
+
+	
 	@Override
 	public List<Mitarbeiter> findAll() {
 		// TODO Auto-generated method stub
@@ -182,16 +223,13 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		ResultSet rs = null;
 		String sql = "SELECT " + "id " + "FROM mitarbeiter " + "WHERE aktiv = TRUE " + "AND benutzername = ? "
 				+ "AND passwort = ?";
-
 		try {
 
 			int pCounter = 1;
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setString(pCounter++, benutzername);
 			pstmt.setString(pCounter++, HashRechner.hashBerechnen(passwort));
-
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {

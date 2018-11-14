@@ -1,11 +1,14 @@
 package domain;
 
 public class EingeloggterMA extends Mitarbeiter {
-	private static final EingeloggterMA INSTANCE = new EingeloggterMA();
+	private static EingeloggterMA INSTANCE = null;
 	private Mitarbeiter mitarbeiter;
 
 	public static EingeloggterMA getInstance() {
-		return INSTANCE;
+		if(INSTANCE == null) {
+			INSTANCE = new EingeloggterMA();
+	       }
+	       return INSTANCE;
 	}
 
 	public Mitarbeiter getMitarbeiter() {

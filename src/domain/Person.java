@@ -19,7 +19,7 @@ public abstract class Person {
 	private String telefon;
 	private String bemerkung;
 	private Date erfassungDatum;
-	private Person erfassungMitarbeiter;
+	private Mitarbeiter erfassungMitarbeiter;
 	
 	public Person() {
 		
@@ -105,11 +105,11 @@ public abstract class Person {
 		this.erfassungDatum = erfassungDatum;
 	}
 
-	public Person getErfassungMitarbeiter() {
+	public Mitarbeiter getErfassungMitarbeiter() {
 		return erfassungMitarbeiter;
 	}
 
-	public void setErfassungMitarbeiter(Person erfassungMitarbeiter) {
+	public void setErfassungMitarbeiter(Mitarbeiter erfassungMitarbeiter) {
 		this.erfassungMitarbeiter = erfassungMitarbeiter;
 	}
 

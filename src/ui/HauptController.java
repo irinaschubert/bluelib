@@ -141,8 +141,7 @@ public class HauptController {
 
 	public void initialisierenNachLogin() {
 		hauptView.getJMenuBar().setVisible(true); // Nach der Anmeldung soll die Menubar wieder sichtbar sein
-		hauptView.getAdministrationM().setEnabled(EingeloggterMA.getInstance().getMitarbeiter().isAdmin()); // Disablen
-																										// Admin-Menü
+		hauptView.getAdministrationM().setEnabled(EingeloggterMA.getInstance().getMitarbeiter().isAdmin()); // Disablen Admin-Menü
 		panelEntfernen();
 	}
 

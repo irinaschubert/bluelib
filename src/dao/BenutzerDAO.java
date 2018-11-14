@@ -10,6 +10,7 @@ import java.util.List;
 
 import domain.Adresse;
 import domain.Benutzer;
+import domain.Mitarbeiter;
 import domain.Ort;
 import domain.Status;
 import hilfsklassen.DateConverter;
@@ -58,8 +59,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ (domainObject.getTelefon() != null ? ",telefon ":"")
 				+ (domainObject.getEmail() != null ? ",email ":"")
 				+ (domainObject.getErfassungDatum() != null ? ",erfassungsdatum ":"")
-				//+ (domainObject.getErfassungMitarbeiter() != null ? ",person_id ":"") // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
-				//+ ",mitarbeiter_id " // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
+				+ (domainObject.getErfassungMitarbeiter() != null ? ",person_id ":"")
 				+ ") "
 				+ "VALUES "
 				+ "(?, ?, ?, ?, ?"
@@ -69,8 +69,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ (domainObject.getTelefon() != null ? ",? ":"")
 				+ (domainObject.getEmail() != null ? ",? ":"")
 				+ (domainObject.getErfassungDatum() != null ? ",? ":"")
-				//+ (domainObject.getErfassungMitarbeiter() != null ? ",? ":"")
-				//+ ",?)";
+				+ (domainObject.getErfassungMitarbeiter() != null ? ",? ":"")
 				+ ")";
 			try {
 				conn = dbConnection.getDBConnection();
@@ -107,14 +106,10 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					argCounter++;
 					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getErfassungDatum()));
 				}
-				/*if (domainObject.getErfassungMitarbeiter() != null) {
+				if (domainObject.getErfassungMitarbeiter() != null) {
 					argCounter++;
-					String vorname = domainObject.getErfassungMitarbeiter().getVorname();
-					String nachname = domainObject.getErfassungMitarbeiter().getName();
-					String erfassungMA = new String(vorname + " " + nachname);
-					pstmt.setString(argCounter,erfassungMA);
-				}*/
-				argCounter++;
+					pstmt.setInt(argCounter,domainObject.getErfassungMitarbeiter().getId());
+				}
 				
 				pstmt.executeUpdate();
 				
@@ -158,9 +153,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ ",telefon = ? "
 				+ ",email = ? "
 				+ ",erfassungsdatum = ? "
+				+ ",person_id = ? "
 				+ " WHERE id = ?";
-				//+ (domainObject.getErfassungMitarbeiter() != null ? ",person_id ":"") // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
-				//+ ",mitarbeiter_id " // left join mitarbeiter on person.mitarbeiter_id = mitarbeiter.id
 				
 			try {
 				conn = dbConnection.getDBConnection();
@@ -201,8 +195,12 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				else {
 					pstmt.setNull(11,java.sql.Types.DATE);
 				}
-				// TODO ErfassungMA
-				pstmt.setInt(12,  domainObject.getId());
+				if (domainObject.getErfassungMitarbeiter() != null) {
+					pstmt.setInt(12,domainObject.getErfassungMitarbeiter().getId());
+				}else {
+					pstmt.setInt(12,0);
+				}
+				pstmt.setInt(13,  domainObject.getId());
 				
 				int i = pstmt.executeUpdate();
 				if (i>0) {
@@ -388,7 +386,9 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setEmail(rs.getString(8));
 					 a.setBemerkung(rs.getString(9));
 					 a.setErfassungDatum(rs.getDate(10));
-					 //a.setErfassungMitarbeiter(rs.getInt(11));
+					 MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+					 Mitarbeiter ma = mitarbeiterDAO.findById(rs.getInt(11));
+					 a.setErfassungMitarbeiter(ma);
 					 a.setAnrede(anredeDAO.findById(rs.getInt(12)));
 					 a.setBenutzerStatus(statusDAO.findById(rs.getInt(13)));
 				}
