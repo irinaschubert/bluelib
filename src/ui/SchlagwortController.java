@@ -14,14 +14,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import domain.Schlagwort;
 import hilfsklassen.ButtonNamen;
-import hilfsklassen.DateConverter;
-import models.TableModelAutor;
+import models.TableModelSchlagwort;
 import services.NormdatenService;
 import services.Verifikation;
 
 /**
  * 
- * Controller für die Autoren-View, der die Logik und die Benutzeraktionen der
+ * Controller für die Schlagworten-View, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 25.10.2018
@@ -30,31 +29,30 @@ import services.Verifikation;
  */
 
 public class SchlagwortController {
-	private AutorView autorView;
+	private SchlagwortView schlagwortView;
 	private NormdatenService normdatenService;
-	private List<Autor> autorL;
-	private TableModelAutor tableModelAutor;
-	private Autor autorSuchobjekt;
+	private List<Schlagwort> schlagwortL;
+	private TableModelSchlagwort tableModelSchlagwort;
+	private Schlagwort schlagwortSuchobjekt;
 	private HauptController hauptController;
 
 	public SchlagwortController(SchlagwortView view, HauptController hauptController) {
 		schlagwortView = view;
 		this.hauptController = hauptController;
 		normdatenService = new NormdatenService();
-		autorL = new ArrayList<>();
-		tableModelAutor = new TableModelAutor();
-//		autorL = normdatenService.alleautoren();
-		tableModelAutor.setAndSortListe(autorL);
-		view.getAutorenTabelle().setModel(tableModelAutor);
+		schlagwortL = new ArrayList<>();
+		tableModelSchlagwort = new TableModelSchlagwort();
+		tableModelSchlagwort.setAndSortListe(schlagwortL);
+		view.getSchlagwortTabelle().setModel(tableModelSchlagwort);
 		view.spaltenBreiteSetzen();
-		autorSuchobjekt = new Autor();
+		schlagwortSuchobjekt = new Schlagwort();
 
 		initialisieren();
 		control();
 
 	}
 
-//	Definierten des Listeners für die Button-Klicks
+	// Definierten des Listeners für die Button-Klicks
 	private void control() {
 
 		ActionListener suchenButtonActionListener = new ActionListener() {
@@ -63,9 +61,9 @@ public class SchlagwortController {
 			public void actionPerformed(ActionEvent e) {
 
 				if (inputValidierungSuchen()) {
-					autorSuchobjekt = feldwertezuObjektSuchen();
-					autorL = normdatenService.sucheAutor(autorSuchobjekt);
-					tableModelAutor.setAndSortListe(autorL);
+					schlagwortSuchobjekt = feldwertezuObjektSuchen();
+					schlagwortL = normdatenService.sucheSchlagwort(schlagwortSuchobjekt);
+					tableModelSchlagwort.setAndSortListe(schlagwortL);
 				}
 
 			}
@@ -73,29 +71,30 @@ public class SchlagwortController {
 		};
 
 		// Zuweisen des Actionlisteners zum Suchen-Button
-		autorView.getSuchButton().addActionListener(suchenButtonActionListener);
+		schlagwortView.getSuchButton().addActionListener(suchenButtonActionListener);
 
 		ActionListener neuButtonActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				suchFelderLeeren();
-				autorView.getNeuAendernL().setText("Neuerfassung");
+				schlagwortView.getNeuAendernL().setText("Neuerfassung");
 			}
 
 		};
 
 		// Zuweisen des Actionlisteners zum Neu-Button
-		autorView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
+		schlagwortView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
 
 		ActionListener sichernButtonActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Autor a = new Autor();
+				schlagwort a = new chlagwort();
 				if (inputValidierungSpeichern()) {
 					a = feldwertezuObjektSpeichern();
-					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
+					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor
+					// aktialisiert wird
 					if (autorView.getPKT().getText().isEmpty()) {
 
 						nachAarbeitSpeichern(normdatenService.sichereAutor(a));
