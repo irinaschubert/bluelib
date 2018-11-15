@@ -49,6 +49,7 @@ public class TableModelSchlagwort extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
+		System.out.println(schlagwortListe);
 		return schlagwortListe.size();
 	}
 
