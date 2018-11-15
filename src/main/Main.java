@@ -23,15 +23,6 @@ public class Main {
 
 			}
 		});
-		
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				SchlagwortView view = new SchlagwortView("Schlagwortview");
-				new SchlagwortController(view);
-
-			}
-		});
 	}
 
 }

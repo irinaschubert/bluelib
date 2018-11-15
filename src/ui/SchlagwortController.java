@@ -20,11 +20,11 @@ import services.Verifikation;
 
 /**
  * 
- * Controller für die Schlagworten-View, der die Logik und die Benutzeraktionen der
- * View steuert und der View die Models übergibt
+ * Controller für die Schlagworten-View, der die Logik und die Benutzeraktionen
+ * der View steuert und der View die Models übergibt
  * 
- * @version 1.0 25.10.2018
- * @author Schmutz
+ * @version 1.0 15.11.2018
+ * @author Mike
  *
  */
 
@@ -90,17 +90,15 @@ public class SchlagwortController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				schlagwort a = new chlagwort();
+				Schlagwort s = new Schlagwort();
 				if (inputValidierungSpeichern()) {
-					a = feldwertezuObjektSpeichern();
-					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor
+					s = feldwertezuObjektSpeichern();
+					// Prüfung, ob ein neuer Schlagwort erfasst wurde oder ein Schlagwort
 					// aktialisiert wird
-					if (autorView.getPKT().getText().isEmpty()) {
-
-						nachAarbeitSpeichern(normdatenService.sichereAutor(a));
-
+					if (schlagwortView.getPKT().getText().isEmpty()) {
+						nachAarbeitSpeichern(normdatenService.sichereSchlagwort(s));
 					} else {
-						nachAarbeitSpeichern(normdatenService.aktualisiereAutor(a));
+						nachAarbeitSpeichern(normdatenService.aktualisiereSchlagwort(s));
 					}
 				}
 
@@ -109,7 +107,7 @@ public class SchlagwortController {
 		};
 
 		// Zuweisen des Actionlisteners zum Sichern-Button
-		autorView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
+		schlagwortView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
 
 		ActionListener schliessenButtonActionListener = new ActionListener() {
 
@@ -121,136 +119,85 @@ public class SchlagwortController {
 		};
 
 		// Zuweisen des Actionlisteners zum Schliessen-Button
-		autorView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
+		schlagwortView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					uebernehmen();
-					autorView.getNeuAendernL().setText("Bearbeiten");
+					schlagwortView.getNeuAendernL().setText("Bearbeiten");
 				}
 			}
 		};
 
 		// Zuweisen des Mouselisteners zur Tabelle
-		autorView.getAutorenTabelle().addMouseListener(doppelKlick);
+		schlagwortView.getSchlagwortTabelle().addMouseListener(doppelKlick);
 
 	}
 
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
-
-		if (!autorView.getGeburtsDatumSucheT().getText().isEmpty()) {
-			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumSucheT().getText())) {
-				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
-				autorView.getGeburtsDatumL().setText("");
-				keinInputFehler = false;
-			}
-		}
-
+		// To do
 		return keinInputFehler;
-
 	}
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
-		if (autorView.getNachnameT().getText().isEmpty() || (autorView.getVornameT().getText().isEmpty())) {
+		if (schlagwortView.getSchlagwortT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 			keinInputFehler = false;
-		}
-
-		if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
-			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumT().getText())) {
-				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
-				autorView.getGeburtsDatumL().setText("");
-				keinInputFehler = false;
-			}
-		}
-
-		if (!autorView.getTodesDatumT().getText().isEmpty()) {
-			if (!DateConverter.datumIstGueltig(autorView.getTodesDatumT().getText())) {
-				JOptionPane.showMessageDialog(null, "Ungültiges Todesdatum");
-				autorView.getTodesDatumL().setText("");
-				keinInputFehler = false;
-			}
 		}
 
 		return keinInputFehler;
 
 	}
 
-	private Autor feldwertezuObjektSpeichern() {
-		Autor a = new Autor();
-		if (!autorView.getPKT().getText().isEmpty()) {
-			a.setId(Integer.parseInt(autorView.getPKT().getText()));
+	private Schlagwort feldwertezuObjektSpeichern() {
+		Schlagwort s = new Schlagwort();
+		if (!schlagwortView.getPKT().getText().isEmpty()) {
+			s.setId(Integer.parseInt(schlagwortView.getPKT().getText()));
 		}
-		a.setName(autorView.getNachnameT().getText());
-		a.setVorname(autorView.getVornameT().getText());
-		if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
-			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumT().getText()));
-		}
-
-		if (!autorView.getTodesDatumT().getText().isEmpty()) {
-			if (DateConverter.datumIstGueltig(autorView.getTodesDatumT().getText())) {
-				a.setTodesdatum(DateConverter.convertStringToJavaDate(autorView.getTodesDatumT().getText()));
-			}
-		}
-		a.setGeloescht(autorView.getGeloeschtCbx().isSelected());
-		return a;
+		s.setSchlagwort(schlagwortView.getSchlagwortT().getText());
+		s.setGeloescht(schlagwortView.getGeloeschtCbx().isSelected());
+		return s;
 	}
 
-	private Autor feldwertezuObjektSuchen() {
-		Autor a = new Autor();
-		if (!autorView.getNachnameSucheT().getText().isEmpty()) {
-			a.setName(autorView.getNachnameSucheT().getText());
+	private Schlagwort feldwertezuObjektSuchen() {
+		Schlagwort s = new Schlagwort();
+		if (!schlagwortView.getSchlagwortSucheT().getText().isEmpty()) {
+			s.setSchlagwort(schlagwortView.getSchlagwortSucheT().getText());
 		}
 
-		if (!autorView.getVornameSucheT().getText().isEmpty()) {
-			a.setVorname(autorView.getVornameSucheT().getText());
-		}
-		if (!autorView.getGeburtsDatumSucheT().getText().isEmpty()) {
-			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumSucheT().getText()));
-		}
-
-		a.setGeloescht(autorView.getGeloeschtSucheCbx().isSelected());
-		return a;
+		s.setGeloescht(schlagwortView.getGeloeschtSucheCbx().isSelected());
+		return s;
 	}
 
 	private void uebernehmen() {
-		Autor autor = new Autor();
-		autor = tableModelAutor.getGeklicktesObjekt(autorView.getAutorenTabelle().getSelectedRow());
+		Schlagwort s = new Schlagwort();
+		s = tableModelSchlagwort.getGeklicktesObjekt(schlagwortView.getSchlagwortTabelle().getSelectedRow());
 
-		autorView.getPKT().setText(Integer.toString(autor.getId()));
-		autorView.getNachnameT().setText(autor.getName());
-		autorView.getVornameT().setText(autor.getVorname());
+		schlagwortView.getPKT().setText(Integer.toString(s.getId()));
+		schlagwortView.getSchlagwortT().setText(s.getSchlagwort());
 
-		if (autor.getGeburtsdatum() != null) {
-			autorView.getGeburtsDatumT().setText(DateConverter.convertJavaDateToString(autor.getGeburtsdatum()));
-		}
-
-		if (autor.getTodesdatum() != null) {
-			autorView.getTodesDatumT().setText(DateConverter.convertJavaDateToString(autor.getTodesdatum()));
-		}
-		autorView.getGeloeschtCbx().setSelected(autor.getGeloescht());
+		schlagwortView.getGeloeschtCbx().setSelected(s.getGeloescht());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelAutor.setAndSortListe(normdatenService.sucheAutor(autorSuchobjekt));
+			tableModelSchlagwort.setAndSortListe(normdatenService.sucheSchlagwort(schlagwortSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
 		suchFelderLeeren();
-		autorView.getNeuAendernL().setText("");
+		schlagwortView.getNeuAendernL().setText("");
 
 	}
 
 	private void suchFelderLeeren() {
-
 		// Felder leeren
-		for (JComponent t : autorView.getComponentsNeuBearbeiten().values()) {
+		for (JComponent t : schlagwortView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
 			}
@@ -263,22 +210,18 @@ public class SchlagwortController {
 
 	public void initialisieren() {
 
-		autorView.getPKL().setText("Nr:");
-		autorView.getNachnameL().setText("Name:*");
-		autorView.getVornameL().setText("Vorname:*");
-		autorView.getGeburtsDatumL().setText("Geburtsdatum:");
-		autorView.getTodesDatumL().setText("Todesdatum:");
-		autorView.getGeloescht().setText("Löschvormerkung:");
-		autorView.getNachnameSucheL().setText("Name:");
-		autorView.getVornameSucheL().setText("Vorname:");
-		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
-		autorView.getGeloeschtSucheL().setText("inkl. gelöschte:");
-		autorView.getSuchButton().setText("Suchen");
-		autorView.getPKT().setEditable(false);
-		autorView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
-		autorView.getButtonPanel().getButton2().setVisible(false);
-		autorView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
-		autorView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
+		schlagwortView.getPKL().setText("Nr:");
+		schlagwortView.getSchlagwortL().setText("Schlagwort:*");
+		schlagwortView.getGeloescht().setText("Löschvormerkung:");
+		//
+		schlagwortView.getSchlagwortSucheL().setText("Schlagwort:");
+		schlagwortView.getGeloeschtSucheL().setText("inkl. gelöschte:");
+		schlagwortView.getSuchButton().setText("Suchen");
+		schlagwortView.getPKT().setEditable(false);
+		schlagwortView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
+		schlagwortView.getButtonPanel().getButton2().setVisible(false);
+		schlagwortView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
+		schlagwortView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
 
 	}
 }

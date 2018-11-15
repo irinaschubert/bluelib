@@ -24,14 +24,14 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
- * Zeigt alle Autoren an und ermoeglicht die Erfassung neuer Autoren
+ * Zeigt alle Schlagworte an und ermoeglicht die Erfassung neuer Schlagworte
  * 
  * @version 1.0 24.10.2018
  * @author Schmutz
  *
  */
 public class SchlagwortView extends JPanel {
-	private JPanel autorNeuBearbeitenPanel;
+	private JPanel schlagwortNeuBearbeitenPanel;
 	private StandardButtonPanel buttonPanel;
 	private JPanel centerPanel;
 	private JLabel PKL;
@@ -84,9 +84,9 @@ public class SchlagwortView extends JPanel {
 	 */
 	private JPanel createNeuesSchlagwortPanel() {
 
-		autorNeuBearbeitenPanel = new JPanel();
-		autorNeuBearbeitenPanel.setLayout(new BorderLayout());
-		autorNeuBearbeitenPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
+		schlagwortNeuBearbeitenPanel = new JPanel();
+		schlagwortNeuBearbeitenPanel.setLayout(new BorderLayout());
+		schlagwortNeuBearbeitenPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
 
 		componentsNeuBearbeiten.put(PKL = new JLabel(), PKT = new JTextField());
 		componentsNeuBearbeiten.put(schlagwortL = new JLabel(), schlagwortT = new JTextField());
@@ -132,16 +132,17 @@ public class SchlagwortView extends JPanel {
 		c.gridy = 5;
 		inputPanel.add(componentsNeuBearbeiten.get(geloeschtL), c);
 
-		autorNeuBearbeitenPanel.add(labelPanel, BorderLayout.WEST);
-		autorNeuBearbeitenPanel.add(inputPanel, BorderLayout.CENTER);
+		schlagwortNeuBearbeitenPanel.add(labelPanel, BorderLayout.WEST);
+		schlagwortNeuBearbeitenPanel.add(inputPanel, BorderLayout.CENTER);
 
-		return rahmenSetzen("Neu / Bearbeiten", autorNeuBearbeitenPanel);
+		return rahmenSetzen("Neu / Bearbeiten", schlagwortNeuBearbeitenPanel);
 
 	}
 
 	private JPanel createTabellenPanel() {
 		schlagwortTabelle = new JTable(); // Panel für die Tabelle
-		schlagwortTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Nur eine Zeile darf ausgewaehlt werden
+		schlagwortTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Nur eine Zeile darf ausgewaehlt
+																					// werden
 		JScrollPane scroll = new JScrollPane(schlagwortTabelle);
 
 		JPanel tabellenPanel = new JPanel();
@@ -205,15 +206,14 @@ public class SchlagwortView extends JPanel {
 		rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));
 		rahmenPanel.setBorder(BorderFactory.createTitledBorder(rahmentitel));
 		rahmenPanel.add(inhalt);
-	    return rahmenPanel;
+		return rahmenPanel;
 	}
 
 	public void spaltenBreiteSetzen() {
 
-		schlagwortTabelle.getColumnModel().getColumn(0).setPreferredWidth(80); // Id
+		schlagwortTabelle.getColumnModel().getColumn(0).setMaxWidth(50); // Id
 		schlagwortTabelle.getColumnModel().getColumn(1).setPreferredWidth(80); // Schlagwort
-		schlagwortTabelle.getColumnModel().getColumn(2).setPreferredWidth(40); // Status
-		schlagwortTabelle.getColumnModel().getColumn(3).setMaxWidth(30); // LV
+		schlagwortTabelle.getColumnModel().getColumn(2).setMaxWidth(50); // LV
 	}
 
 	public StandardButtonPanel getButton() {
@@ -224,8 +224,8 @@ public class SchlagwortView extends JPanel {
 		return buttonPanel;
 	}
 
-	public JPanel getNeuerAutorPanel() {
-		return autorNeuBearbeitenPanel;
+	public JPanel getNeuerSchlagwortPanel() {
+		return schlagwortNeuBearbeitenPanel;
 	}
 
 	public JLabel getSchlagwortL() {
