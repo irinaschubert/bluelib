@@ -141,10 +141,11 @@ public class BuchView extends JPanel {
 
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		JPanel development = createSuchePanel();
-		//centerPanel.add(createSuchePanel(), BorderLayout.NORTH);
+		JPanel development = createNeuesBuchPanel();
+		centerPanel.add(createSuchePanel(), BorderLayout.NORTH);
 		centerPanel.add(createTabellenPanel(), BorderLayout.CENTER);
-		centerPanel.add(createNeuesBuchPanel(), BorderLayout.SOUTH);
+		
+		//centerPanel.add(createNeuesBuchPanel(), BorderLayout.SOUTH);
 
 		this.setLayout(new BorderLayout());
 		// Titel des Panels
@@ -165,7 +166,8 @@ public class BuchView extends JPanel {
 	private JPanel createNeuesBuchPanel() {
 
 		buchNeuBearbeitenPanel = new JPanel();
-		buchNeuBearbeitenPanel.setLayout(new GridBagLayout());
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		buchNeuBearbeitenPanel.setLayout(gridBagLayout);
 		GridBagHelfer gridBagHelfer = new GridBagHelfer();
 		
 		PKL = new JLabel();
@@ -233,6 +235,8 @@ public class BuchView extends JPanel {
 		
 		autorList = new JList<>();
 		JScrollPane scrollPaneAutorList = new JScrollPane(autorList);
+		scrollPaneAutorList.setPreferredSize(new Dimension(250, 10));
+		
 		JPanel test = new JPanel(new FlowLayout());
 		test.add(scrollPaneAutorList, BorderLayout.CENTER);
 		test.setMaximumSize(new Dimension(5, 5));
@@ -243,11 +247,13 @@ public class BuchView extends JPanel {
 		
 		schlagwortList = new JList<>();
 		JScrollPane scrollPaneSchlagwortList = new JScrollPane(schlagwortList);
+		scrollPaneSchlagwortList.setPreferredSize(new Dimension(250, 10));
 		
 		notizL = new JLabel();
 		notizA = new JTextArea(10,10);
 		JScrollPane scrollPaneNotiz = new JScrollPane();
 		scrollPaneNotiz.setViewportView(notizA);
+		scrollPaneNotiz.setPreferredSize(new Dimension(250, 50));
 		
 		
 		erfassungsDatumL = new JLabel();
@@ -300,34 +306,36 @@ public class BuchView extends JPanel {
 		gridBagHelfer.feldSetzen(anzahlSeitenT, buchNeuBearbeitenPanel, 1, 5);
 		gridBagHelfer.labelSetzen(preisL, buchNeuBearbeitenPanel, 3, 5);
 		gridBagHelfer.feldSetzen(preisT, buchNeuBearbeitenPanel, 4, 5);
-		gridBagHelfer.labelSetzen(jahrL, buchNeuBearbeitenPanel, 0, 6);
-		gridBagHelfer.feldSetzen(jahrT, buchNeuBearbeitenPanel, 1, 6);
-		gridBagHelfer.labelSetzen(ortL, buchNeuBearbeitenPanel, 3, 6);
-		gridBagHelfer.feldSetzen(ortT, buchNeuBearbeitenPanel, 4, 6);
-		gridBagHelfer.labelSetzen(isbnL, buchNeuBearbeitenPanel, 0, 7);
-		gridBagHelfer.feldSetzen(isbnT, buchNeuBearbeitenPanel, 1, 7);
-		gridBagHelfer.labelSetzen(statusL, buchNeuBearbeitenPanel, 3, 7);
-		gridBagHelfer.feldSetzen(statusCbx, buchNeuBearbeitenPanel, 4, 7);
-		gridBagHelfer.labelSetzen(autorL, buchNeuBearbeitenPanel, 0, 8);
-		gridBagHelfer.feldSetzen(autorCbx, buchNeuBearbeitenPanel, 1, 8);
-		gridBagHelfer.labelSetzen(zuweisenAutorB, buchNeuBearbeitenPanel, 0, 9);
-		gridBagHelfer.feldSetzenHoch(autorList, buchNeuBearbeitenPanel, 1, 9, 2);
-		gridBagHelfer.labelSetzen(entfernenAutorB, buchNeuBearbeitenPanel, 0, 10);
-		gridBagHelfer.labelSetzen(schlagwortL, buchNeuBearbeitenPanel, 0, 11);
-		gridBagHelfer.feldSetzen(schlagwortCbx, buchNeuBearbeitenPanel, 1, 11);
-		gridBagHelfer.feldSetzenBreitHoch(signatur, buchNeuBearbeitenPanel, 3, 8, 2, 2);
-		gridBagHelfer.labelSetzen(zuweisenSchlagwortB, buchNeuBearbeitenPanel, 0, 12);
-		gridBagHelfer.labelSetzen(entferntenSchlagwortB, buchNeuBearbeitenPanel, 0, 13);
-//		gridBagHelfer.feldSetzenHoch(scrollPaneSchlagwortList, buchNeuBearbeitenPanel, 1, 12, 2);
-		gridBagHelfer.labelSetzen(notizL, buchNeuBearbeitenPanel, 3, 10);
-//		gridBagHelfer.feldSetzenHoch(scrollPaneNotiz, buchNeuBearbeitenPanel, 4, 10,4);
+		gridBagHelfer.labelSetzen(jahrL, buchNeuBearbeitenPanel, 3, 6);
+		gridBagHelfer.feldSetzen(jahrT, buchNeuBearbeitenPanel, 4, 6);
+		gridBagHelfer.labelSetzen(ortL, buchNeuBearbeitenPanel, 3, 8);
+		gridBagHelfer.feldSetzen(ortT, buchNeuBearbeitenPanel, 4, 8);
+		gridBagHelfer.labelSetzen(isbnL, buchNeuBearbeitenPanel, 3, 7);
+		gridBagHelfer.feldSetzen(isbnT, buchNeuBearbeitenPanel, 4, 7);
+		gridBagHelfer.labelSetzen(statusL, buchNeuBearbeitenPanel, 3, 9);
+		gridBagHelfer.feldSetzen(statusCbx, buchNeuBearbeitenPanel, 4, 9);
+		gridBagHelfer.labelSetzen(autorL, buchNeuBearbeitenPanel, 0, 6);
+		gridBagHelfer.feldSetzen(autorCbx, buchNeuBearbeitenPanel, 1, 6);
+		gridBagHelfer.labelSetzen(zuweisenAutorB, buchNeuBearbeitenPanel, 0, 7);
+		gridBagHelfer.feldSetzenHoch(scrollPaneAutorList, buchNeuBearbeitenPanel, 1, 7, 2);
+		gridBagHelfer.labelSetzen(entfernenAutorB, buchNeuBearbeitenPanel, 0, 8);
+		gridBagHelfer.labelSetzen(schlagwortL, buchNeuBearbeitenPanel, 0, 9);
+		gridBagHelfer.feldSetzen(schlagwortCbx, buchNeuBearbeitenPanel, 1, 9);
+		gridBagHelfer.feldSetzenBreitHoch(signatur, buchNeuBearbeitenPanel, 3, 10, 2, 2);
+		gridBagHelfer.labelSetzen(zuweisenSchlagwortB, buchNeuBearbeitenPanel, 0, 10);
+		gridBagHelfer.labelSetzen(entferntenSchlagwortB, buchNeuBearbeitenPanel, 0, 11);
+		gridBagHelfer.feldSetzenHoch(scrollPaneSchlagwortList, buchNeuBearbeitenPanel, 1, 10, 2);
+		gridBagHelfer.labelSetzen(notizL, buchNeuBearbeitenPanel, 0, 12);
+		gridBagHelfer.feldSetzenBreitHoch(scrollPaneNotiz,buchNeuBearbeitenPanel, 1, 12, 2, 4);
 		gridBagHelfer.labelSetzen(erfassungsDatumL, buchNeuBearbeitenPanel, 0, 14);
 		gridBagHelfer.feldSetzen(erfassungsDatumT, buchNeuBearbeitenPanel, 1, 14);
 		gridBagHelfer.labelSetzen(erfassungsUserL, buchNeuBearbeitenPanel, 3, 14);
 		gridBagHelfer.feldSetzen(erfassungsUserT, buchNeuBearbeitenPanel, 4, 14);
-		
-		
 
+		
+		
+//		JPanel autorPanel = new JPanel();
+//		autorPanel.setLayout(BoxLayout(autorPanel, BoxLayout.));
 		
 		
 		
@@ -357,6 +365,8 @@ public class BuchView extends JPanel {
 		suchPanel.setLayout(new GridBagLayout());
 		autorSucheCbx = new JComboBox<Autor>();
 		autorSucheCbx.setRenderer(new AutorRenderer());
+		verlagSucheCbx = new JComboBox<Verlag>();
+		verlagSucheCbx.setRenderer(new VerlagRenderer());
 		statusSucheCbx = new JComboBox<Status>();
 		statusSucheCbx.setRenderer(new StatusRenderer());
 
@@ -448,6 +458,20 @@ public class BuchView extends JPanel {
 		 }
 		 
 		 public void feldSetzenHoch(JComponent comp, JPanel panel, int x, int y, int height) {
+			 gbc = new GridBagConstraints();
+			 gbc.fill = GridBagConstraints.VERTICAL;
+			 gbc.anchor = GridBagConstraints.NORTHWEST;
+			 gbc.gridheight = 2;
+			 gbc.gridwidth = GridBagConstraints.REMAINDER;
+		        gbc.gridx = x;
+		        gbc.gridy = y;
+		        gbc.insets = new Insets(5, 0, 0, 10);
+		        gbc.weighty = 1;
+		        gbc.weightx = 0.5;
+		        panel.add(comp, gbc);
+		 }
+		 
+		 public void feldSetzenHochSP2(JComponent comp, JPanel panel, int x, int y, int height) {
 			 gbc = new GridBagConstraints();
 			 gbc.fill = GridBagConstraints.VERTICAL;
 			 gbc.anchor = GridBagConstraints.NORTHWEST;

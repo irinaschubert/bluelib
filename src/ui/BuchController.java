@@ -284,6 +284,8 @@ public class BuchController {
 		
     	buchView.getAutorSucheC().setModel(new DefaultComboBoxModel(normdatenService.alleautoren().toArray()));
 		buchView.getAutorSucheC().setSelectedIndex(-1);
+    	buchView.getVerlagSucheC().setModel(new DefaultComboBoxModel(normdatenService.alleVerlage().toArray()));
+		buchView.getVerlagSucheC().setSelectedIndex(-1);
 		buchView.getStatusSucheCbx().setModel(new DefaultComboBoxModel(medienHandlingService.alleMedienStati().toArray()));
 		
 //		autorView.getNachnameL().setText("Name:*");
