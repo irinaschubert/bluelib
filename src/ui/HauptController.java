@@ -3,6 +3,8 @@ package ui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import domain.EingeloggterMA;
@@ -39,6 +41,7 @@ public class HauptController {
 	private void control() {
 
 		hauptView.getMedienAutorM().addActionListener(autorMenueActionListener());
+		hauptView.getMedienBuchM().addActionListener(buchMenueActionListener());
 		hauptView.getBeendenM().addActionListener(beendenActionLIstener());
 
 	}
@@ -68,6 +71,33 @@ public class HauptController {
 
 		return autorMenuActionListener;
 	}
+	
+	private ActionListener buchMenueActionListener() {
+		ActionListener buchMenuActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						BuchView buchView = new BuchView("Buch");
+						new BuchController(buchView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(buchView.getPreferredSize()));
+						hauptView.getContentPane().add(buchView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+
+					}
+				});
+
+			}
+		};
+
+		return buchMenuActionListener;
+	}
+
 
 	private ActionListener beendenActionLIstener() {
 		ActionListener autorBeendenActionListener = new ActionListener() {

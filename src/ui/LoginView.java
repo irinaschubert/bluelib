@@ -45,16 +45,16 @@ public class LoginView extends JPanel {
 	private JPanel erstellePanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
-		placeComp(benutzerNameL, panel, 0,0,-1,-1, GridBagConstraints.HORIZONTAL, 0);
-		placeComp(passwortL, panel, 0,1,-1,-1, GridBagConstraints.HORIZONTAL, 0);
-		placeComp(benutzerNameT, panel, 1,0,-1,-1, GridBagConstraints.HORIZONTAL, 1);
-		placeComp(passwortP, panel, 1,1,-1,-1, GridBagConstraints.HORIZONTAL, 1);
+		komponentenPlatzieren(benutzerNameL, panel, 0,0,-1,-1, GridBagConstraints.HORIZONTAL, 0);
+		komponentenPlatzieren(passwortL, panel, 0,1,-1,-1, GridBagConstraints.HORIZONTAL, 0);
+		komponentenPlatzieren(benutzerNameT, panel, 1,0,-1,-1, GridBagConstraints.HORIZONTAL, 1);
+		komponentenPlatzieren(passwortP, panel, 1,1,-1,-1, GridBagConstraints.HORIZONTAL, 1);
 		return panel;
 		
 		
 	}
 	
-	  public void placeComp(JComponent comp, JPanel panel, int x, int y, int w, int h, int fill, int weight) {
+	  public void komponentenPlatzieren(JComponent comp, JPanel panel, int x, int y, int w, int h, int fill, int weight) {
 		    GridBagConstraints c = new GridBagConstraints();
 		    if (fill <= 0) {
 		    	c.fill = fill;
