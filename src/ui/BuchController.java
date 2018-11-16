@@ -78,7 +78,7 @@ public class BuchController {
 				if (inputValidierungSuchen()) {
 					buchSuchobjekt = feldwertezuObjektSuchen();
 					buchL = medienHandlingService.BuchSuchen(buchSuchobjekt);
-					tableModelBuch.setAndSortListe(buchL);
+					//tableModelBuch.setAndSortListe(buchL);
 				}
 
 			}
@@ -227,20 +227,19 @@ public class BuchController {
 
 		if (buchView.getAutorSucheCbx().getSelectedIndex() > 0) { // 0 = kein Autor ausgewählt
 			Autor a = new Autor();
-			a = (Autor) buchView.getAutorSucheCbx().getSelectedItem();
+			a = (Autor) buchView.getAutorSucheCbx().getModel().getSelectedItem();
 			b.setAutor(a);
 		}
 
 		if (buchView.getVerlagSucheCbx().getSelectedIndex() > 0) { // 0 = kein Verlag ausgewählt
-			b.setVerlag((Verlag) buchView.getVerlagSucheCbx().getSelectedItem());
+			b.setVerlag((Verlag) buchView.getVerlagSucheCbx().getModel().getSelectedItem());
 		}
 
 		if (!buchView.getSignaturSucheT().getText().isEmpty()) {
 			b.setSignatur(buchView.getSignaturSucheT().getText());
 		}
 
-		b.setStatus((Status) buchView.getStatusCbx().getModel().getSelectedItem());
-		System.out.println(buchView.getStatusCbx().getModel().getSelectedItem());
+		b.setStatus((Status) buchView.getStatusSucheCbx().getModel().getSelectedItem());
 
 		return b;
 	}

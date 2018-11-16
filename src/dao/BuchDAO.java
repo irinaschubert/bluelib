@@ -69,13 +69,11 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ "b.id, "
 				+ "b.seiten, "
 				+ "b.auflage, "
-				+ "b.medium_id, "
-				+ "ma.autor_id"
+				+ "b.medium_id "
 				+ "FROM medium m "
-				+ "INNER JOIN buch b on b.medium_id = m.id "
-				+ "INNER JOIN mediumautor ma on ma.medium_id = m.id ";
-
+				+ "INNER JOIN buch b on b.medium_id = m.id ";
 				sql = sql + " WHERE m.statusMedi_id = ? ";
+				
 				if (domainObject.getBarcodeNr() >= 0) {
 					System.out.println(domainObject.getBarcodeNr());
 					sql = sql + "AND m.barcodeNr = ? ";
@@ -93,9 +91,10 @@ public class BuchDAO implements DAOInterface<Buch> {
 				
 				if (domainObject.getAutoren() != null) {
 					if (domainObject.getAutoren().size() > 0) {
-						sql = sql + " AND WHERE ma.autor_id IN (";
+						sql = sql + " AND m.id IN (SELECT ma.medium_id FROM mediumautor ma "
+								+ "WHERE ma.autor_id IN (";
 					for (int i = 1; domainObject.getAutoren().size() >= i;i++) {
-						sql = sql + (i==domainObject.getAutoren().size()?"? )":"?, ");
+						sql = sql + (i==domainObject.getAutoren().size()?"? ))":"?, ");
 					}
 					}
 				}
@@ -141,6 +140,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 
 				rs = pstmt.executeQuery();
 				int count = 1;
+				AutorDAO autorDAO = new AutorDAO();
 				while(rs.next()) {
 					 Buch b = new Buch();
 					 b.setId(rs.getInt(count++));
@@ -148,6 +148,14 @@ public class BuchDAO implements DAOInterface<Buch> {
 					 b.setBarcodeNr(rs.getInt(count++));
 					 b.setPreis(rs.getDouble(count++));
 					 b.setErscheinungsJahr(rs.getString(count++));
+					 b.setReihe(rs.getString(count++));
+					 b.setErscheinungsOrt(rs.getString(count++));
+					 b.setErfassungDatum(rs.getDate(count++));
+					 b.setBemerkung(rs.getString(count++));
+					 b.setSignatur(rs.getString(count++));
+					 b.setVerlag(new VerlagDAO().findById(rs.getInt(count++)));
+					 b.setAutoren(new AutorDAO().findeAutorenZuMedium(rs.getInt(count++)));
+					 
 					 buchListe.add(b);
 					 }
 				
@@ -178,5 +186,6 @@ public class BuchDAO implements DAOInterface<Buch> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 }
