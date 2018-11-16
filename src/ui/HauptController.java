@@ -38,10 +38,15 @@ public class HauptController {
 //	Definierten des Listeners für die Button-Klicks
 	private void control() {
 
-		hauptView.getMedienAutorM().addActionListener(autorMenueActionListener());
-		hauptView.getMedienBuchM().addActionListener(buchMenueActionListener());
-		hauptView.getBeendenM().addActionListener(beendenActionLIstener());
 
+		hauptView.getMedienBuchM().addActionListener(buchMenueActionListener());
+		hauptView.getMedienAutorM().addActionListener(autorMenueActionListener());
+		hauptView.getBeendenM().addActionListener(beendenActionListener());
+		hauptView.getAdministrationStammdatenM().addActionListener(stammdatenMenuActionListener());
+		hauptView.getMedienVerlagM().addActionListener(verlagMenueActionListener());
+		hauptView.getBenutzerBenutzerM().addActionListener(benutzerMenuActionListener());
+
+		
 	}
 
 	private ActionListener autorMenueActionListener() {
@@ -95,9 +100,73 @@ public class HauptController {
 
 		return buchMenuActionListener;
 	}
+	
+	private ActionListener stammdatenMenuActionListener() {
+		ActionListener stammdatenMenuActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						BibliothekView bibliothekView = new BibliothekView("Bibliotheksdaten");
+						new BibliothekController(bibliothekView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(bibliothekView.getPreferredSize()));
+						hauptView.getContentPane().add(bibliothekView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return stammdatenMenuActionListener;
+	}
+
+	
+	private ActionListener benutzerMenuActionListener() {
+		ActionListener benutzerMenuActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						BenutzerView benutzerView = new BenutzerView("Benutzer");
+						new BenutzerController(benutzerView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(benutzerView.getPreferredSize()));
+						hauptView.getContentPane().add(benutzerView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return benutzerMenuActionListener;
+	}
+
+	private ActionListener verlagMenueActionListener() {
+		ActionListener verlagMenueActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						VerlagView verlagView = new VerlagView("Verlag");
+						new VerlagController(verlagView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(verlagView.getPreferredSize()));
+						hauptView.getContentPane().add(verlagView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return verlagMenueActionListener;
+	}
 
 
-	private ActionListener beendenActionLIstener() {
+	private ActionListener beendenActionListener() {
 		ActionListener autorBeendenActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
