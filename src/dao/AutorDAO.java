@@ -357,10 +357,9 @@ public class AutorDAO implements DAOInterface<Autor> {
 	
 	public List<Autor> findeAutorenZuMedium(int id){
 		ResultSet rs = null;
-		List<Autor> autorenListe = null;
 		String sql = "SELECT "
 				+ "ma.autor_id "
-				+ "FROM mediumautor ma"
+				+ "FROM mediumautor ma "
 				+ "WHERE ma.medium_id = ?";
 			try {
 				
@@ -370,7 +369,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 				rs = pstmt.executeQuery();
 				AutorDAO autorDAO = new AutorDAO();
 				while(rs.next()) {
-					autorenListe.add(autorDAO.findById(rs.getInt(1)));					
+					autorListe.add(autorDAO.findById(rs.getInt(1)));					
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

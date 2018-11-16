@@ -78,7 +78,7 @@ public class BuchController {
 				if (inputValidierungSuchen()) {
 					buchSuchobjekt = feldwertezuObjektSuchen();
 					buchL = medienHandlingService.BuchSuchen(buchSuchobjekt);
-					//tableModelBuch.setAndSortListe(buchL);
+					tableModelBuch.setAndSortListe(buchL);
 				}
 
 			}

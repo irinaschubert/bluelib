@@ -93,8 +93,8 @@ public class BuchDAO implements DAOInterface<Buch> {
 					if (domainObject.getAutoren().size() > 0) {
 						sql = sql + " AND m.id IN (SELECT ma.medium_id FROM mediumautor ma "
 								+ "WHERE ma.autor_id IN (";
-					for (int i = 1; domainObject.getAutoren().size() >= i;i++) {
-						sql = sql + (i==domainObject.getAutoren().size()?"? ))":"?, ");
+					for (int i = 0; i < domainObject.getAutoren().size();i++) {
+						sql = sql + (i + 1 == domainObject.getAutoren().size()?"? ))":"?, ");
 					}
 					}
 				}
@@ -139,9 +139,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 				
 
 				rs = pstmt.executeQuery();
-				int count = 1;
 				AutorDAO autorDAO = new AutorDAO();
 				while(rs.next()) {
+					int count = 1;
 					 Buch b = new Buch();
 					 b.setId(rs.getInt(count++));
 					 b.setTitel(rs.getString(count++));
@@ -154,8 +154,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 					 b.setBemerkung(rs.getString(count++));
 					 b.setSignatur(rs.getString(count++));
 					 b.setVerlag(new VerlagDAO().findById(rs.getInt(count++)));
-					 b.setAutoren(new AutorDAO().findeAutorenZuMedium(rs.getInt(count++)));
-					 
+					 b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
 					 buchListe.add(b);
 					 }
 				

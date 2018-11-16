@@ -87,7 +87,11 @@ public class TableModelBuch extends AbstractTableModel {
 			returnWert = b.getSignatur();
 			break;
 		case 3:
-			returnWert = b.getAutoren().get(0).getName();
+			String returnAutor = "";
+			for (int i = 0; i < b.getAutoren().size(); i++) {
+				returnAutor = returnAutor + (i+1==b.getAutoren().size()?b.getAutoren().get(i).getName():b.getAutoren().get(i).getName() + ", ");
+			}
+			returnWert = returnAutor;
 			break;
 		case 4:
 			returnWert = b.getVerlag().getName();
