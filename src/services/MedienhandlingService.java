@@ -2,7 +2,10 @@ package services;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import dao.BuchDAO;
 import dao.MedienStatusDAO;
+import dao.VerlagDAO;
 import domain.Benutzer;
 import domain.Buch;
 import domain.Medium;
@@ -57,9 +60,8 @@ public class MedienhandlingService {
 		return v;
 	}
 	
-	public ArrayList<Medium> mediumSuchen(Medium medium) {
-		ArrayList<Medium> m = new ArrayList<>();
-		return m;
+	public List<Buch> BuchSuchen(Buch buch) {
+		return new BuchDAO().getSelektion(buch);
 	}
 	
 	public Medium mediumScannen(long barcode) {

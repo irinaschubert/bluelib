@@ -322,7 +322,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ "geburtsdatum, "
 				+ "todesdatum, "
 				+ "geloescht "
-				+ "FROM autor";
+				+ "FROM autor "
+				+ "ORDER BY nachname, vorname";
 			try {
 				
 				conn = dbConnection.getDBConnection();

@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public class Buch extends Medium {
 	
-	private List<Autor> autoren;
+
 	private String barcode;
 	private Verlag verlag;
 	private String reihe;
@@ -22,15 +23,7 @@ public class Buch extends Medium {
 	private String erscheinungsOrt;
 	
 	public Buch() {
-		
-	}
 
-	public List<Autor> getAutoren() {
-		return autoren;
-	}
-
-	public void setAutoren(List<Autor> autoren) {
-		this.autoren = autoren;
 	}
 
 	public Verlag getVerlag() {

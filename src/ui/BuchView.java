@@ -363,17 +363,18 @@ public class BuchView extends JPanel {
 		FormularMitGridbaglayoutTemp formularHelfer = new FormularMitGridbaglayoutTemp();
 		//suchPanel.setBorder(new EmptyBorder(0, 0, 20, 0));
 		suchPanel.setLayout(new GridBagLayout());
-		autorSucheCbx = new JComboBox<Autor>();
-		autorSucheCbx.setRenderer(new AutorRenderer());
+		
 		verlagSucheCbx = new JComboBox<Verlag>();
 		verlagSucheCbx.setRenderer(new VerlagRenderer());
+		autorSucheCbx = new JComboBox<Autor>();
+		autorSucheCbx.setRenderer(new AutorRenderer());
 		statusSucheCbx = new JComboBox<Status>();
 		statusSucheCbx.setRenderer(new StatusRenderer());
 
 		componentsSuche.put(barcodeSucheL = new JLabel(), barcodeSucheT = new JTextField());
 		componentsSuche.put(titelSucheL = new JLabel(), titelSucheT = new JTextField());
 		componentsSuche.put(autorSucheL = new JLabel(), autorSucheCbx );
-		componentsSuche.put(verlagSucheL = new JLabel(), verlagSucheCbx = new JComboBox<Verlag>());
+		componentsSuche.put(verlagSucheL = new JLabel(), verlagSucheCbx);
 		componentsSuche.put(signaturSucheL = new JLabel(), signaturSucheT = new JTextField());
 		componentsSuche.put(statusSucheL = new JLabel(), statusSucheCbx);
 
@@ -721,20 +722,9 @@ public class BuchView extends JPanel {
 		this.titelSucheT = titelSucheT;
 	}
 
-	public JComboBox<Autor> getAutorSucheC() {
-		return autorSucheCbx;
-	}
-
-	public void setAutorSucheC(JComboBox<Autor> autorSucheC) {
-		this.autorSucheCbx = autorSucheC;
-	}
 
 	public JComboBox<Verlag> getVerlagSucheC() {
 		return verlagSucheCbx;
-	}
-
-	public void setVerlagSucheC(JComboBox<Verlag> verlagSucheC) {
-		this.verlagSucheCbx = verlagSucheC;
 	}
 
 	public JTextField getSignaturSucheT() {

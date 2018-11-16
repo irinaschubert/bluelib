@@ -16,9 +16,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import domain.Autor;
 import domain.Buch;
+import domain.Status;
 import domain.Verlag;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
+import hilfsklassen.IntHelfer;
+import models.ComboBoxModelAutor;
+import models.ComboBoxModelVerlag;
 import models.TableModelAutor;
 import models.TableModelBuch;
 import services.MedienhandlingService;
@@ -27,8 +31,8 @@ import services.Verifikation;
 
 /**
  * 
- * Controller für die Buch-View, der die Logik und die Benutzeraktionen der
- * View steuert und der View die Models übergibt
+ * Controller für die Buch-View, der die Logik und die Benutzeraktionen der View
+ * steuert und der View die Models übergibt
  * 
  * @version 1.0 2018-11-13
  * @author Schmutz
@@ -72,9 +76,9 @@ public class BuchController {
 			public void actionPerformed(ActionEvent e) {
 
 				if (inputValidierungSuchen()) {
-//					autorSuchobjekt = feldwertezuObjektSuchen();
-//					autorL = normdatenService.sucheAutor(autorSuchobjekt);
-//					tableModelAutor.setAndSortListe(autorL);
+					buchSuchobjekt = feldwertezuObjektSuchen();
+					buchL = medienHandlingService.BuchSuchen(buchSuchobjekt);
+					tableModelBuch.setAndSortListe(buchL);
 				}
 
 			}
@@ -151,13 +155,14 @@ public class BuchController {
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
 
-//		if (!autorView.getGeburtsDatumSucheT().getText().isEmpty()) {
-//			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumSucheT().getText())) {
-//				JOptionPane.showMessageDialog(null, "Üngültiges Geburtsdatum");
-//				autorView.getGeburtsDatumL().setText("");
-//				keinInputFehler = false;
-//			}
-//		}
+		if (!buchView.getBarcodeSucheT().getText().isEmpty()) {
+			if (IntHelfer.istInteger(buchView.getBarcodeSucheL().getText())) {
+				JOptionPane.showMessageDialog(null, "Üngültiges Barcodeformat");
+				buchView.getBarcodeSucheT().setText("");
+				keinInputFehler = false;
+			}
+
+		}
 
 		return keinInputFehler;
 
@@ -210,21 +215,34 @@ public class BuchController {
 		return a;
 	}
 
-	private Autor feldwertezuObjektSuchen() {
-		Autor a = new Autor();
-//		if (!autorView.getNachnameSucheT().getText().isEmpty()) {
-//			a.setName(autorView.getNachnameSucheT().getText());
-//		}
-//
-//		if (!autorView.getVornameSucheT().getText().isEmpty()) {
-//			a.setVorname(autorView.getVornameSucheT().getText());
-//		}
-//		if (!autorView.getGeburtsDatumSucheT().getText().isEmpty()) {
-//			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumSucheT().getText()));
-//		}
-//
-//		a.setGeloescht(autorView.getGeloeschtSucheCbx().isSelected());
-		return a;
+	private Buch feldwertezuObjektSuchen() {
+		Buch b = new Buch();
+		if (!buchView.getBarcodeSucheT().getText().isEmpty()) {
+			int barCode = IntHelfer.stringZuInt(buchView.getBarcodeSucheT().getText());
+			b.setBarcodeNr(barCode);
+		}
+		if (!buchView.getTitelSucheT().getText().isEmpty()) {
+			b.setTitel(buchView.getTitelSucheT().getText());
+		}
+
+		if (buchView.getAutorSucheCbx().getSelectedIndex() > 0) { // 0 = kein Autor ausgewählt
+			Autor a = new Autor();
+			a = (Autor) buchView.getAutorSucheCbx().getSelectedItem();
+			b.setAutor(a);
+		}
+
+		if (buchView.getVerlagSucheCbx().getSelectedIndex() > 0) { // 0 = kein Verlag ausgewählt
+			b.setVerlag((Verlag) buchView.getVerlagSucheCbx().getSelectedItem());
+		}
+
+		if (!buchView.getSignaturSucheT().getText().isEmpty()) {
+			b.setSignatur(buchView.getSignaturSucheT().getText());
+		}
+
+		b.setStatus((Status) buchView.getStatusCbx().getModel().getSelectedItem());
+		System.out.println(buchView.getStatusCbx().getModel().getSelectedItem());
+
+		return b;
 	}
 
 	private void uebernehmen() {
@@ -281,28 +299,16 @@ public class BuchController {
 		buchView.getSignaturSucheL().setText("Signatur:");
 		buchView.getStatusSucheL().setText("Status:");
 		buchView.getSuchButton().setText("Suchen");
-		
-    	buchView.getAutorSucheC().setModel(new DefaultComboBoxModel(normdatenService.alleautoren().toArray()));
-		buchView.getAutorSucheC().setSelectedIndex(-1);
-    	buchView.getVerlagSucheC().setModel(new DefaultComboBoxModel(normdatenService.alleVerlage().toArray()));
-		buchView.getVerlagSucheC().setSelectedIndex(-1);
-		buchView.getStatusSucheCbx().setModel(new DefaultComboBoxModel(medienHandlingService.alleMedienStati().toArray()));
-		
-//		autorView.getNachnameL().setText("Name:*");
-//		autorView.getVornameL().setText("Vorname:*");
-//		autorView.getGeburtsDatumL().setText("Geburtsdatum:");
-//		autorView.getTodesDatumL().setText("Todesdatum:");
-//		autorView.getGeloescht().setText("Löschvormerkung:");
-//		autorView.getNachnameSucheL().setText("Name:");
-//		autorView.getVornameSucheL().setText("Vorname:");
-//		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
-//		autorView.getGeloeschtSucheL().setText("inkl. gelöschte:");
-//		autorView.getSuchButton().setText("Suchen");
-//		autorView.getPKT().setEditable(false);
 
+		buchView.getVerlagSucheCbx().setModel(new ComboBoxModelVerlag(normdatenService.alleVerlage()));
+		buchView.getVerlagSucheCbx().setSelectedIndex(0);
+		buchView.getAutorSucheCbx().setModel(new ComboBoxModelAutor(normdatenService.alleautoren()));
+		buchView.getAutorSucheCbx().setSelectedIndex(0);
+		buchView.getStatusSucheCbx()
+				.setModel(new DefaultComboBoxModel(medienHandlingService.alleMedienStati().toArray()));
 
 	}
-	
+
 	private void tabellenPanelInitialisieren() {
 		buchL = new ArrayList<>();
 		tableModelBuch = new TableModelBuch();
@@ -311,7 +317,7 @@ public class BuchController {
 		buchView.spaltenBreiteSetzen();
 //		autorSuchobjekt = new Autor();
 	}
-	
+
 	private void neuBearbeitenPanelInitialisieren() {
 		buchView.getPKL().setText("Nr.:");
 		buchView.getBarcodeL().setText("Barcode*:");
@@ -345,12 +351,11 @@ public class BuchController {
 		v.setName("test");
 		DefaultListModel model = new DefaultListModel();
 		model.addElement(v);
-		
+
 		buchView.getAutorList().setModel(model);
-		
-		
+
 	}
-	
+
 	private void ButtonPanelInitialisieren() {
 		buchView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
 		buchView.getButtonPanel().getButton2().setVisible(false);
