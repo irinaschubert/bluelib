@@ -5,26 +5,24 @@ import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-import domain.Anrede;
+import domain.Ort;
 
-/** 
- * @version 1.0 18.10.2018
- * @author Schmutz
- *
- */
-
-public class AnredeRenderer extends BasicComboBoxRenderer{
-	@Override
+public class PlzRenderer extends BasicComboBoxRenderer {
+	  @Override
 	  public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 	    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 	    if (value != null) {
-	    	Anrede anrede = (Anrede) value;
-		      setText(String.valueOf(anrede.getBezeichnung()));
-		    }
-		    if (index == -1) {
-		    	Anrede anrede = (Anrede) value;
-		    	setText("" + anrede.getBezeichnung());
-		    }
+	      Ort ort = (Ort) value;
+	      setText(String.valueOf(ort.getPlz()));
+	    }
+	    if (index == -1) {
+	    	Ort ort = (Ort) value;
+	    	if(ort == null) {
+	    		setText("");
+	    	}else {
+	    		setText("" + ort.getPlz());
+	    	}
+	    }
 	    return this;
 	  }
-}
+	}

@@ -2,6 +2,7 @@ package services;
 
 import dao.MitarbeiterDAO;
 import domain.EingeloggterMA;
+import domain.Mitarbeiter;
 
 /**
  * @version 1.0 08.11.2018
@@ -19,10 +20,9 @@ public class LoginService {
 		int id = mitarbeiterDAO.loginPruefung(name, pw);
 		if (id > -1) {
 			v.setAktionErfolgreich(true);
-
-			// Erstellen der Singleton-Instanz und übergeben des Mitareiterobjektes
 			EingeloggterMA eingeloggterMA = EingeloggterMA.getInstance();
 			eingeloggterMA.setMitarbeiter(mitarbeiterDAO.findById(id));
+			
 		} else {
 			v.setAktionErfolgreich(false);
 			v.setNachricht("Das Login war nicht erfolgreich");

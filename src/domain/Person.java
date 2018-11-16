@@ -10,14 +10,16 @@ import java.util.Date;
 public abstract class Person {
 	
 	private int id;
+	private Anrede anrede;
 	private String name;
 	private String vorname;
 	private Date geburtsdatum;
 	private Adresse adresse;
 	private String email;
 	private String telefon;
+	private String bemerkung;
 	private Date erfassungDatum;
-	private Person erfassungMitarbeiter;
+	private Mitarbeiter erfassungMitarbeiter;
 	
 	public Person() {
 		
@@ -29,6 +31,14 @@ public abstract class Person {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Anrede getAnrede() {
+		return anrede;
+	}
+
+	public void setAnrede(Anrede anrede) {
+		this.anrede = anrede;
 	}
 
 	public String getName() {
@@ -79,6 +89,14 @@ public abstract class Person {
 		this.telefon = telefon;
 	}
 
+	public String getBemerkung() {
+		return bemerkung;
+	}
+
+	public void setBemerkung(String bemerkung) {
+		this.bemerkung = bemerkung;
+	}
+
 	public Date getErfassungDatum() {
 		return erfassungDatum;
 	}
@@ -87,13 +105,15 @@ public abstract class Person {
 		this.erfassungDatum = erfassungDatum;
 	}
 
-	public Person getErfassungMitarbeiter() {
+	public Mitarbeiter getErfassungMitarbeiter() {
 		return erfassungMitarbeiter;
 	}
 
-	public void setErfassungMitarbeiter(Person erfassungMitarbeiter) {
+	public void setErfassungMitarbeiter(Mitarbeiter erfassungMitarbeiter) {
 		this.erfassungMitarbeiter = erfassungMitarbeiter;
 	}
+
+
 	
 	
 

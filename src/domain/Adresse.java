@@ -11,9 +11,26 @@ public class Adresse {
 	private String strasse;
 	private Ort ort;
     
-    public Adresse() {
-    	
+    public Adresse(String strasse, Ort ort) {
+    	this.strasse = strasse;
+    	this.ort = ort;
     }
+    public Adresse(String strasse) {
+    	this.strasse = strasse;
+    	this.ort = new Ort(0,0,"");
+    }
+    public Adresse(Ort ort) {
+    	this.strasse = "";
+    	this.ort = ort;
+    }
+
+	public Ort getOrt() {
+		return ort;
+	}
+
+	public void setOrt(Ort ort) {
+		this.ort = ort;
+	}
 
 	public int getId() {
 		return id;
@@ -29,14 +46,6 @@ public class Adresse {
 
 	public void setStrasse(String strasse) {
 		this.strasse = strasse;
-	}
-
-	public Ort getOrt() {
-		return ort;
-	}
-
-	public void setOrt(Ort ort) {
-		this.ort = ort;
 	}
     
 }

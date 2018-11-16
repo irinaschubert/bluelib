@@ -49,12 +49,15 @@ public class DateConverter {
 		// Ohne UTC-Zeit speichert mysql das Datum mit Zeitverschiebung = -1 Tag
 		dateIn.setTimeZone(TimeZone.getTimeZone("UTC"));
 		Date returnDatum = new Date();
-		try {
-			String datumConv = dateOut.format(dateIn.parse(datum));
-			returnDatum =  dateOut.parse(datumConv);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(!datum.equals("")) {
+			try {
+				String datumConv = dateOut.format(dateIn.parse(datum));
+				returnDatum =  dateOut.parse(datumConv);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
+		
 		return returnDatum;
 	}
 	

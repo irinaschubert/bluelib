@@ -48,3 +48,4 @@ public class AutorSuchenTest {
 			new AutorDAO().delete(i);
 	}
 }
+

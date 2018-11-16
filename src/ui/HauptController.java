@@ -3,8 +3,6 @@ package ui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import domain.EingeloggterMA;
@@ -13,7 +11,7 @@ import services.LoginService;
 /**
  * 
  * Der Hauptcontroller stellt die Menübefehle zur Verfügung und steuert den
- * Aufruf der Views und Controller der jeweiligen Menü- befehle
+ * Aufruf der Views und Controller der jeweiligen Menübefehle
  * 
  * @version 2018-11-07
  * @author Schmutz

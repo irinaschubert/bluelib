@@ -6,63 +6,52 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import domain.Anrede;
+import domain.Status;
 import interfaces.DAOInterface;
 
-/**
- * 
- * @version 0.1 14.11.2018
- * @author irina
- */
-
-public class AnredeDAO implements DAOInterface<Anrede> {
-
+public class StatusDAO implements DAOInterface<Status> {
+	
 	private DBConnection dbConnection = null;
 	private Connection conn = null; 
 	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
 	
-	public AnredeDAO(){
+	public StatusDAO() {
 		dbConnection = DBConnection.getInstance();
 	}
 	
 	@Override
-	public Anrede save(Anrede domainObject) {
-		// TODO Auto-generated method stub
+	public Status save(Status statusObject) {
+		return null;
+     }
+
+	@Override
+	public Status update(Status statusObject) {			
 		return null;
 	}
 
 	@Override
-	public Anrede update(Anrede domainObject) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean delete(Anrede domainObject) {
-		// TODO Auto-generated method stub
+	public boolean delete(Status statusObject) {
 		return false;
-	}
+}
 
 	@Override
-	public List<Anrede> getSelektion(Anrede domainObject) {
-		// TODO Auto-generated method stub
+	public List<Status> getSelektion(Status statusObject) {
 		return null;
 	}
 
 	@Override
-	public Anrede findById(int id) {
-		Anrede a = new Anrede();
-		String sql = "SELECT id, bezeichnung from anrede WHERE id = ?";
+	public Status findById(int id) {
+		Status s = new Status();
+		String sql = "SELECT id, bezeichnung from statuspers WHERE id = ?";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,id);
 			mRS = pstmt.executeQuery();
 			while(mRS.next()) {
-				a.setId(mRS.getInt(1));
-				a.setBezeichnung(mRS.getString(2));
+				s.setId(mRS.getInt(1));
+				s.setBezeichnung(mRS.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,23 +63,23 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 				e.printStackTrace();
 			}
 		}
-		return a;
+		return s;
 	}
 	
 
 	@Override
-	public ArrayList<Anrede> findAll() {
-		ArrayList<Anrede> allAnrede = new ArrayList<>();
-		String sql = "SELECT id, bezeichnung from anrede";
+	public ArrayList<Status> findAll() {
+		ArrayList<Status> allStatus = new ArrayList<>();
+		String sql = "SELECT id, bezeichnung from statuspers";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			mRS = pstmt.executeQuery();
 			while(mRS.next()) {
-				Anrede a = new Anrede();
-				a.setId(mRS.getInt(1));
-				a.setBezeichnung(mRS.getString(2));
-				allAnrede.add(a);
+				Status s = new Status();
+				s.setId(mRS.getInt(1));
+				s.setBezeichnung(mRS.getString(2));
+				allStatus.add(s);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,11 +91,8 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 				e.printStackTrace();
 			}
 		}
-		return allAnrede;
+		return allStatus;
 	}
 
-	
-
-	
-
 }
+

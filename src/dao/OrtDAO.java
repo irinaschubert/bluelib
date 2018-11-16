@@ -6,63 +6,53 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import domain.Anrede;
+import domain.Ort;
 import interfaces.DAOInterface;
 
-/**
- * 
- * @version 0.1 14.11.2018
- * @author irina
- */
-
-public class AnredeDAO implements DAOInterface<Anrede> {
-
+public class OrtDAO implements DAOInterface<Ort> {
+	
 	private DBConnection dbConnection = null;
 	private Connection conn = null; 
 	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
 	
-	public AnredeDAO(){
+	public OrtDAO() {
 		dbConnection = DBConnection.getInstance();
 	}
 	
 	@Override
-	public Anrede save(Anrede domainObject) {
-		// TODO Auto-generated method stub
+	public Ort save(Ort ortObject) {
+		return null;
+     }
+
+	@Override
+	public Ort update(Ort ortObject) {			
 		return null;
 	}
 
 	@Override
-	public Anrede update(Anrede domainObject) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean delete(Anrede domainObject) {
-		// TODO Auto-generated method stub
+	public boolean delete(Ort ortObject) {
 		return false;
-	}
+}
 
 	@Override
-	public List<Anrede> getSelektion(Anrede domainObject) {
-		// TODO Auto-generated method stub
+	public List<Ort> getSelektion(Ort ortObject) {
 		return null;
 	}
 
 	@Override
-	public Anrede findById(int id) {
-		Anrede a = new Anrede();
-		String sql = "SELECT id, bezeichnung from anrede WHERE id = ?";
+	public Ort findById(int id) {
+		Ort o = new Ort();
+		String sql = "SELECT id, plz, ort from ort WHERE id = ?";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,id);
 			mRS = pstmt.executeQuery();
 			while(mRS.next()) {
-				a.setId(mRS.getInt(1));
-				a.setBezeichnung(mRS.getString(2));
+				o.setId(mRS.getInt(1));
+				o.setPlz(mRS.getInt(2));
+				o.setOrt(mRS.getString(3));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,23 +64,24 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 				e.printStackTrace();
 			}
 		}
-		return a;
+		return o;
 	}
 	
 
 	@Override
-	public ArrayList<Anrede> findAll() {
-		ArrayList<Anrede> allAnrede = new ArrayList<>();
-		String sql = "SELECT id, bezeichnung from anrede";
+	public ArrayList<Ort> findAll() {
+		ArrayList<Ort> ortL = new ArrayList<>();
+		String sql = "SELECT id, plz, ort from ort";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			mRS = pstmt.executeQuery();
 			while(mRS.next()) {
-				Anrede a = new Anrede();
-				a.setId(mRS.getInt(1));
-				a.setBezeichnung(mRS.getString(2));
-				allAnrede.add(a);
+				Ort o = new Ort();
+				o.setId(mRS.getInt(1));
+				o.setPlz(mRS.getInt(2));
+				o.setOrt(mRS.getString(3));
+				ortL.add(o);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,11 +93,8 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 				e.printStackTrace();
 			}
 		}
-		return allAnrede;
+		return ortL;
 	}
 
-	
-
-	
-
 }
+

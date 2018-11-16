@@ -7,6 +7,7 @@ package domain;
  */
 public class Mitarbeiter extends Person {
 	
+	private int idMA;
 	private String benutzername;
 	private String passwort;
 	private boolean admin;
@@ -14,6 +15,14 @@ public class Mitarbeiter extends Person {
 	
 	public Mitarbeiter() {
 		
+	}
+	
+	public int getMAId() {
+		return idMA;
+	}
+
+	public void setMAId(int idMA) {
+		this.idMA = idMA;
 	}
 
 	public String getBenutzername() {
