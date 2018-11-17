@@ -16,11 +16,7 @@ public class ComboBoxModelAutor extends AbstractListModel implements ComboBoxMod
 	public ComboBoxModelAutor(List<Autor> liste) {
 		this.autorenListe = liste;
 		listeSortieren();
-		Autor a = new Autor();
-		a.setName("-- Kein Autor ausgewählt --");
-		a.setVorname("");
-		a.setId(-1);
-		autorenListe.add(0, a);
+	
 	}
 	
 	private void listeSortieren() {
@@ -48,5 +44,15 @@ public class ComboBoxModelAutor extends AbstractListModel implements ComboBoxMod
 		selection = (Autor)anItem;
 		
 	}
+	
+	public void leerenEintragErstellen() {
+		Autor a = new Autor();
+		a.setName("-- Kein Autor ausgewählt --");
+		a.setVorname("");
+		a.setId(-1);
+		autorenListe.add(0, a);
+	}
+	
+
 
 }

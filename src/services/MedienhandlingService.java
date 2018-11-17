@@ -60,7 +60,7 @@ public class MedienhandlingService {
 		return v;
 	}
 	
-	public List<Buch> BuchSuchen(Buch buch) {
+	public List<Buch> buchSuchen(Buch buch) {
 		return new BuchDAO().getSelektion(buch);
 	}
 	

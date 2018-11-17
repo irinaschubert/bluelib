@@ -17,10 +17,6 @@ public class ComboBoxModelVerlag extends AbstractListModel implements ComboBoxMo
 	public ComboBoxModelVerlag(List<Verlag> liste) {
 		this.verlagListe = liste;
 		listeSortieren();
-		Verlag v = new Verlag();
-		v.setName("-- Kein Verlag ausgewählt --");
-		v.setId(-1);
-		verlagListe.add(0, v);
 	}
 	
 	private void listeSortieren() {
@@ -47,5 +43,20 @@ public class ComboBoxModelVerlag extends AbstractListModel implements ComboBoxMo
 		selection = (Verlag)anItem;
 		
 	}
-
+	
+	public void leerenEintragErstellen() {
+		Verlag v = new Verlag();
+		v.setName("-- Kein Verlag ausgewählt --");
+		v.setId(-1);
+		verlagListe.add(0, v);
+	}
+	
+	public int getPositionVerlag(Verlag verlag) {
+		int count = 0;
+		while(verlagListe.get(count).getId() != verlag.getId()){
+			count++;
+		}
+		return count;
+	}
+	
 }

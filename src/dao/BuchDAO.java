@@ -65,11 +65,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ "m.signatur, "
 				+ "m.verlag_id, "
 				+ "m.statusMedi_id, "
-				+ "m.person_id, "
-				+ "b.id, "
-				+ "b.seiten, "
-				+ "b.auflage, "
-				+ "b.medium_id "
+				+ "b.seiten "
+//				+ "m.person_id, "
+//				+ "b.auflage "
 				+ "FROM medium m "
 				+ "INNER JOIN buch b on b.medium_id = m.id ";
 				sql = sql + " WHERE m.statusMedi_id = ? ";
@@ -120,7 +118,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 					pstmt.setInt(pCounter++,domainObject.getId());
 				}
 				if (domainObject.getTitel() != null) {
-					pstmt.setString(pCounter++, domainObject.getTitel());
+					pstmt.setString(pCounter++, SQLHelfer.SternFragezeichenErsatz(domainObject.getTitel()));
 				}
 				if (domainObject.getAutoren() != null) {
 					if (domainObject.getAutoren().size() > 0) {
@@ -154,6 +152,10 @@ public class BuchDAO implements DAOInterface<Buch> {
 					 b.setBemerkung(rs.getString(count++));
 					 b.setSignatur(rs.getString(count++));
 					 b.setVerlag(new VerlagDAO().findById(rs.getInt(count++)));
+					 b.setStatus(new StatusDAO().findById(rs.getInt(count++)));
+					 b.setAnzahlSeiten(rs.getInt(count++));
+//					 b.setErfassungMitarbeiter(new MitarbeiterDAO().findById(rs.getInt(count++)));
+//					 b.setAuflage(rs.getString(count++));
 					 b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
 					 buchListe.add(b);
 					 }

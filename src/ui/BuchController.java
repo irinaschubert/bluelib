@@ -47,6 +47,7 @@ public class BuchController {
 	private TableModelBuch tableModelBuch;
 	private Buch buchSuchobjekt;
 	private HauptController hauptController;
+	private ComboBoxModelVerlag comboBoxModelVerlag;
 
 	public BuchController(BuchView view, HauptController hauptController) {
 		buchView = view;
@@ -59,8 +60,11 @@ public class BuchController {
 //		view.spaltenBreiteSetzen();
 //		autorSuchobjekt = new Autor();
 
-		suchPanelInitialisieren();
-		tabellenPanelInitialisieren();
+//		suchPanelInitialisieren();
+//		tabellenPanelInitialisieren();
+		BuchSuchView buchSuchView = new BuchSuchView();
+		BuchSuchController buchSuchController = new BuchSuchControllerAusBuch(buchSuchView, this);
+		buchView.addBuchSuchView(buchSuchView);
 		neuBearbeitenPanelInitialisieren();
 		ButtonPanelInitialisieren();
 		control();
@@ -70,23 +74,23 @@ public class BuchController {
 //	Definierten des Listeners für die Button-Klicks
 	private void control() {
 
-		ActionListener suchenButtonActionListener = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				if (inputValidierungSuchen()) {
-					buchSuchobjekt = feldwertezuObjektSuchen();
-					buchL = medienHandlingService.BuchSuchen(buchSuchobjekt);
-					tableModelBuch.setAndSortListe(buchL);
-				}
-
-			}
-
-		};
-
-		// Zuweisen des Actionlisteners zum Suchen-Button
-		buchView.getSuchButton().addActionListener(suchenButtonActionListener);
+//		ActionListener suchenButtonActionListener = new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//
+//				if (inputValidierungSuchen()) {
+//					buchSuchobjekt = feldwertezuObjektSuchen();
+//					buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
+//					tableModelBuch.setAndSortListe(buchL);
+//				}
+//
+//			}
+//
+//		};
+//
+//		// Zuweisen des Actionlisteners zum Suchen-Button
+//		buchView.getSuchButton().addActionListener(suchenButtonActionListener);
 
 		ActionListener neuButtonActionListener = new ActionListener() {
 
@@ -141,7 +145,7 @@ public class BuchController {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					uebernehmen();
+					// uebernehmen();
 					buchView.getNeuAendernL().setText("Bearbeiten");
 				}
 			}
@@ -149,22 +153,6 @@ public class BuchController {
 
 //		// Zuweisen des Mouselisteners zur Tabelle
 //		buchView.getAutorenTabelle().addMouseListener(doppelKlick);
-
-	}
-
-	private boolean inputValidierungSuchen() {
-		boolean keinInputFehler = true;
-
-		if (!buchView.getBarcodeSucheT().getText().isEmpty()) {
-			if (IntHelfer.istInteger(buchView.getBarcodeSucheL().getText())) {
-				JOptionPane.showMessageDialog(null, "Üngültiges Barcodeformat");
-				buchView.getBarcodeSucheT().setText("");
-				keinInputFehler = false;
-			}
-
-		}
-
-		return keinInputFehler;
 
 	}
 
@@ -215,51 +203,25 @@ public class BuchController {
 		return a;
 	}
 
-	private Buch feldwertezuObjektSuchen() {
-		Buch b = new Buch();
-		if (!buchView.getBarcodeSucheT().getText().isEmpty()) {
-			int barCode = IntHelfer.stringZuInt(buchView.getBarcodeSucheT().getText());
-			b.setBarcodeNr(barCode);
-		}
-		if (!buchView.getTitelSucheT().getText().isEmpty()) {
-			b.setTitel(buchView.getTitelSucheT().getText());
-		}
+	public void uebernehmen(Buch buch) {
 
-		if (buchView.getAutorSucheCbx().getSelectedIndex() > 0) { // 0 = kein Autor ausgewählt
-			Autor a = new Autor();
-			a = (Autor) buchView.getAutorSucheCbx().getModel().getSelectedItem();
-			b.setAutor(a);
-		}
-
-		if (buchView.getVerlagSucheCbx().getSelectedIndex() > 0) { // 0 = kein Verlag ausgewählt
-			b.setVerlag((Verlag) buchView.getVerlagSucheCbx().getModel().getSelectedItem());
-		}
-
-		if (!buchView.getSignaturSucheT().getText().isEmpty()) {
-			b.setSignatur(buchView.getSignaturSucheT().getText());
+		buchView.getPKT().setText(Integer.toString(buch.getId()));
+		buchView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
+		buchView.getTitelT().setText(buch.getTitel());
+		buchView.getVerlagCbx().setSelectedIndex(comboBoxModelVerlag.getPositionVerlag(buch.getVerlag()));
+		buchView.repaint();
+		buchView.getAuflageT().setText(buch.getAuflage());
+		buchView.getAnzahlSeitenT().setText(Integer.toString(buch.getAnzahlSeiten()));
+		buchView.getReiheT().setText(buch.getReihe());
+		buchView.getPreisT().setText(Double.toString(buch.getPreis()));
+		buchView.getJahrT().setText(buch.getErscheinungsJahr());
+		buchView.getIsbnT().setText(Integer.toString(buch.getIsbn()));
+		buchView.getOrtT().setText(buch.getErscheinungsOrt());
+		buchView.getSignaturT().setText(buch.getSignatur());
+		for (Autor a : buch.getAutoren()) {
+			((DefaultListModel) buchView.getAutorList().getModel()).addElement(a);
 		}
 
-		b.setStatus((Status) buchView.getStatusSucheCbx().getModel().getSelectedItem());
-
-		return b;
-	}
-
-	private void uebernehmen() {
-//		Autor autor = new Autor();
-//		autor = tableModelAutor.getGeklicktesObjekt(autorView.getAutorenTabelle().getSelectedRow());
-//
-//		autorView.getPKT().setText(Integer.toString(autor.getId()));
-//		autorView.getNachnameT().setText(autor.getName());
-//		autorView.getVornameT().setText(autor.getVorname());
-//
-//		if (autor.getGeburtsdatum() != null) {
-//			autorView.getGeburtsDatumT().setText(DateConverter.convertJavaDateToString(autor.getGeburtsdatum()));
-//		}
-//
-//		if (autor.getTodesdatum() != null) {
-//			autorView.getTodesDatumT().setText(DateConverter.convertJavaDateToString(autor.getTodesdatum()));
-//		}
-//		autorView.getGeloeschtCbx().setSelected(autor.getGeloescht());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
@@ -288,35 +250,6 @@ public class BuchController {
 		}
 	}
 
-	public void suchPanelInitialisieren() {
-
-//		buchView.getPKL().setText("Nr:");
-		buchView.getBarcodeSucheL().setText("Barcode:");
-		buchView.getTitelSucheL().setText("Titel:");
-		buchView.getAutorSucheL().setText("Autor:");
-		buchView.getVerlagSucheL().setText("Verlag:");
-		buchView.getSignaturSucheL().setText("Signatur:");
-		buchView.getStatusSucheL().setText("Status:");
-		buchView.getSuchButton().setText("Suchen");
-
-		buchView.getVerlagSucheCbx().setModel(new ComboBoxModelVerlag(normdatenService.alleVerlage()));
-		buchView.getVerlagSucheCbx().setSelectedIndex(0);
-		buchView.getAutorSucheCbx().setModel(new ComboBoxModelAutor(normdatenService.alleautoren()));
-		buchView.getAutorSucheCbx().setSelectedIndex(0);
-		buchView.getStatusSucheCbx()
-				.setModel(new DefaultComboBoxModel(medienHandlingService.alleMedienStati().toArray()));
-
-	}
-
-	private void tabellenPanelInitialisieren() {
-		buchL = new ArrayList<>();
-		tableModelBuch = new TableModelBuch();
-		tableModelBuch.setAndSortListe(buchL);
-		buchView.getBuchTabelle().setModel(tableModelBuch);
-		buchView.spaltenBreiteSetzen();
-//		autorSuchobjekt = new Autor();
-	}
-
 	private void neuBearbeitenPanelInitialisieren() {
 		buchView.getPKL().setText("Nr.:");
 		buchView.getBarcodeL().setText("Barcode*:");
@@ -331,7 +264,7 @@ public class BuchController {
 		buchView.getOrtL().setText("Ort*:");
 		buchView.getIsbnL().setText("ISBN:");
 		buchView.getStatusL().setText("Status:");
-		buchView.getAutoren().setText("Autor(en)*:");
+		buchView.getAutorL().setText("Autor(en)*:");
 		buchView.getZuweisenAutorB().setText("Zuweisen");
 		buchView.getEntfernenAutorB().setText("Entfernen");
 		buchView.getBelletristikR().setText("Belletristik");
@@ -343,15 +276,11 @@ public class BuchController {
 		buchView.getNotizL().setText("Notiz");
 		buchView.getErfassungsDatumL().setText("Erfassungsdatum:");
 		buchView.getErfassungsUserL().setText("Erfasst durch:");
-		Autor a = new Autor();
-		a.setName("Testname");
-		a.setVorname("TestVorname");
-		Verlag v = new Verlag();
-		v.setName("test");
-		DefaultListModel model = new DefaultListModel();
-		model.addElement(v);
-
-		buchView.getAutorList().setModel(model);
+		buchView.getAutorCbx().setModel(new ComboBoxModelAutor(normdatenService.alleautoren()));
+		comboBoxModelVerlag = new ComboBoxModelVerlag(normdatenService.alleVerlage());
+		buchView.getVerlagCbx().setModel(comboBoxModelVerlag);
+		buchView.getStatusCbx().setModel(new DefaultComboBoxModel(medienHandlingService.alleMedienStati().toArray()));
+		buchView.getAutorList().setModel(new DefaultListModel());
 
 	}
 
