@@ -138,21 +138,21 @@ public class VerlagView extends JPanel{
 			inputPanel.add(componentsNeuBearbeiten.get(nameL), c);
 			
 			c.fill = GridBagConstraints.HORIZONTAL;
-			c.gridwidth = 2;
+			c.gridwidth = 1;
 			c.gridx = 0;
-			c.gridy = 3;
+			c.gridy = 2;
 			inputPanel.add(componentsNeuBearbeiten.get(gruendungsDatumL), c);
 			
 			c.fill = GridBagConstraints.HORIZONTAL;
-			c.gridwidth = 2;
+			c.gridwidth = 1;
 			c.gridx = 0;
-			c.gridy = 4;
+			c.gridy = 3;
 			inputPanel.add(componentsNeuBearbeiten.get(endDatumL), c);
 			
-			c.fill = GridBagConstraints.NONE;
-			c.gridwidth = 2;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridwidth = 1;
 			c.gridx = 0;
-			c.gridy = 5;
+			c.gridy = 4;
 			inputPanel.add(componentsNeuBearbeiten.get(geloeschtL), c);
 			
 			

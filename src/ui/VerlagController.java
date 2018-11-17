@@ -152,7 +152,7 @@ public class VerlagController {
 
 		if (!verlagView.getGruendungsDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getGruendungsDatumT().getText())) {
-				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
+				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
 				verlagView.getGruendungsDatumL().setText("");
 				keinInputFehler = false;
 			}
@@ -160,7 +160,7 @@ public class VerlagController {
 
 		if (!verlagView.getEndDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getEndDatumT().getText())) {
-				JOptionPane.showMessageDialog(null, "Ungültiges Todesdatum");
+				JOptionPane.showMessageDialog(null, "Ungültiges Enddatum");
 				verlagView.getEndDatumL().setText("");
 				keinInputFehler = false;
 			}
