@@ -70,9 +70,38 @@ public class SchlagwortDAO implements DAOInterface<Schlagwort> {
 
 	@Override
 	public Schlagwort update(Schlagwort domainObject) {
-		System.out.println("dao update");
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		Schlagwort s = new Schlagwort();
+		String sql = "UPDATE schlagwort SET "
+				+ "schlagwort = ? "
+				+ ",geloescht = ?"
+				+ " WHERE id = ?";
+			try {
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,domainObject.getSchlagwort());
+				pstmt.setBoolean(2, domainObject.getGeloescht());
+				pstmt.setInt(3,  domainObject.getId());
+				int i = pstmt.executeUpdate();
+				if (i>0) {
+					s = domainObject;
+				}
+				else {
+					s = null;
+				}
+								
+			}
+	  catch (SQLException e) {
+           e.printStackTrace();
+     } finally{
+         try{
+             if(rs != null) rs.close();
+             if(pstmt != null) pstmt.close();
+             if(conn != null) conn.close();
+         } catch(Exception ex){}
+     }
+			
+		return s;
 	}
 
 	@Override
