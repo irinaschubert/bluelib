@@ -73,6 +73,8 @@ public class BuchController {
 
 //	Definierten des Listeners für die Button-Klicks
 	private void control() {
+		buchView.getZuweisenAutorB().addActionListener(autorZuweisenActionListener());
+		buchView.getEntfernenAutorB().addActionListener(autorEntfernenActionListener());
 
 //		ActionListener suchenButtonActionListener = new ActionListener() {
 //
@@ -156,6 +158,45 @@ public class BuchController {
 
 	}
 
+	private ActionListener autorZuweisenActionListener() {
+
+		ActionListener autorZuweisenActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DefaultListModel model = (DefaultListModel) buchView.getAutorList().getModel();
+				if (buchView.getAutorCbx().getSelectedIndex() > -1) {
+					Autor a = (Autor) buchView.getAutorCbx().getSelectedItem();
+
+					if (!model.contains(a)) {
+						model.addElement(a);
+					} else {
+						JOptionPane.showMessageDialog(null, "Der Autor befindet sich bereits in der Liste");
+					}
+				}
+			}
+		};
+		return autorZuweisenActionListener;
+	}
+
+	private ActionListener autorEntfernenActionListener() {
+
+		ActionListener autorEntfernenActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!buchView.getAutorList().isSelectionEmpty()) {
+					DefaultListModel model = (DefaultListModel) buchView.getAutorList().getModel();
+					int selectedIndex = buchView.getAutorList().getSelectedIndex();
+					model.remove(selectedIndex);
+				} else {
+					JOptionPane.showMessageDialog(null, "Es wurde kein Autor ausgewählt");
+				}
+			}
+		};
+		return autorEntfernenActionListener;
+	}
+
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 //		if (autorView.getNachnameT().getText().isEmpty() || (autorView.getVornameT().getText().isEmpty())) {
@@ -218,9 +259,13 @@ public class BuchController {
 		buchView.getIsbnT().setText(Integer.toString(buch.getIsbn()));
 		buchView.getOrtT().setText(buch.getErscheinungsOrt());
 		buchView.getSignaturT().setText(buch.getSignatur());
+		
+		((DefaultListModel) buchView.getAutorList().getModel()).removeAllElements();
 		for (Autor a : buch.getAutoren()) {
 			((DefaultListModel) buchView.getAutorList().getModel()).addElement(a);
 		}
+		
+		buchView.getNotizA().setText(buch.getBemerkung());
 
 	}
 
