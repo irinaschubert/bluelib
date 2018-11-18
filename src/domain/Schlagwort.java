@@ -6,12 +6,13 @@ package domain;
  *
  */
 public class Schlagwort {
-	
+
 	private int id;
-	private String bezeichnung;
+	private String schlagwort;
+	private boolean geloescht;
 
 	public Schlagwort() {
-		
+
 	}
 
 	public int getId() {
@@ -22,13 +23,20 @@ public class Schlagwort {
 		this.id = id;
 	}
 
-	public String getBezeichnung() {
-		return bezeichnung;
+	public String getSchlagwort() {
+		return schlagwort;
 	}
 
-	public void setBezeichnung(String bezeichnung) {
-		this.bezeichnung = bezeichnung;
+	public void setSchlagwort(String schlagwort) {
+		this.schlagwort = schlagwort;
 	}
-	
-	
+
+	public boolean getGeloescht() {
+		return geloescht;
+	}
+
+	public void setGeloescht(boolean geloescht) {
+		this.geloescht = geloescht;
+	}
+
 }

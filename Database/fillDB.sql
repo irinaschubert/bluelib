@@ -110,7 +110,7 @@ COMMIT;
 -- ---------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO schlagwort (schlagwort) VALUES ('a'), ('b'), ('c'), ('d');
+INSERT INTO schlagwort (schlagwort, geloescht) VALUES ('a',0), ('b',0), ('c',1), ('d',1);
 COMMIT;
 -- ---------------------
 -- Data for MediumSchlagwort
