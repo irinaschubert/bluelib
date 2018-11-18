@@ -8,7 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.Autor;
 import domain.Schlagwort;
+import hilfsklassen.DateConverter;
+import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 
 /**
@@ -30,6 +33,7 @@ public class SchlagwortDAO implements DAOInterface<Schlagwort> {
 
 	@Override
 	public Schlagwort save(Schlagwort domainObject) {
+		System.out.println("dao save");
 		ResultSet rs = null;
 		Schlagwort s = new Schlagwort();
 		int argCounter = 0;
@@ -66,33 +70,83 @@ public class SchlagwortDAO implements DAOInterface<Schlagwort> {
 
 	@Override
 	public Schlagwort update(Schlagwort domainObject) {
+		System.out.println("dao update");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean delete(Schlagwort domainObject) {
+		System.out.println("dao delete");
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public List<Schlagwort> getSelektion(Schlagwort domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		int whereCounter = 1;
+		String sql = "SELECT " + "id, " + "schlagwort, " + "geloescht " + "FROM schlagwort ";
+
+		if (domainObject.getSchlagwort() != null) {
+			sql = sql + "WHERE schlagwort";
+			sql = sql + (SQLHelfer.likePruefung(domainObject.getSchlagwort()) ? " LIKE" : " =");
+			sql = sql + " ?";
+			whereCounter++;
+		}
+		sql = sql + (whereCounter > 1 ? " AND" : " WHERE");
+		sql = sql + (" geloescht = ?");
+
+		try {
+			int pCounter = 1;
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			if (domainObject.getSchlagwort() != null) {
+				pstmt.setString(pCounter, SQLHelfer.SternFragezeichenErsatz(domainObject.getSchlagwort()));
+				pCounter++;
+			}
+			pstmt.setBoolean(pCounter, domainObject.getGeloescht());
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Schlagwort s = new Schlagwort();
+				s.setId(rs.getInt(1));
+				s.setSchlagwort(rs.getString(2));
+				s.setGeloescht(rs.getBoolean(3));
+				schlagwortListe.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+			}
+		}
+
+		return schlagwortListe;
 	}
 
 	@Override
 	public Schlagwort findById(int id) {
 		Schlagwort s = new Schlagwort();
 		ResultSet rs = null;
-		String sql = "SELECT " + "id, " + "schlagwort " + "FROM autor " + "WHERE id = ?";
+		String sql = "SELECT " + "id, " + "schlagwort, " + "geloescht " + "FROM schlagwort " + "WHERE id = ?";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
+				System.out.println("getint for id: "+rs.getInt(1));
+				System.out.println("getstring for schlgw: "+rs.getString(2));
+				System.out.println("getbool for gel: "+rs.getBoolean(3));
 				s.setId(rs.getInt(1));
 				s.setSchlagwort(rs.getString(2));
 				s.setGeloescht(rs.getBoolean(3));
@@ -126,7 +180,6 @@ public class SchlagwortDAO implements DAOInterface<Schlagwort> {
 				s.setGeloescht(rs.getBoolean(3));
 				schlagwortListe.add(s);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -135,9 +188,7 @@ public class SchlagwortDAO implements DAOInterface<Schlagwort> {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
-
 		return schlagwortListe;
 	}
 

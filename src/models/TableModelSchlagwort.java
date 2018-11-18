@@ -19,7 +19,7 @@ public class TableModelSchlagwort extends AbstractTableModel {
 
 	// Definition der Spaltennamen, wie sie in der Tabelle dargestellt werden
 	// sollen
-	private static final String[] COLUMN_NAMES = { "ID", "Schlagwort", "Status" };
+	private static final String[] COLUMN_NAMES = { "Schlagwort", "LV" };
 	private List<Schlagwort> schlagwortListe;
 
 	public void setAndSortListe(List<Schlagwort> liste) {
@@ -32,7 +32,6 @@ public class TableModelSchlagwort extends AbstractTableModel {
 	public void schlagwortHinzufuegen(Schlagwort schlagwort) {
 		schlagwortListe.add(schlagwort);
 		// listeSortieren();
-
 		// Damit erhält die Liste in der View ein Update
 		fireTableDataChanged();
 	}
@@ -49,7 +48,6 @@ public class TableModelSchlagwort extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		System.out.println(schlagwortListe);
 		return schlagwortListe.size();
 	}
 

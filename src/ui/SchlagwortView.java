@@ -210,10 +210,8 @@ public class SchlagwortView extends JPanel {
 	}
 
 	public void spaltenBreiteSetzen() {
-
-		schlagwortTabelle.getColumnModel().getColumn(0).setMaxWidth(50); // Id
-		schlagwortTabelle.getColumnModel().getColumn(1).setPreferredWidth(80); // Schlagwort
-		schlagwortTabelle.getColumnModel().getColumn(2).setMaxWidth(50); // LV
+		schlagwortTabelle.getColumnModel().getColumn(0).setPreferredWidth(80); // Schlagwort
+		schlagwortTabelle.getColumnModel().getColumn(1).setMaxWidth(50); // LV
 	}
 
 	public StandardButtonPanel getButton() {
