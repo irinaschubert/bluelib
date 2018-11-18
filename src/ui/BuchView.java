@@ -193,7 +193,6 @@ public class BuchView extends JPanel {
 		entfernenAutorB = new JButton();
 
 		JPanel signatur = new JPanel();
-		signatur = rahmenSetzen("Signatur", signatur);
 		signatur.setLayout(new GridBagLayout());
 		belletristikR = new JRadioButton();
 		sachbuchR = new JRadioButton();
@@ -201,6 +200,7 @@ public class BuchView extends JPanel {
 		buchtypG.add(belletristikR);
 		buchtypG.add(sachbuchR);
 		signaturT = new JTextField();
+		signatur = rahmenSetzen("Signatur", signatur);
 
 		gridBagHelfer.labelSetzen(belletristikR, signatur, 0, 0);
 		gridBagHelfer.labelSetzen(sachbuchR, signatur, 0, 1);

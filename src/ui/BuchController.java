@@ -14,6 +14,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.Position;
+
 import domain.Autor;
 import domain.Buch;
 import domain.Status;
@@ -166,13 +168,23 @@ public class BuchController {
 			public void actionPerformed(ActionEvent e) {
 				DefaultListModel model = (DefaultListModel) buchView.getAutorList().getModel();
 				if (buchView.getAutorCbx().getSelectedIndex() > -1) {
+					
 					Autor a = (Autor) buchView.getAutorCbx().getSelectedItem();
-
-					if (!model.contains(a)) {
-						model.addElement(a);
-					} else {
+					Boolean identisch = false;
+					
+					for (int i = 0; i < model.getSize(); i++) {
+				         int id = ((Autor)model.getElementAt(i)).getId();
+				         if (id == a.getId())  {
+				            identisch = true;
+				         }
+					}
+					if (identisch) {
 						JOptionPane.showMessageDialog(null, "Der Autor befindet sich bereits in der Liste");
 					}
+					else {
+						model.addElement(a);
+					}
+	 
 				}
 			}
 		};
