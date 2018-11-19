@@ -67,7 +67,7 @@ public class BibliothekView extends JPanel {
 	private JTextField telT;
 	private JTextField leihfristT;
 	private LinkedHashMap<JLabel, JComponent> componentTable = new LinkedHashMap<>();
-	private static int HOEHE = 650;
+	private static int HOEHE = 300;
 	private static int BREITE = 500;
 
 	public BibliothekView(String frameTitel) {
