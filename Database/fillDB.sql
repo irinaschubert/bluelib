@@ -6,7 +6,6 @@
 -- Data for anrede
 -- --------------------
 START TRANSACTION;
-USE bluelib;
 INSERT INTO anrede (bezeichnung) VALUES ('Herr') , ('Frau');
 COMMIT;
 
@@ -14,7 +13,6 @@ COMMIT;
 -- Data for StatusPers
 -- ---------------------
 START TRANSACTION;
-USE bluelib;
 INSERT INTO statusPers (bezeichnung) VALUES ('aktiv'), ('gesperrt'), ('gelöscht');
 COMMIT;
 
@@ -22,54 +20,51 @@ COMMIT;
 -- Data for Ort
 -- ---------------
 START TRANSACTION;
-USE bluelib;
-INSERT INTO ort (plz, ort, kanton, abkürzung) VALUES ('1000','Lausanne','Waadt','VD');
+INSERT INTO ort (id, plz, ort, kanton, abkürzung) VALUES (1,'1000','Lausanne','Waadt','VD');
 COMMIT;
 -- ---------------------
 -- Data for Stammdaten
 -- ---------------------
 START TRANSACTION;
-USE bluelib;
 INSERT INTO stammdaten (name, strasseUndNr, email, telefon, leihfrist, ort_id) VALUES ('Bluelib','abcdStrasse Nr. 12', 'info@bluelib.ch','+41791234567', 20, 1);
 COMMIT;
 -- ----------------------
 -- Data for Mitarbeiter
 -- ----------------------
 START TRANSACTION;
-USE bluelib;
-INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Mike', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
-INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Ueli', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
-INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Irina', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
-INSERT INTO mitarbeiter (benutzername, passwort, admin, aktiv) VALUES ('Tamara', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
+INSERT INTO mitarbeiter (id, benutzername, passwort, admin, aktiv) 
+VALUES
+	(1, 'Mike', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
+	(2, 'Ueli', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
+	(3,'Irina', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
+	(4,'Tamara', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
+	(5,'Fritz', 'e2fc714c4727ee9395f324cd2e7f331f', 0, 0);
 COMMIT;
 -- -----------------
 -- Data for Person
 -- -----------------
 -- Admin 
 START TRANSACTION;
-INSERT INTO person (id, vorname, nachname, person_id, anrede_id, mitarbeiter_id, StatusPers_id) 
+INSERT INTO person (id, vorname, nachname, anrede_id, strasseUndNr, ort_id, geburtstag, telefon, email, erfassungsdatum, person_id, statusPers_id, mitarbeiter_id, Bemerkung) 
 VALUES 
-	(1, 'Michael', 'Trösch',1,(select id from anrede WHERE bezeichnung = 'Herr'),(select id from mitarbeiter WHERE benutzername = 'Mike'),(select id from statuspers WHERE bezeichnung = 'aktiv')),
-    (2, 'Ulrich', 'Schmutz',1,(select id from anrede WHERE bezeichnung = 'Herr'),(select id from mitarbeiter WHERE benutzername = 'Ueli'),(select id from statuspers WHERE bezeichnung = 'aktiv')),
-    (3, 'Irina', 'Schubert',1,(select id from anrede WHERE bezeichnung = 'Frau'),(select id from mitarbeiter WHERE benutzername = 'Irina'),(select id from statuspers WHERE bezeichnung = 'aktiv')),
-    (4, 'Tamara', 'Berger',1,(select id from anrede WHERE bezeichnung = 'Frau'),(select id from mitarbeiter WHERE benutzername = 'Tamara'),(select id from statuspers WHERE bezeichnung = 'aktiv'));
--- --------
--- Users
-INSERT INTO person (vorname, nachname, anrede_id,person_id) 
-VALUES 
-	('Peter', 'Fritz', (select id from anrede WHERE Bezeichnung = 'Herr'),1)
-	, ('Berta', 'Tschanz',(select id from anrede WHERE Bezeichnung = 'Frau'),1)
-	, ('Günter', 'Jost',(select id from anrede WHERE Bezeichnung = 'Herr'),1)
-	, ('Lara', 'Croft',(select id from anrede WHERE Bezeichnung = 'Frau'),1);
+	(1, 'Michael', 'Trösch',1,'abcstrasse 1',1, '1980-11-10','0791234567', 'a.a@a.a', '2018-11-17',1,1,1,'admin 1'),
+    (2, 'Ulrich', 'Schmutz',1,'defstrasse 2',1, '1940-8-15','0794536871', 'b.b@b.b', '2018-11-16',1,1,2,'admin 2'),
+    (3, 'Irina', 'Schubert',2,'uvwweg 5',1, '1960-5-12','0790174896', 'c.c@c.c', '2018-11-18',1,1,3,'admin 3'),
+    (4, 'Tamara', 'Berger' ,2,'xyzweg 18',1,'2000-2-27','0791030178', 'd.d@e.e', '2018-11-18',1,2,4,'person gesperrt aber mitarbeiter aktiv'),
+	
+    (6, 'Fritz', 'Holz' ,1,'derandereweg 18', 1,'1920-3-15','0791030348', 'e.e@f.f', '2018-11-18',1,1,5,'aktiver benutzer, inaktiver mitarbeiter'),
+    (7, 'Gritli', 'Hansens' ,2,'einanderestrase 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,1,null,'nur User, kein mitarbeiter'),
+    
+    (8, 'a', 'aa' ,2,'sdfa',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,1,null,'user1'),
+    (9, 'b', 'bb' ,2,'fgd2 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,2,null,'user2'),
+    (10, 'c', 'cc' ,2,'einan4',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,2,null,'user3'),
+    (11, 'd', 'dd' ,2,'fdsf4 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 4'),
+    (12, 'e', 'ee' ,2,'fdsf 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 5'),
+    (13, 'f', 'ff' ,1,'sfsdfd 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 6'),
+    (14, 'g', 'gg' ,1,'dfsf 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',2,2,null,'user 7'),
+    (15, 'h', 'hh' ,1,'ddf 44',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',3,1,null,'user 8'),
+    (16, 'i', 'ii' ,1,'einanderestr323',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',4,1,null,'user 9');    
 COMMIT;
-/*
-select * from stammdaten;
-select * from person;
-select * from anrede;
-select * from mitarbeiter;
-select * from statusma;
-select * from statuspers;
-*/
 
 -- ---------------------------------------------------------------------------------
 -- Tables in Beziehung zu Medium ---------------------------------------------------
@@ -79,14 +74,27 @@ select * from statuspers;
 -- --------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO statusMedi (bezeichnung) VALUES ('aktiv') , ('gesperrt');
+INSERT INTO statusMedi (bezeichnung) VALUES ('aktiv') , ('gesperrt'), ('geloescht');
 COMMIT;
 -- -------------------
 -- Data for Verlag
 -- -------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO verlag (name,gruendungsdatum, enddatum, geloescht) VALUES ('d-punkt', '1995-1-31', '2018-10-10',0), ('Reclam', '1828-1-10',null,0), ('EMF', '1985-1-01',null,1);
+INSERT INTO verlag (name,gruendungsdatum, enddatum, geloescht) VALUES 
+	('d-punkt', '1995-1-31', '2018-10-10',0), 
+	('Reclam', '1828-1-10',null,0), 
+	('a', '1985-1-01',null,0),
+    ('b', '1985-1-02',null,0),
+    ('c', '1985-1-03',null,0),
+    ('d', '1985-1-04',null,0),
+    ('e', '1985-1-05',null,0),
+    ('f', '1985-1-06',null,0),
+    ('g', '1985-1-07',null,1),
+    ('h', '1985-1-08',null,1),
+    ('i', '1985-1-09',null,1),
+    ('j', '1985-1-10',null,1),
+    ('k', '1985-1-11',null,1);
 COMMIT;
 -- ----------------------
 -- Data for medium
@@ -102,7 +110,7 @@ COMMIT;
 -- ---------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO schlagwort (schlagwort) VALUES ('a'), ('b'), ('c'), ('d');
+INSERT INTO schlagwort (schlagwort, geloescht) VALUES ('a',0), ('b',0), ('c',1), ('d',1);
 COMMIT;
 -- ---------------------
 -- Data for MediumSchlagwort
@@ -116,7 +124,20 @@ COMMIT;
 -- ---------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO autor (vorname, nachname, geburtsdatum, todesdatum, geloescht) VALUES ('Friedrich', 'Schiller', '1759-11-10', '1805-5-09',0), ('Klaus', 'Pohl', '1960-1-01', null,0),('Jean-Francois', 'Mallet', '1967-1-19', null,0);
+INSERT INTO autor (vorname, nachname, geburtsdatum, todesdatum, geloescht) VALUES 
+	('Friedrich', 'Schiller', '1759-11-10', '1805-5-09',0),
+	('Klaus', 'Pohl', '1960-1-01', null,0),
+    ('Jean-Francois', 'Mallet', '1967-1-19', null,0),
+	('a', 'aa', '1960-1-01', null,0),
+    ('b', 'bb', '1960-1-02', null,0),
+    ('c', 'cc', '1960-1-03', null,0),
+    ('d', 'dd', '1960-1-04', null,0),
+    ('e', 'ee', '1960-1-05', null,0),
+    ('f', 'ff', '1960-1-06', null,1),
+    ('g', 'gg', '1960-1-07', null,1),
+    ('h', 'hh', '1960-1-08', null,0),
+    ('i', 'ii', '1960-1-09', null,0),
+    ('j', 'jj', '1960-1-10', null,0);
 COMMIT;
 -- ---------------------
 -- Data for mediumAutor
@@ -130,7 +151,7 @@ COMMIT;
 -- ---------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO buch (seiten, isbn, auflage,medium_id) VALUES (160,'978-3-15-000012-0', null,1),(195,'978-3-86490-283-3', 4,2), (384,'978-3-86355-580-1', 1,3);
+INSERT INTO buch (seiten, isbn, auflage,medium_id) VALUES (160,'978-3-15-000012-0', '5te',1),(195,'978-3-86490-283-3', 4,2), (384,'978-3-86355-580-1', '5',3);
 COMMIT;
 
 -- ------------------
@@ -4930,6 +4951,6 @@ INSERT INTO ort (plz, ort, kanton, abkürzung) VALUES ('9658','Wildhaus','St. Ga
 
 COMMIT;
 
-select * from dezGrp;
-select * from dezKla;
+select * from person;
+select * from mitarbeiter;
 select * from ort WHERE ort = 'Bern';
