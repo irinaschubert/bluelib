@@ -444,6 +444,7 @@ public class BenutzerController {
 		PlzSucheRenderer plzSucheR = new PlzSucheRenderer();
 		benutzerView.getPlzSucheCbx().setRenderer(plzSucheR);
 		benutzerView.getPlzSucheCbx().addItem(null);
+		benutzerView.getPlzSucheCbx().setEditable(true);
 		for(Ort o : ortDao.findAll()) {
 			benutzerView.getPlzSucheCbx().addItem(o);
 		}
