@@ -58,9 +58,7 @@ public class AusleiheController {
 	private List<Ausleihe> ausleiheL;
 	private TableModelAusleihe tableModelAusleihe;
 	private Ausleihe ausleiheSuchobjekt;
-	private OrtDAO ortDao;
-	private StatusDAO statusDao;
-	private AnredeDAO anredeDao;
+	private AusleiheDAO ausleiheDAO;
 	private HauptController hauptController;
 
 	public AusleiheController(AusleiheView view, HauptController hauptController) {
@@ -68,9 +66,7 @@ public class AusleiheController {
 		this.hauptController = hauptController;
 		ausleiheService = new AusleiheService();
 		ausleiheL = new ArrayList<>();
-		ortDao = new OrtDAO();
-		statusDao = new StatusDAO();
-		anredeDao = new AnredeDAO();
+		ausleiheDAO = new AusleiheDAO();
 		tableModelAusleihe = new TableModelAusleihe();
 		tableModelAusleihe.setAndSortListe(ausleiheL);
 		view.getAusleiheTabelle().setModel(tableModelAusleihe);
@@ -84,7 +80,7 @@ public class AusleiheController {
 	// Buttons
 	private void control() {
 		// Suchen
-		ActionListener suchenButtonActionListener = new ActionListener() {
+		ActionListener buchSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ausleiheSuchobjekt = feldwertezuObjektSuchen();
@@ -92,7 +88,7 @@ public class AusleiheController {
 				tableModelAusleihe.setAndSortListe(ausleiheL);
 			}
 		};
-		ausleiheView.getSuchButton().addActionListener(suchenButtonActionListener);
+		ausleiheView.getBuchSuchenButton().addActionListener(buchSuchenButtonActionListener);
 		
 		// Neu
 		ActionListener neuButtonActionListener = new ActionListener(){
