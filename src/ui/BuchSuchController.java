@@ -37,7 +37,7 @@ import services.Verifikation;
  * Controller für die BuchSuchView, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
- * @version 1.0 2018-11-13
+ * @version 1.0 2018-11-23
  * @author Schmutz
  *
  */
@@ -57,18 +57,17 @@ public abstract class BuchSuchController {
 		buchSuchobjekt = new Buch();
 //		view.spaltenBreiteSetzen();
 
-
 		suchPanelInitialisieren();
 		tabellenPanelInitialisieren();
 		control();
 
 	}
-	
+
 	private void control() {
-		
+
 		buchSuchView.getBarcodeSucheT().addKeyListener(barcodeScanningKeyAdapter());
 		buchSuchView.getSuchButton().addActionListener(suchenButtonActionListener());
-	
+
 	}
 
 	private boolean inputValidierungSuchen() {
@@ -76,9 +75,9 @@ public abstract class BuchSuchController {
 
 		if (!buchSuchView.getBarcodeSucheT().getText().isEmpty()) {
 			Verifikation v = BarcodePruefung.istBarcode(buchSuchView.getBarcodeSucheT().getText());
-        	if (!v.isAktionErfolgreich()) {
-        		JOptionPane.showMessageDialog(null, v.getNachricht());
-        		buchSuchView.getBarcodeSucheT().setText("");
+			if (!v.isAktionErfolgreich()) {
+				JOptionPane.showMessageDialog(null, v.getNachricht());
+				buchSuchView.getBarcodeSucheT().setText("");
 				keinInputFehler = false;
 			}
 
@@ -87,37 +86,36 @@ public abstract class BuchSuchController {
 		return keinInputFehler;
 
 	}
-	
-	private ActionListener suchenButtonActionListener(){
+
+	private ActionListener suchenButtonActionListener() {
 		ActionListener suchenButtonActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-            	buchSuchenUndResultatAnzeigen();
-				
+				buchSuchenUndResultatAnzeigen();
 
 			}
 
 		};
 		return suchenButtonActionListener;
 	}
-	
+
 	private KeyAdapter barcodeScanningKeyAdapter() {
 
 		KeyAdapter barcodeScanningKeyListener = new KeyAdapter() {
 
-			 @Override
-		        public void keyPressed(KeyEvent e) {
-		            if(e.getKeyCode() == KeyEvent.VK_ENTER){
-		            	buchSuchenUndResultatAnzeigen();
-		            	
-		            }
-		        }
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buchSuchenUndResultatAnzeigen();
 
-		    };
+				}
+			}
+
+		};
 		return barcodeScanningKeyListener;
 	}
-	
+
 	private void buchSuchenUndResultatAnzeigen() {
 		if (inputValidierungSuchen()) {
 			buchSuchobjekt = feldwertezuObjektSuchen();
