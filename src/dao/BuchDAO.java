@@ -65,9 +65,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ "m.signatur, "
 				+ "m.verlag_id, "
 				+ "m.statusMedi_id, "
-				+ "b.seiten "
-//				+ "m.person_id, "
-//				+ "b.auflage "
+				+ "b.seiten, "
+				+ "m.person_id, "
+				+ "b.auflage "
 				+ "FROM medium m "
 				+ "INNER JOIN buch b on b.medium_id = m.id ";
 				sql = sql + " WHERE m.statusMedi_id = ? ";
@@ -154,9 +154,11 @@ public class BuchDAO implements DAOInterface<Buch> {
 					 b.setVerlag(new VerlagDAO().findById(rs.getInt(count++)));
 					 b.setStatus(new StatusDAO().findById(rs.getInt(count++)));
 					 b.setAnzahlSeiten(rs.getInt(count++));
-//					 b.setErfassungMitarbeiter(new MitarbeiterDAO().findById(rs.getInt(count++)));
-//					 b.setAuflage(rs.getString(count++));
+					 b.setErfasserId(rs.getInt(count++));
+					 b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
+					 b.setAuflage(rs.getString(count++));
 					 b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
+					 b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
 					 buchListe.add(b);
 					 }
 				
