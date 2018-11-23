@@ -75,9 +75,10 @@ public abstract class BuchSuchController {
 		boolean keinInputFehler = true;
 
 		if (!buchSuchView.getBarcodeSucheT().getText().isEmpty()) {
-			if (IntHelfer.istInteger(buchSuchView.getBarcodeSucheL().getText())) {
-				JOptionPane.showMessageDialog(null, "Üngültiges Barcodeformat");
-				buchSuchView.getBarcodeSucheT().setText("");
+			Verifikation v = BarcodePruefung.istBarcode(buchSuchView.getBarcodeSucheT().getText());
+        	if (!v.isAktionErfolgreich()) {
+        		JOptionPane.showMessageDialog(null, v.getNachricht());
+        		buchSuchView.getBarcodeSucheT().setText("");
 				keinInputFehler = false;
 			}
 
@@ -92,12 +93,8 @@ public abstract class BuchSuchController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				if (inputValidierungSuchen()) {
-					buchSuchobjekt = feldwertezuObjektSuchen();
-					buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
-					tableModelBuch.setAndSortListe(buchL);
-				}
+            	buchSuchenUndResultatAnzeigen();
+				
 
 			}
 
@@ -112,32 +109,24 @@ public abstract class BuchSuchController {
 			 @Override
 		        public void keyPressed(KeyEvent e) {
 		            if(e.getKeyCode() == KeyEvent.VK_ENTER){
-		            	Verifikation v = BarcodePruefung.istBarcode(buchSuchView.getBarcodeSucheT().getText());
-		            	if (!v.isAktionErfolgreich()) {
-		            		JOptionPane.showMessageDialog(null, v.getNachricht());
-		            		buchSuchView.getBarcodeSucheT().setText("");
-		            	}
-		            	else {
-		            		int barCode = Integer.parseInt(buchSuchView.getBarcodeSucheT().getText());
-		            		buchSuchobjekt.setBarcodeNr(barCode);
-		            		List<Buch> buchListe = null;
-		            		buchListe = medienHandlingService.buchSuchen(buchSuchobjekt);
-		            		if (buchListe != null) {
-		            			buchL = buchListe;
-		    					tableModelBuch.setAndSortListe(buchL);
-		            		}
-		            		else {
-		            			buchSuchView.getBarcodeSucheT().setText("");
-		            			JOptionPane.showMessageDialog(null, "Zu diesem Barcode existiert kein Buch");
-		            		}
-		                 	}
-    	
+		            	buchSuchenUndResultatAnzeigen();
 		            	
 		            }
 		        }
 
 		    };
 		return barcodeScanningKeyListener;
+	}
+	
+	private void buchSuchenUndResultatAnzeigen() {
+		if (inputValidierungSuchen()) {
+			buchSuchobjekt = feldwertezuObjektSuchen();
+			buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
+			tableModelBuch.setAndSortListe(buchL);
+			if (buchL.size() == 0) {
+				JOptionPane.showMessageDialog(null, "Kein Treffer gefunden");
+			}
+		}
 	}
 
 	private Buch feldwertezuObjektSuchen() {
