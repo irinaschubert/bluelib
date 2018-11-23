@@ -2,6 +2,8 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -18,6 +20,7 @@ import domain.Autor;
 import domain.Buch;
 import domain.Status;
 import domain.Verlag;
+import hilfsklassen.BarcodePruefung;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
 import hilfsklassen.IntHelfer;
@@ -51,39 +54,21 @@ public abstract class BuchSuchController {
 		buchSuchView = view;
 		medienHandlingService = new MedienhandlingService();
 		normdatenService = new NormdatenService();
-//		autorL = normdatenService.alleautoren();
-//		tableModelAutor.setAndSortListe(buchL);
-//		view.getAutorenTabelle().setModel(tableModelAutor);
+		buchSuchobjekt = new Buch();
 //		view.spaltenBreiteSetzen();
-//		autorSuchobjekt = new Autor();
+
 
 		suchPanelInitialisieren();
 		tabellenPanelInitialisieren();
 		control();
 
 	}
-
-//	Definierten des Listeners für die Button-Klicks
+	
 	private void control() {
-
-		ActionListener suchenButtonActionListener = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				if (inputValidierungSuchen()) {
-					buchSuchobjekt = feldwertezuObjektSuchen();
-					buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
-					tableModelBuch.setAndSortListe(buchL);
-				}
-
-			}
-
-		};
-
-		// Zuweisen des Actionlisteners zum Suchen-Button
-		buchSuchView.getSuchButton().addActionListener(suchenButtonActionListener);
-
+		
+		buchSuchView.getBarcodeSucheT().addKeyListener(barcodeScanningKeyAdapter());
+		buchSuchView.getSuchButton().addActionListener(suchenButtonActionListener());
+	
 	}
 
 	private boolean inputValidierungSuchen() {
@@ -100,6 +85,59 @@ public abstract class BuchSuchController {
 
 		return keinInputFehler;
 
+	}
+	
+	private ActionListener suchenButtonActionListener(){
+		ActionListener suchenButtonActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (inputValidierungSuchen()) {
+					buchSuchobjekt = feldwertezuObjektSuchen();
+					buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
+					tableModelBuch.setAndSortListe(buchL);
+				}
+
+			}
+
+		};
+		return suchenButtonActionListener;
+	}
+	
+	private KeyAdapter barcodeScanningKeyAdapter() {
+
+		KeyAdapter barcodeScanningKeyListener = new KeyAdapter() {
+
+			 @Override
+		        public void keyPressed(KeyEvent e) {
+		            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+		            	Verifikation v = BarcodePruefung.istBarcode(buchSuchView.getBarcodeSucheT().getText());
+		            	if (!v.isAktionErfolgreich()) {
+		            		JOptionPane.showMessageDialog(null, v.getNachricht());
+		            		buchSuchView.getBarcodeSucheT().setText("");
+		            	}
+		            	else {
+		            		int barCode = Integer.parseInt(buchSuchView.getBarcodeSucheT().getText());
+		            		buchSuchobjekt.setBarcodeNr(barCode);
+		            		List<Buch> buchListe = null;
+		            		buchListe = medienHandlingService.buchSuchen(buchSuchobjekt);
+		            		if (buchListe != null) {
+		            			buchL = buchListe;
+		    					tableModelBuch.setAndSortListe(buchL);
+		            		}
+		            		else {
+		            			buchSuchView.getBarcodeSucheT().setText("");
+		            			JOptionPane.showMessageDialog(null, "Zu diesem Barcode existiert kein Buch");
+		            		}
+		                 	}
+    	
+		            	
+		            }
+		        }
+
+		    };
+		return barcodeScanningKeyListener;
 	}
 
 	private Buch feldwertezuObjektSuchen() {
@@ -167,7 +205,6 @@ public abstract class BuchSuchController {
 		tableModelBuch.setAndSortListe(buchL);
 		buchSuchView.getBuchTabelle().setModel(tableModelBuch);
 		buchSuchView.spaltenBreiteSetzen();
-//		autorSuchobjekt = new Autor();
 
 	}
 

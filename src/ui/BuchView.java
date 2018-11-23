@@ -310,7 +310,8 @@ public class BuchView extends JPanel {
 	}
 
 	public void addBuchSuchView(BuchSuchView buchSuchView) {
-		centerPanel.add(buchSuchView, BorderLayout.NORTH);
+		this.buchSuchView = buchSuchView;
+		centerPanel.add(this.buchSuchView, BorderLayout.NORTH);
 	}
 
 	private class GridBagHelfer {

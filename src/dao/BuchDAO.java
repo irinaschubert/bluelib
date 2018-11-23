@@ -70,26 +70,40 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ "b.auflage "
 				+ "FROM medium m "
 				+ "INNER JOIN buch b on b.medium_id = m.id ";
-				sql = sql + " WHERE m.statusMedi_id = ? ";
+				
+				
+				Boolean whereUsed = false;
+				
+				if (domainObject.getStatus() != null) {
+					sql = sql + " WHERE m.statusMedi_id = ? ";
+					whereUsed = true;
+						}
 				
 				if (domainObject.getBarcodeNr() >= 0) {
-					System.out.println(domainObject.getBarcodeNr());
-					sql = sql + "AND m.barcodeNr = ? ";
+					sql = sql + (whereUsed?"AND ": "WHERE ");
+					whereUsed = true;
+					sql = sql + "m.barcode = ? ";
 						}
 				
 				if (domainObject.getId() > -1) {
-					sql = sql + "AND m.id = ? ";
+					sql = sql + (whereUsed?"AND ": "WHERE ");
+					whereUsed = true;
+					sql = sql + "m.id = ? ";
 						}
 				
 				if (domainObject.getTitel() != null) {
-					sql = sql + "AND titel ";
+					sql = sql + (whereUsed?"AND ": "WHERE ");
+					whereUsed = true;
+					sql = sql + "titel ";
 					sql = sql + (SQLHelfer.likePruefung(domainObject.getTitel())?" LIKE": " =");
 					sql = sql + " ? ";
 				}
 				
 				if (domainObject.getAutoren() != null) {
 					if (domainObject.getAutoren().size() > 0) {
-						sql = sql + " AND m.id IN (SELECT ma.medium_id FROM mediumautor ma "
+						sql = sql + (whereUsed?"AND ": "WHERE ");
+						whereUsed = true;
+						sql = sql + "m.id IN (SELECT ma.medium_id FROM mediumautor ma "
 								+ "WHERE ma.autor_id IN (";
 					for (int i = 0; i < domainObject.getAutoren().size();i++) {
 						sql = sql + (i + 1 == domainObject.getAutoren().size()?"? ))":"?, ");
@@ -98,10 +112,14 @@ public class BuchDAO implements DAOInterface<Buch> {
 				}
 					
 				if (domainObject.getVerlag() != null) {
-					sql = sql + " AND m.verlag_id = ? ";
+					sql = sql + (whereUsed?"AND ": "WHERE ");
+					whereUsed = true;
+					sql = sql + "m.verlag_id = ? ";
 				}
 				if (domainObject.getSignatur() != null) {
-					sql = sql + "AND m.verlag_id ";
+					sql = sql + (whereUsed?"AND ": "WHERE ");
+					whereUsed = true;
+					sql = sql + "m.verlag_id ";
 					sql = sql + (SQLHelfer.likePruefung(domainObject.getSignatur())?" LIKE": " =");
 				}
 				
@@ -110,7 +128,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 				int pCounter = 1;
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(pCounter++, domainObject.getStatus().getId());
+				if (domainObject.getStatus() != null) {
+					pstmt.setInt(pCounter++,domainObject.getStatus().getId());
+				}
 				if (domainObject.getBarcodeNr() >= 0) {
 					pstmt.setInt(pCounter++,domainObject.getBarcodeNr());
 				}

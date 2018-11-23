@@ -5,29 +5,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.text.Position;
-
 import domain.Autor;
 import domain.Buch;
 import domain.Schlagwort;
-import domain.Status;
-import domain.Verlag;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
-import hilfsklassen.IntHelfer;
 import models.ComboBoxModelAutor;
 import models.ComboBoxModelSchlagwort;
 import models.ComboBoxModelVerlag;
-import models.TableModelAutor;
 import models.TableModelBuch;
 import services.MedienhandlingService;
 import services.NormdatenService;
@@ -81,6 +73,7 @@ public class BuchController {
 		buchView.getEntfernenAutorB().addActionListener(autorEntfernenActionListener());
 		buchView.getZuweisenSchlagwortB().addActionListener(SchlagWortZuweisenActionListener());
 		buchView.getEntferntenSchlagwortB().addActionListener(SchlagWortEntfernenActionListener());
+	
 
 //		ActionListener suchenButtonActionListener = new ActionListener() {
 //
@@ -261,6 +254,8 @@ public class BuchController {
 		};
 		return schlagWortEntfernenActionListener;
 	}
+	
+	
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
