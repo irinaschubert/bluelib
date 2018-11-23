@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -24,6 +25,8 @@ public class LoginView extends JPanel {
 	private JTextField benutzerNameT = new JTextField(15);
 	private JPasswordField passwortP = new JPasswordField(15);
 	private StandardButtonPanel buttonPanel = new StandardButtonPanel();
+	private static int HOEHE = 300;
+	private static int BREITE = 500;
 
 	
 	public LoginView(String panelTitel) {
@@ -37,6 +40,9 @@ public class LoginView extends JPanel {
 		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
 		this.add(erstellePanel(), BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		
+		// Definiert die Grösse des Panels. Die HauptView passt sich an
+		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
 	
 	private JPanel erstellePanel() {

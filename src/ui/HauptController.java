@@ -226,7 +226,7 @@ public class HauptController {
 				LoginView loginView = new LoginView("Login");
 				new LoginController(loginView, hauptController);
 				hauptView.getContentPane().removeAll();
-				// hauptView.setSize(new Dimension(loginView.getPreferredSize()));
+				hauptView.setSize(new Dimension(loginView.getPreferredSize()));
 				hauptView.getContentPane().add(loginView);
 				hauptView.validate();
 				hauptView.setVisible(true);

@@ -230,9 +230,11 @@ public class BuchView extends JPanel {
 
 		erfassungsDatumL = new JLabel();
 		erfassungsDatumT = new JTextField();
+		erfassungsDatumT.setEditable(false);
 
 		erfassungsUserL = new JLabel();
 		erfassungsUserT = new JTextField();
+		erfassungsUserT.setEditable(false);
 
 		componentsNeuBearbeiten.add(PKT);
 		componentsNeuBearbeiten.add(barcodeT);
