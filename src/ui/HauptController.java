@@ -37,6 +37,9 @@ public class HauptController {
 
 //	Definierten des Listeners für die Button-Klicks
 	private void control() {
+
+
+		hauptView.getMedienBuchM().addActionListener(buchMenueActionListener());
 		hauptView.getMedienAutorM().addActionListener(autorMenueActionListener());
 		hauptView.getBeendenM().addActionListener(beendenActionListener());
 		hauptView.getAdministrationStammdatenM().addActionListener(stammdatenMenuActionListener());
@@ -44,27 +47,59 @@ public class HauptController {
 		hauptView.getBenutzerBenutzerM().addActionListener(benutzerMenuActionListener());
 		hauptView.getAdministrationSchagworteM().addActionListener(schlagwortMenuActionListener());
 
+		
 	}
 
-	private ActionListener benutzerMenuActionListener() {
-		ActionListener benutzerMenuActionListener = new ActionListener() {
+	private ActionListener autorMenueActionListener() {
+		ActionListener autorMenuActionListener = new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						BenutzerView benutzerView = new BenutzerView("Benutzer");
-						new BenutzerController(benutzerView, hauptController);
+						AutorView autorView = new AutorView("Autor");
+						new AutorController(autorView, hauptController);
 						hauptView.getContentPane().removeAll();
-						hauptView.setSize(new Dimension(benutzerView.getPreferredSize()));
-						hauptView.getContentPane().add(benutzerView);
+						hauptView.setSize(new Dimension(autorView.getPreferredSize()));
+						hauptView.getContentPane().add(autorView);
 						hauptView.validate();
 						hauptView.setVisible(true);
+
 					}
 				});
+
 			}
 		};
-		return benutzerMenuActionListener;
+
+		return autorMenuActionListener;
+	}
+	
+	private ActionListener buchMenueActionListener() {
+		ActionListener buchMenuActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						BuchView buchView = new BuchView("Buch");
+						new BuchController(buchView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(buchView.getPreferredSize()));
+						hauptView.getContentPane().add(buchView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+
+					}
+				});
+
+			}
+		};
+
+		return buchMenuActionListener;
 	}
 	
 	private ActionListener stammdatenMenuActionListener() {
@@ -109,27 +144,28 @@ public class HauptController {
 		return schlagwortMenuActionListener;
 	}
 
-	private ActionListener autorMenueActionListener() {
-		ActionListener autorMenuActionListener = new ActionListener() {
+	
+	private ActionListener benutzerMenuActionListener() {
+		ActionListener benutzerMenuActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						AutorView autorView = new AutorView("Autor");
-						new AutorController(autorView, hauptController);
+						BenutzerView benutzerView = new BenutzerView("Benutzer");
+						new BenutzerController(benutzerView, hauptController);
 						hauptView.getContentPane().removeAll();
-						hauptView.setSize(new Dimension(autorView.getPreferredSize()));
-						hauptView.getContentPane().add(autorView);
+						hauptView.setSize(new Dimension(benutzerView.getPreferredSize()));
+						hauptView.getContentPane().add(benutzerView);
 						hauptView.validate();
 						hauptView.setVisible(true);
 					}
 				});
 			}
 		};
-		return autorMenuActionListener;
+		return benutzerMenuActionListener;
 	}
-	
+
 	private ActionListener verlagMenueActionListener() {
 		ActionListener verlagMenueActionListener = new ActionListener() {
 			@Override
@@ -151,19 +187,24 @@ public class HauptController {
 		return verlagMenueActionListener;
 	}
 
+
 	private ActionListener beendenActionListener() {
 		ActionListener autorBeendenActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				applikationSchliessen();
+
 			}
 		};
+
 		return autorBeendenActionListener;
 	}
 
 	public void initialisierenNachLogin() {
 		hauptView.getJMenuBar().setVisible(true); // Nach der Anmeldung soll die Menubar wieder sichtbar sein
-		hauptView.getAdministrationM().setEnabled(EingeloggterMA.getInstance().getMitarbeiter().isAdmin()); // Disablen Admin-Menü
+		hauptView.getAdministrationM().setEnabled(EingeloggterMA.getInstance().getMitarbeiter().isAdmin()); // Disablen
+																											// Admin-Menü
 		panelEntfernen();
 	}
 
@@ -185,7 +226,7 @@ public class HauptController {
 				LoginView loginView = new LoginView("Login");
 				new LoginController(loginView, hauptController);
 				hauptView.getContentPane().removeAll();
-				// hauptView.setSize(new Dimension(loginView.getPreferredSize()));
+				hauptView.setSize(new Dimension(loginView.getPreferredSize()));
 				hauptView.getContentPane().add(loginView);
 				hauptView.validate();
 				hauptView.setVisible(true);
@@ -193,7 +234,7 @@ public class HauptController {
 			}
 		});
 	}
-
+	
 	private void selbstInitialisation() {
 		new LoginService().loginPruefen("Mike", "abdc");
 	}

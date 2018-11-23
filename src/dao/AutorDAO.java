@@ -322,7 +322,8 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ "geburtsdatum, "
 				+ "todesdatum, "
 				+ "geloescht "
-				+ "FROM autor";
+				+ "FROM autor "
+				+ "ORDER BY nachname, vorname";
 			try {
 				
 				conn = dbConnection.getDBConnection();
@@ -352,6 +353,40 @@ public class AutorDAO implements DAOInterface<Autor> {
 			}
 			
 			return autorListe;
+	}
+	
+	public List<Autor> findeAutorenZuMedium(int id){
+		ResultSet rs = null;
+		String sql = "SELECT "
+				+ "ma.autor_id "
+				+ "FROM mediumautor ma "
+				+ "WHERE ma.medium_id = ?";
+			try {
+				
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1,id);
+				rs = pstmt.executeQuery();
+				AutorDAO autorDAO = new AutorDAO();
+				while(rs.next()) {
+					autorListe.add(autorDAO.findById(rs.getInt(1)));					
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+	
+
+				   } finally{
+				         try{
+				             if(rs != null) rs.close();
+				             if(pstmt != null) pstmt.close();
+				             if(conn != null) conn.close();
+				         } catch(Exception ex){}
+				     }
+			
+			return autorListe;
+				
+				
+			
 	}
 
 }

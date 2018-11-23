@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -24,6 +25,8 @@ public class LoginView extends JPanel {
 	private JTextField benutzerNameT = new JTextField(15);
 	private JPasswordField passwortP = new JPasswordField(15);
 	private StandardButtonPanel buttonPanel = new StandardButtonPanel();
+	private static int HOEHE = 300;
+	private static int BREITE = 500;
 
 	
 	public LoginView(String panelTitel) {
@@ -37,19 +40,22 @@ public class LoginView extends JPanel {
 		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
 		this.add(erstellePanel(), BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		
+		// Definiert die Grösse des Panels. Die HauptView passt sich an
+		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
 	
 	private JPanel erstellePanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
-		placeComp(benutzerNameL, panel, 0,0,-1,-1, GridBagConstraints.HORIZONTAL, 0);
-		placeComp(passwortL, panel, 0,1,-1,-1, GridBagConstraints.HORIZONTAL, 0);
-		placeComp(benutzerNameT, panel, 1,0,-1,-1, GridBagConstraints.HORIZONTAL, 1);
-		placeComp(passwortP, panel, 1,1,-1,-1, GridBagConstraints.HORIZONTAL, 1);
+		komponentenPlatzieren(benutzerNameL, panel, 0,0,-1,-1, GridBagConstraints.HORIZONTAL, 0);
+		komponentenPlatzieren(passwortL, panel, 0,1,-1,-1, GridBagConstraints.HORIZONTAL, 0);
+		komponentenPlatzieren(benutzerNameT, panel, 1,0,-1,-1, GridBagConstraints.HORIZONTAL, 1);
+		komponentenPlatzieren(passwortP, panel, 1,1,-1,-1, GridBagConstraints.HORIZONTAL, 1);
 		return panel;
 	}
 	
-	  public void placeComp(JComponent comp, JPanel panel, int x, int y, int w, int h, int fill, int weight) {
+	  public void komponentenPlatzieren(JComponent comp, JPanel panel, int x, int y, int w, int h, int fill, int weight) {
 		    GridBagConstraints c = new GridBagConstraints();
 		    if (fill <= 0) {
 		    	c.fill = fill;
