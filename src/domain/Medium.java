@@ -19,7 +19,8 @@ public abstract class Medium {
 	private Double preis;
 	private Status status;
 	private Date erfassungDatum;
-	private Person erfassungMitarbeiter;
+	private int erfasserId;
+	private String erfasserName;
 	private String bemerkung;
 	
 	public Medium() {
@@ -86,14 +87,6 @@ public abstract class Medium {
 		this.erfassungDatum = erfassungDatum;
 	}
 
-	public Person getErfassungMitarbeiter() {
-		return erfassungMitarbeiter;
-	}
-
-	public void setErfassungMitarbeiter(Person erfassungMitarbeiter) {
-		this.erfassungMitarbeiter = erfassungMitarbeiter;
-	}
-
 	public String getBemerkung() {
 		return bemerkung;
 	}
@@ -112,6 +105,22 @@ public abstract class Medium {
 	
 	public void setAutor(Autor autor) {
 		this.autoren.add(autor);
+	}
+
+	public int getErfasserId() {
+		return erfasserId;
+	}
+
+	public void setErfasserId(int erfasserId) {
+		this.erfasserId = erfasserId;
+	}
+
+	public String getErfasserName() {
+		return erfasserName;
+	}
+
+	public void setErfasserName(String erfasserName) {
+		this.erfasserName = erfasserName;
 	}
 	
 	

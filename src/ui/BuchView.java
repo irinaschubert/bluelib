@@ -209,6 +209,7 @@ public class BuchView extends JPanel {
 		schlagwortL = new JLabel();
 		schlagwortCbx = new JComboBox<>();
 		schlagwortCbx.setPreferredSize(new Dimension(50, 25));
+		schlagwortCbx.setRenderer(new SchlagwortRenderer());
 
 		autorList = new JList<>();
 		JScrollPane scrollPaneAutorList = new JScrollPane(autorList);
@@ -221,6 +222,8 @@ public class BuchView extends JPanel {
 		schlagwortList = new JList<>();
 		JScrollPane scrollPaneSchlagwortList = new JScrollPane(schlagwortList);
 		scrollPaneSchlagwortList.setPreferredSize(new Dimension(250, 10));
+		schlagwortList.setCellRenderer(new SchlagwortListCellRenderer());
+
 
 		notizL = new JLabel();
 		notizA = new JTextArea(10, 10);
@@ -307,7 +310,8 @@ public class BuchView extends JPanel {
 	}
 
 	public void addBuchSuchView(BuchSuchView buchSuchView) {
-		centerPanel.add(buchSuchView, BorderLayout.NORTH);
+		this.buchSuchView = buchSuchView;
+		centerPanel.add(this.buchSuchView, BorderLayout.NORTH);
 	}
 
 	private class GridBagHelfer {

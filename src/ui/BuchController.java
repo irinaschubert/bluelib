@@ -5,27 +5,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.text.Position;
-
 import domain.Autor;
 import domain.Buch;
-import domain.Status;
-import domain.Verlag;
+import domain.Schlagwort;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
-import hilfsklassen.IntHelfer;
 import models.ComboBoxModelAutor;
+import models.ComboBoxModelSchlagwort;
 import models.ComboBoxModelVerlag;
-import models.TableModelAutor;
 import models.TableModelBuch;
 import services.MedienhandlingService;
 import services.NormdatenService;
@@ -77,6 +71,9 @@ public class BuchController {
 	private void control() {
 		buchView.getZuweisenAutorB().addActionListener(autorZuweisenActionListener());
 		buchView.getEntfernenAutorB().addActionListener(autorEntfernenActionListener());
+		buchView.getZuweisenSchlagwortB().addActionListener(SchlagWortZuweisenActionListener());
+		buchView.getEntferntenSchlagwortB().addActionListener(SchlagWortEntfernenActionListener());
+	
 
 //		ActionListener suchenButtonActionListener = new ActionListener() {
 //
@@ -208,6 +205,57 @@ public class BuchController {
 		};
 		return autorEntfernenActionListener;
 	}
+	
+	private ActionListener SchlagWortZuweisenActionListener() {
+	
+	ActionListener schlagWortZuweisenActionListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			DefaultListModel model = (DefaultListModel) buchView.getSchlagwortList().getModel();
+			if (buchView.getSchlagwortCbx().getSelectedIndex() > -1) {
+				
+				Schlagwort s = (Schlagwort) buchView.getSchlagwortCbx().getSelectedItem();
+				Boolean identisch = false;
+				
+				for (int i = 0; i < model.getSize(); i++) {
+			         int id = ((Schlagwort)model.getElementAt(i)).getId();
+			         if (id == s.getId())  {
+			            identisch = true;
+			         }
+				}
+				if (identisch) {
+					JOptionPane.showMessageDialog(null, "Das Schlagwort befindet sich bereits in der Liste");
+				}
+				else {
+					model.addElement(s);
+				}
+ 
+			}
+		}
+	};
+	return schlagWortZuweisenActionListener;
+}
+	
+	private ActionListener SchlagWortEntfernenActionListener() {
+
+		ActionListener schlagWortEntfernenActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!buchView.getSchlagwortList().isSelectionEmpty()) {
+					DefaultListModel model = (DefaultListModel) buchView.getSchlagwortList().getModel();
+					int selectedIndex = buchView.getSchlagwortList().getSelectedIndex();
+					model.remove(selectedIndex);
+				} else {
+					JOptionPane.showMessageDialog(null, "Es wurde kein Schlagwort ausgewählt");
+				}
+			}
+		};
+		return schlagWortEntfernenActionListener;
+	}
+	
+	
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
@@ -277,7 +325,17 @@ public class BuchController {
 			((DefaultListModel) buchView.getAutorList().getModel()).addElement(a);
 		}
 		
+		((DefaultListModel) buchView.getSchlagwortList().getModel()).removeAllElements();
+		if (buch.getSchlagwoerter() != null) {
+			for (Schlagwort s : buch.getSchlagwoerter()) {
+				((DefaultListModel) buchView.getSchlagwortList().getModel()).addElement(s);
+			}
+		}
+		
 		buchView.getNotizA().setText(buch.getBemerkung());
+		buchView.getErfassungsDatumT().setText(DateConverter.convertJavaDateToString(buch.getErfassungDatum()));
+		buchView.getErfassungsUserT().setText(buch.getErfasserName());
+		
 
 	}
 
@@ -338,6 +396,10 @@ public class BuchController {
 		buchView.getVerlagCbx().setModel(comboBoxModelVerlag);
 		buchView.getStatusCbx().setModel(new DefaultComboBoxModel(medienHandlingService.alleMedienStati().toArray()));
 		buchView.getAutorList().setModel(new DefaultListModel());
+		ComboBoxModelSchlagwort comboBoxModelSchlagwort = new ComboBoxModelSchlagwort(normdatenService.alleSchlagworte());
+		comboBoxModelSchlagwort.geloeschteEntfernen();
+		buchView.getSchlagwortCbx().setModel(comboBoxModelSchlagwort);
+		buchView.getSchlagwortList().setModel(new DefaultListModel());
 
 	}
 

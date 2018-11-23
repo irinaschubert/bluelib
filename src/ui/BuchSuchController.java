@@ -2,28 +2,21 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import domain.Autor;
 import domain.Buch;
 import domain.Status;
 import domain.Verlag;
-import hilfsklassen.ButtonNamen;
-import hilfsklassen.DateConverter;
+import hilfsklassen.BarcodePruefung;
 import hilfsklassen.IntHelfer;
 import models.ComboBoxModelAutor;
 import models.ComboBoxModelVerlag;
-import models.TableModelAutor;
 import models.TableModelBuch;
 import services.MedienhandlingService;
 import services.NormdatenService;
@@ -34,7 +27,7 @@ import services.Verifikation;
  * Controller für die BuchSuchView, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
- * @version 1.0 2018-11-13
+ * @version 1.0 2018-11-23
  * @author Schmutz
  *
  */
@@ -51,11 +44,8 @@ public abstract class BuchSuchController {
 		buchSuchView = view;
 		medienHandlingService = new MedienhandlingService();
 		normdatenService = new NormdatenService();
-//		autorL = normdatenService.alleautoren();
-//		tableModelAutor.setAndSortListe(buchL);
-//		view.getAutorenTabelle().setModel(tableModelAutor);
+		buchSuchobjekt = new Buch();
 //		view.spaltenBreiteSetzen();
-//		autorSuchobjekt = new Autor();
 
 		suchPanelInitialisieren();
 		tabellenPanelInitialisieren();
@@ -63,26 +53,10 @@ public abstract class BuchSuchController {
 
 	}
 
-//	Definierten des Listeners für die Button-Klicks
 	private void control() {
 
-		ActionListener suchenButtonActionListener = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				if (inputValidierungSuchen()) {
-					buchSuchobjekt = feldwertezuObjektSuchen();
-					buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
-					tableModelBuch.setAndSortListe(buchL);
-				}
-
-			}
-
-		};
-
-		// Zuweisen des Actionlisteners zum Suchen-Button
-		buchSuchView.getSuchButton().addActionListener(suchenButtonActionListener);
+		buchSuchView.getBarcodeSucheT().addKeyListener(barcodeScanningKeyAdapter());
+		buchSuchView.getSuchButton().addActionListener(suchenButtonActionListener());
 
 	}
 
@@ -90,8 +64,9 @@ public abstract class BuchSuchController {
 		boolean keinInputFehler = true;
 
 		if (!buchSuchView.getBarcodeSucheT().getText().isEmpty()) {
-			if (IntHelfer.istInteger(buchSuchView.getBarcodeSucheL().getText())) {
-				JOptionPane.showMessageDialog(null, "Üngültiges Barcodeformat");
+			Verifikation v = BarcodePruefung.istBarcode(buchSuchView.getBarcodeSucheT().getText());
+			if (!v.isAktionErfolgreich()) {
+				JOptionPane.showMessageDialog(null, v.getNachricht());
 				buchSuchView.getBarcodeSucheT().setText("");
 				keinInputFehler = false;
 			}
@@ -100,6 +75,46 @@ public abstract class BuchSuchController {
 
 		return keinInputFehler;
 
+	}
+
+	private ActionListener suchenButtonActionListener() {
+		ActionListener suchenButtonActionListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buchSuchenUndResultatAnzeigen();
+
+			}
+
+		};
+		return suchenButtonActionListener;
+	}
+
+	private KeyAdapter barcodeScanningKeyAdapter() {
+
+		KeyAdapter barcodeScanningKeyListener = new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					buchSuchenUndResultatAnzeigen();
+
+				}
+			}
+
+		};
+		return barcodeScanningKeyListener;
+	}
+
+	private void buchSuchenUndResultatAnzeigen() {
+		if (inputValidierungSuchen()) {
+			buchSuchobjekt = feldwertezuObjektSuchen();
+			buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
+			tableModelBuch.setAndSortListe(buchL);
+			if (buchL.size() == 0) {
+				JOptionPane.showMessageDialog(null, "Kein Treffer gefunden");
+			}
+		}
 	}
 
 	private Buch feldwertezuObjektSuchen() {
@@ -167,7 +182,6 @@ public abstract class BuchSuchController {
 		tableModelBuch.setAndSortListe(buchL);
 		buchSuchView.getBuchTabelle().setModel(tableModelBuch);
 		buchSuchView.spaltenBreiteSetzen();
-//		autorSuchobjekt = new Autor();
 
 	}
 

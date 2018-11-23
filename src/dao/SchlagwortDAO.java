@@ -220,5 +220,39 @@ public class SchlagwortDAO implements DAOInterface<Schlagwort> {
 		}
 		return schlagwortListe;
 	}
+	
+	public List<Schlagwort> findeSchlagwoerterZuMedium(int id){
+		ResultSet rs = null;
+		String sql = "SELECT "
+				+ "ms.schlagwort_id "
+				+ "FROM mediumschlagwort ms "
+				+ "WHERE ms.medium_id = ?";
+			try {
+				
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1,id);
+				rs = pstmt.executeQuery();
+				SchlagwortDAO schlagwortDAO = new SchlagwortDAO();
+				while(rs.next()) {
+					schlagwortListe.add(schlagwortDAO.findById(rs.getInt(1)));					
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+	
+
+				   } finally{
+				         try{
+				             if(rs != null) rs.close();
+				             if(pstmt != null) pstmt.close();
+				             if(conn != null) conn.close();
+				         } catch(Exception ex){}
+				     }
+			
+			return schlagwortListe;
+				
+				
+			
+	}
 
 }
