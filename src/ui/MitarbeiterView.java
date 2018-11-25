@@ -210,8 +210,10 @@ public class MitarbeiterView extends JPanel {
 	}
 
 	public void spaltenBreiteSetzen() {
-		MitarbeiterTabelle.getColumnModel().getColumn(0).setPreferredWidth(80); // Mitarbeiter
-		MitarbeiterTabelle.getColumnModel().getColumn(1).setMaxWidth(50); // LV
+		MitarbeiterTabelle.getColumnModel().getColumn(0).setPreferredWidth(40); // Name (Person)
+		MitarbeiterTabelle.getColumnModel().getColumn(1).setPreferredWidth(40); // Vorname (Person)
+		MitarbeiterTabelle.getColumnModel().getColumn(2).setPreferredWidth(40); // Mitarbeiter
+		MitarbeiterTabelle.getColumnModel().getColumn(3).setMaxWidth(50); // Aktiv
 	}
 
 	public StandardButtonPanel getButton() {
