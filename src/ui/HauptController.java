@@ -46,6 +46,7 @@ public class HauptController {
 		hauptView.getMedienVerlagM().addActionListener(verlagMenueActionListener());
 		hauptView.getBenutzerBenutzerM().addActionListener(benutzerMenuActionListener());
 		hauptView.getAdministrationSchagworteM().addActionListener(schlagwortMenuActionListener());
+		hauptView.getAdministrationMitarbeiterM().addActionListener(mitarbeiterMenuActionListener());
 
 		
 	}
@@ -142,6 +143,27 @@ public class HauptController {
 			}
 		};
 		return schlagwortMenuActionListener;
+	}
+	
+	private ActionListener mitarbeiterMenuActionListener() {
+		ActionListener mitarbeiterMenuActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						MitarbeiterView mitarbeiterView = new MitarbeiterView("Mitarbeiter");
+						new MitarbeiterController(mitarbeiterView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(mitarbeiterView.getPreferredSize()));
+						hauptView.getContentPane().add(mitarbeiterView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return mitarbeiterMenuActionListener;
 	}
 
 	
