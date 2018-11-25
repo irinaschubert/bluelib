@@ -6,11 +6,13 @@ import dao.AnredeDAO;
 import dao.AutorDAO;
 import dao.VerlagDAO;
 import dao.BibliothekDAO;
+import dao.DezKlassifikationGrpeDAO;
 import dao.SchlagwortDAO;
 import domain.Anrede;
 import domain.Autor;
 import domain.Verlag;
 import domain.Bibliothek;
+import domain.DezKlassifikationGrpe;
 import domain.Schlagwort;
 
 /**
@@ -36,6 +38,10 @@ public class NormdatenService {
 
 	public List<Schlagwort> alleSchlagworte() {
 		return new SchlagwortDAO().findAll();
+	}
+	
+	public List<DezKlassifikationGrpe> alleDezKlassifikationenGruppen() {
+		return new DezKlassifikationGrpeDAO().findAll();
 	}
 
 	// sichern

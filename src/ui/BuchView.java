@@ -1,26 +1,16 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.ScrollPane;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout.Group;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -28,19 +18,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import domain.Autor;
 import domain.Schlagwort;
 import domain.Status;
 import domain.Verlag;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 
 /**
  * Ermöglicht Buchsuche, Bearbeitung und Neuerfassung eines Buches
@@ -114,6 +98,9 @@ public class BuchView extends JPanel {
 	private List<JComponent> componentsNeuBearbeiten = new ArrayList<>();
 	private static int HOEHE = 900;
 	private static int BREITE = 812;
+	
+	public static String BELLETRISTIK = "belletristik";
+	public static String SACHBUCH = "sachbuch";
 
 	public BuchView(String panelTitel) {
 
@@ -195,7 +182,9 @@ public class BuchView extends JPanel {
 		JPanel signatur = new JPanel();
 		signatur.setLayout(new GridBagLayout());
 		belletristikR = new JRadioButton();
+		belletristikR.setActionCommand(BELLETRISTIK);
 		sachbuchR = new JRadioButton();
+		sachbuchR.setActionCommand(SACHBUCH);
 		buchtypG = new ButtonGroup();
 		buchtypG.add(belletristikR);
 		buchtypG.add(sachbuchR);
