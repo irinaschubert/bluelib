@@ -71,8 +71,9 @@ public class BuchController {
 	private void control() {
 		buchView.getZuweisenAutorB().addActionListener(autorZuweisenActionListener());
 		buchView.getEntfernenAutorB().addActionListener(autorEntfernenActionListener());
-		buchView.getZuweisenSchlagwortB().addActionListener(SchlagWortZuweisenActionListener());
-		buchView.getEntferntenSchlagwortB().addActionListener(SchlagWortEntfernenActionListener());
+		buchView.getZuweisenSchlagwortB().addActionListener(schlagWortZuweisenActionListener());
+		buchView.getEntferntenSchlagwortB().addActionListener(schlagWortEntfernenActionListener());
+		buchView.getSachbuchR().addActionListener(signaturZuweisenActionListener());
 	
 
 //		ActionListener suchenButtonActionListener = new ActionListener() {
@@ -180,8 +181,14 @@ public class BuchController {
 					}
 					else {
 						model.addElement(a);
+						
+						// Zuweisen der Signatur, falls Belletristik-Radiobutton gesetzt
+						if (buchView.getBuchtypG().getSelection().getActionCommand() == buchView.BELLETRISTIK
+								&& buchView.getSignaturT().getText().isEmpty()) {
+							String sign = a.getName().substring(0, (a.getName().length() < 4 ? a.getName().length() : 4));
+							buchView.getSignaturT().setText(sign.toUpperCase());
+						}
 					}
-	 
 				}
 			}
 		};
@@ -206,7 +213,7 @@ public class BuchController {
 		return autorEntfernenActionListener;
 	}
 	
-	private ActionListener SchlagWortZuweisenActionListener() {
+	private ActionListener schlagWortZuweisenActionListener() {
 	
 	ActionListener schlagWortZuweisenActionListener = new ActionListener() {
 
@@ -230,14 +237,13 @@ public class BuchController {
 				else {
 					model.addElement(s);
 				}
- 
 			}
 		}
 	};
 	return schlagWortZuweisenActionListener;
 }
 	
-	private ActionListener SchlagWortEntfernenActionListener() {
+	private ActionListener schlagWortEntfernenActionListener() {
 
 		ActionListener schlagWortEntfernenActionListener = new ActionListener() {
 
@@ -255,15 +261,33 @@ public class BuchController {
 		return schlagWortEntfernenActionListener;
 	}
 	
+	private ActionListener signaturZuweisenActionListener() {
+		ActionListener signaturZuweisenActionListsner = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		};
+		return signaturZuweisenActionListsner;
+	}
+	
 	
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
-//		if (autorView.getNachnameT().getText().isEmpty() || (autorView.getVornameT().getText().isEmpty())) {
-//			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
-//			keinInputFehler = false;
-//		}
-//
+		if ((buchView.getBarcodeT().getText().isEmpty())
+				|| (buchView.getTitelT().getText().isEmpty())
+				|| (buchView.getVerlagCbx().getSelectedIndex()< 0)
+				|| (buchView.getJahrT().getText().isEmpty())
+				|| (buchView.getOrtT().getText().isEmpty())
+				|| (buchView.getAutorList().getModel().getSize() <= 0)
+				|| (buchView.getSignaturT().getText().isEmpty())) {
+			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
+			keinInputFehler = false;
+		}
+				
 //		if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
 //			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumT().getText())) {
 //				JOptionPane.showMessageDialog(null, "Üngültiges Geburtsdatum");
@@ -286,9 +310,10 @@ public class BuchController {
 
 	private Autor feldwertezuObjektSpeichern() {
 		Autor a = new Autor();
-//		if (!autorView.getPKT().getText().isEmpty()) {
-//			a.setId(Integer.parseInt(autorView.getPKT().getText()));
-//		}
+		if (!buchView.getPKT().getText().isEmpty()) {
+			a.setId(Integer.parseInt(buchView.getPKT().getText()));
+		}
+		
 //		a.setName(autorView.getNachnameT().getText());
 //		a.setVorname(autorView.getVornameT().getText());
 //		if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
@@ -306,6 +331,7 @@ public class BuchController {
 
 	public void uebernehmen(Buch buch) {
 
+		buchView.getNeuAendernL().setText("Bearbeiten");
 		buchView.getPKT().setText(Integer.toString(buch.getId()));
 		buchView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
 		buchView.getTitelT().setText(buch.getTitel());
