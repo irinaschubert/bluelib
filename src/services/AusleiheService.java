@@ -1,11 +1,8 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import dao.AnredeDAO;
 import dao.AusleiheDAO;
-import domain.Anrede;
 import domain.Ausleihe;
 
 /**
@@ -23,24 +20,9 @@ public class AusleiheService {
 		return v;
 	}
 	
-	public Verifikation aktivieren(Ausleihe ausleihe) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-	
-	public Verifikation sperren(Ausleihe ausleihe) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-	
 	public Verifikation loeschen(Ausleihe ausleihe) {
 		Verifikation v = new Verifikation();
 		return v;
-	}
-	
-	public ArrayList<Ausleihe> leihlisteAnzeigen(Ausleihe ausleihe){
-		ArrayList<Ausleihe> list = new ArrayList<>();
-		return list;
 	}
 
 	public List<Ausleihe> alleAusleihen(){

@@ -211,6 +211,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 		String sql = "SELECT "
 				+ "m.id, "
 				+ "m.titel, "
+				+ "m.barcode, "
 				+ "m.preis, "
 				+ "m.erscheinungsjahr, "
 				+ "m.reihe, "
@@ -237,29 +238,27 @@ public class BuchDAO implements DAOInterface<Buch> {
 				
 				while(rs.next()) {
 					int count = 1;
-					 b.setId(rs.getInt(count++));
-					 b.setTitel(rs.getString(count++));
-					 b.setPreis(rs.getDouble(count++));
-					 b.setErscheinungsJahr(rs.getString(count++));
-					 b.setReihe(rs.getString(count++));
-					 b.setErscheinungsOrt(rs.getString(count++));
-					 b.setErfassungDatum(rs.getDate(count++));
-					 b.setBemerkung(rs.getString(count++));
-					 b.setSignatur(rs.getString(count++));
-					 b.setVerlag(new VerlagDAO().findById(rs.getInt(count++)));
-					 b.setStatus(new StatusDAO().findById(rs.getInt(count++)));
-					 b.setAnzahlSeiten(rs.getInt(count++));
-					 b.setErfasserId(rs.getInt(count++));
-					 b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
-					 b.setAuflage(rs.getString(count++));
-					 b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
-					 b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
-					 }
-				
+					b.setId(rs.getInt(count++));
+					b.setTitel(rs.getString(count++));
+					b.setBarcode(rs.getString(count++));
+					b.setPreis(rs.getDouble(count++));
+					b.setErscheinungsJahr(rs.getString(count++));
+					b.setReihe(rs.getString(count++));
+					b.setErscheinungsOrt(rs.getString(count++));
+					b.setErfassungDatum(rs.getDate(count++));
+					b.setBemerkung(rs.getString(count++));
+					b.setSignatur(rs.getString(count++));
+					b.setVerlag(new VerlagDAO().findById(rs.getInt(count++)));
+					b.setStatus(new StatusDAO().findById(rs.getInt(count++)));
+					b.setAnzahlSeiten(rs.getInt(count++));
+					b.setErfasserId(rs.getInt(count++));
+					b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
+					b.setAuflage(rs.getString(count++));
+					b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
+					b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
+					}
 			} catch (SQLException e) {
 				e.printStackTrace();
-	
-
 				   } finally{
 				         try{
 				             if(rs != null) rs.close();
