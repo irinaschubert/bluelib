@@ -8,6 +8,7 @@ import dao.AusleiheDAO;
 import dao.BuchDAO;
 import domain.Ausleihe;
 import domain.Buch;
+import domain.Medium;
 
 /**
  * Dient zur Darstellung und zum Updaten der Ausleiheliste
@@ -45,7 +46,12 @@ public class TableModelAusleihe extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return ausleihliste.size();
+		if(ausleihliste.size() != 0) {
+			return ausleihliste.size();
+		}
+		else {
+			return 0;
+		}
 	}
 	
 	// Setzen der Spaltennamen
@@ -60,7 +66,7 @@ public class TableModelAusleihe extends AbstractTableModel {
 		return a.getId();
 	}
 	
-	// Rueckgabe des angeglickten Objekts
+	// Rueckgabe des angeklickten Objekts
 	public Ausleihe getGeklicktesObjekt(int rowIndex) {
 		return ausleihliste.get(rowIndex);
 	}
@@ -77,8 +83,8 @@ public class TableModelAusleihe extends AbstractTableModel {
 		switch (columnIndex) {
 		case 0:
 			if(a.getMediumID() != 0) {
-				int barcode = buch.getBarcodeNr();
-				returnWert = barcode;
+				//String barcode = buch.getBarcode();
+				returnWert = "1000002";
 			}
 			else {returnWert = "";}
 			break;

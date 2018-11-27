@@ -62,9 +62,10 @@ public class AusleiheController {
 	private AusleiheService ausleiheService;
 	private List<Ausleihe> ausleiheL;
 	private TableModelAusleihe tableModelAusleihe;
-	private Ausleihe ausleiheSuchobjekt;
 	private AusleiheDAO ausleiheDAO;
 	private HauptController hauptController;
+	private BenutzerDAO benutzerDAO;
+	private Benutzer benutzer;
 
 	public AusleiheController(AusleiheView view, HauptController hauptController) {
 		ausleiheView = view;
@@ -76,7 +77,6 @@ public class AusleiheController {
 		tableModelAusleihe.setAndSortListe(ausleiheL);
 		view.getAusleiheTabelle().setModel(tableModelAusleihe);
 		view.spaltenBreiteSetzen();
-		ausleiheSuchobjekt = new Ausleihe();
 
 		initialisieren();
 		control();
@@ -98,6 +98,11 @@ public class AusleiheController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				uebernehmenBenutzer();
+				Benutzer benutzer = new Benutzer();
+				BenutzerDAO benutzerDAO = new BenutzerDAO();
+				benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
+				ausleiheL = ausleiheService.sucheAusleihenProBenutzer(benutzer);
+				tableModelAusleihe.setAndSortListe(ausleiheL);
 			}
 		};
 		ausleiheView.getSuchButtonBenutzer().addActionListener(benutzerSuchenButtonActionListener);
@@ -121,8 +126,8 @@ public class AusleiheController {
 		ActionListener rueckgabeButtonActionListener = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				hauptController.panelEntfernen();
 				//TODO: öffnen des Rückgabefensters
+				hauptController.panelEntfernen();
 				ausleiheView.getRueckgabeWechselnL().setText("Zu Rückgabe wechseln");
 			}
 		};
@@ -184,13 +189,14 @@ public class AusleiheController {
         	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
         	Mitarbeiter ma = new Mitarbeiter();
         	ma = mitarbeiterDAO.findByBenutzername(ausleiheView.getErfasstVonT().getText());
-        	int maID = ma.getId();
+        	int maID = ma.getMAId();
         	a.setAusleiheMitarbeiterID(maID);
         }
         else {
-        	a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getId());
+        	//a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getMAId());
+        	a.setAusleiheMitarbeiterID(1);
         }
-        if (!ausleiheView.getErfasstAmT().getText().isEmpty() || !ausleiheView.getErfasstAmT().getText().equals("")) {
+        if (!ausleiheView.getErfasstAmT().getText().isEmpty() || !ausleiheView.getErfasstAmT().getText().isEmpty()) {
         	a.setAusleiheDatum(DateConverter.convertStringToJavaDate(ausleiheView.getErfasstAmT().getText()));
 		}else {
 			Date date = new Date();
@@ -200,7 +206,6 @@ public class AusleiheController {
 		return a;
 	}
 
-	
 	private void uebernehmenBuch() {
 		if(inputValidierungBuch() == true) {
 			felderLeeren();
@@ -240,7 +245,10 @@ public class AusleiheController {
 	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelAusleihe.setAndSortListe(ausleiheService.sucheAusleiheProBenutzer(ausleiheSuchobjekt));
+			Benutzer benutzer = new Benutzer();
+			BenutzerDAO benutzerDAO = new BenutzerDAO();
+			benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
+			tableModelAusleihe.setAndSortListe(ausleiheService.sucheAusleihenProBenutzer(benutzer));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}

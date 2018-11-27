@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.AusleiheDAO;
 import domain.Ausleihe;
+import domain.Benutzer;
 
 /**
  * @version 0.1 22.10.2018
@@ -42,7 +43,7 @@ public class AusleiheService {
 		return v;
 	}
 	
-	public List<Ausleihe> sucheAusleiheProBenutzer(Ausleihe ausleihe){
-		return new AusleiheDAO().getSelektion(ausleihe);
+	public List<Ausleihe> sucheAusleihenProBenutzer(Benutzer benutzer){
+		return new AusleiheDAO().getSelektionByBenutzer(benutzer);
 	}
 }
