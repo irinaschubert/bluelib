@@ -16,6 +16,8 @@ public class Ausleihe {
 	private Date rueckgabeDatum;
 	private Person ausleiheMitarbeiter;
 	private Person rueckgabeMitarbeiter;
+	private String notizAusleihe;
+	
 	
 	public Ausleihe() {
 		
@@ -77,6 +79,13 @@ public class Ausleihe {
 		this.rueckgabeMitarbeiter = rueckgabeMitarbeiter;
 	}
 	
-	
+	public String getNotizAusleihe() {
+		return notizAusleihe;
+	}
+
+	public void setNotizAusleihe(String notizAusleihe) {
+		this.notizAusleihe = notizAusleihe;
+	}
+
 
 }

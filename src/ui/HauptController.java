@@ -46,10 +46,11 @@ public class HauptController {
 		hauptView.getMedienVerlagM().addActionListener(verlagMenueActionListener());
 		hauptView.getBenutzerBenutzerM().addActionListener(benutzerMenuActionListener());
 		hauptView.getAdministrationSchagworteM().addActionListener(schlagwortMenuActionListener());
+		hauptView.getAusleiheAusleiheM().addActionListener(ausleiheMenueActionListener());
 
 		
 	}
-
+	
 	private ActionListener autorMenueActionListener() {
 		ActionListener autorMenuActionListener = new ActionListener() {
 
