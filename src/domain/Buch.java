@@ -9,8 +9,6 @@ import java.util.List;
  *
  */
 public class Buch extends Medium {
-	
-
 	private String barcode;
 	private Verlag verlag;
 	private String reihe;

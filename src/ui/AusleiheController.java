@@ -26,12 +26,17 @@ import javax.swing.JTextField;
 
 import dao.AnredeDAO;
 import dao.AusleiheDAO;
+import dao.BenutzerDAO;
+import dao.BuchDAO;
 import dao.MitarbeiterDAO;
 import dao.OrtDAO;
 import dao.StatusDAO;
 import domain.Adresse;
 import domain.Anrede;
 import domain.Ausleihe;
+import domain.Autor;
+import domain.Benutzer;
+import domain.Buch;
 import domain.EingeloggterMA;
 import domain.Mitarbeiter;
 import domain.Ort;
@@ -83,9 +88,7 @@ public class AusleiheController {
 		ActionListener buchSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ausleiheSuchobjekt = feldwertezuObjektSuchen();
-				ausleiheL = ausleiheService.sucheAusleihe(ausleiheSuchobjekt);
-				tableModelAusleihe.setAndSortListe(ausleiheL);
+				uebernehmenBuch();
 			}
 		};
 		ausleiheView.getSuchButtonBuch().addActionListener(buchSuchenButtonActionListener);
@@ -94,21 +97,21 @@ public class AusleiheController {
 		ActionListener benutzerSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ausleiheSuchobjekt = feldwertezuObjektSuchen();
-				ausleiheL = ausleiheService.sucheAusleihe(ausleiheSuchobjekt);
-				tableModelAusleihe.setAndSortListe(ausleiheL);
+				uebernehmenBenutzer();
 			}
 		};
 		ausleiheView.getSuchButtonBenutzer().addActionListener(benutzerSuchenButtonActionListener);
 		
-		// Speichern
+		// Ausleihe Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Ausleihe b = new Ausleihe();
-				if (inputValidierungSpeichern()) {
-					b = feldwertezuObjektSpeichern();
-					nachArbeitSpeichern(ausleiheService.sichereAusleihe(b));
+				Ausleihe a = new Ausleihe();
+				if (inputValidierungBuch() == true && inputValidierungBenutzer() == true) {
+					a = feldwertezuObjektSpeichern();
+					nachArbeitSpeichern(ausleiheService.sichereAusleihe(a));
+				}else {
+					JOptionPane.showMessageDialog(null, "Bitte Buch und Benutzer eingeben.");
 				}
 			}
 		};
@@ -146,14 +149,18 @@ public class AusleiheController {
 		ausleiheView.getAusleiheTabelle().addMouseListener(doppelKlick);
 	}
 
-	private boolean inputValidierungSpeichern() {
+	private boolean inputValidierungBuch() {
 		boolean keinInputFehler = true;
 		if ((ausleiheView.getBarcodeT().getText().isEmpty())) {
 			JOptionPane.showMessageDialog(null, "Bitte ein Buch erfassen.");
 			keinInputFehler = false;
 		}
-
-		if (!ausleiheView.getBenutzerIDT().getText().isEmpty()) {
+		return keinInputFehler;
+	}
+	
+	private boolean inputValidierungBenutzer() {
+		boolean keinInputFehler = true;
+		if (ausleiheView.getBenutzerEingabeT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte einen Nutzer erfassen.");
 			keinInputFehler = false;
 		}
@@ -174,11 +181,13 @@ public class AusleiheController {
 		}        
         if (!ausleiheView.getErfasstVonT().getText().isEmpty() || !ausleiheView.getErfasstVonT().getText().equals("")) {
         	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-        	//a.setAusleiheMitarbeiterID(mitarbeiterDAO.findByBenutzername(ausleiheView.getErfasstVonT().getText()));
-        	a.setAusleiheMitarbeiterID(1);
+        	Mitarbeiter ma = new Mitarbeiter();
+        	ma = mitarbeiterDAO.findByBenutzername(ausleiheView.getErfasstVonT().getText());
+        	int maID = ma.getId();
+        	a.setAusleiheMitarbeiterID(maID);
         }
         else {
-        	//a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter());
+        	a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getId());
         }
         if (!ausleiheView.getErfasstAmT().getText().isEmpty() || !ausleiheView.getErfasstAmT().getText().equals("")) {
         	a.setAusleiheDatum(DateConverter.convertStringToJavaDate(ausleiheView.getErfasstAmT().getText()));
@@ -190,20 +199,41 @@ public class AusleiheController {
 		return a;
 	}
 
-	private Ausleihe feldwertezuObjektSuchen() {
-		Ausleihe b = new Ausleihe();
-		return null;
-	}
-
 	private void uebernehmen() {
+		//TODO ersetzen mit uebernehmenBuch und uebernehmen Benutzer
 		felderLeeren();
 		Ausleihe ausleihe = new Ausleihe();
 		AusleiheDAO ausleiheDAO = new AusleiheDAO();
+		Benutzer benutzer = new Benutzer();
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
+		Buch buch = new Buch();
+		BuchDAO buchDAO = new BuchDAO();
+		
 		ausleihe = tableModelAusleihe.getGeklicktesObjekt(ausleiheView.getAusleiheTabelle().getSelectedRow());
 		ausleihe = ausleiheDAO.findById(ausleihe.getId());
-		ausleiheView.getBarcodeT().setText(Integer.toString(ausleihe.getMediumID()));
-		//ausleiheView.getBuchTitelT().setText(ausleihe.getMediumByID().getTitel());
+
+		benutzer = benutzerDAO.findById(ausleihe.getBenutzerID());
+		buch = buchDAO.findById(ausleihe.getMediumID());
 		
+		ausleiheView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
+		ausleiheView.getBuchTitelT().setText(buch.getTitel());
+		List<Autor> autoren = new ArrayList<>();
+		autoren = buch.getAutoren();
+		String autorenString = autoren.toString();
+		String autorenListe = autorenString.substring(1, autorenString.length() - 1);
+		ausleiheView.getAutorT().setText(autorenListe);
+		ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
+		
+		ausleiheView.getBenutzerIDT().setText(Integer.toString(benutzer.getId()));
+		ausleiheView.getBenutzerNameT().setText(benutzer.getName());
+		ausleiheView.getBenutzerVornameT().setText(benutzer.getVorname());
+		ausleiheView.getBenutzerStatusT().setText(benutzer.getBenutzerStatus().getBezeichnung());
+		
+		if (ausleihe.getNotizAusleihe() != null) {
+        	ausleiheView.getNotizT().setText(ausleihe.getNotizAusleihe());
+		}else {
+			ausleiheView.getNotizT().setText("");
+		}
 		if (ausleihe.getAusleiheMitarbeiterID() != 0) {
         	ausleiheView.getErfasstVonT().setText(Integer.toString(ausleihe.getAusleiheMitarbeiterID()));
 		}else {
@@ -215,11 +245,43 @@ public class AusleiheController {
 			ausleiheView.getErfasstAmT().setText("");
 		}
 	}
+	
+	private void uebernehmenBuch() {
+		if(inputValidierungBuch() == true) {
+			felderLeeren();
+			Buch buch = new Buch();
+			BuchDAO buchDAO = new BuchDAO();
+			buch = buchDAO.findByBarcode(ausleiheView.getBarcodeT().getText());
+			ausleiheView.getBarcodeT().setText(buch.getBarcode());
+			ausleiheView.getBuchTitelT().setText(buch.getTitel());
+			List<Autor> autoren = new ArrayList<>();
+			autoren = buch.getAutoren();
+			String autorenString = autoren.toString();
+			String autorenListe = autorenString.substring(1, autorenString.length() - 1);
+			ausleiheView.getAutorT().setText(autorenListe);
+			ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
+		}
+		
+	}
+	
+	private void uebernehmenBenutzer() {
+		if(inputValidierungBenutzer() == true) {
+			felderLeeren();
+			Benutzer benutzer = new Benutzer();
+			BenutzerDAO benutzerDAO = new BenutzerDAO();
+			benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
+			
+			ausleiheView.getBenutzerIDT().setText(Integer.toString(benutzer.getId()));
+			ausleiheView.getBenutzerNameT().setText(benutzer.getName());
+			ausleiheView.getBenutzerVornameT().setText(benutzer.getVorname());
+			ausleiheView.getBenutzerStatusT().setText(benutzer.getBenutzerStatus().getBezeichnung());
+		}
+	}
 
 	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelAusleihe.setAndSortListe(ausleiheService.sucheAusleihe(ausleiheSuchobjekt));
+			tableModelAusleihe.setAndSortListe(ausleiheService.sucheAusleiheProBenutzer(ausleiheSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}

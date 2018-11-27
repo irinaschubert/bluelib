@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import dao.AusleiheDAO;
+import dao.BuchDAO;
 import domain.Ausleihe;
 import domain.Buch;
 
@@ -67,21 +68,22 @@ public class TableModelAusleihe extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		AusleiheDAO ausleihDAO = new AusleiheDAO();
+		BuchDAO buchDAO = new BuchDAO();
 		Ausleihe a = ausleihDAO.findById(ausleihliste.get(rowIndex).getId());
+		Buch buch = buchDAO.findById(ausleihliste.get(rowIndex).getMediumID());
+		
 		Object returnWert = new Object();
 		
 		switch (columnIndex) {
 		case 0:
-			if(a.getMedium() != null) {
-				Buch buch = (Buch) a.getMedium();
+			if(a.getMediumID() != 0) {
 				int barcode = buch.getBarcodeNr();
 				returnWert = barcode;
 			}
 			else {returnWert = "";}
 			break;
 		case 1:
-			if(a.getMedium() != null) {
-				Buch buch = (Buch) a.getMedium();
+			if(a.getMediumID() != 0) {
 				String titel = buch.getTitel();
 				returnWert = titel;
 			}
@@ -91,10 +93,8 @@ public class TableModelAusleihe extends AbstractTableModel {
 			returnWert = a.getAusleiheDatum();
 			break;
 		case 3:
-			if(a.getMedium() != null) {
-				Buch buch = (Buch) a.getMedium();
-				String notiz = buch.getBemerkung();
-				returnWert = notiz;
+			if(a.getNotizAusleihe() != null) {
+				returnWert = a.getNotizAusleihe();
 			}
 			else {returnWert = "";}
 			break;

@@ -17,9 +17,6 @@ public class AusleiheService {
 	
 	public AusleiheService() {}
 	
-	public List<Anrede> alleAnreden(){
-		return new AnredeDAO().findAll();
-	}
 	
 	public Verifikation darfAusleihen(Ausleihe ausleihe) {
 		Verifikation v = new Verifikation();
@@ -46,7 +43,7 @@ public class AusleiheService {
 		return list;
 	}
 
-	public List<Ausleihe> alleAusleihe(){
+	public List<Ausleihe> alleAusleihen(){
 		return new AusleiheDAO().findAll();
 	}
 	
@@ -54,39 +51,16 @@ public class AusleiheService {
 		Verifikation v = new Verifikation();
 		if (new AusleiheDAO().save(ausleihe) != null) {
 			v.setAktionErfolgreich(true);
-			v.setNachricht("Die Ausleihe "
-					+ ausleihe.getName()
-					+" wurde gespeichert.");
+			v.setNachricht("Die Ausleihe wurde gespeichert.");
 		}
 		else {
 			v.setAktionErfolgreich(false);
-			v.setNachricht("Die Ausleihe "
-					+ ausleihe.getName()
-					+" konnte nicht gespeichert werden.");
+			v.setNachricht("Die Ausleihe konnte nicht gespeichert werden.");
 		}
-		
 		return v;
 	}
 	
-	public Verifikation aktualisiereAusleihe(Ausleihe ausleihe) {
-		Verifikation v = new Verifikation();
-		if (new AusleiheDAO().update(ausleihe)!= null) {
-			v.setAktionErfolgreich(true);
-			v.setNachricht("Die Ausleihe "
-					+ ausleihe.getName()
-					+" wurde aktualisiert.");
-		}
-		else {
-			v.setAktionErfolgreich(false);
-			v.setNachricht("Die Ausleihe "
-					+ ausleihe.getName()
-					+" konnte nicht aktualisiert werden.");
-		}
-		return v;	
-	}
-	
-	public List<Ausleihe> sucheAusleihe(Ausleihe ausleihe){
+	public List<Ausleihe> sucheAusleiheProBenutzer(Ausleihe ausleihe){
 		return new AusleiheDAO().getSelektion(ausleihe);
 	}
-
 }
