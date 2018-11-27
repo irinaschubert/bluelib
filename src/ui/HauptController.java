@@ -102,6 +102,27 @@ public class HauptController {
 		return buchMenuActionListener;
 	}
 	
+	private ActionListener ausleiheMenueActionListener() {
+		ActionListener ausleiheMenueActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						AusleiheView ausleiheView = new AusleiheView("Ausleihe");
+						new AusleiheController(ausleiheView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(ausleiheView.getPreferredSize()));
+						hauptView.getContentPane().add(ausleiheView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return ausleiheMenueActionListener;
+	}
+	
 	private ActionListener stammdatenMenuActionListener() {
 		ActionListener stammdatenMenuActionListener = new ActionListener() {
 			@Override
