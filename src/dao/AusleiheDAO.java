@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import domain.Ausleihe;
+import domain.Verlag;
 import hilfsklassen.DateConverter;
 import interfaces.DAOInterface;
 /**
@@ -18,6 +19,18 @@ import interfaces.DAOInterface;
  */
 public class AusleiheDAO implements DAOInterface<Ausleihe> {
 
+	private DBConnection dbConnection = null;
+	private Connection conn = null; 
+	private ResultSet mRS = null;
+	private PreparedStatement pstmt = null;
+	private List<Ausleihe> ausleiheListe = null;
+	
+	
+	public AusleiheDAO() {
+		ausleiheListe = new ArrayList<>();
+		dbConnection = DBConnection.getInstance();
+	}
+	
 	@Override
 	public Ausleihe save(Ausleihe domainObject) {
 		// TODO Auto-generated method stub

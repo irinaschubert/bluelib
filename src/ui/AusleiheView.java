@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.LinkedHashMap;
 
 import javax.swing.BorderFactory;
@@ -26,7 +27,7 @@ import domain.Ort;
 import domain.Status;
 
 /**
- * Suche nach, neu Erstellen und Bearbeiten von Ausleihen
+ * View für das Verwalten der Ausleihen
  * 
  * @version 1.0 06.11.2018
  * @author irina
@@ -34,36 +35,39 @@ import domain.Status;
  */
 public class AusleiheView extends JPanel {
 	private JFrame frame;
-	private StandardButtonPanel buttonPanel;
 	private JPanel centerPanel;
-	private JPanel tabellenPanel;
+	private JPanel zuweisenPanel;
 	private JPanel benutzerSuchenPanel;
 	private JPanel buchSuchenPanel;
 	private JPanel ausleihePanel;
-	private JPanel ausleihenListe;
+	private JPanel ausleiheInfoPanel;
+	private JPanel tabellenPanel;
+	private AusleiheButtonPanel buttonPanel;
 	
-	private JLabel buchL;
 	private JLabel barcodeL;
+	private JLabel PKLBuch;
 	private JLabel buchStatusL;
 	private JLabel buchtitelL;
 	private JLabel autorL;
-	private JLabel notizL;
-	private JLabel benutzerL;
+	
+	private JLabel benutzerEingabeL;
 	private JLabel benutzerIDL;
 	private JLabel benutzerNameL;
 	private JLabel benutzerVornameL;
 	private JLabel benutzerStatusL;
+	
+	private JLabel notizL;
 	private JLabel erfasstVonL;
 	private JLabel erfasstAmL;
 	private JLabel ausgelieheneMedienL;
 	
-	private JTextField buchT;
+	private JTextField PKTBuch;
 	private JTextField barcodeT;
 	private JTextField buchStatusT;
 	private JTextField buchTitelT;
 	private JTextField autorT;
 	private JTextArea notizT;
-	private JTextField benutzerT;
+	private JTextField benutzerEingabeT;
 	private JTextField benutzerIDT;
 	private JTextField benutzerNameT;
 	private JTextField benutzerVornameT;
@@ -73,42 +77,41 @@ public class AusleiheView extends JPanel {
 	
 	private JButton suchButtonBuch;
 	private JButton suchButtonBenutzer;
+	private JButton ausleiheSpeichernButton;
+	private JLabel rueckgabeWechselnL;
+	
 	private JTable ausleiheTabelle;
-	private static int HOEHE = 950;
+	private static int HOEHE = 750;
 	private static int BREITE = 750;
 
 	public AusleiheView(String panelTitel) {
 		
 		new JLabel(panelTitel);
-		ausleihenListe = new JPanel();
-		buttonPanel = new StandardButtonPanel();
+		buttonPanel = new AusleiheButtonPanel();
 		suchButtonBuch = new JButton();
 		suchButtonBenutzer = new JButton();
-
+		ausleiheSpeichernButton = new JButton();
+		
+		zuweisenPanel = new JPanel(new GridLayout(1,2));
+		zuweisenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		zuweisenPanel.add(createBuchSuchenPanel());
+		zuweisenPanel.add(createBenutzerSuchenPanel());
+		
+		ausleihePanel = new JPanel(new BorderLayout());
+		ausleihePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		ausleihePanel.add(createAusleiheInfoPanel(), BorderLayout.NORTH);
+		ausleihePanel.add(createTabellenPanel(), BorderLayout.SOUTH);
+		
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		centerPanel.add(createBuchSuchenPanel(), BorderLayout.WEST);
-		centerPanel.add(createBenutzerSuchenPanel(), BorderLayout.EAST);
-		centerPanel.add(createAusleihenPanel(), BorderLayout.CENTER);
-		centerPanel.add(createTabellenPanel(), BorderLayout.SOUTH);
+		centerPanel.add(zuweisenPanel, BorderLayout.NORTH);
+		centerPanel.add(ausleihePanel, BorderLayout.SOUTH);
 		
 		this.setLayout(new BorderLayout());
 		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
 		this.add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		this.setPreferredSize(new Dimension(BREITE, HOEHE));
-	}
-
-	private JPanel createTabellenPanel() {
-		ausleiheTabelle = new JTable();
-		ausleiheTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JPanel tabellenPanel = new JPanel();
-		tabellenPanel.setLayout(new BoxLayout(tabellenPanel, BoxLayout.Y_AXIS));
-		JLabel tabellenTitel = new JLabel("Aktuell ausgeliehen:");
-		tabellenPanel.add(tabellenTitel);
-		tabellenPanel.add(new JScrollPane(ausleiheTabelle));
-		tabellenPanel.setPreferredSize(new Dimension(680,200));
-		return tabellenPanel;
 	}
 	
 	private JPanel createBuchSuchenPanel() {
@@ -117,8 +120,8 @@ public class AusleiheView extends JPanel {
 		buchSuchenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
-        buchL = new JLabel();
-		buchL.setHorizontalAlignment(SwingConstants.CENTER);
+        PKLBuch = new JLabel();
+        PKTBuch = new JTextField();
 		barcodeL = new JLabel();
 		barcodeT = new JTextField();
 		buchStatusL = new JLabel();
@@ -129,14 +132,11 @@ public class AusleiheView extends JPanel {
 		autorT = new JTextField();
 				
         // Formularfelder
-		formularHelfer.addLabel(buchL, buchSuchenPanel);
-        formularHelfer.addMiddleField(buchT, buchSuchenPanel);
+		formularHelfer.addLabel(barcodeL, buchSuchenPanel);
+        formularHelfer.addLastField(barcodeT, buchSuchenPanel);
 		
-		JPanel warningPanel = new JPanel();
-		warningPanel.setLayout(new GridBagLayout());
-        formularHelfer.addLabel(barcodeL, warningPanel);
-        formularHelfer.addLabel(warningPanel, buchSuchenPanel);
-        formularHelfer.addLastField(new JPanel(), buchSuchenPanel);
+		formularHelfer.addLabel(PKLBuch, buchSuchenPanel);
+        formularHelfer.addLastField(PKTBuch, buchSuchenPanel);
         
         formularHelfer.addLabel(buchStatusL, buchSuchenPanel);
         formularHelfer.addLastField(buchStatusT, buchSuchenPanel);
@@ -146,6 +146,8 @@ public class AusleiheView extends JPanel {
         
         formularHelfer.addLabel(autorL, buchSuchenPanel);
         formularHelfer.addLastField(autorT, buchSuchenPanel);
+        
+        formularHelfer.addLastField(suchButtonBuch, buchSuchenPanel);
 
         return rahmenSetzen("Buch zuweisen", buchSuchenPanel );
 	}
@@ -156,8 +158,8 @@ public class AusleiheView extends JPanel {
 		benutzerSuchenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
-        benutzerL = new JLabel();
-		benutzerL.setHorizontalAlignment(SwingConstants.CENTER);
+        benutzerEingabeL = new JLabel();
+		benutzerEingabeT = new JTextField();
 		benutzerIDL = new JLabel();
 		benutzerIDT = new JTextField();
 		benutzerStatusL = new JLabel();
@@ -168,8 +170,8 @@ public class AusleiheView extends JPanel {
 		benutzerVornameT = new JTextField();
 				
         // Formularfelder
-		formularHelfer.addLabel(benutzerL, benutzerSuchenPanel);
-        formularHelfer.addLastField(benutzerT, benutzerSuchenPanel);
+		formularHelfer.addLabel(benutzerEingabeL, benutzerSuchenPanel);
+        formularHelfer.addLastField(benutzerEingabeT, benutzerSuchenPanel);
         
         formularHelfer.addLabel(benutzerIDL, benutzerSuchenPanel);
         formularHelfer.addLastField(benutzerIDT, benutzerSuchenPanel);
@@ -182,14 +184,16 @@ public class AusleiheView extends JPanel {
 
         formularHelfer.addLabel(benutzerVornameL, benutzerSuchenPanel);
         formularHelfer.addLastField(benutzerVornameT, benutzerSuchenPanel);
+        
+        formularHelfer.addLastField(suchButtonBenutzer, benutzerSuchenPanel);
 
         return rahmenSetzen("Benutzer zuweisen", benutzerSuchenPanel );
 	}
 	
-	private JPanel createAusleihenPanel() {
-		ausleihePanel = new JPanel();
-		ausleihePanel.setLayout(new GridBagLayout());
-		ausleihePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	private JPanel createAusleiheInfoPanel() {
+		ausleiheInfoPanel = new JPanel();
+		ausleiheInfoPanel.setLayout(new GridBagLayout());
+		ausleiheInfoPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
 		notizL = new JLabel();
@@ -199,23 +203,33 @@ public class AusleiheView extends JPanel {
 		erfasstAmL = new JLabel();
 		erfasstAmT = new JTextField();
 				
-        // Formularfelder
-		formularHelfer.addLabel(buchL, ausleihePanel);
-        formularHelfer.addMiddleField(buchT, ausleihePanel);
-        
-        formularHelfer.addLabel(notizL, ausleihePanel);
-        formularHelfer.addLastField(notizT, ausleihePanel);
+        // Formularfelder        
+        formularHelfer.addLabel(notizL, ausleiheInfoPanel);
+        formularHelfer.addLastField(new JScrollPane(notizT), ausleiheInfoPanel);
 		
-        formularHelfer.addLabel(erfasstAmL, ausleihePanel);
-        formularHelfer.addLastField(erfasstAmT, ausleihePanel);
+        formularHelfer.addLabel(erfasstAmL, ausleiheInfoPanel);
+        formularHelfer.addLastField(erfasstAmT, ausleiheInfoPanel);
         
-        formularHelfer.addLabel(erfasstVonL, ausleihePanel);
-        formularHelfer.addLastField(erfasstVonT, ausleihePanel);
+        formularHelfer.addLabel(erfasstVonL, ausleiheInfoPanel);
+        formularHelfer.addLastField(erfasstVonT, ausleiheInfoPanel);
+        
+        formularHelfer.addLastField(ausleiheSpeichernButton, ausleiheInfoPanel);
 
-        return rahmenSetzen("Ausleihe", benutzerSuchenPanel );
+        return rahmenSetzen("Ausleihe", ausleiheInfoPanel);
+	}
+	
+	private JPanel createTabellenPanel() {
+		ausleiheTabelle = new JTable();
+		ausleiheTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JPanel tabellenPanel = new JPanel();
+		tabellenPanel.setLayout(new BoxLayout(tabellenPanel, BoxLayout.Y_AXIS));
+		JLabel tabellenTitel = new JLabel("Aktuell ausgeliehen:");
+		tabellenPanel.add(tabellenTitel);
+		tabellenPanel.add(new JScrollPane(ausleiheTabelle));
+		tabellenPanel.setPreferredSize(new Dimension(680,200));
+		return tabellenPanel;
 	}
 
-	
 	private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
 		JPanel rahmenPanel = new JPanel();
 		rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));
@@ -225,17 +239,17 @@ public class AusleiheView extends JPanel {
 	}
 
 	public void spaltenBreiteSetzen() {
-		ausleiheTabelle.getColumnModel().getColumn(0).setPreferredWidth(50); // Barcode Buch
+		ausleiheTabelle.getColumnModel().getColumn(0).setPreferredWidth(50); // Barcode
 		ausleiheTabelle.getColumnModel().getColumn(1).setPreferredWidth(50); // Buchtitel
 		ausleiheTabelle.getColumnModel().getColumn(2).setPreferredWidth(50); // Datum Ausleihe
 		ausleiheTabelle.getColumnModel().getColumn(3).setPreferredWidth(50); // Notiz
 	}
 	
-	public StandardButtonPanel getButton() {
+	public AusleiheButtonPanel getButton() {
 		return this.buttonPanel;
 	}
 
-	public StandardButtonPanel getButtonPanel() {
+	public AusleiheButtonPanel getButtonPanel() {
 		return buttonPanel;
 	}
 
@@ -287,20 +301,12 @@ public class AusleiheView extends JPanel {
 		this.ausleihePanel = ausleihePanel;
 	}
 
-	public JPanel getAusleihenListe() {
-		return ausleihenListe;
+	public JLabel getPKLBuch() {
+		return PKLBuch;
 	}
 
-	public void setAusleihenListe(JPanel ausleihenListe) {
-		this.ausleihenListe = ausleihenListe;
-	}
-
-	public JLabel getBuchL() {
-		return buchL;
-	}
-
-	public void setBuchL(JLabel buchL) {
-		this.buchL = buchL;
+	public void setBuchL(JLabel pKL) {
+		this.PKLBuch = pKL;
 	}
 
 	public JLabel getBarcodeL() {
@@ -343,12 +349,12 @@ public class AusleiheView extends JPanel {
 		this.notizL = notizL;
 	}
 
-	public JLabel getBenutzerL() {
-		return benutzerL;
+	public JLabel getBenutzerEingabeL() {
+		return benutzerEingabeL;
 	}
 
-	public void setBenutzerL(JLabel benutzerL) {
-		this.benutzerL = benutzerL;
+	public void setBenutzerEingabeL(JLabel benutzerEingabeL) {
+		this.benutzerEingabeL = benutzerEingabeL;
 	}
 
 	public JLabel getBenutzerIDL() {
@@ -407,12 +413,12 @@ public class AusleiheView extends JPanel {
 		this.ausgelieheneMedienL = ausgelieheneMedienL;
 	}
 
-	public JTextField getBuchT() {
-		return buchT;
+	public JTextField getPKTBuch() {
+		return PKTBuch;
 	}
 
-	public void setBuchT(JTextField buchT) {
-		this.buchT = buchT;
+	public void setPKTBuch(JTextField PKTBuch) {
+		this.PKTBuch = PKTBuch;
 	}
 
 	public JTextField getBarcodeT() {
@@ -455,12 +461,12 @@ public class AusleiheView extends JPanel {
 		this.notizT = notizT;
 	}
 
-	public JTextField getBenutzerT() {
-		return benutzerT;
+	public JTextField getBenutzerEingabeT() {
+		return benutzerEingabeT;
 	}
 
-	public void setBenutzerT(JTextField benutzerT) {
-		this.benutzerT = benutzerT;
+	public void setBenutzerEingabeT(JTextField benutzerEingabeT) {
+		this.benutzerEingabeT = benutzerEingabeT;
 	}
 
 	public JTextField getBenutzerIDT() {
@@ -551,8 +557,24 @@ public class AusleiheView extends JPanel {
 		BREITE = bREITE;
 	}
 
-	public void setButtonPanel(StandardButtonPanel buttonPanel) {
+	public void setButtonPanel(AusleiheButtonPanel buttonPanel) {
 		this.buttonPanel = buttonPanel;
+	}
+	
+	public JButton getAusleiheSpeichernButton() {
+		return ausleiheSpeichernButton;
+	}
+
+	public void setAusleiheSpeichernButton(JButton ausleiheSpeichernButton) {
+		this.ausleiheSpeichernButton = ausleiheSpeichernButton;
+	}
+	
+	public JLabel getRueckgabeWechselnL() {
+		return rueckgabeWechselnL;
+	}
+
+	public void setRueckgabeWechselnL(JLabel rueckgabeWechselnL) {
+		this.rueckgabeWechselnL = rueckgabeWechselnL;
 	}
 
 }

@@ -6,7 +6,8 @@ public enum ButtonNamen {
 	ABBRECHEN("Abbrechen"),
 	NEU("Neu"),
 	SCHLIESSEN("Schliessen"),
-	ANMELDEN("Anmelden");
+	ANMELDEN("Anmelden"),
+	ZURUECKGABE("Zur Rückgabe");
 	
 	private final String name;
 	

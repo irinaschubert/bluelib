@@ -273,7 +273,7 @@ public class AutorController {
 		autorView.getNachnameSucheL().setText("Name:");
 		autorView.getVornameSucheL().setText("Vorname:");
 		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
-		autorView.getGeloeschtSucheL().setText("inkl. gelöschte:");
+		autorView.getGeloeschtSucheL().setText("Gelöschte Autoren:");
 		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
 		autorView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
