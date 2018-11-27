@@ -267,7 +267,7 @@ public class AusleiheController {
 
 		ausleiheView.getPKLBuch().setText("ID:");
 		ausleiheView.getBarcodeL().setText("Barcode:");
-		ausleiheView.getBuchStatusL().setText("Medienstatus:");
+		ausleiheView.getBuchStatusL().setText("Status:");
 		ausleiheView.getBuchtitelL().setText("Titel:");
 		ausleiheView.getAutorL().setText("Autor:");
 		ausleiheView.getBenutzerEingabeL().setText("Benutzer-ID:");

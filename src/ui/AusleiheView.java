@@ -137,9 +137,6 @@ public class AusleiheView extends JPanel {
 		
 		formularHelfer.addLabel(PKLBuch, buchSuchenPanel);
         formularHelfer.addLastField(PKTBuch, buchSuchenPanel);
-        
-        formularHelfer.addLabel(buchStatusL, buchSuchenPanel);
-        formularHelfer.addLastField(buchStatusT, buchSuchenPanel);
 		
         formularHelfer.addLabel(buchtitelL, buchSuchenPanel);
         formularHelfer.addLastField(buchTitelT, buchSuchenPanel);
@@ -147,6 +144,10 @@ public class AusleiheView extends JPanel {
         formularHelfer.addLabel(autorL, buchSuchenPanel);
         formularHelfer.addLastField(autorT, buchSuchenPanel);
         
+        formularHelfer.addLabel(buchStatusL, buchSuchenPanel);
+        formularHelfer.addLastField(buchStatusT, buchSuchenPanel);
+        
+        formularHelfer.addLabel(new JLabel(""), buchSuchenPanel);
         formularHelfer.addLastField(suchButtonBuch, buchSuchenPanel);
 
         return rahmenSetzen("Buch zuweisen", buchSuchenPanel );
@@ -175,9 +176,6 @@ public class AusleiheView extends JPanel {
         
         formularHelfer.addLabel(benutzerIDL, benutzerSuchenPanel);
         formularHelfer.addLastField(benutzerIDT, benutzerSuchenPanel);
-		
-        formularHelfer.addLabel(benutzerStatusL, benutzerSuchenPanel);
-        formularHelfer.addLastField(benutzerStatusT, benutzerSuchenPanel);
         
         formularHelfer.addLabel(benutzerNameL, benutzerSuchenPanel);
         formularHelfer.addLastField(benutzerNameT, benutzerSuchenPanel);
@@ -185,6 +183,10 @@ public class AusleiheView extends JPanel {
         formularHelfer.addLabel(benutzerVornameL, benutzerSuchenPanel);
         formularHelfer.addLastField(benutzerVornameT, benutzerSuchenPanel);
         
+        formularHelfer.addLabel(benutzerStatusL, benutzerSuchenPanel);
+        formularHelfer.addLastField(benutzerStatusT, benutzerSuchenPanel);
+        
+        formularHelfer.addLabel(new JLabel(""), benutzerSuchenPanel);
         formularHelfer.addLastField(suchButtonBenutzer, benutzerSuchenPanel);
 
         return rahmenSetzen("Benutzer zuweisen", benutzerSuchenPanel );
@@ -213,8 +215,10 @@ public class AusleiheView extends JPanel {
         formularHelfer.addLabel(erfasstVonL, ausleiheInfoPanel);
         formularHelfer.addLastField(erfasstVonT, ausleiheInfoPanel);
         
+        formularHelfer.addLabel(new JLabel(""), ausleiheInfoPanel);
+        formularHelfer.addMiddleField(new JLabel(""), ausleiheInfoPanel);
         formularHelfer.addLastField(ausleiheSpeichernButton, ausleiheInfoPanel);
-
+        
         return rahmenSetzen("Ausleihe", ausleiheInfoPanel);
 	}
 	
