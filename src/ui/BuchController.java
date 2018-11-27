@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -12,6 +13,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import domain.Autor;
 import domain.Buch;
 import domain.Schlagwort;
@@ -44,12 +47,14 @@ public class BuchController {
 	private Buch buchSuchobjekt;
 	private HauptController hauptController;
 	private ComboBoxModelVerlag comboBoxModelVerlag;
+	BuchController buchController;
 
 	public BuchController(BuchView view, HauptController hauptController) {
 		buchView = view;
 		this.hauptController = hauptController;
 		medienHandlingService = new MedienhandlingService();
 		normdatenService = new NormdatenService();
+		buchController = this;
 //		autorL = normdatenService.alleautoren();
 //		tableModelAutor.setAndSortListe(buchL);
 //		view.getAutorenTabelle().setModel(tableModelAutor);
@@ -186,7 +191,7 @@ public class BuchController {
 						if (buchView.getBuchtypG().getSelection().getActionCommand() == buchView.BELLETRISTIK
 								&& buchView.getSignaturT().getText().isEmpty()) {
 							String sign = a.getName().substring(0, (a.getName().length() < 4 ? a.getName().length() : 4));
-							buchView.getSignaturT().setText(sign.toUpperCase());
+							sign = sign.toUpperCase();
 						}
 					}
 				}
@@ -263,10 +268,18 @@ public class BuchController {
 	
 	private ActionListener signaturZuweisenActionListener() {
 		ActionListener signaturZuweisenActionListsner = new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						DezimalKlassifikationView dezKlassView = new DezimalKlassifikationView("Dezimalklassifikation");
+						DezimalKlassifikationController dezKlassController = 
+								new DezimalKlassifikationController(dezKlassView, buchController);
+					
+					}
+					
+				});
 				
 			}
 		};
@@ -328,6 +341,10 @@ public class BuchController {
 //		a.setGeloescht(autorView.getGeloeschtCbx().isSelected());
 		return a;
 	}
+	
+	public void signaturSetzen(String signatur) {
+		buchView.getSignaturT().setText(signatur);
+	}
 
 	public void uebernehmen(Buch buch) {
 
@@ -376,6 +393,8 @@ public class BuchController {
 //		autorView.getNeuAendernL().setText("");
 
 	}
+	
+	
 
 	private void suchFelderLeeren() {
 
