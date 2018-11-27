@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.Anrede;
+import domain.Benutzer;
 import domain.Mitarbeiter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
@@ -51,7 +53,13 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 	public List<Mitarbeiter> getSelektion(Mitarbeiter domainObject) {
 
 		ResultSet rs = null;
-		String sql = "SELECT " + "id, " + "benutzername, " + "passwort, " + "admin, " + "aktiv " + "FROM mitarbeiter ";
+		String sql = "SELECT " 
+				+ "id, " 
+				+ "benutzername, " 
+				+ "passwort, " 
+				+ "admin, " 
+				+ "aktiv " 
+				+ "FROM mitarbeiter ";
 
 		// Admin-Flag wird immer abgefragt, daher mit WHERE
 		sql = sql + ("WHERE admin = ? ");
@@ -118,14 +126,32 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		return mitarbeiterListe;
 	}
 
+	// Hier wird die PersonenId übergeben. Achtung, Adresse wird im Mitarbeiterobjekt nicht geliefert.
 	@Override
 	public Mitarbeiter findById(int id) {
 		ResultSet rs = null;
 		Mitarbeiter m = null;
-		String sql = "SELECT " + "id, " + "benutzername, " + "passwort, " + "admin, " + "aktiv " + "FROM mitarbeiter ";
+		String sql = "SELECT " 
+				+ "ma.id, " 
+				+ "ma.benutzername, " 
+				+ "ma.passwort, " 
+				+ "ma.admin, " 
+				+ "ma.aktiv, "
+				+ "p.id, "
+				+ "p.vorname, "
+				+ "p.nachname, "
+				+ "p.geburtstag, "
+				+ "p.telefon, "
+				+ "p.bemerkung, "
+				+ "p.email, "
+				+ "p.erfassungsdatum, "
+				+ "p.anrede_id, "
+				+ "p.mitarbeiter_id "
+				+ "FROM mitarbeiter ma "
+				+ "INNER JOIN person p on p.mitarbeiter_id = ma.id ";
 
 		// Admin-Flag wird immer abgefragt, daher mit WHERE
-		sql = sql + ("WHERE id = ? ");
+		sql = sql + ("WHERE p.id = ? ");
 
 		try {
 
@@ -144,6 +170,22 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 				m.setPasswort(rs.getString(pCounter++));
 				m.setAdmin(rs.getBoolean(pCounter++));
 				m.setAktiv(rs.getBoolean(pCounter++));
+				m.setId(rs.getInt(pCounter++));
+				m.setVorname(rs.getString(pCounter++));
+				m.setName(rs.getString(pCounter++));
+				m.setGeburtsdatum(rs.getDate(pCounter++));
+				m.setTelefon(rs.getString(pCounter++));
+				m.setBemerkung(rs.getString(pCounter++));
+				m.setEmail(rs.getString(pCounter++));
+				m.setErfassungDatum(rs.getDate(pCounter++));
+				AnredeDAO anredeDAO = new AnredeDAO();
+				Anrede anrede = anredeDAO.findById(rs.getInt(pCounter++));
+				m.setAnrede(anrede);
+				m.setErfassungMitarbeiterId(rs.getInt(pCounter++));
+				String mNameVorname = null;
+				MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+				mNameVorname = mitarbeiterDAO.findNameVornameById(m.getId());
+				m.setErfassungMitarbeiterName(mNameVorname);
 			}
 
 		} catch (SQLException e) {
@@ -162,11 +204,53 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		}
 		return m;
 	}
+	
+	public String findNameVornameById(int id) {
+		ResultSet rs = null;
+		String nameVorname = null;
+		String sql = "SELECT " 
+				+ "concat(nachname, ' ', vorname) AS nachundvorname "
+				+ "FROM person "
+				+ "WHERE id = ?";
+		try {
+
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, id);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				nameVorname = (rs.getString(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+			}
+		}
+		return nameVorname;
+	}
 
 	public Mitarbeiter findByBenutzername(String benutzername) {
 		ResultSet rs = null;
 		Mitarbeiter m = null;
-		String sql = "SELECT " + "id, " + "benutzername, " + "passwort, " + "admin, " + "aktiv " + "FROM mitarbeiter ";
+		String sql = "SELECT " 
+				+ "id, " 
+				+ "benutzername, " 
+				+ "passwort, " 
+				+ "admin, " 
+				+ "aktiv " 
+				+ "FROM mitarbeiter ";
 		sql = sql + ("WHERE benutzername LIKE ? ");
 
 		try {
@@ -216,12 +300,17 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 	 * 
 	 * @param benutzername
 	 * @param passwort
-	 * @return int id, -1 falls kein Treffer
+	 * @return int id der Personenid, -1 falls kein Treffer
 	 */
 	public int loginPruefung(String benutzername, String passwort) {
 		int id = -1;
 		ResultSet rs = null;
-		String sql = "SELECT " + "id " + "FROM mitarbeiter " + "WHERE aktiv = TRUE " + "AND benutzername = ? "
+		String sql = "SELECT " 
+				+ "p.id " 
+				+ "FROM mitarbeiter ma "
+				+ "INNER JOIN person p on p.mitarbeiter_id = ma.id " 
+				+ "WHERE aktiv = TRUE " 
+				+ "AND benutzername = ? "
 				+ "AND passwort = ?";
 		try {
 

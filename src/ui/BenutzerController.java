@@ -235,13 +235,17 @@ public class BenutzerController {
         Anrede auswahlAnrede = (Anrede)benutzerView.getAnredeCbx().getSelectedItem();
         b.setAnrede(auswahlAnrede);
         
-        if (!benutzerView.getErfasstVonT().getText().isEmpty() || !benutzerView.getErfasstVonT().getText().equals("")) {
-        	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-        	b.setErfassungMitarbeiter(mitarbeiterDAO.findByBenutzername(benutzerView.getErfasstVonT().getText()));
-		}
-        else {
-        	b.setErfassungMitarbeiter(EingeloggterMA.getInstance().getMitarbeiter());
-        }
+    	if (!benutzerView.getPKT().getText().isEmpty()) {
+    		b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getMAId());
+    	}
+        
+//        if (!benutzerView.getErfasstVonT().getText().isEmpty() || !benutzerView.getErfasstVonT().getText().equals("")) {
+//        	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+//        	b.setErfassungMitarbeiter(mitarbeiterDAO.findByBenutzername(benutzerView.getErfasstVonT().getText()));
+//		}
+//        else {
+//        	b.setErfassungMitarbeiter(EingeloggterMA.getInstance().getMitarbeiter());
+//        }
         if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
         	b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));
 		}else {
@@ -323,8 +327,8 @@ public class BenutzerController {
 		}
 		benutzerView.getStatusCbx().setSelectedIndex(benutzer.getBenutzerStatus().getId() -1 );
 		benutzerView.getAnredeCbx().setSelectedIndex(benutzer.getAnrede().getId() - 1);
-		if (benutzer.getErfassungMitarbeiter() != null) {
-        	benutzerView.getErfasstVonT().setText(benutzer.getErfassungMitarbeiter().getBenutzername());
+		if (benutzer.getErfassungMitarbeiterName() != null) {
+        	benutzerView.getErfasstVonT().setText(benutzer.getErfassungMitarbeiterName());
 		}else {
 			benutzerView.getErfasstVonT().setText("");
 		}

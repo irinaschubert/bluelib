@@ -19,7 +19,8 @@ public abstract class Person {
 	private String telefon;
 	private String bemerkung;
 	private Date erfassungDatum;
-	private Mitarbeiter erfassungMitarbeiter;
+	private int erfassungMitarbeiterId;
+	private String erfassungMitarbeiterName;
 	
 	public Person() {
 		
@@ -105,13 +106,23 @@ public abstract class Person {
 		this.erfassungDatum = erfassungDatum;
 	}
 
-	public Mitarbeiter getErfassungMitarbeiter() {
-		return erfassungMitarbeiter;
+	public int getErfassungMitarbeiterId() {
+		return erfassungMitarbeiterId;
 	}
 
-	public void setErfassungMitarbeiter(Mitarbeiter erfassungMitarbeiter) {
-		this.erfassungMitarbeiter = erfassungMitarbeiter;
+	public void setErfassungMitarbeiterId(int erfassungMitarbeiterId) {
+		this.erfassungMitarbeiterId = erfassungMitarbeiterId;
 	}
+
+	public String getErfassungMitarbeiterName() {
+		return erfassungMitarbeiterName;
+	}
+
+	public void setErfassungMitarbeiterName(String erfassungMitarbeiterName) {
+		this.erfassungMitarbeiterName = erfassungMitarbeiterName;
+	}
+
+
 
 
 	

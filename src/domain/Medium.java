@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,14 +15,20 @@ public abstract class Medium {
 	private int barcodeNr;
 	private String titel;
 	private List<Schlagwort> schlagwoerter;
+	private List<Autor> autoren;
 	private Double preis;
 	private Status status;
 	private Date erfassungDatum;
-	private Person erfassungMitarbeiter;
+	private int erfasserId;
+	private String erfasserName;
 	private String bemerkung;
 	
 	public Medium() {
-		
+		this.setAutoren(new ArrayList<>());
+		// Die Werte müssen initialisiert werden, da sie sonst den Wert 0 enthalten, was einen gültigen Wert darstellt
+		this.id = -1;
+		this.barcodeNr = -1;
+				
 	}
 
 	public int getId() {
@@ -80,20 +87,40 @@ public abstract class Medium {
 		this.erfassungDatum = erfassungDatum;
 	}
 
-	public Person getErfassungMitarbeiter() {
-		return erfassungMitarbeiter;
-	}
-
-	public void setErfassungMitarbeiter(Person erfassungMitarbeiter) {
-		this.erfassungMitarbeiter = erfassungMitarbeiter;
-	}
-
 	public String getBemerkung() {
 		return bemerkung;
 	}
 
 	public void setBemerkung(String bemerkung) {
 		this.bemerkung = bemerkung;
+	}
+
+	public List<Autor> getAutoren() {
+		return autoren;
+	}
+
+	public void setAutoren(List<Autor> autoren) {
+		this.autoren = autoren;
+	}
+	
+	public void setAutor(Autor autor) {
+		this.autoren.add(autor);
+	}
+
+	public int getErfasserId() {
+		return erfasserId;
+	}
+
+	public void setErfasserId(int erfasserId) {
+		this.erfasserId = erfasserId;
+	}
+
+	public String getErfasserName() {
+		return erfasserName;
+	}
+
+	public void setErfasserName(String erfasserName) {
+		this.erfasserName = erfasserName;
 	}
 	
 	

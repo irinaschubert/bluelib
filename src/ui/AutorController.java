@@ -79,7 +79,7 @@ public class AutorController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				suchFelderLeeren();
+				neuBearbeitenFelderLeeren();
 				autorView.getNeuAendernL().setText("Neuerfassung");
 			}
 
@@ -243,12 +243,12 @@ public class AutorController {
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
-		suchFelderLeeren();
+		neuBearbeitenFelderLeeren();
 		autorView.getNeuAendernL().setText("");
 
 	}
 
-	private void suchFelderLeeren() {
+	private void neuBearbeitenFelderLeeren() {
 
 		// Felder leeren
 		for (JComponent t : autorView.getComponentsNeuBearbeiten().values()) {
