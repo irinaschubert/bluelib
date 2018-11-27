@@ -239,13 +239,13 @@ public class BenutzerController {
     		b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getMAId());
     	}
         
-//        if (!benutzerView.getErfasstVonT().getText().isEmpty() || !benutzerView.getErfasstVonT().getText().equals("")) {
-//        	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-//        	b.setErfassungMitarbeiter(mitarbeiterDAO.findByBenutzername(benutzerView.getErfasstVonT().getText()));
-//		}
-//        else {
-//        	b.setErfassungMitarbeiter(EingeloggterMA.getInstance().getMitarbeiter());
-//        }
+        if (!benutzerView.getErfasstVonT().getText().isEmpty() || !benutzerView.getErfasstVonT().getText().equals("")) {
+        	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+        	b.setErfassungMitarbeiterId(mitarbeiterDAO.findByBenutzername(benutzerView.getErfasstVonT().getText()).getErfassungMitarbeiterId());
+		}
+        else {
+        	b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getMAId());
+        }
         if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
         	b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));
 		}else {
