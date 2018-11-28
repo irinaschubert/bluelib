@@ -20,6 +20,7 @@ import domain.Buch;
 import domain.Schlagwort;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
+import hilfsklassen.IntHelfer;
 import models.ComboBoxModelAutor;
 import models.ComboBoxModelSchlagwort;
 import models.ComboBoxModelVerlag;
@@ -292,7 +293,11 @@ public class BuchController {
 		boolean keinInputFehler = true;
 		if ((buchView.getBarcodeT().getText().isEmpty())
 				|| (buchView.getTitelT().getText().isEmpty())
+				|| (buchView.getBarcodeT().getText().isEmpty())
 				|| (buchView.getVerlagCbx().getSelectedIndex()< 0)
+				|| (buchView.getAuflageT().getText().isEmpty())
+				|| (buchView.getAnzahlSeitenT().getText().isEmpty())
+				|| (buchView.getIsbnT().getText().isEmpty())
 				|| (buchView.getJahrT().getText().isEmpty())
 				|| (buchView.getOrtT().getText().isEmpty())
 				|| (buchView.getAutorList().getModel().getSize() <= 0)
@@ -301,21 +306,25 @@ public class BuchController {
 			keinInputFehler = false;
 		}
 				
-//		if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
-//			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumT().getText())) {
-//				JOptionPane.showMessageDialog(null, "Üngültiges Geburtsdatum");
-//				autorView.getGeburtsDatumL().setText("");
-//				keinInputFehler = false;
-//			}
-//		}
-//
-//		if (!autorView.getTodesDatumT().getText().isEmpty()) {
-//			if (!DateConverter.datumIstGueltig(autorView.getTodesDatumT().getText())) {
-//				JOptionPane.showMessageDialog(null, "Üngültiges Todesdatum");
-//				autorView.getTodesDatumL().setText("");
-//				keinInputFehler = false;
-//			}
-//		}
+		else if (! IntHelfer.istInteger(buchView.getAnzahlSeitenT().getText())) {
+			JOptionPane.showMessageDialog(null, "Als Seitenzahl bitte einen Zahlenwert erfassen.");
+			keinInputFehler = false;
+		}
+		else if(! IntHelfer.istInteger(buchView.getJahrT().getText())) {
+			JOptionPane.showMessageDialog(null, "Als Jahr bitte einen Zahlenwert erfassen.");
+			keinInputFehler = false;
+		}
+		
+		else if(! IntHelfer.istInteger(buchView.getPreisT().getText())
+				&& ! IntHelfer.istDecimal(buchView.getPreisT().getText()) ) {
+			JOptionPane.showMessageDialog(null, "Als Preis bitte einen Zahlenwert mit oder ohne Dezimalpukt erfassen.");
+			keinInputFehler = false;
+		}
+		
+		else if(! IntHelfer.istInteger(buchView.getIsbnT().getText())) {
+			JOptionPane.showMessageDialog(null, "Als ISBN bitte einen Zahlenwert erfassen.");
+			keinInputFehler = false;
+		}
 
 		return keinInputFehler;
 
@@ -418,19 +427,20 @@ public class BuchController {
 		buchView.getVerlagL().setText("Verlag*:");
 		buchView.getAuflageL().setText("Auflage*:");
 		buchView.getReiheL().setText("Reihe:");
-		buchView.getAnzahlSeitenL().setText("Anz. Seiten:");
+		buchView.getAnzahlSeitenL().setText("Anz. Seiten*:");
 		buchView.getPreisL().setText("Preis:");
 		buchView.getJahrL().setText("Jahr*:");
-		buchView.getOrtL().setText("Ort*:");
-		buchView.getIsbnL().setText("ISBN:");
+		buchView.getOrtL().setText("Ort:");
+		buchView.getIsbnL().setText("ISBN*:");
 		buchView.getStatusL().setText("Status:");
 		buchView.getAutorL().setText("Autor(en)*:");
 		buchView.getZuweisenAutorB().setText("Zuweisen");
 		buchView.getEntfernenAutorB().setText("Entfernen");
 		buchView.getBelletristikR().setText("Belletristik");
 		buchView.getSachbuchR().setText("Sachbuch");
+		buchView.getSignaturL().setText("Signatur*:");
 		buchView.getBelletristikR().setSelected(true);
-		buchView.getSchlagwortL().setText("Schlagwort");
+		buchView.getSchlagwortL().setText("Schlagwort*");
 		buchView.getZuweisenSchlagwortB().setText("zuweisen");
 		buchView.getEntferntenSchlagwortB().setText("entfernen");
 		buchView.getNotizL().setText("Notiz");

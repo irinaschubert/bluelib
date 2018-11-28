@@ -15,7 +15,6 @@ public class Buch extends Medium {
 	private Verlag verlag;
 	private String reihe;
 	private String auflage;
-	private String ausgabe; // Was ist damit gemeint?
 	private int anzahlSeiten;
 	private String signatur;
 	private int isbn;
@@ -48,14 +47,6 @@ public class Buch extends Medium {
 
 	public void setAuflage(String auflage) {
 		this.auflage = auflage;
-	}
-
-	public String getAusgabe() {
-		return ausgabe;
-	}
-
-	public void setAusgabe(String ausgabe) {
-		this.ausgabe = ausgabe;
 	}
 
 	public int getAnzahlSeiten() {

@@ -53,7 +53,7 @@ public class BuchView extends JPanel {
 	private JLabel isbnL;
 	private JLabel statusL;
 	private JLabel autorL;
-	private JLabel buchTypL;
+	private JLabel signaturL;
 	private JLabel schlagwortL;
 	private JLabel notizL;
 	private JLabel erfassungsDatumL;
@@ -135,6 +135,7 @@ public class BuchView extends JPanel {
 
 		barcodeL = new JLabel();
 		barcodeT = new JTextField();
+		barcodeT.setEditable(false);
 
 		erfassenBarcodeB = new JButton();
 
@@ -189,11 +190,11 @@ public class BuchView extends JPanel {
 		buchtypG.add(belletristikR);
 		buchtypG.add(sachbuchR);
 		signaturT = new JTextField();
-		signatur = rahmenSetzen("Signatur", signatur);
+		signaturL = new JLabel();
+		signatur.setPreferredSize(new Dimension(10, 18));
 
 		gridBagHelfer.labelSetzen(belletristikR, signatur, 0, 0);
-		gridBagHelfer.labelSetzen(sachbuchR, signatur, 0, 1);
-		gridBagHelfer.feldSetzen(signaturT, signatur, 1, 1);
+		gridBagHelfer.labelSetzen(sachbuchR, signatur, 1, 0);
 
 		schlagwortL = new JLabel();
 		schlagwortCbx = new JComboBox<>();
@@ -283,7 +284,9 @@ public class BuchView extends JPanel {
 		gridBagHelfer.labelSetzen(entfernenAutorB, buchNeuBearbeitenPanel, 0, 8);
 		gridBagHelfer.labelSetzen(schlagwortL, buchNeuBearbeitenPanel, 0, 9);
 		gridBagHelfer.feldSetzen(schlagwortCbx, buchNeuBearbeitenPanel, 1, 9);
-		gridBagHelfer.feldSetzenBreitHoch(signatur, buchNeuBearbeitenPanel, 3, 10, 2, 2);
+		gridBagHelfer.labelSetzen(signaturL, buchNeuBearbeitenPanel, 3, 10);
+		gridBagHelfer.feldSetzen(signatur, buchNeuBearbeitenPanel, 4, 10);
+		gridBagHelfer.feldSetzen(signaturT, buchNeuBearbeitenPanel, 4, 11);
 		gridBagHelfer.labelSetzen(zuweisenSchlagwortB, buchNeuBearbeitenPanel, 0, 10);
 		gridBagHelfer.labelSetzen(entferntenSchlagwortB, buchNeuBearbeitenPanel, 0, 11);
 		gridBagHelfer.feldSetzenHoch(scrollPaneSchlagwortList, buchNeuBearbeitenPanel, 1, 10, 2);
@@ -521,12 +524,12 @@ public class BuchView extends JPanel {
 		this.autorL = autorL;
 	}
 
-	public JLabel getBuchTypL() {
-		return buchTypL;
+	public JLabel getSignaturL() {
+		return signaturL;
 	}
 
-	public void setBuchTypL(JLabel buchTypL) {
-		this.buchTypL = buchTypL;
+	public void setSignaturL(JLabel buchTypL) {
+		this.signaturL = buchTypL;
 	}
 
 	public JLabel getSchlagwortL() {

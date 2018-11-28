@@ -167,6 +167,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 					 b.setPreis(rs.getDouble(count++));
 					 b.setErscheinungsJahr(rs.getString(count++));
 					 b.setReihe(rs.getString(count++));
+					 //TODO ISBN holen
 					 b.setErscheinungsOrt(rs.getString(count++));
 					 b.setErfassungDatum(rs.getDate(count++));
 					 b.setBemerkung(rs.getString(count++));

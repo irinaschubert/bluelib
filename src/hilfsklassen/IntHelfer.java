@@ -19,4 +19,15 @@ public static int stringZuInt(String input) {
 
 }
 
+public static boolean istDecimal(String input) {
+	Boolean r = false;
+
+    if(input.matches("^[0-9]*\\.?[0-9]*$")){
+    	r = true;
+    }
+    
+    return r;
+    	
+}
+
 }
