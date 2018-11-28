@@ -1,11 +1,9 @@
 package ui;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -17,7 +15,10 @@ import javax.swing.SwingUtilities;
 
 import domain.Autor;
 import domain.Buch;
+import domain.EingeloggterMA;
 import domain.Schlagwort;
+import domain.Status;
+import domain.Verlag;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
 import hilfsklassen.IntHelfer;
@@ -80,25 +81,8 @@ public class BuchController {
 		buchView.getZuweisenSchlagwortB().addActionListener(schlagWortZuweisenActionListener());
 		buchView.getEntferntenSchlagwortB().addActionListener(schlagWortEntfernenActionListener());
 		buchView.getSachbuchR().addActionListener(signaturZuweisenActionListener());
+		buchView.getErfassenBarcodeB().addActionListener(barcodeZuweisenActionListener());
 	
-
-//		ActionListener suchenButtonActionListener = new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//
-//				if (inputValidierungSuchen()) {
-//					buchSuchobjekt = feldwertezuObjektSuchen();
-//					buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
-//					tableModelBuch.setAndSortListe(buchL);
-//				}
-//
-//			}
-//
-//		};
-//
-//		// Zuweisen des Actionlisteners zum Suchen-Button
-//		buchView.getSuchButton().addActionListener(suchenButtonActionListener);
 
 		ActionListener neuButtonActionListener = new ActionListener() {
 
@@ -117,9 +101,9 @@ public class BuchController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Autor a = new Autor();
+				Buch b = new Buch();
 				if (inputValidierungSpeichern()) {
-					a = feldwertezuObjektSpeichern();
+					b = feldwertezuObjektSpeichern();
 					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
 //					if (autorView.getPKT().getText().isEmpty()) {
 //
@@ -148,20 +132,6 @@ public class BuchController {
 
 		// Zuweisen des Actionlisteners zum Schliessen-Button
 		buchView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
-
-		MouseListener doppelKlick = new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					// uebernehmen();
-					buchView.getNeuAendernL().setText("Bearbeiten");
-				}
-			}
-		};
-
-//		// Zuweisen des Mouselisteners zur Tabelle
-//		buchView.getAutorenTabelle().addMouseListener(doppelKlick);
-
 	}
 
 	private ActionListener autorZuweisenActionListener() {
@@ -193,6 +163,7 @@ public class BuchController {
 								&& buchView.getSignaturT().getText().isEmpty()) {
 							String sign = a.getName().substring(0, (a.getName().length() < 4 ? a.getName().length() : 4));
 							sign = sign.toUpperCase();
+							buchView.getSignaturT().setText(sign);
 						}
 					}
 				}
@@ -249,6 +220,8 @@ public class BuchController {
 	return schlagWortZuweisenActionListener;
 }
 	
+
+	
 	private ActionListener schlagWortEntfernenActionListener() {
 
 		ActionListener schlagWortEntfernenActionListener = new ActionListener() {
@@ -285,6 +258,26 @@ public class BuchController {
 			}
 		};
 		return signaturZuweisenActionListsner;
+	}
+	
+	private ActionListener barcodeZuweisenActionListener() {
+		ActionListener barCodeZuweisenActionListsner = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						BarCodeZuordnungView barCodeZuordnungView = new BarCodeZuordnungView("Barcode");
+						BarCodeZuordnungController barCodeZuordnungController = new BarCodeZuordnungController(
+								barCodeZuordnungView, buchController);
+				
+					}
+					
+				});
+				
+			}
+		};
+		return barCodeZuweisenActionListsner;
 	}
 	
 	
@@ -330,11 +323,29 @@ public class BuchController {
 
 	}
 
-	private Autor feldwertezuObjektSpeichern() {
-		Autor a = new Autor();
+	private Buch feldwertezuObjektSpeichern() {
+		Buch b = new Buch();
 		if (!buchView.getPKT().getText().isEmpty()) {
-			a.setId(Integer.parseInt(buchView.getPKT().getText()));
+			b.setId(Integer.parseInt(buchView.getPKT().getText()));
 		}
+		
+		b.setBarcodeNr(Integer.parseInt(buchView.getBarcodeT().getText()));
+		b.setTitel(buchView.getTitelT().getText());
+		b.setVerlag((Verlag) buchView.getVerlagCbx().getModel().getSelectedItem());
+		b.setAuflage(buchView.getAuflageT().getText());
+		b.setAnzahlSeiten(Integer.parseInt(buchView.getAnzahlSeitenT().getText()));
+		b.setAutoren((List<Autor>) buchView.getAutorList());
+		b.setSchlagwoerter((List<Schlagwort>) buchView.getSchlagwortList());
+		b.setBemerkung(buchView.getNotizA().getText());
+		b.setErfassungDatum(new Date());
+		b.setReihe(buchView.getReiheT().getText());
+		b.setPreis(new BigDecimal(buchView.getPreisT().getText()));
+		b.setErscheinungsJahr(Integer.parseInt(buchView.getJahrT().getText()));
+		b.setIsbn(Integer.parseInt(buchView.getIsbnT().getText()));
+		b.setErscheinungsOrt(buchView.getOrtT().getText());
+		b.setStatus((Status) buchView.getStatusCbx().getModel().getSelectedItem());
+		b.setSignatur(buchView.getSignaturT().getText());
+		b.setErfasserId(EingeloggterMA.getInstance().getId());
 		
 //		a.setName(autorView.getNachnameT().getText());
 //		a.setVorname(autorView.getVornameT().getText());
@@ -348,11 +359,15 @@ public class BuchController {
 //			}
 //		}
 //		a.setGeloescht(autorView.getGeloeschtCbx().isSelected());
-		return a;
+		return b;
 	}
 	
 	public void signaturSetzen(String signatur) {
 		buchView.getSignaturT().setText(signatur);
+	}
+	
+	public void barCodeSetzen(String barCode) {
+		buchView.getBarcodeT().setText(barCode);
 	}
 
 	public void uebernehmen(Buch buch) {
@@ -366,8 +381,8 @@ public class BuchController {
 		buchView.getAuflageT().setText(buch.getAuflage());
 		buchView.getAnzahlSeitenT().setText(Integer.toString(buch.getAnzahlSeiten()));
 		buchView.getReiheT().setText(buch.getReihe());
-		buchView.getPreisT().setText(Double.toString(buch.getPreis()));
-		buchView.getJahrT().setText(buch.getErscheinungsJahr());
+		buchView.getPreisT().setText(String.valueOf(buch.getPreis()));
+		buchView.getJahrT().setText(Integer.toString(buch.getErscheinungsJahr()));
 		buchView.getIsbnT().setText(Integer.toString(buch.getIsbn()));
 		buchView.getOrtT().setText(buch.getErscheinungsOrt());
 		buchView.getSignaturT().setText(buch.getSignatur());

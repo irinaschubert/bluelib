@@ -18,7 +18,7 @@ public class Buch extends Medium {
 	private int anzahlSeiten;
 	private String signatur;
 	private int isbn;
-	private String erscheinungsJahr;
+	private int erscheinungsJahr;
 	private String erscheinungsOrt;
 	
 	public Buch() {
@@ -73,11 +73,11 @@ public class Buch extends Medium {
 		this.isbn = isbn;
 	}
 
-	public String getErscheinungsJahr() {
+	public int getErscheinungsJahr() {
 		return erscheinungsJahr;
 	}
 
-	public void setErscheinungsJahr(String erscheinungsJahr) {
+	public void setErscheinungsJahr(int erscheinungsJahr) {
 		this.erscheinungsJahr = erscheinungsJahr;
 	}
 

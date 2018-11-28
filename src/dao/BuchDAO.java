@@ -164,8 +164,8 @@ public class BuchDAO implements DAOInterface<Buch> {
 					 b.setId(rs.getInt(count++));
 					 b.setTitel(rs.getString(count++));
 					 b.setBarcodeNr(rs.getInt(count++));
-					 b.setPreis(rs.getDouble(count++));
-					 b.setErscheinungsJahr(rs.getString(count++));
+					 b.setPreis(rs.getBigDecimal(count++));
+					 b.setErscheinungsJahr(rs.getInt(count++));
 					 b.setReihe(rs.getString(count++));
 					 //TODO ISBN holen
 					 b.setErscheinungsOrt(rs.getString(count++));
@@ -210,6 +210,37 @@ public class BuchDAO implements DAOInterface<Buch> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	
+	public Boolean BarcodeNichtZugeordnet(int barCode) {
+		Boolean barcodeNichtZugeordnet = true;
+		ResultSet rs = null;
+		String sql = "SELECT "
+				+ "1 "
+				+ "FROM medium "
+				+ "WHERE barcode = ?";
+		
+		try {
+			
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,barCode);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					barcodeNichtZugeordnet = false;					
+					 }			
+				
+			} catch (SQLException e) {
+				e.printStackTrace();	
+
+				   } finally{
+					   
+				         try{
+				             if(rs != null) rs.close();
+				             if(pstmt != null) pstmt.close();
+				             if(conn != null) conn.close();
+				         } catch(Exception ex){}
+				     }
+		
+			return barcodeNichtZugeordnet;
+	}	
 }

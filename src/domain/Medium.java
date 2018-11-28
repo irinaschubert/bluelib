@@ -1,5 +1,6 @@
 package domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ public abstract class Medium {
 	private String titel;
 	private List<Schlagwort> schlagwoerter;
 	private List<Autor> autoren;
-	private Double preis;
+	private BigDecimal preis;
 	private Status status;
 	private Date erfassungDatum;
 	private int erfasserId;
@@ -63,11 +64,11 @@ public abstract class Medium {
 		this.schlagwoerter = schlagwoerter;
 	}
 
-	public Double getPreis() {
+	public BigDecimal getPreis() {
 		return preis;
 	}
 
-	public void setPreis(Double preis) {
+	public void setPreis(BigDecimal preis) {
 		this.preis = preis;
 	}
 

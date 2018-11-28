@@ -97,7 +97,7 @@ public class BuchView extends JPanel {
 
 	private List<JComponent> componentsNeuBearbeiten = new ArrayList<>();
 	private static int HOEHE = 900;
-	private static int BREITE = 812;
+	private static int BREITE = 815;
 	
 	public static String BELLETRISTIK = "belletristik";
 	public static String SACHBUCH = "sachbuch";
