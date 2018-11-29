@@ -292,7 +292,7 @@ public class BuchController {
 				|| (buchView.getAnzahlSeitenT().getText().isEmpty())
 				|| (buchView.getIsbnT().getText().isEmpty())
 				|| (buchView.getJahrT().getText().isEmpty())
-				|| (buchView.getOrtT().getText().isEmpty())
+//				|| (buchView.getOrtT().getText().isEmpty())
 				|| (buchView.getAutorList().getModel().getSize() <= 0)
 				|| (buchView.getSignaturT().getText().isEmpty())) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
@@ -334,14 +334,24 @@ public class BuchController {
 		b.setVerlag((Verlag) buchView.getVerlagCbx().getModel().getSelectedItem());
 		b.setAuflage(buchView.getAuflageT().getText());
 		b.setAnzahlSeiten(Integer.parseInt(buchView.getAnzahlSeitenT().getText()));
-		b.setAutoren((List<Autor>) buchView.getAutorList());
-		b.setSchlagwoerter((List<Schlagwort>) buchView.getSchlagwortList());
+		 for (int i = 0; i < buchView.getAutorList().getModel().getSize(); i++) {
+	            Autor a = buchView.getAutorList().getModel().getElementAt(i);
+	            b.setAutor(a);
+	        }
+		 for (int i = 0; i < buchView.getSchlagwortList().getModel().getSize(); i++) {
+	            Schlagwort s = buchView.getSchlagwortList().getModel().getElementAt(i);
+	            b.setSchlagwort(s);
+	        }		 
 		b.setBemerkung(buchView.getNotizA().getText());
 		b.setErfassungDatum(new Date());
 		b.setReihe(buchView.getReiheT().getText());
-		b.setPreis(new BigDecimal(buchView.getPreisT().getText()));
+		
+		if (! buchView.getPreisT().getText().isEmpty()) {
+			b.setPreis(new BigDecimal(buchView.getPreisT().getText()));
+		}
+		
 		b.setErscheinungsJahr(Integer.parseInt(buchView.getJahrT().getText()));
-		b.setIsbn(Integer.parseInt(buchView.getIsbnT().getText()));
+		b.setIsbn(Long.parseLong(buchView.getIsbnT().getText()));
 		b.setErscheinungsOrt(buchView.getOrtT().getText());
 		b.setStatus((Status) buchView.getStatusCbx().getModel().getSelectedItem());
 		b.setSignatur(buchView.getSignaturT().getText());
@@ -383,7 +393,7 @@ public class BuchController {
 		buchView.getReiheT().setText(buch.getReihe());
 		buchView.getPreisT().setText(String.valueOf(buch.getPreis()));
 		buchView.getJahrT().setText(Integer.toString(buch.getErscheinungsJahr()));
-		buchView.getIsbnT().setText(Integer.toString(buch.getIsbn()));
+		buchView.getIsbnT().setText(Long.toString(buch.getIsbn()));
 		buchView.getOrtT().setText(buch.getErscheinungsOrt());
 		buchView.getSignaturT().setText(buch.getSignatur());
 		

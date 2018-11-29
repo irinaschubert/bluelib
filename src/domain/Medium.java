@@ -26,6 +26,7 @@ public abstract class Medium {
 	
 	public Medium() {
 		this.setAutoren(new ArrayList<>());
+		this.setSchlagwoerter(new ArrayList());
 		// Die Werte müssen initialisiert werden, da sie sonst den Wert 0 enthalten, was einen gültigen Wert darstellt
 		this.id = -1;
 		this.barcodeNr = -1;
@@ -62,6 +63,10 @@ public abstract class Medium {
 
 	public void setSchlagwoerter(List<Schlagwort> schlagwoerter) {
 		this.schlagwoerter = schlagwoerter;
+	}
+	
+	public void setSchlagwort(Schlagwort schlagwort) {
+		this.schlagwoerter.add(schlagwort);
 	}
 
 	public BigDecimal getPreis() {

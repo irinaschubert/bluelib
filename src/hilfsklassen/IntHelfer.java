@@ -4,7 +4,7 @@ public class IntHelfer {
 public static Boolean istInteger(String input) {
 	Boolean r = false;
 	try {
-	     Integer.parseInt(input);
+	     Long.parseLong(input);
 	     r = true;
 	}
 	catch (NumberFormatException e) {

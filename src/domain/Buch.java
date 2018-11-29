@@ -17,7 +17,7 @@ public class Buch extends Medium {
 	private String auflage;
 	private int anzahlSeiten;
 	private String signatur;
-	private int isbn;
+	private long isbn;
 	private int erscheinungsJahr;
 	private String erscheinungsOrt;
 	
@@ -65,12 +65,12 @@ public class Buch extends Medium {
 		this.signatur = signatur;
 	}
 
-	public int getIsbn() {
+	public long getIsbn() {
 		return isbn;
 	}
 
-	public void setIsbn(int isbn) {
-		this.isbn = isbn;
+	public void setIsbn(long l) {
+		this.isbn = l;
 	}
 
 	public int getErscheinungsJahr() {
