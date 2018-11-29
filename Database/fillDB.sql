@@ -101,9 +101,10 @@ COMMIT;
 -- ----------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO medium (titel, erfassungsdatum, verlag_id, statusMedi_id, person_id) VALUES ('Wilhelm Tell', CURDATE(), 1, 1,1);
-INSERT INTO medium (titel, erfassungsdatum, verlag_id, statusMedi_id, person_id) VALUES ('Requirements Engineering', CURDATE(), 2,1,1);
-INSERT INTO medium (titel, erfassungsdatum, verlag_id, statusMedi_id, person_id) VALUES ('Das einfachste Kochbuch der Welt', CURDATE(), 3, 2,1);
+INSERT INTO medium (titel, barcode, preis, erscheinungsjahr, reihe, erfassungsdatum, bemerkung, verlag_id, statusMedi_id, person_id) VALUES 
+	('Wilhelm Tell', '1000000', 2000, '50', 'Berlin', CURDATE(), 'Das erste Buch', 1, 1,1),
+    ('Requirements Engineering', '1000001', 2000, '20', 'London', CURDATE(), 'Das zweite Buch', 1, 1,1),
+    ('Das einfachste Kochbuch der Welt', '1000002', 2000, '15', 'Bern', CURDATE(), 'Das dritte Buch', 1, 1,1);
 COMMIT;
 -- ---------------------
 -- Data for Schlagwort
@@ -168,6 +169,18 @@ START TRANSACTION;
 USE bluelib;
 INSERT INTO inventurMedium (inventur_id,medium_id,datumZeit) VALUES (1,1,'2018-10-20 10:00:00'),(1,2,'2018-10-20 10:01:00'),(1,3,'2018-10-20 10:02:00');
 INSERT INTO inventurMedium (inventur_id,medium_id,datumZeit) VALUES (2,1,CURDATE()),(2,2,CURDATE());
+COMMIT;
+
+START TRANSACTION;
+USE bluelib;
+INSERT INTO ausleihe (person_id, medium_id, von, retour, erfasser_person_id, retour_person_id) VALUES 
+	(6,1,'2018-11-20','2018-11-25',1,6),
+    (7,2,'2018-8-1',CURDATE(),2,7),
+    (8,2,CURDATE(),null,3,null),
+    (9,3,'2018-5-10',null,3,null),
+    (10,2,'2018-8-1','2018-11-15',4,10),
+    (10,1,'2018-8-1','2018-11-15',1,11),
+    (10,3,'2018-8-1',null,2,null);
 COMMIT;
 
 /*
@@ -4954,3 +4967,4 @@ COMMIT;
 select * from person;
 select * from mitarbeiter;
 select * from ort WHERE ort = 'Bern';
+select * from ausleihe;
