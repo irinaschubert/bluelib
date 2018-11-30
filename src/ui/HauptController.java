@@ -21,7 +21,7 @@ import services.LoginService;
 public class HauptController {
 	HauptView hauptView;
 	HauptController hauptController;
-	Boolean entwicklung = false;
+	Boolean entwicklung = true;
 
 	public HauptController(HauptView hauptView) {
 		this.hauptView = hauptView;

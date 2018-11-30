@@ -13,14 +13,14 @@ public class PlzRenderer extends BasicComboBoxRenderer {
 	    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 	    if (value != null) {
 	      Ort ort = (Ort) value;
-	      setText(String.valueOf(ort.getPlz()));
+	      setText(String.valueOf(ort.getPlz() + " " + ort.getOrt()));
 	    }
 	    if (index == -1) {
 	    	Ort ort = (Ort) value;
 	    	if(ort == null) {
-	    		setText("");
+	    		setText("-- bitte wählen --");
 	    	}else {
-	    		setText("" + ort.getPlz());
+	    		setText("" + ort.getPlz() + " " + ort.getOrt());
 	    	}
 	    }
 	    return this;
