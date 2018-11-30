@@ -33,8 +33,75 @@ public class BuchDAO implements DAOInterface<Buch> {
 	
 	@Override
 	public Buch save(Buch domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		Buch b = new Buch();
+		String sql = "INSERT INTO "
+				+ "medium "
+				+ "(titel "
+				+ ",barcode "
+//				+ ",erscheinungsjahr "
+				+ ", erfassungsdatum "
+				+ ", signatur"
+				+ ", verlag_id"
+				+ ", statusMedi_id"
+				+ ", person_id"
+				+ (domainObject.getPreis() != null ? ",preis ":"")
+				+ (domainObject.getReihe() != null ? ",reihe ":"")
+				+ (domainObject.getErscheinungsOrt() != null ? ",erscheinungsort ":"")
+				+ (domainObject.getBemerkung() != null ? ",bemerkung ":"")
+				+ ") "
+				+ "VALUES "
+				+ "(?, ? , ?, ?, ?, ?, ?, "
+				+ (domainObject.getPreis() != null ? ",? " : "")
+				+ (domainObject.getReihe() != null ? ",? " : "")
+				+ (domainObject.getErscheinungsOrt() != null ? ",? " : "")
+				+ (domainObject.getBemerkung() != null ? ",? " : "")
+				+")" ;
+			try {
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				int argCounter = 1;
+				pstmt.setString(argCounter++,domainObject.getTitel());
+				pstmt.setInt(argCounter++,domainObject.getBarcodeNr());
+				pstmt.setInt(argCounter++,domainObject.getBarcodeNr());
+				pstmt.setDate(argCounter++,DateConverter.convertJavaDateToSQLDateN(domainObject.getErfassungDatum()));
+				pstmt.setString(argCounter++,domainObject.getSignatur());
+				pstmt.setInt(argCounter++,domainObject.getVerlag().getId());
+				pstmt.setInt(argCounter++,domainObject.getStatus().getId());
+				pstmt.setInt(argCounter++,domainObject.getErfasserId());
+				if (domainObject.getPreis() != null) {
+					pstmt.setBigDecimal(argCounter++,domainObject.getPreis());
+				}
+				if (domainObject.getReihe() != null) {
+					pstmt.setString(argCounter++,domainObject.getReihe());
+				}
+				if (domainObject.getErscheinungsOrt() != null) {
+					pstmt.setString(argCounter++,domainObject.getErscheinungsOrt());
+				}
+				if (domainObject.getBemerkung() != null) {
+					pstmt.setString(argCounter++,domainObject.getBemerkung());
+				}
+				
+				pstmt.executeUpdate();
+				
+				rs = pstmt.getGeneratedKeys();
+				if(rs != null && rs.next()){
+					int medium_id = rs.getInt(1);
+				}
+				
+			}
+	  catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+     } finally{
+         try{
+             if(rs != null) rs.close();
+             if(pstmt != null) pstmt.close();
+             if(conn != null) conn.close();
+         } catch(Exception ex){}
+     }
+			
+		return b;
 	}
 
 	@Override
