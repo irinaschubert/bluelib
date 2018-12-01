@@ -7,40 +7,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import dao.AnredeDAO;
 import dao.AusleiheDAO;
 import dao.BenutzerDAO;
 import dao.BuchDAO;
 import dao.MitarbeiterDAO;
-import dao.OrtDAO;
-import dao.StatusDAO;
-import domain.Adresse;
-import domain.Anrede;
 import domain.Ausleihe;
 import domain.Autor;
 import domain.Benutzer;
 import domain.Buch;
 import domain.EingeloggterMA;
-import domain.Mitarbeiter;
-import domain.Ort;
-import domain.Status;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
 import models.TableModelAusleihe;
@@ -49,13 +30,11 @@ import services.Verifikation;
 import ui.HauptController;
 
 /**
- * 
  * Controller für die AusleiheView, der die Logik und die Ausleihaktionen der
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 22.11.2018
  * @author irina
- *
  */
 
 public class AusleiheController {
@@ -65,8 +44,6 @@ public class AusleiheController {
 	private TableModelAusleihe tableModelAusleihe;
 	private AusleiheDAO ausleiheDAO;
 	private HauptController hauptController;
-	private BenutzerDAO benutzerDAO;
-	private Benutzer benutzer;
 
 	public AusleiheController(AusleiheView view, HauptController hauptController) {
 		ausleiheView = view;
@@ -78,7 +55,6 @@ public class AusleiheController {
 		tableModelAusleihe.setAndSortListe(ausleiheL);
 		view.getAusleiheTabelle().setModel(tableModelAusleihe);
 		view.spaltenBreiteSetzen();
-
 		initialisieren();
 		control();
 	}
@@ -106,20 +82,19 @@ public class AusleiheController {
 					ausleiheL = ausleiheService.sucheAusleihenProBenutzer(benutzer);
 					tableModelAusleihe.setAndSortListe(ausleiheL);
 				}
-				
 			}
 		};
 		ausleiheView.getSuchButtonBenutzer().addActionListener(benutzerSuchenButtonActionListener);
 		
-		// Ausleihe Speichern
+		// Ausleihe speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Ausleihe a = new Ausleihe();
-				if (inputValidierungBuch() == true && inputValidierungBenutzer() == true) {
+				if (inputValidierungBuch(true) == true && inputValidierungBenutzer(true) == true) {
 					a = feldwertezuObjektSpeichern();
 					nachArbeitSpeichern(ausleiheService.sichereAusleihe(a));
-				}else {
+				}else if (inputValidierungBuch(true) != true && inputValidierungBenutzer(true) != true){
 					JOptionPane.showMessageDialog(null, "Bitte Buch und Benutzer eingeben.");
 				}
 			}
@@ -158,36 +133,42 @@ public class AusleiheController {
 		ausleiheView.getAusleiheTabelle().addMouseListener(doppelKlick);
 	}
 
-	private boolean inputValidierungBuch() {
+	private boolean inputValidierungBuch(boolean ruhig) {
 		boolean keinInputFehler = true;
 		if ((ausleiheView.getBarcodeT().getText().isEmpty())) {
-			JOptionPane.showMessageDialog(null, "Bitte ein Buch eingeben.");
+			if(ruhig != true) {
+				JOptionPane.showMessageDialog(null, "Bitte ein Buch eingeben.");
+			}			
 			return keinInputFehler = false;
 		}
 		try {
 			Integer.parseInt(ausleiheView.getBarcodeT().getText());
 		}catch(NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Ungültiger Barcode");
+			if(ruhig != true) {
+				JOptionPane.showMessageDialog(null, "Ungültiger Barcode");
+			}
 			keinInputFehler = false;
 		}
 		
 		return keinInputFehler;
 	}
 	
-	private boolean inputValidierungBenutzer() {
+	private boolean inputValidierungBenutzer(boolean ruhig) {
 		boolean keinInputFehler = true;
 		if (ausleiheView.getBenutzerEingabeT().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Bitte einen Nutzer eingeben.");
+			if(ruhig != true) {
+				JOptionPane.showMessageDialog(null, "Bitte einen Benutzer eingeben.");
+			}			
 			return keinInputFehler = false;
-		}else {
-			try {
-				Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
-			}catch(NumberFormatException e) {
-				JOptionPane.showMessageDialog(null, "Ungültige ID");
-				keinInputFehler = false;
-			}
 		}
-		
+		try {
+			Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
+		}catch(NumberFormatException e) {
+			if(ruhig != true) {
+				JOptionPane.showMessageDialog(null, "Ungültige ID");
+			}
+			keinInputFehler = false;
+		}
 		return keinInputFehler;
 	}
 
@@ -257,7 +238,7 @@ public class AusleiheController {
 	}
 	
 	private void findenBuch() {
-		if(inputValidierungBuch() == true) {
+		if(inputValidierungBuch(false) == true) {
 			Buch buch = new Buch();
 			BuchDAO buchDAO = new BuchDAO();
 			try {
@@ -285,7 +266,7 @@ public class AusleiheController {
 	}
 	
 	private void findenBenutzer() {
-		if(inputValidierungBenutzer() == true) {
+		if(inputValidierungBenutzer(false) == true) {
 			
 			Benutzer benutzer = new Benutzer();
 			BenutzerDAO benutzerDAO = new BenutzerDAO();

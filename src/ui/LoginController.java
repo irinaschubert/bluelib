@@ -11,7 +11,6 @@ import services.LoginService;
 import services.Verifikation;
 
 /**
- * 
  * Controller für die Login-View
  * 
  * @version 1.0 2018-11-07
