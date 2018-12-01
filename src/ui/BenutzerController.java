@@ -233,22 +233,22 @@ public class BenutzerController {
         Anrede auswahlAnrede = (Anrede)benutzerView.getAnredeCbx().getSelectedItem();
         b.setAnrede(auswahlAnrede);
         
-    	if (!benutzerView.getPKT().getText().isEmpty()) {
-    		b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getMAId());
-    	}
-        
-        if (!benutzerView.getErfasstVonT().getText().isEmpty() || !benutzerView.getErfasstVonT().getText().equals("")) {
+        if (benutzerView.getErfasstVonT().getText().isEmpty() || benutzerView.getErfasstVonT().getText().equals("")) { // Wenn Erfassung-MA = neu anlegen
+        	b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getId());
+        	String nachname = EingeloggterMA.getInstance().getMitarbeiter().getName();
+        	String vorname = EingeloggterMA.getInstance().getMitarbeiter().getVorname();
+        	String name = nachname + " " + vorname;
+        	b.setErfassungMitarbeiterName(name);
+        	}
+        else {
         	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
         	b.setErfassungMitarbeiterId(mitarbeiterDAO.findByBenutzername(benutzerView.getErfasstVonT().getText()).getErfassungMitarbeiterId());
-		}
-        else {
-        	b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getMAId());
+        	b.setErfassungMitarbeiterName(benutzerView.getErfasstVonT().getText());
         }
         if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
         	b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));
 		}else {
 			Date date = new Date();
-        	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			b.setErfassungDatum(date);
 		}
 		return b;
@@ -360,15 +360,11 @@ public class BenutzerController {
 			if (t instanceof JComboBox) {
 				((JComboBox) t).setSelectedIndex(0);
 			}
-
 		}
 		
 		Component[] components = benutzerView.getBenutzerNeuBearbeitenPanel().getComponents();
-		
 		for (int i = 0; i < components.length; ++i) {
-			
 		   if (components[i] instanceof Container) {
-			   
 		       Container subContainer = (Container)components[i];
 		       Component[] containers = subContainer.getComponents();
 		       

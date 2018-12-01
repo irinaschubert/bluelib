@@ -198,8 +198,6 @@ public class BenutzerView extends JPanel {
         formularHelfer.addLabel(statusL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(statusCbx, benutzerNeuBearbeitenPanel);
         
-        
-        
         formularHelfer.addLabel(erfasstVonL, benutzerNeuBearbeitenPanel);
         formularHelfer.addLastField(erfasstVonT, benutzerNeuBearbeitenPanel);
         

@@ -59,7 +59,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ (domainObject.getTelefon() != null ? ",telefon ":"")
 				+ (domainObject.getEmail() != null ? ",email ":"")
 				+ (domainObject.getErfassungDatum() != null ? ",erfassungsdatum ":"")
-				+ (domainObject.getErfassungMitarbeiterId() >=0 ? ",person_id ":"")
+				+ (domainObject.getErfassungMitarbeiterId() >0 ? ",person_id ":"")
 				+ ") "
 				+ "VALUES "
 				+ "(?, ?, ?, ?, ?"
@@ -69,7 +69,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				+ (domainObject.getTelefon() != null ? ",? ":"")
 				+ (domainObject.getEmail() != null ? ",? ":"")
 				+ (domainObject.getErfassungDatum() != null ? ",? ":"")
-				+ (domainObject.getErfassungMitarbeiterId() >=0 ? ",? ":"")
+				+ (domainObject.getErfassungMitarbeiterId() >0 ? ",? ":"")
 				+ ")";
 			try {
 				conn = dbConnection.getDBConnection();
@@ -106,7 +106,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					argCounter++;
 					pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getErfassungDatum()));
 				}
-				if (domainObject.getErfassungMitarbeiterId() >=0) {
+				if (domainObject.getErfassungMitarbeiterId() >0) {
 					argCounter++;
 					pstmt.setInt(argCounter,domainObject.getErfassungMitarbeiterId());
 				}
@@ -195,7 +195,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				else {
 					pstmt.setNull(11,java.sql.Types.DATE);
 				}
-				if (domainObject.getErfassungMitarbeiterId() >= 0) {
+				if (domainObject.getErfassungMitarbeiterId() > 0) {
 					pstmt.setInt(12,domainObject.getErfassungMitarbeiterId());
 				}else {
 					pstmt.setInt(12,0);
@@ -390,7 +390,7 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					 a.setAnrede(anredeDAO.findById(rs.getInt(12)));
 					 a.setBenutzerStatus(statusDAO.findById(rs.getInt(13)));
 					 MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-					 a.setErfassungMitarbeiterName(mitarbeiterDAO.findNameVornameById(a.getId()));
+					 a.setErfassungMitarbeiterName(mitarbeiterDAO.findNameVornameById(a.getErfassungMitarbeiterId()));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
