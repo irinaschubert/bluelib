@@ -245,120 +245,124 @@ public class BuchDAO implements DAOInterface<Buch> {
 			}
 
 
-				// Nicht in DB vorhandene Autoren hinzufügen
-				for (Autor a : domainObject.getAutoren()) {
-					Boolean enthalten = false;
-					for  (int i : autorenListe) {				
-						if (a.getId() == i) {
-							enthalten = true;
-						}
-
-						if (enthalten == false) {
-							sql = "INSERT INTO mediumautor "
-									+ "(medium_id, "
-									+ "autor_id) "
-									+ "VALUES "
-									+ "( ?, ?)";
-							pstmt = conn.prepareStatement(sql);
-							argCounter = 1;
-							pstmt.setInt(argCounter++,domainObject.getId());
-							pstmt.setInt(argCounter++,a.getId());
-							pstmt.executeUpdate();								
-						}
-					}	
-
-				}
-
-				// Nicht in Liste vorhandene Autoren in DB löschen
+			// Nicht in DB vorhandene Autoren hinzufügen
+			for (Autor a : domainObject.getAutoren()) {
+				Boolean enthalten = false;
 				for  (int i : autorenListe) {				
-					Boolean enthalten = false;
-					for (Autor a : domainObject.getAutoren()) {
-
-						if (a.getId() == i) {
-							enthalten = true;
-						}
-
-						if (enthalten == false) {
-							sql = "DELETE FROM mediumautor "
-									+ "WHERE medium_id = ? "
-									+ "AND autor_id = ?";
-							pstmt = conn.prepareStatement(sql);
-							argCounter = 1;
-							pstmt.setInt(argCounter++,domainObject.getId());
-							pstmt.setInt(argCounter++,i);
-							pstmt.executeUpdate();								
-						}
-					}	
-
+					if (a.getId() == i) {
+						enthalten = true;
+					}
+				
+				}	
+				
+				if (enthalten == false) {
+					sql = "INSERT INTO mediumautor "
+							+ "(medium_id, "
+							+ "autor_id) "
+							+ "VALUES "
+							+ "( ?, ?)";
+					pstmt = conn.prepareStatement(sql);
+					argCounter = 1;
+					pstmt.setInt(argCounter++,domainObject.getId());
+					pstmt.setInt(argCounter++,a.getId());
+					pstmt.executeUpdate();								
 				}
 
+			}
 
-				sql = "SELECT "
-						+ "schlagwort_id "
-						+ "FROM mediumschlagwort "
-						+ "WHERE medium_id = ? ";
+			// Nicht in Liste vorhandene Autoren in DB löschen
+			for  (int i : autorenListe) {				
+				Boolean enthalten = false;
+				for (Autor a : domainObject.getAutoren()) {
 
-				pstmt = conn.prepareStatement(sql);
-				argCounter = 1;
-				pstmt.setInt(argCounter++,domainObject.getId());
-				rs = pstmt.executeQuery();
+					if (a.getId() == i) {
+						enthalten = true;
+					}
 
 
-				List<Integer> schlagwortListe = new ArrayList<>(); 
-				while(rs.next()) {
-					schlagwortListe.add(rs.getInt(1));
+				}	
+				if (enthalten == false) {
+					sql = "DELETE FROM mediumautor "
+							+ "WHERE medium_id = ? "
+							+ "AND autor_id = ?";
+					pstmt = conn.prepareStatement(sql);
+					argCounter = 1;
+					pstmt.setInt(argCounter++,domainObject.getId());
+					pstmt.setInt(argCounter++,i);
+					pstmt.executeUpdate();								
 				}
 
-				// Nicht in DB vorhandene Schlagworte hinzufügen
-				for (Schlagwort s : domainObject.getSchlagwoerter()) {
-					Boolean enthalten = false;
-					for  (int i : schlagwortListe) {				
-						if (s.getId() == i) {
-							enthalten = true;
-						}
+			}
 
-						if (enthalten == false) {
-							sql = "INSERT INTO mediumschlagwort "
-									+ "(medium_id, "
-									+ "schlagwort_id) "
-									+ "VALUES "
-									+ "( ?, ?)";
-							pstmt = conn.prepareStatement(sql);
-							argCounter = 1;
-							pstmt.setInt(argCounter++,domainObject.getId());
-							pstmt.setInt(argCounter++,s.getId());
-							pstmt.executeUpdate();								
-						}
-					}	
 
-				}
+			sql = "SELECT "
+					+ "schlagwort_id "
+					+ "FROM mediumschlagwort "
+					+ "WHERE medium_id = ? ";
 
-				// Nicht in Liste vorhandene Schlagworte in DB löschen
+			pstmt = conn.prepareStatement(sql);
+			argCounter = 1;
+			pstmt.setInt(argCounter++,domainObject.getId());
+			rs = pstmt.executeQuery();
+
+
+			List<Integer> schlagwortListe = new ArrayList<>(); 
+			while(rs.next()) {
+				schlagwortListe.add(rs.getInt(1));
+			}
+
+			// Nicht in DB vorhandene Schlagworte hinzufügen
+			for (Schlagwort s : domainObject.getSchlagwoerter()) {
+				Boolean enthalten = false;
 				for  (int i : schlagwortListe) {				
-					Boolean enthalten = false;
-					for (Schlagwort s : domainObject.getSchlagwoerter()) {
+					if (s.getId() == i) {
+						enthalten = true;
+					}
+					
+					if (enthalten == false) {
+						sql = "INSERT INTO mediumschlagwort "
+								+ "(medium_id, "
+								+ "schlagwort_id) "
+								+ "VALUES "
+								+ "( ?, ?)";
+						pstmt = conn.prepareStatement(sql);
+						argCounter = 1;
+						pstmt.setInt(argCounter++,domainObject.getId());
+						pstmt.setInt(argCounter++,s.getId());
+						pstmt.executeUpdate();								
+					}
+				}	
 
-						if (s.getId() == i) {
-							enthalten = true;
-						}
+			}
 
-						if (enthalten == false) {
-							sql = "DELETE FROM mediumschlagwort "
-									+ "WHERE medium_id = ? "
-									+ "AND schlagwort_id = ?";
-							pstmt = conn.prepareStatement(sql);
-							argCounter = 1;
-							pstmt.setInt(argCounter++,domainObject.getId());
-							pstmt.setInt(argCounter++,i);
-							pstmt.executeUpdate();								
-						}
-					}	
+			// Nicht in Liste vorhandene Schlagworte in DB löschen
+			for  (int i : schlagwortListe) {				
+				Boolean enthalten = false;
+				for (Schlagwort s : domainObject.getSchlagwoerter()) {
 
+					if (s.getId() == i) {
+						enthalten = true;
+					}
+
+
+				}	
+
+				if (enthalten == false) {
+					sql = "DELETE FROM mediumschlagwort "
+							+ "WHERE medium_id = ? "
+							+ "AND schlagwort_id = ?";
+					pstmt = conn.prepareStatement(sql);
+					argCounter = 1;
+					pstmt.setInt(argCounter++,domainObject.getId());
+					pstmt.setInt(argCounter++,i);
+					pstmt.executeUpdate();								
 				}
 
-				b = domainObject;			
+			}
 
-					
+			b = domainObject;			
+
+
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
