@@ -34,11 +34,11 @@ COMMIT;
 START TRANSACTION;
 INSERT INTO mitarbeiter (id, benutzername, passwort, admin, aktiv) 
 VALUES
-	(1, 'Mike', 'e2fc714c4727ee9395f324cd2e7f331f', 0, 1),
-	(2, 'Ueli', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
-	(3,'Irina', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
-	(4,'Tamara', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
-	(5,'Fritz', 'e2fc714c4727ee9395f324cd2e7f331f', 0, 0);
+	(1, 'Mike', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 0, 1),
+	(2, 'Ueli', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 1, 1),
+	(3,'Irina', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 1, 1),
+	(4,'Tamara', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 1, 1),
+	(5,'Fritz', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 0, 0);
 COMMIT;
 -- -----------------
 -- Data for Person

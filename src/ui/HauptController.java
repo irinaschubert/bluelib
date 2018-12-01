@@ -220,12 +220,9 @@ public class HauptController {
 		ActionListener autorBeendenActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				applikationSchliessen();
-
 			}
 		};
-
 		return autorBeendenActionListener;
 	}
 
@@ -258,7 +255,6 @@ public class HauptController {
 				hauptView.getContentPane().add(loginView);
 				hauptView.validate();
 				hauptView.setVisible(true);
-
 			}
 		});
 	}
