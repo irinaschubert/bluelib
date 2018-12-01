@@ -1,6 +1,8 @@
 package ui;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -31,7 +33,7 @@ public class HauptView extends JFrame {
 	private JMenuBar menuBar = new JMenuBar();
 
 	public HauptView(String name) {
-
+		//this.add(new JLabel(new ImageIcon("")));
 		setJMenuBar(erstelleMenuBar());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(800, 1000);

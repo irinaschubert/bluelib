@@ -21,13 +21,11 @@ import services.Verifikation;
 import ui.HauptController;
 
 /**
- * 
  * Controller für die verlagView, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 26.10.2018
  * @author irina
- *
  */
 
 public class VerlagController {
@@ -44,7 +42,6 @@ public class VerlagController {
 		normdatenService = new NormdatenService();
 		verlagL = new ArrayList<>();
 		tableModelVerlag = new TableModelVerlag();
-		//verlagL = normdatenService.alleVerlage();
 		tableModelVerlag.setAndSortListe(verlagL);
 		view.getVerlagTabelle().setModel(tableModelVerlag);
 		view.spaltenBreiteSetzen();
@@ -55,7 +52,6 @@ public class VerlagController {
 
 	// Buttonlisteners
 	private void control() {
-		
 		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
@@ -72,7 +68,6 @@ public class VerlagController {
 		
 		// Neu
 		ActionListener neuButtonActionListener = new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				suchFelderLeeren();
@@ -83,7 +78,6 @@ public class VerlagController {
 		
 		// Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
-		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Verlag v = new Verlag();
@@ -101,12 +95,10 @@ public class VerlagController {
 
 		// Schliessen
 		ActionListener schliessenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				hauptController.panelEntfernen();
 			}
-
 		};
 		verlagView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 		
@@ -212,7 +204,7 @@ public class VerlagController {
 	private void uebernehmen() {
 		Verlag verlag = new Verlag();
 		verlag = tableModelVerlag.getGeklicktesObjekt(verlagView.getVerlagTabelle().getSelectedRow());
-
+		erfassungFelderLeeren();
 		verlagView.getPKT().setText(Integer.toString(verlag.getId()));
 		verlagView.getNameT().setText(verlag.getName());
 
@@ -239,6 +231,17 @@ public class VerlagController {
 	}
 	
 	private void suchFelderLeeren() {
+		for (JComponent t : verlagView.getComponentsSuche().values()) {
+			if (t instanceof JTextField) {
+				((JTextField) t).setText("");
+			}
+			if (t instanceof JCheckBox) {
+				((JCheckBox) t).setSelected(false);
+			}			
+		}
+	}
+	
+	private void erfassungFelderLeeren() {
 		for (JComponent t : verlagView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");

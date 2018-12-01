@@ -358,6 +358,10 @@ public class VerlagView extends JPanel{
 		public LinkedHashMap<JLabel, JComponent> getComponentsNeuBearbeiten() {
 			return componentsNeuBearbeiten;
 		}
+		
+		public LinkedHashMap<JLabel, JComponent> getComponentsSuche() {
+			return componentsSuche;
+		}
 
 		public JTextField getEndDatumSucheT() {
 			return endDatumSucheT;
