@@ -42,15 +42,12 @@ public class AutorAktualisierenTest {
 		}
 
 		an.setName(TESTNAME);
-		System.out.println(an.getName());
 		v = n.aktualisiereAutor(an);
 	}
 
 	@Test
 	public void test() {
-
 		assertEquals(new AutorDAO().findById(an.getId()).getName(), TESTNAME);
-
 	}
 
 	@After
