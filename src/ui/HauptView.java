@@ -23,9 +23,6 @@ public class HauptView extends JFrame {
 	private JMenuItem medienVerlagM = new JMenuItem("Verlag");
 	private JMenuItem benutzerM = new JMenu("Benutzer");
 	private JMenuItem benutzerBenutzerM = new JMenuItem("Benutzer");
-	private JMenuItem benutzerLeihlisteM = new JMenuItem("Leihliste");
-	private JMenuItem auswertungM = new JMenu("Auswertung");
-	private JMenuItem inventurM = new JMenu("Inventur");
 	private JMenuItem administrationM = new JMenu("Administration");
 	private JMenuItem administrationMitarbeiterM = new JMenuItem("Mitarbeiter");
 	private JMenuItem administrationSchlagworteM = new JMenuItem("Schlagworte");
@@ -45,8 +42,6 @@ public class HauptView extends JFrame {
 		menuBar.add(erstelleAusleiheMenu());
 		menuBar.add(erstelleMedienMenu());
 		menuBar.add(erstelleBenutzerMenu());
-		menuBar.add(erstelleAuswertungMenu());
-		menuBar.add(erstelleInventurMenu());
 		menuBar.add(erstelleAdministrationMenu());
 		menuBar.add(erstelleBeenden());
 		return menuBar;
@@ -68,17 +63,10 @@ public class HauptView extends JFrame {
 
 	private JMenuItem erstelleBenutzerMenu() {
 		benutzerM.add(benutzerBenutzerM);
-		benutzerM.add(benutzerLeihlisteM);
 		return benutzerM;
 	}
 
-	private JMenuItem erstelleAuswertungMenu() {
-		return auswertungM;
-	}
 
-	private JMenuItem erstelleInventurMenu() {
-		return inventurM;
-	}
 
 	private JMenuItem erstelleAdministrationMenu() {
 		administrationM.add(administrationMitarbeiterM);
@@ -163,29 +151,7 @@ public class HauptView extends JFrame {
 		this.benutzerBenutzerM = benutzerBenutzerM;
 	}
 
-	public JMenuItem getBenutzerLeihlisteM() {
-		return benutzerLeihlisteM;
-	}
 
-	public void setBenutzerLeihlisteM(JMenuItem benutzerLeihlisteM) {
-		this.benutzerLeihlisteM = benutzerLeihlisteM;
-	}
-
-	public JMenuItem getAuswertungM() {
-		return auswertungM;
-	}
-
-	public void setAuswertungM(JMenuItem auswertungM) {
-		this.auswertungM = auswertungM;
-	}
-
-	public JMenuItem getInventurM() {
-		return inventurM;
-	}
-
-	public void setInventurM(JMenuItem inventurM) {
-		this.inventurM = inventurM;
-	}
 
 	public JMenuItem getAdministrationM() {
 		return administrationM;

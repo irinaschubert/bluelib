@@ -287,9 +287,134 @@ public class BuchDAO implements DAOInterface<Buch> {
 
 	@Override
 	public Buch findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		Buch b = new Buch();
+		String sql = "SELECT "
+				+ "m.id, "
+				+ "m.titel, "
+				+ "m.barcode, "
+				+ "m.preis, "
+				+ "m.erscheinungsjahr, "
+				+ "m.reihe, "
+				+ "m.erscheinungsort, "
+				+ "m.erfassungsdatum, "
+				+ "m.bemerkung, "
+				+ "m.signatur, "
+				+ "m.verlag_id, "
+				+ "m.statusMedi_id, "
+				+ "b.seiten, "
+				+ "m.person_id, "
+				+ "b.auflage "
+				+ "FROM medium m "
+				+ "INNER JOIN buch b on b.medium_id = m.id ";
+				
+				sql = sql + "WHERE m.id = ? ";
+				
+			try {
+				int pCounter = 1;
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(pCounter,id);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					int count = 1;
+					b.setId(rs.getInt(count++));
+					b.setTitel(rs.getString(count++));
+					b.setBarcode(rs.getString(count++));
+					b.setPreis(rs.getDouble(count++));
+					b.setErscheinungsJahr(rs.getString(count++));
+					b.setReihe(rs.getString(count++));
+					b.setErscheinungsOrt(rs.getString(count++));
+					b.setErfassungDatum(rs.getDate(count++));
+					b.setBemerkung(rs.getString(count++));
+					b.setSignatur(rs.getString(count++));
+					b.setVerlag(new VerlagDAO().findById(rs.getInt(count++)));
+					b.setStatus(new StatusDAO().findById(rs.getInt(count++)));
+					b.setAnzahlSeiten(rs.getInt(count++));
+					b.setErfasserId(rs.getInt(count++));
+					b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
+					b.setAuflage(rs.getString(count++));
+					b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
+					b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
+					}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				   } finally{
+				         try{
+				             if(rs != null) rs.close();
+				             if(pstmt != null) pstmt.close();
+				             if(conn != null) conn.close();
+				         } catch(Exception ex){}
+				     }
+			return b;
 	}
+	
+	
+	public Buch findByBarcode(String barcode) {
+		ResultSet rs = null;
+		Buch b = new Buch();
+		String sql = "SELECT "
+				+ "m.id, "
+				+ "m.titel, "
+				+ "m.barcode, "
+				+ "m.preis, "
+				+ "m.erscheinungsjahr, "
+				+ "m.reihe, "
+				+ "m.erscheinungsort, "
+				+ "m.erfassungsdatum, "
+				+ "m.bemerkung, "
+				+ "m.signatur, "
+				+ "m.verlag_id, "
+				+ "m.statusMedi_id, "
+				+ "b.seiten, "
+				+ "m.person_id, "
+				+ "b.auflage "
+				+ "FROM medium m "
+				+ "INNER JOIN buch b on b.medium_id = m.id ";
+				
+				sql = sql + "WHERE m.barcode = ? ";
+				
+			try {
+				int pCounter = 1;
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(pCounter,barcode);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					int count = 1;
+					b.setId(rs.getInt(count++));
+					b.setTitel(rs.getString(count++));
+					b.setBarcode(rs.getString(count++));
+					b.setPreis(rs.getDouble(count++));
+					b.setErscheinungsJahr(rs.getString(count++));
+					b.setReihe(rs.getString(count++));
+					b.setErscheinungsOrt(rs.getString(count++));
+					b.setErfassungDatum(rs.getDate(count++));
+					b.setBemerkung(rs.getString(count++));
+					b.setSignatur(rs.getString(count++));
+					b.setVerlag(new VerlagDAO().findById(rs.getInt(count++)));
+					b.setStatus(new StatusDAO().findById(rs.getInt(count++)));
+					b.setAnzahlSeiten(rs.getInt(count++));
+					b.setErfasserId(rs.getInt(count++));
+					b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
+					b.setAuflage(rs.getString(count++));
+					b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
+					b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
+					}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				   } finally{
+				         try{
+				             if(rs != null) rs.close();
+				             if(pstmt != null) pstmt.close();
+				             if(conn != null) conn.close();
+				         } catch(Exception ex){}
+				     }
+			return b;
+	}
+
 
 	@Override
 	public List<Buch> findAll() {

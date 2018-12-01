@@ -154,10 +154,9 @@ public class BenutzerController {
 				ort.setId(ortFromDao.getId());
 				ort.setPlz(ortFromDao.getPlz());
 				ort.setOrt(ortFromDao.getOrt());
-				benutzerView.getOrtSucheT().setText(ort.getOrt());
 		    }
 		};
-		benutzerView.getPlzSucheCbx().addActionListener(plzCbxSucheListener);
+		benutzerView.getPlzOrtSucheCbx().addActionListener(plzCbxSucheListener);
 		
 		//Dropdown PLZ Neu/Bearbeiten
 		ActionListener plzCbxListener = new ActionListener() {
@@ -170,16 +169,15 @@ public class BenutzerController {
 				ort.setId(ortFromDao.getId());
 				ort.setPlz(ortFromDao.getPlz());
 				ort.setOrt(ortFromDao.getOrt());
-				benutzerView.getOrtT().setText(ort.getOrt());
 		    }
 		};
-		benutzerView.getPlzCbx().addActionListener(plzCbxListener);
+		benutzerView.getPlzOrtCbx().addActionListener(plzCbxListener);
 	}
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (benutzerView.getNachnameT().getText().isEmpty() || (benutzerView.getVornameT().getText().isEmpty())
-				|| benutzerView.getStrasseNrT().getText().isEmpty() || benutzerView.getPlzCbx().getSelectedIndex() == 0) {
+				|| benutzerView.getStrasseNrT().getText().isEmpty() || benutzerView.getPlzOrtCbx().getSelectedIndex() == 0) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 			keinInputFehler = false;
 		}
@@ -209,10 +207,10 @@ public class BenutzerController {
 		}
 		if (!benutzerView.getStrasseNrT().getText().isEmpty()) {
 			String strasse = benutzerView.getStrasseNrT().getText();
-			Ort plzSelected = (Ort) benutzerView.getPlzCbx().getSelectedItem();
+			Ort plzSelected = (Ort) benutzerView.getPlzOrtCbx().getSelectedItem();
 			int ortId = plzSelected.getId();
 			int plz = plzSelected.getPlz();
-			String ortString = benutzerView.getOrtT().getText();
+			String ortString = plzSelected.getOrt();
 			Ort ort = new Ort(ortId, plz, ortString);
 			Adresse adresse = new Adresse(strasse, ort);
 			b.setAdresse(adresse);
@@ -235,22 +233,28 @@ public class BenutzerController {
         Anrede auswahlAnrede = (Anrede)benutzerView.getAnredeCbx().getSelectedItem();
         b.setAnrede(auswahlAnrede);
         
-    	if (!benutzerView.getPKT().getText().isEmpty()) {
-    		b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getMAId());
-    	}
-        
-//        if (!benutzerView.getErfasstVonT().getText().isEmpty() || !benutzerView.getErfasstVonT().getText().equals("")) {
-//        	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-//        	b.setErfassungMitarbeiter(mitarbeiterDAO.findByBenutzername(benutzerView.getErfasstVonT().getText()));
-//		}
-//        else {
-//        	b.setErfassungMitarbeiter(EingeloggterMA.getInstance().getMitarbeiter());
-//        }
+        if (benutzerView.getErfasstVonT().getText().isEmpty() || benutzerView.getErfasstVonT().getText().equals("")) { // Wenn Erfassung-MA = neu anlegen
+        	b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getId());
+        	String nachname = EingeloggterMA.getInstance().getMitarbeiter().getName();
+        	String vorname = EingeloggterMA.getInstance().getMitarbeiter().getVorname();
+        	String name = nachname + " " + vorname;
+        	b.setErfassungMitarbeiterName(name);
+        	}
+        else {
+        	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+        	b.setErfassungMitarbeiterName(benutzerView.getErfasstVonT().getText());
+        	String nameVorname = benutzerView.getErfasstVonT().getText();
+        	String[] splitName = nameVorname.split(" ");
+        	String name = splitName[0];
+        	String vorname = splitName[1];
+        	int erfassungMitarbeiterId = mitarbeiterDAO.findIdByName(name, vorname);
+        	System.out.println(erfassungMitarbeiterId);
+        	b.setErfassungMitarbeiterId(erfassungMitarbeiterId);
+        }
         if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
         	b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));
 		}else {
 			Date date = new Date();
-        	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			b.setErfassungDatum(date);
 		}
 		return b;
@@ -267,8 +271,8 @@ public class BenutzerController {
 		if (!benutzerView.getVornameSucheT().getText().isEmpty()) {
 			b.setVorname(benutzerView.getVornameSucheT().getText());
 		}
-		if (benutzerView.getPlzSucheCbx().getSelectedIndex() != -1) {
-			Ort plzSelected = (Ort) benutzerView.getPlzSucheCbx().getSelectedItem();
+		if (benutzerView.getPlzOrtSucheCbx().getSelectedIndex() != -1) {
+			Ort plzSelected = (Ort) benutzerView.getPlzOrtSucheCbx().getSelectedItem();
 			OrtDAO ortDAO = new OrtDAO();
 			Ort ortFromDao = ortDAO.findById(plzSelected.getId());
 			Ort ort = new Ort();
@@ -303,7 +307,7 @@ public class BenutzerController {
 			Ort ort = adresse.getOrt();
 			int ortId = ort.getId();
 			benutzerView.getStrasseNrT().setText(strasseNr);
-			benutzerView.getPlzCbx().setSelectedIndex(ortId);
+			benutzerView.getPlzOrtCbx().setSelectedIndex(ortId);
 		}
 		if (benutzer.getGeburtsdatum() != null) {
 			benutzerView.getGeburtsdatumT().setText(DateConverter.convertJavaDateToString(benutzer.getGeburtsdatum()));
@@ -362,15 +366,11 @@ public class BenutzerController {
 			if (t instanceof JComboBox) {
 				((JComboBox) t).setSelectedIndex(0);
 			}
-
 		}
 		
 		Component[] components = benutzerView.getBenutzerNeuBearbeitenPanel().getComponents();
-		
 		for (int i = 0; i < components.length; ++i) {
-			
 		   if (components[i] instanceof Container) {
-			   
 		       Container subContainer = (Container)components[i];
 		       Component[] containers = subContainer.getComponents();
 		       
@@ -401,24 +401,22 @@ public class BenutzerController {
 		benutzerView.getPKL().setText("Benutzer-ID:");
 		benutzerView.getNachnameL().setText("Nachname:*");
 		benutzerView.getVornameL().setText("Vorname:*");
-		benutzerView.getStrasseNrL().setText("Strasse/Nr.:");
-		benutzerView.getPlzL().setText("PLZ:");
-		benutzerView.getOrtL().setText("Ort:");
-		benutzerView.getGeburtsdatumL().setText("Geburtsdatum:");
+		benutzerView.getStrasseNrL().setText("Strasse/Nr.:*");
+		benutzerView.getPlzOrtL().setText("PLZ/Ort:*");
+		benutzerView.getGeburtsdatumL().setText("Geburtsdatum:*");
 		benutzerView.getTelL().setText("Telefonnummer:");
 		benutzerView.getMailL().setText("E-Mailadresse:");
 		benutzerView.getBemerkungL().setText("Bemerkung: ");
-		benutzerView.getStatusL().setText("Status:");
-		benutzerView.getAnredeL().setText("Anrede:");
-		benutzerView.getErfasstAmL().setText("Erfasst am:");
-		benutzerView.getErfasstVonL().setText("Erfasst von:");
+		benutzerView.getStatusL().setText("Status:*");
+		benutzerView.getAnredeL().setText("Anrede:*");
+		benutzerView.getErfasstAmL().setText("Erfasst am:*");
+		benutzerView.getErfasstVonL().setText("Erfasst von:*");
 		
 		benutzerView.getPKSucheL().setText("Benutzer-ID:");
 		benutzerView.getNachnameSucheL().setText("Nachname:");
 		benutzerView.getVornameSucheL().setText("Vorname:");
 		benutzerView.getStrasseNrSucheL().setText("Strasse/Nr.:");
-		benutzerView.getPlzSucheL().setText("PLZ:");
-		benutzerView.getOrtSucheL().setText("Ort:");
+		benutzerView.getPlzOrtSucheL().setText("PLZ/Ort:");
 		benutzerView.getStatusSucheL().setText("Status:");
 		
 		StatusRenderer statusR = new StatusRenderer();
@@ -437,22 +435,23 @@ public class BenutzerController {
 		benutzerView.getStatusSucheCbx().setSelectedIndex(0);
 		
 		PlzRenderer plzR = new PlzRenderer();
-		benutzerView.getPlzCbx().setRenderer(plzR);
-		benutzerView.getPlzCbx().addItem(null);
+		benutzerView.getPlzOrtCbx().setRenderer(plzR);
+		benutzerView.getPlzOrtCbx().addItem(null);
 		for(Ort o : ortDao.findAll()) {
-			benutzerView.getPlzCbx().addItem(o);
+			benutzerView.getPlzOrtCbx().addItem(o);
 		}
-		benutzerView.getPlzCbx().setMaximumRowCount(10);
-		benutzerView.getPlzCbx().setSelectedIndex(0);
+		benutzerView.getPlzOrtCbx().setMaximumRowCount(10);
+		benutzerView.getPlzOrtCbx().setSelectedIndex(0);
 		
 		PlzSucheRenderer plzSucheR = new PlzSucheRenderer();
-		benutzerView.getPlzSucheCbx().setRenderer(plzSucheR);
-		benutzerView.getPlzSucheCbx().addItem(null);
+		benutzerView.getPlzOrtSucheCbx().setRenderer(plzSucheR);
+		benutzerView.getPlzOrtSucheCbx().addItem(null);
+		benutzerView.getPlzOrtSucheCbx().setEditable(true);
 		for(Ort o : ortDao.findAll()) {
-			benutzerView.getPlzSucheCbx().addItem(o);
+			benutzerView.getPlzOrtSucheCbx().addItem(o);
 		}
-		benutzerView.getPlzSucheCbx().setMaximumRowCount(10);
-		benutzerView.getPlzSucheCbx().setSelectedIndex(0);
+		benutzerView.getPlzOrtSucheCbx().setMaximumRowCount(10);
+		benutzerView.getPlzOrtSucheCbx().setSelectedIndex(0);
 		
 		AnredeRenderer anredeR = new AnredeRenderer();
 		benutzerView.getAnredeCbx().setRenderer(anredeR);
@@ -463,8 +462,6 @@ public class BenutzerController {
 		
 		benutzerView.getSuchButton().setText("Suchen");
 		benutzerView.getPKT().setEditable(false);
-		benutzerView.getOrtT().setEditable(false);
-		benutzerView.getOrtSucheT().setEditable(false);
 		benutzerView.getErfasstVonT().setEditable(false);
 		benutzerView.getErfasstAmT().setEditable(false);
 		benutzerView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());

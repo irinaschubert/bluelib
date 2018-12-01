@@ -17,7 +17,7 @@ public class StatusSucheRenderer extends BasicComboBoxRenderer {
 	    if (index == -1) {
 	    	Status status = (Status) value;
 	    	if(status == null) {
-	    		setText("alle");
+	    		setText("-- alle --");
 	    	}else {
 	    		setText("" + status.getBezeichnung());
 	    	}
