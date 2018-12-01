@@ -401,16 +401,16 @@ public class BenutzerController {
 		benutzerView.getPKL().setText("Benutzer-ID:");
 		benutzerView.getNachnameL().setText("Nachname:*");
 		benutzerView.getVornameL().setText("Vorname:*");
-		benutzerView.getStrasseNrL().setText("Strasse/Nr.:");
-		benutzerView.getPlzOrtL().setText("PLZ/Ort:");
-		benutzerView.getGeburtsdatumL().setText("Geburtsdatum:");
+		benutzerView.getStrasseNrL().setText("Strasse/Nr.:*");
+		benutzerView.getPlzOrtL().setText("PLZ/Ort:*");
+		benutzerView.getGeburtsdatumL().setText("Geburtsdatum:*");
 		benutzerView.getTelL().setText("Telefonnummer:");
 		benutzerView.getMailL().setText("E-Mailadresse:");
 		benutzerView.getBemerkungL().setText("Bemerkung: ");
-		benutzerView.getStatusL().setText("Status:");
-		benutzerView.getAnredeL().setText("Anrede:");
-		benutzerView.getErfasstAmL().setText("Erfasst am:");
-		benutzerView.getErfasstVonL().setText("Erfasst von:");
+		benutzerView.getStatusL().setText("Status:*");
+		benutzerView.getAnredeL().setText("Anrede:*");
+		benutzerView.getErfasstAmL().setText("Erfasst am:*");
+		benutzerView.getErfasstVonL().setText("Erfasst von:*");
 		
 		benutzerView.getPKSucheL().setText("Benutzer-ID:");
 		benutzerView.getNachnameSucheL().setText("Nachname:");
