@@ -118,7 +118,6 @@ public class AutorController {
 			public void actionPerformed(ActionEvent e) {
 				hauptController.panelEntfernen();
 			}
-
 		};
 
 		// Zuweisen des Actionlisteners zum Schliessen-Button
@@ -144,9 +143,9 @@ public class AutorController {
 
 		if (!autorView.getGeburtsDatumSucheT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumSucheT().getText())) {
-				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
-				autorView.getGeburtsDatumL().setText("");
+				autorView.getGeburtsDatumSucheT().setText("");
 				keinInputFehler = false;
+				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
 			}
 		}
 
@@ -164,7 +163,7 @@ public class AutorController {
 		if (!autorView.getGeburtsDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(autorView.getGeburtsDatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
-				autorView.getGeburtsDatumL().setText("");
+				autorView.getGeburtsDatumT().setText("");
 				keinInputFehler = false;
 			}
 		}
@@ -172,7 +171,7 @@ public class AutorController {
 		if (!autorView.getTodesDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(autorView.getTodesDatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Todesdatum");
-				autorView.getTodesDatumL().setText("");
+				autorView.getTodesDatumT().setText("");
 				keinInputFehler = false;
 			}
 		}

@@ -127,17 +127,17 @@ public class VerlagController {
 		
 		if (!verlagView.getGruendungsDatumSucheT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getGruendungsDatumSucheT().getText())) {
-				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
-				verlagView.getGruendungsDatumL().setText("");
+				verlagView.getGruendungsDatumSucheT().setText("");
 				keinInputFehler = false;
+				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
 			}
 		}
 
 		if (!verlagView.getEndDatumSucheT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getEndDatumSucheT().getText())) {
-				JOptionPane.showMessageDialog(null, "Ungültiges Enddatum");
-				verlagView.getEndDatumL().setText("");
+				verlagView.getEndDatumSucheT().setText("");
 				keinInputFehler = false;
+				JOptionPane.showMessageDialog(null, "Ungültiges Enddatum");
 			}
 		}
 		return keinInputFehler;
@@ -153,7 +153,7 @@ public class VerlagController {
 		if (!verlagView.getGruendungsDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getGruendungsDatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
-				verlagView.getGruendungsDatumL().setText("");
+				verlagView.getGruendungsDatumT().setText("");
 				keinInputFehler = false;
 			}
 		}
@@ -161,13 +161,11 @@ public class VerlagController {
 		if (!verlagView.getEndDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getEndDatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Enddatum");
-				verlagView.getEndDatumL().setText("");
+				verlagView.getEndDatumT().setText("");
 				keinInputFehler = false;
 			}
 		}
-
 		return keinInputFehler;
-
 	}
 
 	private Verlag feldwertezuObjektSpeichern() {
@@ -240,8 +238,6 @@ public class VerlagController {
 	}
 	
 	private void suchFelderLeeren() {
-
-		// Felder leeren
 		for (JComponent t : verlagView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
@@ -255,17 +251,15 @@ public class VerlagController {
 	
 
 	public void initialisieren() {
-
 		verlagView.getPKL().setText("Nr:");
 		verlagView.getNameL().setText("Name:*");
 		verlagView.getGruendungsDatumL().setText("Gründungsdatum:");
 		verlagView.getEndDatumL().setText("Enddatum:");
 		verlagView.getGeloescht().setText("Löschvormerkung:");
-		
-		verlagView.getNameSucheL().setText("Name:*");
+		verlagView.getNameSucheL().setText("Name:");
 		verlagView.getGruendungsDatumSucheL().setText("Gründungsdatum:");
 		verlagView.getEndDatumSucheL().setText("Enddatum:");
-		verlagView.getGeloeschtSucheL().setText("inkl. gelöschte:");
+		verlagView.getGeloeschtSucheL().setText("nur gelöschte:");
 		verlagView.getSuchButton().setText("Suchen");
 		verlagView.getPKT().setEditable(false);
 		verlagView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
