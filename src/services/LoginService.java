@@ -21,7 +21,8 @@ public class LoginService {
 		if (id > -1) {
 			v.setAktionErfolgreich(true);
 			EingeloggterMA eingeloggterMA = EingeloggterMA.getInstance();
-			eingeloggterMA.setMitarbeiter(mitarbeiterDAO.findById(id));
+			Mitarbeiter ma = mitarbeiterDAO.findById(id);
+			eingeloggterMA.setMitarbeiter(ma);
 			
 		} else {
 			v.setAktionErfolgreich(false);

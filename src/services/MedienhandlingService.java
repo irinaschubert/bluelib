@@ -50,13 +50,37 @@ public class MedienhandlingService {
 		return v;
 	}
 	
-	public Verifikation mediumNeuErfassen(Medium medium) {
+	public Verifikation buchNeuErfassen(Buch buch) {
 		Verifikation v = new Verifikation();
+		Buch b = null;
+		BuchDAO buchDAO = new BuchDAO();
+		b = buchDAO.save(buch);
+		if (b != null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Das Buch '" + b.getTitel() +  "' wurde erfasst");
+		}
+		else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Das Buch '" + buch.getTitel() + "' konnte nicht gespeichert werden");
+		}
+		
 		return v;
 	}
 	
-	public Verifikation mediumBearbeiten(Medium medium) {
+	public Verifikation buchBearbeiten(Buch buch) {
 		Verifikation v = new Verifikation();
+		Buch b = null;
+		BuchDAO buchDAO = new BuchDAO();
+		b = buchDAO.update(buch);
+		if (b != null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Die Anderungen des Buchs '" + b.getTitel() +  "' wurde gespeichert");
+		}
+		else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Die Anderungen des Buchs '" + buch.getTitel() + "' konnten nicht gespeichert werden");
+		}
+		
 		return v;
 	}
 	

@@ -106,7 +106,7 @@ public abstract class BuchSuchController {
 		return barcodeScanningKeyListener;
 	}
 
-	private void buchSuchenUndResultatAnzeigen() {
+	public void buchSuchenUndResultatAnzeigen() {
 		if (inputValidierungSuchen()) {
 			buchSuchobjekt = feldwertezuObjektSuchen();
 			buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
