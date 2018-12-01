@@ -34,6 +34,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 	@Override
 	public Buch save(Buch domainObject) {
 		ResultSet rs = null;
+		int medium_id = -1;
 		Buch b = new Buch();
 		String sql = "INSERT INTO "
 				+ "medium "
@@ -86,9 +87,27 @@ public class BuchDAO implements DAOInterface<Buch> {
 				
 				rs = pstmt.getGeneratedKeys();
 				if(rs != null && rs.next()){
-					int medium_id = rs.getInt(1);
+					medium_id = rs.getInt(1);
 				}
 				
+				if (medium_id > -1) {
+				
+				sql = "INSERT INTO "
+						+ "buch "
+						+ "(seiten "
+						+ ", isbn"
+						+ ", auflage"
+						+ ", medium_id"
+						+ ") "
+						+ "VAlUES "
+						+ "(?, ?, ?, ?)";
+				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				argCounter = 1;
+				pstmt.setInt(argCounter++,domainObject.getAnzahlSeiten());
+				pstmt.setLong(argCounter++,domainObject.getIsbn());
+				pstmt.setString(argCounter++,domainObject.getAuflage());
+				pstmt.setInt(argCounter++,medium_id);
+				}		
 			}
 	  catch (SQLException e) {
          // TODO Auto-generated catch block
