@@ -1,7 +1,6 @@
 package ui.benutzer;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import dao.AnredeDAO;
@@ -68,7 +66,6 @@ public class BenutzerController {
 		view.getBenutzerTabelle().setModel(tableModelBenutzer);
 		view.spaltenBreiteSetzen();
 		benutzerSuchobjekt = new Benutzer();
-
 		initialisieren();
 		control();
 	}
@@ -105,11 +102,10 @@ public class BenutzerController {
 					b = feldwertezuObjektSpeichern();
 					if (benutzerView.getPKT().getText().isEmpty()) {
 						nachArbeitSpeichern(benutzerService.sichereBenutzer(b));
-						felderLeeren();
 					} else {
 						nachArbeitSpeichern(benutzerService.aktualisiereBenutzer(b));
-						felderLeeren();
 					}
+					felderLeeren();
 				}
 			}
 		};
@@ -173,15 +169,44 @@ public class BenutzerController {
 		if (benutzerView.getNachnameT().getText().isEmpty() || (benutzerView.getVornameT().getText().isEmpty())
 				|| benutzerView.getStrasseNrT().getText().isEmpty() || benutzerView.getPlzOrtCbx().getSelectedIndex() == 0) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
-			keinInputFehler = false;
+			return keinInputFehler = false;
 		}
-
 		if (!benutzerView.getGeburtsdatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(benutzerView.getGeburtsdatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
 				benutzerView.getGeburtsdatumL().setText("");
-				keinInputFehler = false;
+				return keinInputFehler = false;
 			}
+		}
+		if(benutzerView.getNachnameT().getText().length() > 30) {
+			JOptionPane.showMessageDialog(null, "Der Nachname ist zu lang.");
+			benutzerView.getNachnameT().setText(benutzerView.getNachnameT().getText().substring(0,30));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getVornameT().getText().length() > 30) {
+			JOptionPane.showMessageDialog(null, "Der Vorname ist zu lang.");
+			benutzerView.getVornameT().setText(benutzerView.getVornameT().getText().substring(0,30));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getStrasseNrT().getText().length() > 50) {
+			JOptionPane.showMessageDialog(null, "Die Strasse/Nr. ist zu lang.");
+			benutzerView.getStrasseNrT().setText(benutzerView.getStrasseNrT().getText().substring(0,50));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getTelT().getText().length() > 30) {
+			JOptionPane.showMessageDialog(null, "Die Telefonnummer ist zu lang.");
+			benutzerView.getTelT().setText(benutzerView.getTelT().getText().substring(0, 30));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getMailT().getText().length() > 50) {
+			JOptionPane.showMessageDialog(null, "Die E-Mailadresse ist zu lang.");
+			benutzerView.getMailT().setText(benutzerView.getMailT().getText().substring(0, 50));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getBemerkungT().getText().length() > 300) {
+			JOptionPane.showMessageDialog(null, "Die Bemerkung ist zu lang.");
+			benutzerView.getBemerkungT().setText(benutzerView.getBemerkungT().getText().substring(0, 300));
+			return keinInputFehler = false;
 		}
 		return keinInputFehler;
 	}
