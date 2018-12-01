@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -324,6 +323,11 @@ public class AutorView extends JPanel {
 		return componentsNeuBearbeiten;
 	}
 
+	public LinkedHashMap<JLabel, JComponent> getComponentsSuche() {
+		return componentsSuche;
+	}
+
+	
 	public JLabel getVornameSucheL() {
 		return vornameSucheL;
 	}

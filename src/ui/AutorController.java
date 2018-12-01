@@ -43,7 +43,6 @@ public class AutorController {
 		normdatenService = new NormdatenService();
 		autorL = new ArrayList<>();
 		tableModelAutor = new TableModelAutor();
-//		autorL = normdatenService.alleautoren();
 		tableModelAutor.setAndSortListe(autorL);
 		view.getAutorenTabelle().setModel(tableModelAutor);
 		view.spaltenBreiteSetzen();
@@ -51,7 +50,6 @@ public class AutorController {
 
 		initialisieren();
 		control();
-
 	}
 
 //	Definierten des Listeners für die Button-Klicks
@@ -219,6 +217,7 @@ public class AutorController {
 
 	private void uebernehmen() {
 		Autor autor = new Autor();
+		neuBearbeitenFelderLeeren();
 		autor = tableModelAutor.getGeklicktesObjekt(autorView.getAutorenTabelle().getSelectedRow());
 
 		autorView.getPKT().setText(Integer.toString(autor.getId()));
@@ -251,6 +250,20 @@ public class AutorController {
 
 		// Felder leeren
 		for (JComponent t : autorView.getComponentsNeuBearbeiten().values()) {
+			if (t instanceof JTextField) {
+				((JTextField) t).setText("");
+			}
+			if (t instanceof JCheckBox) {
+				((JCheckBox) t).setSelected(false);
+			}
+
+		}
+	}
+	
+	private void suchFelderLeeren() {
+
+		// Felder leeren
+		for (JComponent t : autorView.getComponentsSuche().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
 			}
