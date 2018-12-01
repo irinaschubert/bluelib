@@ -22,7 +22,7 @@ public class Ausleihe {
 	
 	
 	public Ausleihe() {
-		
+		this.id = -1;
 	}
 
 	public int getId() {

@@ -4,13 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.util.LinkedHashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,12 +16,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import domain.Anrede;
-import domain.Ort;
-import domain.Status;
 import ui.StandardTitelPanel;
 import ui.benutzer.FormularMitGridbaglayout;
 
@@ -583,4 +576,11 @@ public class AusleiheView extends JPanel {
 		this.rueckgabeWechselnL = rueckgabeWechselnL;
 	}
 
+	public JPanel getZuweisenPanel() {
+		return zuweisenPanel;
+	}
+
+	public void setZuweisenPanel(JPanel zuweisenPanel) {
+		this.zuweisenPanel = zuweisenPanel;
+	}
 }

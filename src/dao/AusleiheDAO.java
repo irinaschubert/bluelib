@@ -31,7 +31,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	private PreparedStatement pstmt = null;
 	private List<Ausleihe> ausleiheListe = null;
 	
-	
 	public AusleiheDAO() {
 		ausleiheListe = new ArrayList<>();
 		dbConnection = DBConnection.getInstance();
@@ -194,9 +193,29 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	}
 
 	@Override
-	public List<Ausleihe> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Ausleihe> findAll() {
+		ArrayList<Ausleihe> ausleihen = new ArrayList<>();
+		ResultSet rs = null;	
+		String sql = "SELECT id, person_id, medium_id, von, retour from ausleihe";
+			try {
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					Ausleihe a = new Ausleihe();
+					a = findById(rs.getInt(1));				
+					ausleihen.add(a);
+					}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				   } finally{
+				         try{
+				             if(rs != null) rs.close();
+				             if(pstmt != null) pstmt.close();
+				             if(conn != null) conn.close();
+				         } catch(Exception ex){}
+				     }
+			return ausleihen;
 	}
 
 	@Override

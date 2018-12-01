@@ -1,7 +1,6 @@
 package ui.ausleihe;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -61,7 +60,6 @@ public class AusleiheController {
 
 	// Buttons
 	private void control() {
-		// Buch suchen
 		ActionListener buchSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -69,8 +67,7 @@ public class AusleiheController {
 			}
 		};
 		ausleiheView.getSuchButtonBuch().addActionListener(buchSuchenButtonActionListener);
-		
-		// Benutzer suchen
+
 		ActionListener benutzerSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -86,14 +83,16 @@ public class AusleiheController {
 		};
 		ausleiheView.getSuchButtonBenutzer().addActionListener(benutzerSuchenButtonActionListener);
 		
-		// Ausleihe speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Ausleihe a = new Ausleihe();
-				if (inputValidierungBuch(true) == true && inputValidierungBenutzer(true) == true) {
+				if (inputValidierungBuch(true) == true && inputValidierungBenutzer(true) == true 
+						&& validierungBenutzer() == true && validierungBuch() == true) {
 					a = feldwertezuObjektSpeichern();
-					nachArbeitSpeichern(ausleiheService.sichereAusleihe(a));
+					if(a.getId() > 0) {
+						nachArbeitSpeichern(ausleiheService.sichereAusleihe(a));
+					}
 				}else if (inputValidierungBuch(true) != true && inputValidierungBenutzer(true) != true){
 					JOptionPane.showMessageDialog(null, "Bitte Buch und Benutzer eingeben.");
 				}
@@ -101,7 +100,6 @@ public class AusleiheController {
 		};
 		ausleiheView.getAusleiheSpeichernButton().addActionListener(sichernButtonActionListener);
 		
-		// Zu Rückgabe wechseln
 		ActionListener rueckgabeButtonActionListener = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -112,7 +110,6 @@ public class AusleiheController {
 		};
 		ausleiheView.getButtonPanel().getButton1().addActionListener(rueckgabeButtonActionListener);
 
-		// Schliessen
 		ActionListener schliessenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,7 +146,6 @@ public class AusleiheController {
 			}
 			keinInputFehler = false;
 		}
-		
 		return keinInputFehler;
 	}
 	
@@ -171,26 +167,80 @@ public class AusleiheController {
 		}
 		return keinInputFehler;
 	}
+	
+	private boolean validierungBenutzer() {
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
+		try {
+			int id = Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
+			Benutzer benutzer = benutzerDAO.findById(id);
+			int statusId = benutzer.getBenutzerStatus().getId();
+			if(statusId == 2 || statusId == 3) {
+				JOptionPane.showMessageDialog(null, "Der Benutzer darf keine Medien ausleihen.");
+				return false;
+			}else {
+				return true;
+			}
+		}catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Ungültige ID");
+			return false;
+		}
+	}
+	
+	private boolean validierungBuch() {
+		BuchDAO buchDAO = new BuchDAO();
+		try {
+			int id = Integer.parseInt(ausleiheView.getPKTBuch().getText());
+			Buch buch = buchDAO.findById(id);
+			int statusId = buch.getStatus().getId();
+			if(statusId == 2 || statusId == 3) {
+				JOptionPane.showMessageDialog(null, "Das Medium darf zur Zeit nicht ausgeliehen werden.");
+				return false;
+			}else {
+				return true;
+			}
+		}catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Ungültige ID");
+			return false;
+		}
+	}
+	
+	private boolean pruefeAusleihe(int buchId, int benutzerId) {
+		ArrayList<Ausleihe> ausleihen = new ArrayList<>();
+		AusleiheDAO ausleiheDAO = new AusleiheDAO();
+		ausleihen = ausleiheDAO.findAll();
+		for(Ausleihe a : ausleihen) {
+			if(a.getBenutzerID() == benutzerId && a.getMediumID() == buchId && a.getRueckgabeDatum() == null) {
+				JOptionPane.showMessageDialog(null, "Der Benutzer hat das Medium bereits ausgeliehen.");
+				return false;
+			}else if(a.getBenutzerID() == benutzerId && a.getMediumID() != buchId && a.getRueckgabeDatum() == null) {
+				JOptionPane.showMessageDialog(null, "Das Medium ist bereits ausgeliehen.");
+				return false;
+			}
+		}
+		return true;
+	}
 
 	private Ausleihe feldwertezuObjektSpeichern() {
 		Ausleihe a = new Ausleihe();
-		if (!ausleiheView.getPKTBuch().getText().isEmpty()) {
-			a.setMediumID(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
+		if(pruefeAusleihe(Integer.parseInt(ausleiheView.getPKTBuch().getText()), Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText())) == true) {
+			if (!ausleiheView.getPKTBuch().getText().isEmpty()) {
+				a.setMediumID(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
+			}
+			if (!ausleiheView.getBenutzerIDT().getText().isEmpty()) {
+				a.setBenutzerID(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
+			}		
+			if (!ausleiheView.getNotizT().getText().isEmpty()) {
+				a.setNotizAusleihe(ausleiheView.getNotizT().getText());
+			}
+			a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getId());
+	    	String nachname = EingeloggterMA.getInstance().getMitarbeiter().getName();
+	    	String vorname = EingeloggterMA.getInstance().getMitarbeiter().getVorname();
+	    	String name = nachname + " " + vorname;
+	    	a.setAusleiheMitarbeiterName(name);
+	    	Date date = new Date();
+			a.setAusleiheDatum(date);
 		}
-		if (!ausleiheView.getBenutzerIDT().getText().isEmpty()) {
-			a.setBenutzerID(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
-		}		
-		if (!ausleiheView.getNotizT().getText().isEmpty()) {
-			a.setNotizAusleihe(ausleiheView.getNotizT().getText());
-		}
-		a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getId());
-    	String nachname = EingeloggterMA.getInstance().getMitarbeiter().getName();
-    	String vorname = EingeloggterMA.getInstance().getMitarbeiter().getVorname();
-    	String name = nachname + " " + vorname;
-    	a.setAusleiheMitarbeiterName(name);
-    	Date date = new Date();
-		a.setAusleiheDatum(date);
-		return a;
+		return a;		
 	}
 
 	private void uebernehmen() {
@@ -307,7 +357,7 @@ public class AusleiheController {
 
 	// Felder leeren
 	private void felderLeeren() {
-		for (Component t : ausleiheView.getCenterPanel().getComponents()) {
+		for (Component t : ausleiheView.getZuweisenPanel().getComponents()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
 			}
@@ -315,33 +365,8 @@ public class AusleiheController {
 				((JTextArea) t).setText("");
 			}
 		}
-		
-		Component[] components = ausleiheView.getCenterPanel().getComponents();
-		
-		for (int i = 0; i < components.length; ++i) {
-			
-		   if (components[i] instanceof Container) {
-			   
-		       Container subContainer = (Container)components[i];
-		       Component[] containers = subContainer.getComponents();
-		       
-		       for(Component containerComponent : containers)
-				{
-				    if(containerComponent instanceof JTextField)
-				    {
-				        JTextField compo = (JTextField) containerComponent;
-				        compo.setText("");
-				    }
-				    else if(containerComponent instanceof JTextArea)
-				    {
-				    	JTextArea compo = (JTextArea) containerComponent;
-				        compo.setText("");
-				    }
-				}
-		   }
-		}
 	}
-
+	
 	public void initialisieren() {
 
 		ausleiheView.getPKLBuch().setText("ID:");
