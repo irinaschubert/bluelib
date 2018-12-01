@@ -259,7 +259,7 @@ public class VerlagController {
 		verlagView.getNameSucheL().setText("Name:");
 		verlagView.getGruendungsDatumSucheL().setText("Gründungsdatum:");
 		verlagView.getEndDatumSucheL().setText("Enddatum:");
-		verlagView.getGeloeschtSucheL().setText("nur gelöschte:");
+		verlagView.getGeloeschtSucheL().setText("Gelöschte Verlage:");
 		verlagView.getSuchButton().setText("Suchen");
 		verlagView.getPKT().setEditable(false);
 		verlagView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
