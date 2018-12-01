@@ -1,4 +1,4 @@
-package ui;
+package ui.verlag;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,6 +23,9 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import ui.StandardButtonPanel;
+import ui.StandardTitelPanel;
 
 /**
  * Zeigt alle Verlage an und ermoeglicht die Erfassung neuer Verlage

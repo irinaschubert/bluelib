@@ -1,4 +1,4 @@
-package ui;
+package ui.benutzer;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -41,6 +41,9 @@ import hilfsklassen.DateConverter;
 import models.TableModelBenutzer;
 import services.BenutzerService;
 import services.Verifikation;
+import ui.HauptController;
+import ui.status.StatusRenderer;
+import ui.status.StatusSucheRenderer;
 
 /**
  * 

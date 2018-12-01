@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ui.benutzer.AnredeRenderer;
+
 /**
  * Prototyp einer View, welche ein Label, Buttons und eine Combobox enthält.
  * 

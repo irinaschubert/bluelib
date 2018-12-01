@@ -1,4 +1,4 @@
-package ui;
+package ui.benutzer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,6 +24,8 @@ import javax.swing.border.EmptyBorder;
 import domain.Anrede;
 import domain.Ort;
 import domain.Status;
+import ui.StandardButtonPanel;
+import ui.StandardTitelPanel;
 
 /**
  * Suche nach, neu Erstellen und Bearbeiten von Benutzern

@@ -1,4 +1,4 @@
-package ui;
+package ui.status;
 
 import java.awt.Component;
 

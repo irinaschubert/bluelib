@@ -1,4 +1,4 @@
-package ui;
+package ui.ausleihe;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -46,6 +46,7 @@ import hilfsklassen.DateConverter;
 import models.TableModelAusleihe;
 import services.AusleiheService;
 import services.Verifikation;
+import ui.HauptController;
 
 /**
  * 

@@ -1,27 +1,23 @@
-package ui;
+package ui.status;
 
 import java.awt.Component;
 
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-import domain.Ort;
+import domain.Status;
 
-public class PlzRenderer extends BasicComboBoxRenderer {
+public class StatusRenderer extends BasicComboBoxRenderer {
 	  @Override
 	  public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 	    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 	    if (value != null) {
-	      Ort ort = (Ort) value;
-	      setText(String.valueOf(ort.getPlz() + " " + ort.getOrt()));
+	      Status status = (Status) value;
+	      setText(String.valueOf(status.getBezeichnung()));
 	    }
 	    if (index == -1) {
-	    	Ort ort = (Ort) value;
-	    	if(ort == null) {
-	    		setText("-- bitte wählen --");
-	    	}else {
-	    		setText("" + ort.getPlz() + " " + ort.getOrt());
-	    	}
+	    	Status status = (Status) value;
+	    	setText("" + status.getBezeichnung());
 	    }
 	    return this;
 	  }

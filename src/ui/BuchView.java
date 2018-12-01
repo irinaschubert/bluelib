@@ -41,6 +41,8 @@ import domain.Status;
 import domain.Verlag;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import ui.status.StatusRenderer;
+import ui.verlag.VerlagRenderer;
 
 /**
  * Ermöglicht Buchsuche, Bearbeitung und Neuerfassung eines Buches

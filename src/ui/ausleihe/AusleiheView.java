@@ -1,4 +1,4 @@
-package ui;
+package ui.ausleihe;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -25,6 +25,8 @@ import javax.swing.border.EmptyBorder;
 import domain.Anrede;
 import domain.Ort;
 import domain.Status;
+import ui.StandardTitelPanel;
+import ui.benutzer.FormularMitGridbaglayout;
 
 /**
  * View für das Verwalten der Ausleihen
