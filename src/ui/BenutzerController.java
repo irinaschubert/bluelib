@@ -242,8 +242,14 @@ public class BenutzerController {
         	}
         else {
         	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-        	b.setErfassungMitarbeiterId(mitarbeiterDAO.findByBenutzername(benutzerView.getErfasstVonT().getText()).getErfassungMitarbeiterId());
         	b.setErfassungMitarbeiterName(benutzerView.getErfasstVonT().getText());
+        	String nameVorname = benutzerView.getErfasstVonT().getText();
+        	String[] splitName = nameVorname.split(" ");
+        	String name = splitName[0];
+        	String vorname = splitName[1];
+        	int erfassungMitarbeiterId = mitarbeiterDAO.findIdByName(name, vorname);
+        	System.out.println(erfassungMitarbeiterId);
+        	b.setErfassungMitarbeiterId(erfassungMitarbeiterId);
         }
         if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
         	b.setErfassungDatum(DateConverter.convertStringToJavaDate(benutzerView.getErfasstAmT().getText()));

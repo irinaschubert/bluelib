@@ -240,36 +240,25 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		}
 		return nameVorname;
 	}
-
-	public Mitarbeiter findByBenutzername(String benutzername) {
+	
+	public int findIdByName(String name, String vorname) {
 		ResultSet rs = null;
-		Mitarbeiter m = null;
+		int id = 0;
 		String sql = "SELECT " 
-				+ "id, " 
-				+ "benutzername, " 
-				+ "passwort, " 
-				+ "admin, " 
-				+ "aktiv " 
-				+ "FROM mitarbeiter ";
-		sql = sql + ("WHERE benutzername LIKE ? ");
-
+				+ "id "
+				+ "FROM person "
+				+ "WHERE nachname = ? AND vorname = ?";
 		try {
 
-			int pCounter = 1;
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, benutzername);
+			pstmt.setString(1, name);
+			pstmt.setString(2, vorname);
 
 			rs = pstmt.executeQuery();
-			pCounter = 1;
 			while (rs.next()) {
-				m = new Mitarbeiter();
-				m.setId(rs.getInt(pCounter++));
-				m.setBenutzername(rs.getString(pCounter++));
-				m.setPasswort(rs.getString(pCounter++));
-				m.setAdmin(rs.getBoolean(pCounter++));
-				m.setAktiv(rs.getBoolean(pCounter++));
+				id = (rs.getInt(1));
 			}
 
 		} catch (SQLException e) {
@@ -286,7 +275,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			} catch (Exception ex) {
 			}
 		}
-		return m;
+		return id;
 	}
 
 	

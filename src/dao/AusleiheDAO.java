@@ -27,8 +27,7 @@ import interfaces.DAOInterface;
 public class AusleiheDAO implements DAOInterface<Ausleihe> {
 
 	private DBConnection dbConnection = null;
-	private Connection conn = null; 
-	private ResultSet mRS = null;
+	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private List<Ausleihe> ausleiheListe = null;
 	

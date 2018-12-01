@@ -88,7 +88,7 @@ public class AusleiheController {
 		ActionListener buchSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				uebernehmenBuch();
+				findenBuch();
 			}
 		};
 		ausleiheView.getSuchButtonBuch().addActionListener(buchSuchenButtonActionListener);
@@ -97,7 +97,7 @@ public class AusleiheController {
 		ActionListener benutzerSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				uebernehmenBenutzer();
+				findenBenutzer();
 				Benutzer benutzer = new Benutzer();
 				BenutzerDAO benutzerDAO = new BenutzerDAO();
 				benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
@@ -147,8 +147,7 @@ public class AusleiheController {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					uebernehmenBuch();
-					uebernehmenBenutzer();
+					uebernehmen();
 				}
 			}
 		};
@@ -175,7 +174,6 @@ public class AusleiheController {
 
 	private Ausleihe feldwertezuObjektSpeichern() {
 		Ausleihe a = new Ausleihe();
-		
 		if (!ausleiheView.getPKTBuch().getText().isEmpty()) {
 			a.setMediumID(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
 		}
@@ -184,29 +182,62 @@ public class AusleiheController {
 		}		
 		if (!ausleiheView.getNotizT().getText().isEmpty()) {
 			a.setNotizAusleihe(ausleiheView.getNotizT().getText());
-		}        
-        if (!ausleiheView.getErfasstVonT().getText().isEmpty() || !ausleiheView.getErfasstVonT().getText().equals("")) {
-        	MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-        	Mitarbeiter ma = new Mitarbeiter();
-        	ma = mitarbeiterDAO.findByBenutzername(ausleiheView.getErfasstVonT().getText());
-        	int maID = ma.getMAId();
-        	a.setAusleiheMitarbeiterID(maID);
-        }
-        else {
-        	//a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getMAId());
-        	a.setAusleiheMitarbeiterID(1);
-        }
-        if (!ausleiheView.getErfasstAmT().getText().isEmpty() || !ausleiheView.getErfasstAmT().getText().isEmpty()) {
-        	a.setAusleiheDatum(DateConverter.convertStringToJavaDate(ausleiheView.getErfasstAmT().getText()));
-		}else {
-			Date date = new Date();
-        	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			a.setAusleiheDatum(date);
 		}
+		a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getId());
+    	String nachname = EingeloggterMA.getInstance().getMitarbeiter().getName();
+    	String vorname = EingeloggterMA.getInstance().getMitarbeiter().getVorname();
+    	String name = nachname + " " + vorname;
+    	a.setAusleiheMitarbeiterName(name);
+    	Date date = new Date();
+		a.setAusleiheDatum(date);
 		return a;
 	}
 
-	private void uebernehmenBuch() {
+	private void uebernehmen() {
+		felderLeeren();
+		Ausleihe a = new Ausleihe();
+		BuchDAO buchDAO = new BuchDAO();
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
+		a = tableModelAusleihe.getGeklicktesObjekt(ausleiheView.getAusleiheTabelle().getSelectedRow());
+		a = ausleiheDAO.findById(a.getId());
+		int buchID = a.getMediumID();
+		int benutzerID = a.getBenutzerID();
+		Buch buch = buchDAO.findById(buchID);
+		Benutzer benutzer = benutzerDAO.findById(benutzerID);
+		ausleiheView.getBarcodeT().setText(buch.getBarcode());
+		ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
+		ausleiheView.getBuchTitelT().setText(buch.getTitel());
+		List<Autor> autoren = new ArrayList<>();
+		autoren = buch.getAutoren();
+		List<String> autorenListe = new ArrayList<>();
+		for(Autor autor : autoren) {
+			String nachname = autor.getName();
+			String vorname = autor.getVorname();
+			String autorname = nachname + ", " + vorname;
+			autorenListe.add(autorname);
+		}
+		ausleiheView.getAutorT().setText(String.join(", ", autorenListe));
+		ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
+		ausleiheView.getBenutzerIDT().setText(Integer.toString(benutzer.getId()));
+		ausleiheView.getBenutzerNameT().setText(benutzer.getName());
+		ausleiheView.getBenutzerVornameT().setText(benutzer.getVorname());
+		ausleiheView.getBenutzerStatusT().setText(benutzer.getBenutzerStatus().getBezeichnung());
+		int id = a.getAusleiheMitarbeiterID();
+		MitarbeiterDAO maDAO = new MitarbeiterDAO();
+		String name = maDAO.findNameVornameById(id);
+		if (name != null) {
+        	ausleiheView.getErfasstVonT().setText(name);
+		}else {
+			ausleiheView.getErfasstVonT().setText("");
+		}
+        if (a.getAusleiheDatum() != null) {
+        	ausleiheView.getErfasstAmT().setText(DateConverter.convertJavaDateToString(a.getAusleiheDatum()));
+		}else {
+			ausleiheView.getErfasstAmT().setText("");
+		}
+	}
+	
+	private void findenBuch() {
 		if(inputValidierungBuch() == true) {
 			felderLeeren();
 			Buch buch = new Buch();
@@ -229,7 +260,7 @@ public class AusleiheController {
 		}
 	}
 	
-	private void uebernehmenBenutzer() {
+	private void findenBenutzer() {
 		if(inputValidierungBenutzer() == true) {
 			felderLeeren();
 			Benutzer benutzer = new Benutzer();

@@ -15,7 +15,9 @@ public class Ausleihe {
 	private Date ausleiheDatum;
 	private Date rueckgabeDatum;
 	private int ausleiheMitarbeiterID;
+	private String ausleiheMitarbeiterName;
 	private int rueckgabeMitarbeiterID;
+	private String rueckgabeMitarbeiterName;
 	private String notizAusleihe;
 	
 	
@@ -79,6 +81,22 @@ public class Ausleihe {
 		this.rueckgabeMitarbeiterID = id;
 	}
 	
+	public String getAusleiheMitarbeiterName() {
+		return ausleiheMitarbeiterName;
+	}
+
+	public void setAusleiheMitarbeiterName(String ausleiheMitarbeiterName) {
+		this.ausleiheMitarbeiterName = ausleiheMitarbeiterName;
+	}
+
+	public String getRueckgabeMitarbeiterName() {
+		return rueckgabeMitarbeiterName;
+	}
+
+	public void setRueckgabeMitarbeiterName(String rueckgabeMitarbeiterName) {
+		this.rueckgabeMitarbeiterName = rueckgabeMitarbeiterName;
+	}
+
 	public String getNotizAusleihe() {
 		return notizAusleihe;
 	}
