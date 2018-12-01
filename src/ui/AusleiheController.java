@@ -100,9 +100,12 @@ public class AusleiheController {
 				findenBenutzer();
 				Benutzer benutzer = new Benutzer();
 				BenutzerDAO benutzerDAO = new BenutzerDAO();
-				benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
-				ausleiheL = ausleiheService.sucheAusleihenProBenutzer(benutzer);
-				tableModelAusleihe.setAndSortListe(ausleiheL);
+				if(!ausleiheView.getBenutzerIDT().getText().equals("")) {
+					benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
+					ausleiheL = ausleiheService.sucheAusleihenProBenutzer(benutzer);
+					tableModelAusleihe.setAndSortListe(ausleiheL);
+				}
+				
 			}
 		};
 		ausleiheView.getSuchButtonBenutzer().addActionListener(benutzerSuchenButtonActionListener);
@@ -157,18 +160,33 @@ public class AusleiheController {
 	private boolean inputValidierungBuch() {
 		boolean keinInputFehler = true;
 		if ((ausleiheView.getBarcodeT().getText().isEmpty())) {
-			JOptionPane.showMessageDialog(null, "Bitte ein Buch erfassen.");
+			JOptionPane.showMessageDialog(null, "Bitte ein Buch eingeben.");
+			return keinInputFehler = false;
+		}
+		try {
+			Integer.parseInt(ausleiheView.getBarcodeT().getText());
+		}catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Ungültiger Barcode");
 			keinInputFehler = false;
 		}
+		
 		return keinInputFehler;
 	}
 	
 	private boolean inputValidierungBenutzer() {
 		boolean keinInputFehler = true;
 		if (ausleiheView.getBenutzerEingabeT().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Bitte einen Nutzer erfassen.");
-			keinInputFehler = false;
+			JOptionPane.showMessageDialog(null, "Bitte einen Nutzer eingeben.");
+			return keinInputFehler = false;
+		}else {
+			try {
+				Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
+			}catch(NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Ungültige ID");
+				keinInputFehler = false;
+			}
 		}
+		
 		return keinInputFehler;
 	}
 
@@ -239,37 +257,56 @@ public class AusleiheController {
 	
 	private void findenBuch() {
 		if(inputValidierungBuch() == true) {
-			felderLeeren();
 			Buch buch = new Buch();
 			BuchDAO buchDAO = new BuchDAO();
-			buch = buchDAO.findByBarcode(ausleiheView.getBarcodeT().getText());
-			ausleiheView.getBarcodeT().setText(buch.getBarcode());
-			ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
-			ausleiheView.getBuchTitelT().setText(buch.getTitel());
-			List<Autor> autoren = new ArrayList<>();
-			autoren = buch.getAutoren();
-			List<String> autorenListe = new ArrayList<>();
-			for(Autor autor : autoren) {
-				String nachname = autor.getName();
-				String vorname = autor.getVorname();
-				String autorname = nachname + ", " + vorname;
-				autorenListe.add(autorname);
+			try {
+				buch = buchDAO.findByBarcode(ausleiheView.getBarcodeT().getText());
+				ausleiheView.getBarcodeT().setText(buch.getBarcode());
+				ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
+				ausleiheView.getBuchTitelT().setText(buch.getTitel());
+				List<Autor> autoren = new ArrayList<>();
+				autoren = buch.getAutoren();
+				List<String> autorenListe = new ArrayList<>();
+				for(Autor autor : autoren) {
+					String nachname = autor.getName();
+					String vorname = autor.getVorname();
+					String autorname = nachname + ", " + vorname;
+					autorenListe.add(autorname);
+				}
+				ausleiheView.getAutorT().setText(String.join(", ", autorenListe));
+				ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
+			}catch(NullPointerException npe) {
+				ausleiheView.getPKTBuch().setText("");
+				JOptionPane.showMessageDialog(null, "Kein Medium mit diesem Barcode vorhanden.");
 			}
-			ausleiheView.getAutorT().setText(String.join(", ", autorenListe));
-			ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
+			
 		}
 	}
 	
 	private void findenBenutzer() {
 		if(inputValidierungBenutzer() == true) {
-			felderLeeren();
+			
 			Benutzer benutzer = new Benutzer();
 			BenutzerDAO benutzerDAO = new BenutzerDAO();
-			benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
-			ausleiheView.getBenutzerIDT().setText(Integer.toString(benutzer.getId()));
-			ausleiheView.getBenutzerNameT().setText(benutzer.getName());
-			ausleiheView.getBenutzerVornameT().setText(benutzer.getVorname());
-			ausleiheView.getBenutzerStatusT().setText(benutzer.getBenutzerStatus().getBezeichnung());
+			try {
+				benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
+				ausleiheView.getBenutzerIDT().setText(Integer.toString(benutzer.getId()));
+				ausleiheView.getBenutzerNameT().setText(benutzer.getName());
+				ausleiheView.getBenutzerVornameT().setText(benutzer.getVorname());
+				ausleiheView.getBenutzerStatusT().setText(benutzer.getBenutzerStatus().getBezeichnung());
+				if(benutzer.getId() == 0) {
+					ausleiheView.getBenutzerIDT().setText("");
+					JOptionPane.showMessageDialog(null, "Kein Benutzer mit dieser ID vorhanden.");
+				}
+				
+			}catch(NullPointerException npe) {
+				ausleiheView.getBenutzerIDT().setText("");
+				JOptionPane.showMessageDialog(null, "Kein Benutzer mit dieser ID vorhanden.");
+			}catch(NumberFormatException e) {
+				ausleiheView.getBenutzerIDT().setText("");
+				JOptionPane.showMessageDialog(null, "Id ungültig");
+			}
+			
 		}
 	}
 
