@@ -196,7 +196,7 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	public ArrayList<Ausleihe> findAll() {
 		ArrayList<Ausleihe> ausleihen = new ArrayList<>();
 		ResultSet rs = null;	
-		String sql = "SELECT id, person_id, medium_id, von, retour from ausleihe";
+		String sql = "SELECT id from ausleihe";
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);

@@ -117,19 +117,18 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				if(rs != null && rs.next()){
 					b = new BenutzerDAO().findById(rs.getInt(1));
 				}
-				
 			}
 	  catch (SQLException e) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
-     } finally{
-         try{
-             if(rs != null) rs.close();
-             if(pstmt != null) pstmt.close();
-             if(conn != null) conn.close();
-        } catch(Exception ex){}
-    }
-	return b;
+     } 
+		finally{
+	         try{
+	             if(rs != null) rs.close();
+	             if(pstmt != null) pstmt.close();
+	             if(conn != null) conn.close();
+	        } catch(Exception ex){}
+	    }
+		return b;
 	}
 	
 
@@ -201,7 +200,6 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 					pstmt.setInt(12,0);
 				}
 				pstmt.setInt(13,  domainObject.getId());
-				
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					a = domainObject;

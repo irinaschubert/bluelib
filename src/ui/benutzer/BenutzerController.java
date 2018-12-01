@@ -7,20 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -33,7 +25,6 @@ import domain.Adresse;
 import domain.Anrede;
 import domain.Benutzer;
 import domain.EingeloggterMA;
-import domain.Mitarbeiter;
 import domain.Ort;
 import domain.Status;
 import hilfsklassen.ButtonNamen;
@@ -46,13 +37,11 @@ import ui.status.StatusRenderer;
 import ui.status.StatusSucheRenderer;
 
 /**
- * 
  * Controller für die Benutzer-View, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 06.11.2018
  * @author irina
- *
  */
 
 public class BenutzerController {
@@ -116,8 +105,10 @@ public class BenutzerController {
 					b = feldwertezuObjektSpeichern();
 					if (benutzerView.getPKT().getText().isEmpty()) {
 						nachArbeitSpeichern(benutzerService.sichereBenutzer(b));
+						felderLeeren();
 					} else {
 						nachArbeitSpeichern(benutzerService.aktualisiereBenutzer(b));
+						felderLeeren();
 					}
 				}
 			}
@@ -164,7 +155,7 @@ public class BenutzerController {
 		//Dropdown PLZ Neu/Bearbeiten
 		ActionListener plzCbxListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JComboBox<Ort> c = (JComboBox) e.getSource();
+				JComboBox<Ort> c = (JComboBox<Ort>) e.getSource();
 				int ortId = c.getSelectedIndex();
 				OrtDAO ortDAO = new OrtDAO();
 				Ort ortFromDao = ortDAO.findById(ortId);
@@ -251,7 +242,6 @@ public class BenutzerController {
         	String name = splitName[0];
         	String vorname = splitName[1];
         	int erfassungMitarbeiterId = mitarbeiterDAO.findIdByName(name, vorname);
-        	System.out.println(erfassungMitarbeiterId);
         	b.setErfassungMitarbeiterId(erfassungMitarbeiterId);
         }
         if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
@@ -347,60 +337,29 @@ public class BenutzerController {
 	}
 
 	private void nachArbeitSpeichern(Verifikation v) {
+		felderLeeren();
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			tableModelBenutzer.setAndSortListe(benutzerService.sucheBenutzer(benutzerSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
-		felderLeeren();
 		benutzerView.getNeuAendernL().setText("");
 	}
 
-	// Felder leeren
 	private void felderLeeren() {
+		benutzerView.getBemerkungT().setText("");
 		for (Component t : benutzerView.getBenutzerNeuBearbeitenPanel().getComponents()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
 			}
-			if (t instanceof JTextArea) {
-				((JTextArea) t).setText("");
-			}
 			if (t instanceof JComboBox) {
 				((JComboBox) t).setSelectedIndex(0);
 			}
-		}
-		
-		Component[] components = benutzerView.getBenutzerNeuBearbeitenPanel().getComponents();
-		for (int i = 0; i < components.length; ++i) {
-		   if (components[i] instanceof Container) {
-		       Container subContainer = (Container)components[i];
-		       Component[] containers = subContainer.getComponents();
-		       
-		       for(Component containerComponent : containers)
-				{
-				    if(containerComponent instanceof JTextField)
-				    {
-				        JTextField compo = (JTextField) containerComponent;
-				        compo.setText("");
-				    }
-				    else if(containerComponent instanceof JTextArea)
-				    {
-				    	JTextArea compo = (JTextArea) containerComponent;
-				        compo.setText("");
-				    }
-				    else if (containerComponent instanceof JComboBox)
-				    {
-				        JComboBox<Object> compo = (JComboBox) containerComponent;
-				        compo.setSelectedIndex(0);
-				    }
-				}
-		   }
-		}
+		}	
 	}
 
 	public void initialisieren() {
-
 		benutzerView.getPKL().setText("Benutzer-ID:");
 		benutzerView.getNachnameL().setText("Nachname:*");
 		benutzerView.getVornameL().setText("Vorname:*");
@@ -462,7 +421,6 @@ public class BenutzerController {
 			benutzerView.getAnredeCbx().addItem(a);
 		}
 		benutzerView.getAnredeCbx().setSelectedIndex(0);
-		
 		benutzerView.getSuchButton().setText("Suchen");
 		benutzerView.getPKT().setEditable(false);
 		benutzerView.getErfasstVonT().setEditable(false);
@@ -471,6 +429,5 @@ public class BenutzerController {
 		benutzerView.getButtonPanel().getButton2().setVisible(false);
 		benutzerView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
 		benutzerView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
-
 	}
 }
