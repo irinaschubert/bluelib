@@ -181,9 +181,6 @@ public class MitarbeiterView extends JPanel {
 		labelPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new GridBagLayout());
-		
-		JPanel suchButtonPanel = new JPanel();
-		suchButtonPanel.setLayout(new GridLayout(0, 5));
 
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -202,34 +199,30 @@ public class MitarbeiterView extends JPanel {
 		inputPanel.add(componentsSuche.get(VornameSucheL), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
+		c.weightx = 0;
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 2;
 		inputPanel.add(componentsSuche.get(BenutzernameSucheL), c);
 
-		c.weightx = 1;
+		c.weightx = 0;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 3;
 		inputPanel.add(componentsSuche.get(geloeschtSucheL), c);
 
-/*
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.LINE_END;
-		c.insets = new Insets(0, 0,0, 0);
+		c.insets = new Insets(0, 10,0, 0);
 		c.weightx = 1;
 		c.gridwidth = 0;
-		c.gridx = 0;
-		c.gridy = 0;
-		*/
-		suchButtonPanel.add(suchButton);
-
+		c.gridx = 1;
+		c.gridy = 4;
+		inputPanel.add(suchButton, c);
 
 		suchPanel.add(labelPanel, BorderLayout.WEST);
 		suchPanel.add(inputPanel, BorderLayout.CENTER);
-		suchPanel.add(suchButtonPanel, BorderLayout.SOUTH);
 
 		return rahmenSetzen("Suche", suchPanel);
 	}
