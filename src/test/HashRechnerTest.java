@@ -22,9 +22,8 @@ class HashRechnerTest {
 		
 		eingabe = "hallo";
 		md5 = "598d4c200461b81522a3328565c25f7c";
-		HashRechner hashRechner = new HashRechner();
 		
-		resultat = hashRechner.hashBerechnen(eingabe);
+		resultat = HashRechner.hashBerechnen(eingabe);
 		assertEquals(md5, resultat);
 	}
 

@@ -1,8 +1,6 @@
 package ui;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -15,6 +13,7 @@ import javax.swing.JMenuItem;
  * @author Schmutz
  *
  */
+@SuppressWarnings("serial")
 public class HauptView extends JFrame {
 	private JMenuItem ausleiheM = new JMenu("Ausleihe");
 	private JMenuItem ausleiheAusleiheM = new JMenuItem("Ausleihe");

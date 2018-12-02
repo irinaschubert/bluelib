@@ -6,10 +6,10 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
-import domain.Autor;
 import domain.Verlag;
 
-public class ComboBoxModelVerlag extends AbstractListModel implements ComboBoxModel{
+@SuppressWarnings("serial")
+public class ComboBoxModelVerlag extends AbstractListModel<Verlag> implements ComboBoxModel<Verlag>{
 
 	private List<Verlag> verlagListe;
 	Verlag selection = null;
@@ -24,7 +24,7 @@ public class ComboBoxModelVerlag extends AbstractListModel implements ComboBoxMo
 	}
 	
 	@Override
-	public Object getElementAt(int index) {
+	public Verlag getElementAt(int index) {
 		return verlagListe.get(index);
 	}
 

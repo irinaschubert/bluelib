@@ -14,6 +14,7 @@ import hilfsklassen.DateConverter;
  * @author irina
  *
  */
+@SuppressWarnings("serial")
 public class TableModelVerlag extends AbstractTableModel {
 
 	// Definition der Spaltennamen, wie sie in der Tabelle dargestellt werden sollen

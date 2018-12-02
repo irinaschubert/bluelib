@@ -1,6 +1,5 @@
 package models;
 
-import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -8,7 +7,6 @@ import dao.AusleiheDAO;
 import dao.BuchDAO;
 import domain.Ausleihe;
 import domain.Buch;
-import domain.Medium;
 
 /**
  * Dient zur Darstellung und zum Updaten der Ausleiheliste
@@ -17,6 +15,7 @@ import domain.Medium;
  * @author irina
  *
  */
+@SuppressWarnings("serial")
 public class TableModelAusleihe extends AbstractTableModel {
 
 	// Definition der Spaltennamen

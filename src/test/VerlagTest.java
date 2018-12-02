@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dao.VerlagDAO;
-import domain.Benutzer;
 import domain.Verlag;
 import hilfsklassen.DateConverter;
 import services.NormdatenService;
