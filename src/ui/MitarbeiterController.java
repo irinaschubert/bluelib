@@ -144,7 +144,7 @@ public class MitarbeiterController {
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
-		if (mitarbeiterView.getMitarbeiterT().getText().isEmpty()) {
+		if (mitarbeiterView.getBenutzernameT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 			keinInputFehler = false;
 		}
@@ -156,7 +156,7 @@ public class MitarbeiterController {
 		if (!mitarbeiterView.getPKT().getText().isEmpty()) {
 			m.setId(Integer.parseInt(mitarbeiterView.getPKT().getText()));
 		}
-		m.setBenutzername(mitarbeiterView.getMitarbeiterT().getText());
+		m.setBenutzername(mitarbeiterView.getBenutzernameT().getText());
 		m.setAktiv(mitarbeiterView.getGeloeschtCbx().isSelected());
 		return m;
 	}
@@ -175,7 +175,7 @@ public class MitarbeiterController {
 		m = tableModelMitarbeiter.getGeklicktesObjekt(mitarbeiterView.getMitarbeiterTabelle().getSelectedRow());
 
 		mitarbeiterView.getPKT().setText(Integer.toString(m.getId()));
-		mitarbeiterView.getMitarbeiterT().setText(m.getBenutzername());
+		mitarbeiterView.getBenutzernameT().setText(m.getBenutzername());
 		mitarbeiterView.getGeloeschtCbx().setSelected(m.isAktiv());
 	}
 
@@ -207,10 +207,13 @@ public class MitarbeiterController {
 	public void initialisieren() {
 
 		mitarbeiterView.getPKL().setText("Nr:");
-		mitarbeiterView.getMitarbeiterL().setText("Mitarbeiter:*");
+		mitarbeiterView.getBenutzernameL().setText("Benutzername:*");
 		mitarbeiterView.getGeloescht().setText("Löschvormerkung:");
+
 		//
-		mitarbeiterView.getMitarbeiterSucheL().setText("Mitarbeiter:");
+		mitarbeiterView.getNameSucheL().setText("Name:");
+		mitarbeiterView.getVornameSucheL().setText("Vorname:");
+		mitarbeiterView.getBenutzernameSucheL().setText("Benutzername:");
 		mitarbeiterView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		mitarbeiterView.getSuchButton().setText("Suchen");
 		mitarbeiterView.getPKT().setEditable(false);
