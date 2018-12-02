@@ -45,8 +45,6 @@ public abstract class BuchSuchController {
 		medienHandlingService = new MedienhandlingService();
 		normdatenService = new NormdatenService();
 		buchSuchobjekt = new Buch();
-//		view.spaltenBreiteSetzen();
-
 		suchPanelInitialisieren();
 		tabellenPanelInitialisieren();
 		control();

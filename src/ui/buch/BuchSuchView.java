@@ -132,10 +132,10 @@ public class BuchSuchView extends JPanel {
 
 	public void spaltenBreiteSetzen() {
 
-		buchTabelle.getColumnModel().getColumn(0).setPreferredWidth(30); // Name
-		buchTabelle.getColumnModel().getColumn(1).setPreferredWidth(80); // Titel
-		buchTabelle.getColumnModel().getColumn(2).setPreferredWidth(20); // Signatur
-		buchTabelle.getColumnModel().getColumn(3).setPreferredWidth(40); // Autor
+		buchTabelle.getColumnModel().getColumn(0).setPreferredWidth(5); // Name
+		buchTabelle.getColumnModel().getColumn(1).setPreferredWidth(150); // Titel
+		buchTabelle.getColumnModel().getColumn(2).setPreferredWidth(10); // Signatur
+		buchTabelle.getColumnModel().getColumn(3).setPreferredWidth(100); // Autor
 		buchTabelle.getColumnModel().getColumn(4).setPreferredWidth(30); // Verlag
 	}
 
