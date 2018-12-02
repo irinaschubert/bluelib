@@ -1,4 +1,4 @@
-package ui;
+package ui.benutzer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,6 +24,8 @@ import javax.swing.border.EmptyBorder;
 import domain.Anrede;
 import domain.Ort;
 import domain.Status;
+import ui.StandardButtonPanel;
+import ui.StandardTitelPanel;
 
 /**
  * Suche nach, neu Erstellen und Bearbeiten von Benutzern
@@ -32,6 +34,7 @@ import domain.Status;
  * @author irina
  *
  */
+@SuppressWarnings("serial")
 public class BenutzerView extends JPanel {
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
@@ -158,7 +161,6 @@ public class BenutzerView extends JPanel {
 		plzOrtCbx = new JComboBox<>();
 				
         // Formularfelder
-		
 		formularHelfer.addLabel(PKL, benutzerNeuBearbeitenPanel);
         formularHelfer.addMiddleField(PKT, benutzerNeuBearbeitenPanel);
 		

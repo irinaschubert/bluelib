@@ -11,7 +11,6 @@ import services.LoginService;
 import services.Verifikation;
 
 /**
- * 
  * Controller für die Login-View
  * 
  * @version 1.0 2018-11-07
@@ -29,17 +28,14 @@ public class LoginController {
 
 		initialisieren();
 		control();
-
 	}
 
 //	Definieren des Listeners für die Button-Klicks
 	private void control() {
 
 		ActionListener anmeldenActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Object String;
 				if ((loginView.getBenutzerNameT().getText().isEmpty())
 						|| (loginView.getPasswortP().getPassword().length == 0)) {
 					JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
@@ -58,8 +54,6 @@ public class LoginController {
 				}
 			}
 		};
-
-		// Zuweisen des Actionlisteners zum Anmelden-Button
 		loginView.getButtonPanel().getButton4().addActionListener(anmeldenActionListener);
 
 		ActionListener abbrechenActionListener = new ActionListener() {
@@ -69,47 +63,16 @@ public class LoginController {
 				hauptController.applikationSchliessen();
 			}
 		};
-
-		// Zuweisen des Actionlisteners zum Abbrechen-Button
 		loginView.getButtonPanel().getButton3().addActionListener(abbrechenActionListener);
 	}
 
-	private boolean inputValidierungSuchen() {
-		boolean keinInputFehler = true;
-
-		return keinInputFehler;
-
-	}
-
-	private boolean inputValidierungSpeichern() {
-		boolean keinInputFehler = true;
-
-		return keinInputFehler;
-
-	}
-
-	private Autor feldwertezuObjektSpeichern() {
-		Autor a = new Autor();
-
-		return a;
-	}
-
-	private void felderLeeren() {
-
-		// Felder leeren
-		loginView.getBenutzerNameT().setText("");
-		loginView.getPasswortP().setText("");
-
-	}
-
 	public void initialisieren() {
-
 		loginView.getBenutzerNameL().setText("Benutzername*:");
 		loginView.getPasswortL().setText("Passwort*:");
 		loginView.getButtonPanel().getButton1().setVisible(false);
 		loginView.getButtonPanel().getButton2().setVisible(false);
 		loginView.getButtonPanel().getButton3().setText(ButtonNamen.ABBRECHEN.getName());
 		loginView.getButtonPanel().getButton4().setText(ButtonNamen.ANMELDEN.getName());
-
+		loginView.getButtonPanel().getButton4().requestFocus();
 	}
 }

@@ -1,27 +1,17 @@
-package ui;
+package ui.benutzer;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import dao.AnredeDAO;
@@ -33,7 +23,6 @@ import domain.Adresse;
 import domain.Anrede;
 import domain.Benutzer;
 import domain.EingeloggterMA;
-import domain.Mitarbeiter;
 import domain.Ort;
 import domain.Status;
 import hilfsklassen.ButtonNamen;
@@ -41,15 +30,16 @@ import hilfsklassen.DateConverter;
 import models.TableModelBenutzer;
 import services.BenutzerService;
 import services.Verifikation;
+import ui.HauptController;
+import ui.status.StatusRenderer;
+import ui.status.StatusSucheRenderer;
 
 /**
- * 
  * Controller für die Benutzer-View, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 06.11.2018
  * @author irina
- *
  */
 
 public class BenutzerController {
@@ -76,7 +66,6 @@ public class BenutzerController {
 		view.getBenutzerTabelle().setModel(tableModelBenutzer);
 		view.spaltenBreiteSetzen();
 		benutzerSuchobjekt = new Benutzer();
-
 		initialisieren();
 		control();
 	}
@@ -116,6 +105,7 @@ public class BenutzerController {
 					} else {
 						nachArbeitSpeichern(benutzerService.aktualisiereBenutzer(b));
 					}
+					felderLeeren();
 				}
 			}
 		};
@@ -161,7 +151,7 @@ public class BenutzerController {
 		//Dropdown PLZ Neu/Bearbeiten
 		ActionListener plzCbxListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JComboBox<Ort> c = (JComboBox) e.getSource();
+				JComboBox<Ort> c = (JComboBox<Ort>) e.getSource();
 				int ortId = c.getSelectedIndex();
 				OrtDAO ortDAO = new OrtDAO();
 				Ort ortFromDao = ortDAO.findById(ortId);
@@ -179,15 +169,44 @@ public class BenutzerController {
 		if (benutzerView.getNachnameT().getText().isEmpty() || (benutzerView.getVornameT().getText().isEmpty())
 				|| benutzerView.getStrasseNrT().getText().isEmpty() || benutzerView.getPlzOrtCbx().getSelectedIndex() == 0) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
-			keinInputFehler = false;
+			return keinInputFehler = false;
 		}
-
 		if (!benutzerView.getGeburtsdatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(benutzerView.getGeburtsdatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
 				benutzerView.getGeburtsdatumL().setText("");
-				keinInputFehler = false;
+				return keinInputFehler = false;
 			}
+		}
+		if(benutzerView.getNachnameT().getText().length() > 30) {
+			JOptionPane.showMessageDialog(null, "Der Nachname ist zu lang.");
+			benutzerView.getNachnameT().setText(benutzerView.getNachnameT().getText().substring(0,30));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getVornameT().getText().length() > 30) {
+			JOptionPane.showMessageDialog(null, "Der Vorname ist zu lang.");
+			benutzerView.getVornameT().setText(benutzerView.getVornameT().getText().substring(0,30));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getStrasseNrT().getText().length() > 50) {
+			JOptionPane.showMessageDialog(null, "Die Strasse/Nr. ist zu lang.");
+			benutzerView.getStrasseNrT().setText(benutzerView.getStrasseNrT().getText().substring(0,50));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getTelT().getText().length() > 30) {
+			JOptionPane.showMessageDialog(null, "Die Telefonnummer ist zu lang.");
+			benutzerView.getTelT().setText(benutzerView.getTelT().getText().substring(0, 30));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getMailT().getText().length() > 50) {
+			JOptionPane.showMessageDialog(null, "Die E-Mailadresse ist zu lang.");
+			benutzerView.getMailT().setText(benutzerView.getMailT().getText().substring(0, 50));
+			return keinInputFehler = false;
+		}
+		if(benutzerView.getBemerkungT().getText().length() > 300) {
+			JOptionPane.showMessageDialog(null, "Die Bemerkung ist zu lang.");
+			benutzerView.getBemerkungT().setText(benutzerView.getBemerkungT().getText().substring(0, 300));
+			return keinInputFehler = false;
 		}
 		return keinInputFehler;
 	}
@@ -248,7 +267,6 @@ public class BenutzerController {
         	String name = splitName[0];
         	String vorname = splitName[1];
         	int erfassungMitarbeiterId = mitarbeiterDAO.findIdByName(name, vorname);
-        	System.out.println(erfassungMitarbeiterId);
         	b.setErfassungMitarbeiterId(erfassungMitarbeiterId);
         }
         if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
@@ -344,60 +362,29 @@ public class BenutzerController {
 	}
 
 	private void nachArbeitSpeichern(Verifikation v) {
+		felderLeeren();
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			tableModelBenutzer.setAndSortListe(benutzerService.sucheBenutzer(benutzerSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
-		felderLeeren();
 		benutzerView.getNeuAendernL().setText("");
 	}
 
-	// Felder leeren
 	private void felderLeeren() {
+		benutzerView.getBemerkungT().setText("");
 		for (Component t : benutzerView.getBenutzerNeuBearbeitenPanel().getComponents()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
 			}
-			if (t instanceof JTextArea) {
-				((JTextArea) t).setText("");
-			}
 			if (t instanceof JComboBox) {
 				((JComboBox) t).setSelectedIndex(0);
 			}
-		}
-		
-		Component[] components = benutzerView.getBenutzerNeuBearbeitenPanel().getComponents();
-		for (int i = 0; i < components.length; ++i) {
-		   if (components[i] instanceof Container) {
-		       Container subContainer = (Container)components[i];
-		       Component[] containers = subContainer.getComponents();
-		       
-		       for(Component containerComponent : containers)
-				{
-				    if(containerComponent instanceof JTextField)
-				    {
-				        JTextField compo = (JTextField) containerComponent;
-				        compo.setText("");
-				    }
-				    else if(containerComponent instanceof JTextArea)
-				    {
-				    	JTextArea compo = (JTextArea) containerComponent;
-				        compo.setText("");
-				    }
-				    else if (containerComponent instanceof JComboBox)
-				    {
-				        JComboBox<Object> compo = (JComboBox) containerComponent;
-				        compo.setSelectedIndex(0);
-				    }
-				}
-		   }
-		}
+		}	
 	}
 
 	public void initialisieren() {
-
 		benutzerView.getPKL().setText("Benutzer-ID:");
 		benutzerView.getNachnameL().setText("Nachname:*");
 		benutzerView.getVornameL().setText("Vorname:*");
@@ -459,7 +446,6 @@ public class BenutzerController {
 			benutzerView.getAnredeCbx().addItem(a);
 		}
 		benutzerView.getAnredeCbx().setSelectedIndex(0);
-		
 		benutzerView.getSuchButton().setText("Suchen");
 		benutzerView.getPKT().setEditable(false);
 		benutzerView.getErfasstVonT().setEditable(false);
@@ -468,6 +454,5 @@ public class BenutzerController {
 		benutzerView.getButtonPanel().getButton2().setVisible(false);
 		benutzerView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
 		benutzerView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
-
 	}
 }

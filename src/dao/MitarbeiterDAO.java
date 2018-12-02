@@ -308,7 +308,6 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(pCounter++, benutzername);
 			pstmt.setString(pCounter++, HashRechner.hashBerechnen(passwort));
-
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				id = (rs.getInt(1));

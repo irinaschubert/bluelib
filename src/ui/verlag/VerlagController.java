@@ -1,4 +1,4 @@
-package ui;
+package ui.verlag;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,15 +18,14 @@ import hilfsklassen.DateConverter;
 import models.TableModelVerlag;
 import services.NormdatenService;
 import services.Verifikation;
+import ui.HauptController;
 
 /**
- * 
  * Controller für die verlagView, der die Logik und die Benutzeraktionen der
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 26.10.2018
  * @author irina
- *
  */
 
 public class VerlagController {
@@ -43,7 +42,6 @@ public class VerlagController {
 		normdatenService = new NormdatenService();
 		verlagL = new ArrayList<>();
 		tableModelVerlag = new TableModelVerlag();
-		//verlagL = normdatenService.alleVerlage();
 		tableModelVerlag.setAndSortListe(verlagL);
 		view.getVerlagTabelle().setModel(tableModelVerlag);
 		view.spaltenBreiteSetzen();
@@ -52,14 +50,12 @@ public class VerlagController {
 		control();
 	}
 
-	// Buttonlisteners
+	// Buttons
 	private void control() {
-		
 		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				if (inputValidierungSuchen()) {
 					verlagSuchobjekt = feldwertezuObjektSuchen();
 					verlagL = normdatenService.sucheVerlag(verlagSuchobjekt);
@@ -71,10 +67,9 @@ public class VerlagController {
 		
 		// Neu
 		ActionListener neuButtonActionListener = new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				suchFelderLeeren();
+				erfassungFelderLeeren();
 				verlagView.getNeuAendernL().setText("Neuerfassung");
 			}
 		};
@@ -82,7 +77,6 @@ public class VerlagController {
 		
 		// Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
-		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Verlag v = new Verlag();
@@ -100,16 +94,14 @@ public class VerlagController {
 
 		// Schliessen
 		ActionListener schliessenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				hauptController.panelEntfernen();
 			}
-
 		};
 		verlagView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 		
-		// Doppelklick = Uebernehmen
+		// Doppelklick = Werte übernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -124,7 +116,6 @@ public class VerlagController {
 
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
-		
 		if (!verlagView.getGruendungsDatumSucheT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getGruendungsDatumSucheT().getText())) {
 				verlagView.getGruendungsDatumSucheT().setText("");
@@ -132,7 +123,6 @@ public class VerlagController {
 				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
 			}
 		}
-
 		if (!verlagView.getEndDatumSucheT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getEndDatumSucheT().getText())) {
 				verlagView.getEndDatumSucheT().setText("");
@@ -146,10 +136,9 @@ public class VerlagController {
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (verlagView.getNameT().getText().isEmpty() || (verlagView.getNameT().getText().isEmpty())) {
-			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
+			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder (*) erfassen");
 			keinInputFehler = false;
 		}
-
 		if (!verlagView.getGruendungsDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getGruendungsDatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
@@ -157,7 +146,6 @@ public class VerlagController {
 				keinInputFehler = false;
 			}
 		}
-
 		if (!verlagView.getEndDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getEndDatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Enddatum");
@@ -211,10 +199,9 @@ public class VerlagController {
 	private void uebernehmen() {
 		Verlag verlag = new Verlag();
 		verlag = tableModelVerlag.getGeklicktesObjekt(verlagView.getVerlagTabelle().getSelectedRow());
-
+		erfassungFelderLeeren();
 		verlagView.getPKT().setText(Integer.toString(verlag.getId()));
 		verlagView.getNameT().setText(verlag.getName());
-
 		if (verlag.getGruendungsDatum() != null) {
 			verlagView.getGruendungsDatumT().setText(DateConverter.convertJavaDateToString(verlag.getGruendungsDatum()));
 		}
@@ -234,10 +221,20 @@ public class VerlagController {
 		}
 		suchFelderLeeren();
 		verlagView.getNeuAendernL().setText("");
-
 	}
 	
 	private void suchFelderLeeren() {
+		for (JComponent t : verlagView.getComponentsSuche().values()) {
+			if (t instanceof JTextField) {
+				((JTextField) t).setText("");
+			}
+			if (t instanceof JCheckBox) {
+				((JCheckBox) t).setSelected(false);
+			}			
+		}
+	}
+	
+	private void erfassungFelderLeeren() {
 		for (JComponent t : verlagView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
 				((JTextField) t).setText("");
@@ -247,8 +244,6 @@ public class VerlagController {
 			}			
 		}
 	}
-
-	
 
 	public void initialisieren() {
 		verlagView.getPKL().setText("Nr:");

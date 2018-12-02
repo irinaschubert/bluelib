@@ -19,6 +19,9 @@ import javax.swing.border.EmptyBorder;
 import domain.Autor;
 import domain.Status;
 import domain.Verlag;
+import ui.benutzer.FormularMitGridbaglayout;
+import ui.status.StatusRenderer;
+import ui.verlag.VerlagRenderer;
 
 /**
  * Panel für die Buchsuche

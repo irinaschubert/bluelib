@@ -65,7 +65,6 @@ public class StatusDAO implements DAOInterface<Status> {
 		}
 		return s;
 	}
-	
 
 	@Override
 	public ArrayList<Status> findAll() {
@@ -93,6 +92,5 @@ public class StatusDAO implements DAOInterface<Status> {
 		}
 		return allStatus;
 	}
-
 }
 

@@ -115,7 +115,6 @@ public class LoginView extends JPanel {
 	public void setButtonPanel(StandardButtonPanel buttonPanel) {
 		this.buttonPanel = buttonPanel;
 	}
-	  
 }
 
 

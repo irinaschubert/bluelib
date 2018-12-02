@@ -1,8 +1,6 @@
-package ui;
+package ui.verlag;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,6 +22,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import ui.StandardButtonPanel;
+import ui.StandardTitelPanel;
+
 /**
  * Zeigt alle Verlage an und ermoeglicht die Erfassung neuer Verlage
  * 
@@ -31,6 +32,7 @@ import javax.swing.border.EmptyBorder;
  * @author irina
  *
  */
+
 public class VerlagView extends JPanel{
 	private StandardButtonPanel buttonPanel;
 	private JPanel neuerVerlagPanel;
@@ -354,6 +356,10 @@ public class VerlagView extends JPanel{
 		
 		public LinkedHashMap<JLabel, JComponent> getComponentsNeuBearbeiten() {
 			return componentsNeuBearbeiten;
+		}
+		
+		public LinkedHashMap<JLabel, JComponent> getComponentsSuche() {
+			return componentsSuche;
 		}
 
 		public JTextField getEndDatumSucheT() {

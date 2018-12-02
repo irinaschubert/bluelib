@@ -8,7 +8,6 @@ import java.util.Date;
  *
  */
 public abstract class Person {
-	
 	private int id;
 	private Anrede anrede;
 	private String name;

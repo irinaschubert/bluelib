@@ -26,6 +26,8 @@ import domain.Autor;
 import domain.Schlagwort;
 import domain.Status;
 import domain.Verlag;
+import ui.status.StatusRenderer;
+import ui.verlag.VerlagRenderer;
 
 /**
  * Ermöglicht Buchsuche, Bearbeitung und Neuerfassung eines Buches

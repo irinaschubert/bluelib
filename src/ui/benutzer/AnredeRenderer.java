@@ -1,4 +1,4 @@
-package ui;
+package ui.benutzer;
 
 import java.awt.Component;
 
@@ -13,6 +13,7 @@ import domain.Anrede;
  *
  */
 
+@SuppressWarnings("serial")
 public class AnredeRenderer extends BasicComboBoxRenderer{
 	@Override
 	  public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {

@@ -1,4 +1,4 @@
-package ui;
+package ui.verlag;
 
 import java.awt.Component;
 

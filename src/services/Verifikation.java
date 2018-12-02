@@ -28,6 +28,4 @@ public class Verifikation {
 	public void setAktionErfolgreich(boolean aktionErfolgreich) {
 		this.aktionErfolgreich = aktionErfolgreich;
 	}
-    
-    
 }

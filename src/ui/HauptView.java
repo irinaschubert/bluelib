@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
  * @author Schmutz
  *
  */
+@SuppressWarnings("serial")
 public class HauptView extends JFrame {
 	private JMenuItem ausleiheM = new JMenu("Ausleihe");
 	private JMenuItem ausleiheAusleiheM = new JMenuItem("Ausleihe");
@@ -31,7 +32,7 @@ public class HauptView extends JFrame {
 	private JMenuBar menuBar = new JMenuBar();
 
 	public HauptView(String name) {
-
+		//this.add(new JLabel(new ImageIcon("")));
 		setJMenuBar(erstelleMenuBar());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(800, 1000);

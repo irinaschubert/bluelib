@@ -9,7 +9,6 @@ import domain.Adresse;
 import domain.Benutzer;
 import domain.Ort;
 import domain.Status;
-import hilfsklassen.DateConverter;
 
 /**
  * Dient zur Darstellung und zum Updaten der Benutzerliste
@@ -18,6 +17,7 @@ import hilfsklassen.DateConverter;
  * @author irina
  *
  */
+@SuppressWarnings("serial")
 public class TableModelBenutzer extends AbstractTableModel {
 
 	// Definition der Spaltennamen

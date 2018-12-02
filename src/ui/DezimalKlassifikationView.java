@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import domain.DezKlassifikation;
 import domain.DezKlassifikationGrpe;
+import ui.benutzer.FormularMitGridbaglayout;
 
 public class DezimalKlassifikationView extends JFrame {
 	private JComboBox<DezKlassifikationGrpe> dezKlassifikationGrpeCbx ;

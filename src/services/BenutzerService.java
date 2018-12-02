@@ -65,7 +65,6 @@ public class BenutzerService {
 					+ benutzer.getName()
 					+" konnte nicht gespeichert werden.");
 		}
-		
 		return v;
 	}
 	

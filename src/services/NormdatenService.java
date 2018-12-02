@@ -61,13 +61,11 @@ public class NormdatenService {
 			v.setAktionErfolgreich(false);
 			v.setNachricht("Der Autor " + autor.getName() + " konnte nicht gespeichert werden.");
 		}
-
 		return v;
 	}
 
 	public Verifikation sichereVerlag(Verlag verlag) {
 		Verifikation v = new Verifikation();
-
 		if (new VerlagDAO().save(verlag) != null) {
 			v.setAktionErfolgreich(true);
 			v.setNachricht("Der Verlag " + verlag.getName() + " wurde gespeichert.");
@@ -75,7 +73,6 @@ public class NormdatenService {
 			v.setAktionErfolgreich(false);
 			v.setNachricht("Der Verlag " + verlag.getName() + " konnte nicht gespeichert werden.");
 		}
-
 		return v;
 	}
 
@@ -93,7 +90,7 @@ public class NormdatenService {
 		return v;
 	}
 
-	// aktualisiern
+	// aktualisieren
 	public Verifikation aktualisiereVerlag(Verlag verlag) {
 		Verifikation v = new Verifikation();
 		if (new VerlagDAO().update(verlag) != null) {
