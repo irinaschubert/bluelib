@@ -1,26 +1,14 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.ScrollPane;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout.Group;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -28,19 +16,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import domain.Autor;
 import domain.Schlagwort;
 import domain.Status;
 import domain.Verlag;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import ui.status.StatusRenderer;
 import ui.verlag.VerlagRenderer;
 
@@ -71,7 +54,7 @@ public class BuchView extends JPanel {
 	private JLabel isbnL;
 	private JLabel statusL;
 	private JLabel autorL;
-	private JLabel buchTypL;
+	private JLabel signaturL;
 	private JLabel schlagwortL;
 	private JLabel notizL;
 	private JLabel erfassungsDatumL;
@@ -113,9 +96,11 @@ public class BuchView extends JPanel {
 
 	private JTextArea notizA;
 
-	private List<JComponent> componentsNeuBearbeiten = new ArrayList<>();
 	private static int HOEHE = 900;
-	private static int BREITE = 812;
+	private static int BREITE = 815;
+	
+	public static String BELLETRISTIK = "belletristik";
+	public static String SACHBUCH = "sachbuch";
 
 	public BuchView(String panelTitel) {
 
@@ -137,6 +122,12 @@ public class BuchView extends JPanel {
 
 	private JPanel createNeuesBuchPanel() {
 
+		
+		// Das Grigbaglayout ist eigenwillig und verschiebt die Spaltenbreiten auf ungewünschte Art. Zwei Massnahmen 
+		//waren nötige:
+		//Breite der Scrollpanes festlegen
+		//Je einem Textfeld bei der Initialisierung eine beliebige Anzahl Zeichen zuweisen, damit beim Befüllen
+		//mit Text kenie Änderung der Spaltenbreiten erfolgt.
 		buchNeuBearbeitenPanel = new JPanel();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		buchNeuBearbeitenPanel.setLayout(gridBagLayout);
@@ -147,9 +138,12 @@ public class BuchView extends JPanel {
 		PKT.setEditable(false);
 		
 		neuBearbeitenL = new JLabel();
+		neuBearbeitenL.setHorizontalAlignment(SwingConstants.CENTER);
+		neuBearbeitenL.setPreferredSize(new Dimension(150, 25));
 
 		barcodeL = new JLabel();
 		barcodeT = new JTextField();
+		barcodeT.setEditable(false);
 
 		erfassenBarcodeB = new JButton();
 
@@ -161,10 +155,10 @@ public class BuchView extends JPanel {
 		verlagCbx.setRenderer(new VerlagRenderer());
 
 		auflageL = new JLabel();
-		auflageT = new JTextField();
+		auflageT = new JTextField(10); // Zuweisung Zeichenzahl zur fixierung der Spaltenbreite
 
 		reiheL = new JLabel();
-		reiheT = new JTextField();
+		reiheT = new JTextField(10);// Zuweisung Zeichenzahl zur fixierung der Spaltenbreite
 
 		anzahlSeitenL = new JLabel();
 		anzahlSeitenT = new JTextField();
@@ -197,16 +191,18 @@ public class BuchView extends JPanel {
 		JPanel signatur = new JPanel();
 		signatur.setLayout(new GridBagLayout());
 		belletristikR = new JRadioButton();
+		belletristikR.setActionCommand(BELLETRISTIK);
 		sachbuchR = new JRadioButton();
+		sachbuchR.setActionCommand(SACHBUCH);
 		buchtypG = new ButtonGroup();
 		buchtypG.add(belletristikR);
 		buchtypG.add(sachbuchR);
 		signaturT = new JTextField();
-		signatur = rahmenSetzen("Signatur", signatur);
+		signaturL = new JLabel();
+		signatur.setPreferredSize(new Dimension(10, 18));
 
 		gridBagHelfer.labelSetzen(belletristikR, signatur, 0, 0);
-		gridBagHelfer.labelSetzen(sachbuchR, signatur, 0, 1);
-		gridBagHelfer.feldSetzen(signaturT, signatur, 1, 1);
+		gridBagHelfer.labelSetzen(sachbuchR, signatur, 1, 0);
 
 		schlagwortL = new JLabel();
 		schlagwortCbx = new JComboBox<>();
@@ -241,71 +237,52 @@ public class BuchView extends JPanel {
 		erfassungsUserT = new JTextField();
 		erfassungsUserT.setEditable(false);
 
-		componentsNeuBearbeiten.add(PKT);
-		componentsNeuBearbeiten.add(barcodeT);
-		componentsNeuBearbeiten.add(barcodeT);
-		componentsNeuBearbeiten.add(titelT);
-		componentsNeuBearbeiten.add(verlagCbx);
-		componentsNeuBearbeiten.add(auflageT);
-		componentsNeuBearbeiten.add(reiheT);
-		componentsNeuBearbeiten.add(anzahlSeitenT);
-		componentsNeuBearbeiten.add(preisT);
-		componentsNeuBearbeiten.add(jahrT);
-		componentsNeuBearbeiten.add(ortT);
-		componentsNeuBearbeiten.add(isbnT);
-		componentsNeuBearbeiten.add(statusCbx);
-		componentsNeuBearbeiten.add(autorCbx);
-		componentsNeuBearbeiten.add(autorList);
-		componentsNeuBearbeiten.add(schlagwortCbx);
-		componentsNeuBearbeiten.add(signaturT);
-		componentsNeuBearbeiten.add(schlagwortList);
-		componentsNeuBearbeiten.add(notizA);
-		componentsNeuBearbeiten.add(erfassungsDatumT);
-		componentsNeuBearbeiten.add(erfassungsUserT);
+		gridBagHelfer.feldSetzenLang(neuBearbeitenL, buchNeuBearbeitenPanel, 1, 0);
+		gridBagHelfer.labelSetzen(PKL, buchNeuBearbeitenPanel, 0, 1);
+		gridBagHelfer.feldSetzen(PKT, buchNeuBearbeitenPanel, 1, 1);
+		gridBagHelfer.labelSetzen(barcodeL, buchNeuBearbeitenPanel, 0, 2);
+		gridBagHelfer.feldSetzen(barcodeT, buchNeuBearbeitenPanel, 1, 2);
+		gridBagHelfer.labelSetzen(erfassenBarcodeB, buchNeuBearbeitenPanel, 3, 2);
+		gridBagHelfer.labelSetzen(titelL, buchNeuBearbeitenPanel, 0, 3);
+		gridBagHelfer.feldSetzenLang(titelT, buchNeuBearbeitenPanel, 1, 3);
+		gridBagHelfer.labelSetzen(verlagL, buchNeuBearbeitenPanel, 0, 4);
+		gridBagHelfer.feldSetzenLang(verlagCbx, buchNeuBearbeitenPanel, 1, 4);
+		gridBagHelfer.labelSetzen(auflageL, buchNeuBearbeitenPanel, 0, 5);
+		gridBagHelfer.feldSetzen(auflageT, buchNeuBearbeitenPanel, 1, 5);
+		gridBagHelfer.labelSetzen(reiheL, buchNeuBearbeitenPanel, 3, 5);
+		gridBagHelfer.feldSetzen(reiheT, buchNeuBearbeitenPanel, 4, 5);
+		gridBagHelfer.labelSetzen(anzahlSeitenL, buchNeuBearbeitenPanel, 0, 6);
+		gridBagHelfer.feldSetzen(anzahlSeitenT, buchNeuBearbeitenPanel, 1, 6);
+		gridBagHelfer.labelSetzen(preisL, buchNeuBearbeitenPanel, 3, 6);
+		gridBagHelfer.feldSetzen(preisT, buchNeuBearbeitenPanel, 4, 6);
+		gridBagHelfer.labelSetzen(jahrL, buchNeuBearbeitenPanel, 3, 7);
+		gridBagHelfer.feldSetzen(jahrT, buchNeuBearbeitenPanel, 4, 7);
+		gridBagHelfer.labelSetzen(autorL, buchNeuBearbeitenPanel, 0, 7);
+		gridBagHelfer.feldSetzen(autorCbx, buchNeuBearbeitenPanel, 1, 7);
+		gridBagHelfer.labelSetzen(isbnL, buchNeuBearbeitenPanel, 3, 8);
+		gridBagHelfer.feldSetzen(isbnT, buchNeuBearbeitenPanel, 4, 8);
+		gridBagHelfer.labelSetzen(zuweisenAutorB, buchNeuBearbeitenPanel, 0, 8);
+		gridBagHelfer.feldSetzenHoch(scrollPaneAutorList, buchNeuBearbeitenPanel, 1, 8, 2);
+		gridBagHelfer.labelSetzen(ortL, buchNeuBearbeitenPanel, 3, 9);
+		gridBagHelfer.feldSetzen(ortT, buchNeuBearbeitenPanel, 4, 9);
+		gridBagHelfer.labelSetzen(entfernenAutorB, buchNeuBearbeitenPanel, 0, 9);
+		gridBagHelfer.labelSetzen(statusL, buchNeuBearbeitenPanel, 3, 10);
+		gridBagHelfer.feldSetzen(statusCbx, buchNeuBearbeitenPanel, 4, 10);
 
-		gridBagHelfer.labelSetzen(PKL, buchNeuBearbeitenPanel, 0, 0);
-		gridBagHelfer.feldSetzen(PKT, buchNeuBearbeitenPanel, 1, 0);
-		gridBagHelfer.feldSetzen(neuBearbeitenL, buchNeuBearbeitenPanel, 4, 0);
-		gridBagHelfer.labelSetzen(barcodeL, buchNeuBearbeitenPanel, 0, 1);
-		gridBagHelfer.feldSetzen(barcodeT, buchNeuBearbeitenPanel, 1, 1);
-		gridBagHelfer.labelSetzen(erfassenBarcodeB, buchNeuBearbeitenPanel, 3, 1);
-		gridBagHelfer.labelSetzen(titelL, buchNeuBearbeitenPanel, 0, 2);
-		gridBagHelfer.feldSetzenLang(titelT, buchNeuBearbeitenPanel, 1, 2);
-		gridBagHelfer.labelSetzen(verlagL, buchNeuBearbeitenPanel, 0, 3);
-		gridBagHelfer.feldSetzenLang(verlagCbx, buchNeuBearbeitenPanel, 1, 3);
-		gridBagHelfer.labelSetzen(auflageL, buchNeuBearbeitenPanel, 0, 4);
-		gridBagHelfer.feldSetzen(auflageT, buchNeuBearbeitenPanel, 1, 4);
-		gridBagHelfer.labelSetzen(reiheL, buchNeuBearbeitenPanel, 3, 4);
-		gridBagHelfer.feldSetzen(reiheT, buchNeuBearbeitenPanel, 4, 4);
-		gridBagHelfer.labelSetzen(anzahlSeitenL, buchNeuBearbeitenPanel, 0, 5);
-		gridBagHelfer.feldSetzen(anzahlSeitenT, buchNeuBearbeitenPanel, 1, 5);
-		gridBagHelfer.labelSetzen(preisL, buchNeuBearbeitenPanel, 3, 5);
-		gridBagHelfer.feldSetzen(preisT, buchNeuBearbeitenPanel, 4, 5);
-		gridBagHelfer.labelSetzen(jahrL, buchNeuBearbeitenPanel, 3, 6);
-		gridBagHelfer.feldSetzen(jahrT, buchNeuBearbeitenPanel, 4, 6);
-		gridBagHelfer.labelSetzen(ortL, buchNeuBearbeitenPanel, 3, 8);
-		gridBagHelfer.feldSetzen(ortT, buchNeuBearbeitenPanel, 4, 8);
-		gridBagHelfer.labelSetzen(isbnL, buchNeuBearbeitenPanel, 3, 7);
-		gridBagHelfer.feldSetzen(isbnT, buchNeuBearbeitenPanel, 4, 7);
-		gridBagHelfer.labelSetzen(statusL, buchNeuBearbeitenPanel, 3, 9);
-		gridBagHelfer.feldSetzen(statusCbx, buchNeuBearbeitenPanel, 4, 9);
-		gridBagHelfer.labelSetzen(autorL, buchNeuBearbeitenPanel, 0, 6);
-		gridBagHelfer.feldSetzen(autorCbx, buchNeuBearbeitenPanel, 1, 6);
-		gridBagHelfer.labelSetzen(zuweisenAutorB, buchNeuBearbeitenPanel, 0, 7);
-		gridBagHelfer.feldSetzenHoch(scrollPaneAutorList, buchNeuBearbeitenPanel, 1, 7, 2);
-		gridBagHelfer.labelSetzen(entfernenAutorB, buchNeuBearbeitenPanel, 0, 8);
-		gridBagHelfer.labelSetzen(schlagwortL, buchNeuBearbeitenPanel, 0, 9);
-		gridBagHelfer.feldSetzen(schlagwortCbx, buchNeuBearbeitenPanel, 1, 9);
-		gridBagHelfer.feldSetzenBreitHoch(signatur, buchNeuBearbeitenPanel, 3, 10, 2, 2);
-		gridBagHelfer.labelSetzen(zuweisenSchlagwortB, buchNeuBearbeitenPanel, 0, 10);
-		gridBagHelfer.labelSetzen(entferntenSchlagwortB, buchNeuBearbeitenPanel, 0, 11);
-		gridBagHelfer.feldSetzenHoch(scrollPaneSchlagwortList, buchNeuBearbeitenPanel, 1, 10, 2);
-		gridBagHelfer.labelSetzen(notizL, buchNeuBearbeitenPanel, 0, 12);
-		gridBagHelfer.feldSetzenBreitHoch(scrollPaneNotiz, buchNeuBearbeitenPanel, 1, 12, 2, 4);
-		gridBagHelfer.labelSetzen(erfassungsDatumL, buchNeuBearbeitenPanel, 0, 14);
-		gridBagHelfer.feldSetzen(erfassungsDatumT, buchNeuBearbeitenPanel, 1, 14);
-		gridBagHelfer.labelSetzen(erfassungsUserL, buchNeuBearbeitenPanel, 3, 14);
-		gridBagHelfer.feldSetzen(erfassungsUserT, buchNeuBearbeitenPanel, 4, 14);
+		gridBagHelfer.labelSetzen(schlagwortL, buchNeuBearbeitenPanel, 0, 10);
+		gridBagHelfer.feldSetzen(schlagwortCbx, buchNeuBearbeitenPanel, 1, 10);
+		gridBagHelfer.labelSetzen(signaturL, buchNeuBearbeitenPanel, 3, 11);
+		gridBagHelfer.feldSetzen(signatur, buchNeuBearbeitenPanel, 4, 11);
+		gridBagHelfer.feldSetzenHoch(scrollPaneSchlagwortList, buchNeuBearbeitenPanel, 1, 11, 2);
+		gridBagHelfer.labelSetzen(zuweisenSchlagwortB, buchNeuBearbeitenPanel, 0, 11);
+		gridBagHelfer.feldSetzen(signaturT, buchNeuBearbeitenPanel, 4, 12);
+		gridBagHelfer.labelSetzen(entferntenSchlagwortB, buchNeuBearbeitenPanel, 0, 12);
+		gridBagHelfer.labelSetzen(notizL, buchNeuBearbeitenPanel, 0, 13);
+		gridBagHelfer.feldSetzenBreitHoch(scrollPaneNotiz, buchNeuBearbeitenPanel, 1, 13, 2, 4);
+		gridBagHelfer.labelSetzen(erfassungsDatumL, buchNeuBearbeitenPanel, 0, 15);
+		gridBagHelfer.feldSetzen(erfassungsDatumT, buchNeuBearbeitenPanel, 1, 15);
+		gridBagHelfer.labelSetzen(erfassungsUserL, buchNeuBearbeitenPanel, 3, 15);
+		gridBagHelfer.feldSetzen(erfassungsUserT, buchNeuBearbeitenPanel, 4, 15);
 
 		return rahmenSetzen("Neu / Bearbeiten", buchNeuBearbeitenPanel);
 
@@ -326,6 +303,17 @@ public class BuchView extends JPanel {
 			gbc.gridy = y;
 			gbc.insets = new Insets(0, 10, 0, 10);
 			gbc.weightx = 0;
+			panel.add(comp, gbc);
+		}
+		
+		public void labelSetzenMitAnker(JComponent comp, JPanel panel, int x, int y, int anker) {
+			gbc = new GridBagConstraints();
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.anchor = anker;
+			gbc.gridx = x;
+			gbc.gridy = y;
+			gbc.insets = new Insets(0, 10, 0, 10);
+			gbc.weightx = 0.5;
 			panel.add(comp, gbc);
 		}
 
@@ -391,7 +379,7 @@ public class BuchView extends JPanel {
 			gbc.weightx = 1;
 			panel.add(comp, gbc);
 		}
-
+		
 	}
 
 	private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
@@ -534,12 +522,12 @@ public class BuchView extends JPanel {
 		this.autorL = autorL;
 	}
 
-	public JLabel getBuchTypL() {
-		return buchTypL;
+	public JLabel getSignaturL() {
+		return signaturL;
 	}
 
-	public void setBuchTypL(JLabel buchTypL) {
-		this.buchTypL = buchTypL;
+	public void setSignaturL(JLabel buchTypL) {
+		this.signaturL = buchTypL;
 	}
 
 	public JLabel getSchlagwortL() {
@@ -820,14 +808,6 @@ public class BuchView extends JPanel {
 
 	public void setNeuAendernL(JLabel neuAendernL) {
 		this.neuBearbeitenL = neuAendernL;
-	}
-
-	public List<JComponent> getComponentsNeuBearbeiten() {
-		return componentsNeuBearbeiten;
-	}
-
-	public void setComponentsNeuBearbeiten(List<JComponent> componentsNeuBearbeiten) {
-		this.componentsNeuBearbeiten = componentsNeuBearbeiten;
 	}
 
 	public void setButtonPanel(StandardButtonPanel buttonPanel) {

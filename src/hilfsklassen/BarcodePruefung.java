@@ -1,5 +1,7 @@
 package hilfsklassen;
 
+import dao.BuchDAO;
+import services.MedienhandlingService;
 import services.Verifikation;
 
 public class BarcodePruefung {
@@ -23,6 +25,20 @@ public class BarcodePruefung {
 			v.setNachricht("Der Barcode muss 7 Ziffern lang sein.");
 		}
 		
+		return v;
+	}
+	
+	public static Verifikation BarcodeNichtZugeordnet(String barCode) {
+		int barCodeInt = Integer.parseInt(barCode); 
+		Verifikation v = new Verifikation();
+		v.setAktionErfolgreich(false);
+		BuchDAO buchDAO = new BuchDAO();
+		if (buchDAO.BarcodeNichtZugeordnet(barCodeInt)) {
+			v.setAktionErfolgreich(true);
+		}
+		else {
+			v.setNachricht("Dieser Barcode ist bereits einem Medium zugeordnet.");
+		}
 		return v;
 	}
 

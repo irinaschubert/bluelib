@@ -165,7 +165,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			pCounter = 1;
 			while (rs.next()) {
 				m = new Mitarbeiter();
-				m.setId(rs.getInt(pCounter++));
+				m.setMAId(rs.getInt(pCounter++));
 				m.setBenutzername(rs.getString(pCounter++));
 				m.setPasswort(rs.getString(pCounter++));
 				m.setAdmin(rs.getBoolean(pCounter++));

@@ -1,5 +1,6 @@
 package domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ public abstract class Medium {
 	private String titel;
 	private List<Schlagwort> schlagwoerter;
 	private List<Autor> autoren;
-	private Double preis;
+	private BigDecimal preis;
 	private Status status;
 	private Date erfassungDatum;
 	private int erfasserId;
@@ -25,6 +26,7 @@ public abstract class Medium {
 	
 	public Medium() {
 		this.setAutoren(new ArrayList<>());
+		this.setSchlagwoerter(new ArrayList());
 		// Die Werte müssen initialisiert werden, da sie sonst den Wert 0 enthalten, was einen gültigen Wert darstellt
 		this.id = -1;
 		this.barcodeNr = -1;
@@ -62,12 +64,16 @@ public abstract class Medium {
 	public void setSchlagwoerter(List<Schlagwort> schlagwoerter) {
 		this.schlagwoerter = schlagwoerter;
 	}
+	
+	public void setSchlagwort(Schlagwort schlagwort) {
+		this.schlagwoerter.add(schlagwort);
+	}
 
-	public Double getPreis() {
+	public BigDecimal getPreis() {
 		return preis;
 	}
 
-	public void setPreis(Double preis) {
+	public void setPreis(BigDecimal preis) {
 		this.preis = preis;
 	}
 

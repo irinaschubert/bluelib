@@ -13,11 +13,10 @@ public class Buch extends Medium {
 	private Verlag verlag;
 	private String reihe;
 	private String auflage;
-	private String ausgabe; // Was ist damit gemeint?
 	private int anzahlSeiten;
 	private String signatur;
-	private int isbn;
-	private String erscheinungsJahr;
+	private long isbn;
+	private int erscheinungsJahr;
 	private String erscheinungsOrt;
 	
 	public Buch() {
@@ -48,14 +47,6 @@ public class Buch extends Medium {
 		this.auflage = auflage;
 	}
 
-	public String getAusgabe() {
-		return ausgabe;
-	}
-
-	public void setAusgabe(String ausgabe) {
-		this.ausgabe = ausgabe;
-	}
-
 	public int getAnzahlSeiten() {
 		return anzahlSeiten;
 	}
@@ -72,19 +63,19 @@ public class Buch extends Medium {
 		this.signatur = signatur;
 	}
 
-	public int getIsbn() {
+	public long getIsbn() {
 		return isbn;
 	}
 
-	public void setIsbn(int isbn) {
-		this.isbn = isbn;
+	public void setIsbn(long l) {
+		this.isbn = l;
 	}
 
-	public String getErscheinungsJahr() {
+	public int getErscheinungsJahr() {
 		return erscheinungsJahr;
 	}
 
-	public void setErscheinungsJahr(String erscheinungsJahr) {
+	public void setErscheinungsJahr(int erscheinungsJahr) {
 		this.erscheinungsJahr = erscheinungsJahr;
 	}
 

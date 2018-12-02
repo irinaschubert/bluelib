@@ -30,17 +30,9 @@ public class TableModelBuch extends AbstractTableModel {
 
 	}
 	
-	public void autorHinzufuegen(Buch buch) {
-		buchListe.add(buch);
-		listeSortieren();
-		
-		// Damit erhält die Liste in der View ein Update
-		fireTableDataChanged();
-	}
-	
+
 	private void listeSortieren() {
-		buchListe.sort(Comparator.comparing(Buch::getTitel)
-				.thenComparing(Comparator.comparing(Buch::getBarcode)));
+		buchListe.sort(Comparator.comparing(Buch::getTitel));
 	}
 	
 	
@@ -78,7 +70,7 @@ public class TableModelBuch extends AbstractTableModel {
 
 		switch (columnIndex) {
 		case 0:
-			returnWert = b.getBarcode();
+			returnWert = b.getBarcodeNr();
 			break;
 		case 1:
 			returnWert = b.getTitel();
