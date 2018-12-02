@@ -22,7 +22,6 @@ import hilfsklassen.IntHelfer;
 import models.ComboBoxModelAutor;
 import models.ComboBoxModelSchlagwort;
 import models.ComboBoxModelVerlag;
-import models.TableModelBuch;
 import services.MedienhandlingService;
 import services.NormdatenService;
 import services.Verifikation;
@@ -54,14 +53,6 @@ public class BuchController {
 		medienHandlingService = new MedienhandlingService();
 		normdatenService = new NormdatenService();
 		buchController = this;
-//		autorL = normdatenService.alleautoren();
-//		tableModelAutor.setAndSortListe(buchL);
-//		view.getAutorenTabelle().setModel(tableModelAutor);
-//		view.spaltenBreiteSetzen();
-//		autorSuchobjekt = new Autor();
-
-//		suchPanelInitialisieren();
-//		tabellenPanelInitialisieren();
 		BuchSuchView buchSuchView = new BuchSuchView();
 		buchSuchController = new BuchSuchControllerAusBuch(buchSuchView, this);
 		buchView.addBuchSuchView(buchSuchView);
@@ -119,6 +110,7 @@ public class BuchController {
 			public void actionPerformed(ActionEvent e) {
 				felderLeeren();
 				buchView.getNeuAendernL().setText("Neuerfassung");
+
 			}
 
 		};
@@ -287,7 +279,6 @@ public class BuchController {
 				|| (buchView.getBarcodeT().getText().isEmpty()) || (buchView.getVerlagCbx().getSelectedIndex() < 0)
 				|| (buchView.getAuflageT().getText().isEmpty()) || (buchView.getAnzahlSeitenT().getText().isEmpty())
 				|| (buchView.getIsbnT().getText().isEmpty()) || (buchView.getJahrT().getText().isEmpty())
-//				|| (buchView.getOrtT().getText().isEmpty())
 				|| (buchView.getAutorList().getModel().getSize() <= 0)
 				|| (buchView.getSignaturT().getText().isEmpty())) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
@@ -331,11 +322,10 @@ public class BuchController {
 		}
 		b.setVerlag((Verlag) buchView.getVerlagCbx().getModel().getSelectedItem());
 
-		if (!buchView.getAnzahlSeitenT().getText().isEmpty()) {
+		if (!buchView.getAuflageT().getText().isEmpty()) {
 			b.setAuflage(buchView.getAuflageT().getText());
 		}
 		if (!buchView.getAnzahlSeitenT().getText().isEmpty()) {
-
 			b.setAnzahlSeiten(Integer.parseInt(buchView.getAnzahlSeitenT().getText()));
 		}
 		for (int i = 0; i < buchView.getAutorList().getModel().getSize(); i++) {
@@ -386,7 +376,7 @@ public class BuchController {
 	}
 
 	public void uebernehmen(Buch buch) {
-
+		
 		felderLeeren();
 		buchView.getNeuAendernL().setText("Bearbeiten");
 		buchView.getPKT().setText(Integer.toString(buch.getId()));
@@ -440,7 +430,7 @@ public class BuchController {
 	}
 
 	private void felderLeeren() {
-
+		
 		buchView.getPKT().setText("");
 		buchView.getBarcodeT().setText("");
 		buchView.getTitelT().setText("");
@@ -463,8 +453,8 @@ public class BuchController {
 		buchView.getBelletristikR().setSelected(true);
 		buchView.getSignaturT().setText("");
 		buchView.getErfassungsUserT().setText("");
-		buchView.getNeuAendernL().setText("");
 		buchView.repaint();
+		buchView.getNeuAendernL().setText("");
 
 	}
 
