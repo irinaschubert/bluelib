@@ -19,6 +19,7 @@ import domain.Verlag;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
 import hilfsklassen.IntHelfer;
+import hilfsklassen.TextComponentLimit;
 import models.ComboBoxModelAutor;
 import models.ComboBoxModelSchlagwort;
 import models.ComboBoxModelVerlag;
@@ -496,6 +497,19 @@ public class BuchController {
 		comboBoxModelSchlagwort.geloeschteEntfernen();
 		buchView.getSchlagwortCbx().setModel(comboBoxModelSchlagwort);
 		buchView.getSchlagwortList().setModel(new DefaultListModel());
+		
+		TextComponentLimit.addTo(buchView.getTitelT(), 100);
+		TextComponentLimit.addTo(buchView.getAuflageT(), 30);
+		TextComponentLimit.addTo(buchView.getAnzahlSeitenT(), 11);
+		TextComponentLimit.addTo(buchView.getAuflageT(), 30);
+		TextComponentLimit.addTo(buchView.getNotizA(), 300);
+		TextComponentLimit.addTo(buchView.getReiheT(), 30);
+		TextComponentLimit.addTo(buchView.getPreisT(), 10);
+		TextComponentLimit.addTo(buchView.getJahrT(), 4);
+		TextComponentLimit.addTo(buchView.getIsbnT(), 13);
+		TextComponentLimit.addTo(buchView.getOrtT(), 30);
+		TextComponentLimit.addTo(buchView.getSignaturT(), 20);
+	
 
 	}
 
