@@ -47,7 +47,6 @@ public class DBConnectionInfo {
 		try {
 			// Name des Konfigurationsfiles
 			String fileName = "app.config";
-			ClassLoader classLoader = Properties.class.getClassLoader();
 			// Ohne Pfadname wird das File nicht gefunden
 			String path = Properties.class.getResource("/").getPath();
 

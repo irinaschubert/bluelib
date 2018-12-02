@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 /**
  * Stellt eine Datenbankverbindung als Singleton zur Verfuegung
@@ -21,7 +20,6 @@ import java.util.ResourceBundle;
 public final class DBConnection {
 
 	private static final DBConnection INSTANCE = new DBConnection();
-	private String dbConnectionString;
 	DBConnectionInfo dbConnectionInfo;
 	private DBConnection() {
 		
