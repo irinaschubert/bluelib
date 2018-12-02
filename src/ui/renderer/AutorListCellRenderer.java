@@ -1,4 +1,4 @@
-package ui;
+package ui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;

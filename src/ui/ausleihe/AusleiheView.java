@@ -18,8 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-import ui.StandardTitelPanel;
 import ui.benutzer.FormularMitGridbaglayout;
+import ui.standardKomponenten.StandardTitelPanel;
 
 /**
  * View für das Verwalten der Ausleihen

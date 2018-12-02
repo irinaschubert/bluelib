@@ -1,4 +1,4 @@
-package ui;
+package ui.buch;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,6 +20,8 @@ import domain.Autor;
 import domain.Status;
 import domain.Verlag;
 import ui.benutzer.FormularMitGridbaglayout;
+import ui.renderer.AutorRenderer;
+import ui.standardKomponenten.StandardButtonPanel;
 import ui.status.StatusRenderer;
 import ui.verlag.VerlagRenderer;
 

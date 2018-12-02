@@ -19,6 +19,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import ui.standardKomponenten.StandardButtonPanel;
+import ui.standardKomponenten.StandardTitelPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;

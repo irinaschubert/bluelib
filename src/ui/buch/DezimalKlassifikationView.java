@@ -1,4 +1,4 @@
-package ui;
+package ui.buch;
 
 import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
@@ -13,6 +13,8 @@ import javax.swing.border.EmptyBorder;
 import domain.DezKlassifikation;
 import domain.DezKlassifikationGrpe;
 import ui.benutzer.FormularMitGridbaglayout;
+import ui.renderer.DezKlassGrpeRenderer;
+import ui.renderer.DezKlassRenderer;
 
 public class DezimalKlassifikationView extends JFrame {
 	private JComboBox<DezKlassifikationGrpe> dezKlassifikationGrpeCbx ;

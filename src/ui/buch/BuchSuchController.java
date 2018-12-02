@@ -1,4 +1,4 @@
-package ui;
+package ui.buch;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,4 +1,4 @@
-package ui;
+package ui.buch;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +25,7 @@ import models.ComboBoxModelVerlag;
 import services.MedienhandlingService;
 import services.NormdatenService;
 import services.Verifikation;
+import ui.HauptController;
 
 /**
  * 

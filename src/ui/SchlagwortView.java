@@ -23,6 +23,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import ui.standardKomponenten.StandardButtonPanel;
+import ui.standardKomponenten.StandardTitelPanel;
+
 /**
  * Zeigt alle Schlagworte an und ermoeglicht die Erfassung neuer Schlagworte
  * 

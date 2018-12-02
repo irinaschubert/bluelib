@@ -1,4 +1,4 @@
-package ui;
+package ui.Autor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,6 +21,9 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import ui.standardKomponenten.StandardButtonPanel;
+import ui.standardKomponenten.StandardTitelPanel;
 
 /**
  * Zeigt alle Autoren an und ermoeglicht die Erfassung neuer Autoren

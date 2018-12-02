@@ -1,4 +1,4 @@
-package ui;
+package ui.buch;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,6 +24,12 @@ import domain.Autor;
 import domain.Schlagwort;
 import domain.Status;
 import domain.Verlag;
+import ui.renderer.AutorListCellRenderer;
+import ui.renderer.AutorRenderer;
+import ui.renderer.SchlagwortListCellRenderer;
+import ui.renderer.SchlagwortRenderer;
+import ui.standardKomponenten.StandardButtonPanel;
+import ui.standardKomponenten.StandardTitelPanel;
 import ui.status.StatusRenderer;
 import ui.verlag.VerlagRenderer;
 

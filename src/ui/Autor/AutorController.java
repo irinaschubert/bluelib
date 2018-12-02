@@ -1,4 +1,4 @@
-package ui;
+package ui.Autor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +18,7 @@ import hilfsklassen.DateConverter;
 import models.TableModelAutor;
 import services.NormdatenService;
 import services.Verifikation;
+import ui.HauptController;
 
 /**
  * 

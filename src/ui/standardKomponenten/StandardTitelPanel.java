@@ -1,4 +1,4 @@
-package ui;
+package ui.standardKomponenten;
 
 import java.awt.FlowLayout;
 import java.awt.Font;

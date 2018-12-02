@@ -24,8 +24,8 @@ import javax.swing.border.EmptyBorder;
 import domain.Anrede;
 import domain.Ort;
 import domain.Status;
-import ui.StandardButtonPanel;
-import ui.StandardTitelPanel;
+import ui.standardKomponenten.StandardButtonPanel;
+import ui.standardKomponenten.StandardTitelPanel;
 
 /**
  * Suche nach, neu Erstellen und Bearbeiten von Benutzern

@@ -22,8 +22,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import ui.StandardButtonPanel;
-import ui.StandardTitelPanel;
+import ui.standardKomponenten.StandardButtonPanel;
+import ui.standardKomponenten.StandardTitelPanel;
 
 /**
  * Zeigt alle Verlage an und ermoeglicht die Erfassung neuer Verlage

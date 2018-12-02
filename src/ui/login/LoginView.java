@@ -1,4 +1,4 @@
-package ui;
+package ui.login;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import ui.standardKomponenten.StandardButtonPanel;
+import ui.standardKomponenten.StandardTitelPanel;
 
 /**
  * 

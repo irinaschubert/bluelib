@@ -1,4 +1,4 @@
-package ui;
+package ui.login;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +9,7 @@ import domain.Autor;
 import hilfsklassen.ButtonNamen;
 import services.LoginService;
 import services.Verifikation;
+import ui.HauptController;
 
 /**
  * Controller für die Login-View

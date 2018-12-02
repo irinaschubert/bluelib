@@ -1,18 +1,22 @@
-package ui;
+package ui.renderer;
 
 import java.awt.Component;
 
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
-import domain.Schlagwort;
+import domain.Autor;
+import domain.DezKlassifikationGrpe;
 
-/** 
- * @version 1.0 2018-11-22
+/**
+ * 
+ * Stellt die Werte für die Comboboxen der Dezimalklassifikationsgruppen bereit
+ * 
+ * @version 1.0 18.10.2018
  * @author Schmutz
  *
  */
 
-public class SchlagwortRenderer extends BasicComboBoxRenderer{
+public class DezKlassGrpeRenderer extends BasicComboBoxRenderer{
 	@Override
 	  public Component getListCellRendererComponent(JList list, Object value,
 	      int index, boolean isSelected, boolean cellHasFocus) {
@@ -21,8 +25,9 @@ public class SchlagwortRenderer extends BasicComboBoxRenderer{
 //	    Definition der Variablen aus dem Objekt, welche in der ComboBox angezeigt werden sollen
 //	    Der Rückgabewert sollte vom Datentyp String sein. Der Cast des Objekts ist leidernötig
 	    if (value != null) {
-	    	String schlagwortText = ((Schlagwort) value).getSchlagwort();
-	      setText(schlagwortText);
+	    	String dezKlassGrpeText = ((DezKlassifikationGrpe) value).getGruppe() + " " 
+	    +  ((DezKlassifikationGrpe) value).getBezeichnung();
+	      setText(dezKlassGrpeText);
 	    }
 	    return this;
 	  }
