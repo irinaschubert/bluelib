@@ -317,7 +317,6 @@ public class AusleiheController {
 	
 	private void findenBenutzer() {
 		if(inputValidierungBenutzer(false) == true) {
-			
 			Benutzer benutzer = new Benutzer();
 			BenutzerDAO benutzerDAO = new BenutzerDAO();
 			try {
@@ -338,7 +337,8 @@ public class AusleiheController {
 				ausleiheView.getBenutzerIDT().setText("");
 				JOptionPane.showMessageDialog(null, "Id ungültig");
 			}
-			
+		} else {
+			felderLeeren();
 		}
 	}
 

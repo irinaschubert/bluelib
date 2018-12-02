@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
  *
  */
 
+@SuppressWarnings("serial")
 public class AusleiheButtonPanel extends JPanel{
 	private JButton button1;
 	private JButton button2;
