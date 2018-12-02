@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import domain.Autor;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
+import hilfsklassen.TextComponentLimit;
 import models.TableModelAutor;
 import services.NormdatenService;
 import services.Verifikation;
@@ -287,6 +288,12 @@ public class AutorController {
 		autorView.getVornameSucheL().setText("Vorname:");
 		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
 		autorView.getGeloeschtSucheL().setText("Gelöschte Autoren:");
+		
+		TextComponentLimit.addTo(autorView.getNachnameT(), 50);
+		TextComponentLimit.addTo(autorView.getVornameT(), 50);
+		TextComponentLimit.addTo(autorView.getGeburtsDatumT(), 10);
+		TextComponentLimit.addTo(autorView.getTodesDatumT(), 10);
+		
 		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
 		autorView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
