@@ -3,8 +3,6 @@ package main;
 import javax.swing.SwingUtilities;
 import ui.HauptController;
 import ui.HauptView;
-import ui.SchlagwortController;
-import ui.SchlagwortView;
 
 /**
  * @version 0.1 16.10.2018
