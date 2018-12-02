@@ -17,13 +17,11 @@ import interfaces.DAOInterface;
  * @author irina
  */
 public class VerlagDAO implements DAOInterface<Verlag> {
-	
 	private DBConnection dbConnection = null;
 	private Connection conn = null; 
 	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
 	private List<Verlag> verlagListe = null;
-	
 	
 	public VerlagDAO() {
 		verlagListe = new ArrayList<>();
@@ -37,15 +35,15 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 		int argCounter = 0;
 		String sql = "INSERT INTO "
 				+ "verlag "
-				+ "(name "
-				+ (domainObject.getGruendungsDatum() != null ? ",gruendungsdatum ":"")
-				+ (domainObject.getEndDatum() != null?",enddatum ":"")
-				+ ",geloescht "
+				+ "(name"
+				+ (domainObject.getGruendungsDatum() != null ? ", gruendungsdatum":"")
+				+ (domainObject.getEndDatum() != null?", enddatum":"")
+				+ ", geloescht"
 				+ ") "
 				+ "VALUES "
-				+ "(? "
-				+ (domainObject.getGruendungsDatum() != null?",? ":"")
-				+ (domainObject.getEndDatum()!= null?",? ":"")
+				+ "(?"
+				+ (domainObject.getGruendungsDatum() != null?", ?":"")
+				+ (domainObject.getEndDatum()!= null?", ?":"")
 				+ ", ?)";
 			try {
 				conn = dbConnection.getDBConnection();
@@ -142,13 +140,13 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 	public boolean delete(Verlag domainObject) {
 		ResultSet rs = null;
 		boolean geloescht = false;
-		String sql = "DELETE FROM verlag WHERE id ?";
+		String sql = "DELETE FROM verlag WHERE id = ?";
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, domainObject.getId());
 				int i = pstmt.executeUpdate();
-				if (i>0) {
+				if (i > 0) {
 					geloescht = true;
 				}			
 			}
@@ -161,7 +159,9 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 					if(pstmt != null) pstmt.close();
 					if(conn != null) conn.close();
 				} 
-				catch(Exception ex){}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
 			}
 			return geloescht;
 	}
