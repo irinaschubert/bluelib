@@ -355,12 +355,12 @@ public class AutorDAO implements DAOInterface<Autor> {
 			return autorListe;
 	}
 	
-	public List<Autor> findeAutorenZuMedium(int id){
+	public List<Autor> findeAutorZuBuch(int id){
 		ResultSet rs = null;
 		String sql = "SELECT "
-				+ "ma.autor_id "
-				+ "FROM mediumautor ma "
-				+ "WHERE ma.medium_id = ?";
+				+ "ab.autor_id "
+				+ "FROM autorbuch ab "
+				+ "WHERE ab.buch_id = ?";
 			try {
 				
 				conn = dbConnection.getDBConnection();

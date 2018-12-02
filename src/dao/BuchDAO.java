@@ -33,12 +33,13 @@ public class BuchDAO implements DAOInterface<Buch> {
 	public Buch save(Buch domainObject) {
 		ResultSet rs = null;
 		int medium_id = -1;
+		int buch_id = 1;
 		Buch b = null;
 		String sql = "INSERT INTO "
 				+ "medium "
 				+ "(titel "
 				+ ",barcode "
-				//				+ ",erscheinungsjahr "
+				+ ",erscheinungsjahr "
 				+ ",erfassungsdatum "
 				+ ",signatur "
 				+ ",verlag_id "
@@ -50,7 +51,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ (domainObject.getBemerkung() != null ? ",bemerkung ":"")
 				+ ") "
 				+ "VALUES "
-				+ "(?, ? , ?, ?, ?, ?, ? "
+				+ "(?, ? , ?, ?, ?, ?, ?, ? "
 				+ (domainObject.getPreis() != null ? ",? " : "")
 				+ (domainObject.getReihe() != null ? ",? " : "")
 				+ (domainObject.getErscheinungsOrt() != null ? ",? " : "")
@@ -62,6 +63,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 			int argCounter = 1;
 			pstmt.setString(argCounter++,domainObject.getTitel());
 			pstmt.setInt(argCounter++,domainObject.getBarcodeNr());
+			pstmt.setInt(argCounter++,domainObject.getErscheinungsJahr());
 			pstmt.setDate(argCounter++,DateConverter.convertJavaDateToSQLDateN(domainObject.getErfassungDatum()));
 			pstmt.setString(argCounter++,domainObject.getSignatur());
 			pstmt.setInt(argCounter++,domainObject.getVerlag().getId());
@@ -98,7 +100,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 						+ ") "
 						+ "VAlUES "
 						+ "(?, ?, ?, ?)";
-				pstmt = conn.prepareStatement(sql);
+				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				argCounter = 1;
 				pstmt.setInt(argCounter++,domainObject.getAnzahlSeiten());
 				pstmt.setLong(argCounter++,domainObject.getIsbn());
@@ -106,18 +108,23 @@ public class BuchDAO implements DAOInterface<Buch> {
 				pstmt.setInt(argCounter++,medium_id);
 				pstmt.executeUpdate();
 
+				rs = pstmt.getGeneratedKeys();
+				if(rs != null && rs.next()){
+					buch_id = rs.getInt(1);
+				}
+				
 				for (Autor a : domainObject.getAutoren()) {
 
 					sql = "INSERT INTO "
-							+ "mediumautor "
-							+ "(medium_id "
+							+ "autorbuch "
+							+ "(buch_id "
 							+ ",autor_id "
 							+ ") "
 							+ "VALUES "
 							+ "(?, ?)";
 					pstmt = conn.prepareStatement(sql);
 					argCounter = 1;
-					pstmt.setInt(argCounter++,medium_id);
+					pstmt.setInt(argCounter++,buch_id);
 					pstmt.setInt(argCounter++,a.getId());
 					pstmt.executeUpdate();
 				}
@@ -164,7 +171,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 		String sql = "UPDATE medium SET "
 				+ "titel = ? "
 				+ ",barcode = ? "
-				//				+ ",erscheinungsjahr "
+				+ ",erscheinungsjahr = ?"
 				+ ",signatur = ? "
 				+ ",verlag_id = ?"
 				+ ",statusMedi_id = ? "
@@ -180,6 +187,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 			int argCounter = 1;
 			pstmt.setString(argCounter++,domainObject.getTitel());
 			pstmt.setInt(argCounter++,domainObject.getBarcodeNr());
+			pstmt.setInt(argCounter++,domainObject.getErscheinungsJahr());
 			pstmt.setString(argCounter++,domainObject.getSignatur());
 			pstmt.setInt(argCounter++,domainObject.getVerlag().getId());
 			pstmt.setInt(argCounter++,domainObject.getStatus().getId());
@@ -230,8 +238,8 @@ public class BuchDAO implements DAOInterface<Buch> {
 
 			sql = "SELECT "
 					+ "autor_id "
-					+ "FROM mediumautor "
-					+ "WHERE medium_id = ? ";
+					+ "FROM autorbuch "
+					+ "WHERE buch_id = ? ";
 
 			pstmt = conn.prepareStatement(sql);
 			argCounter = 1;
@@ -255,8 +263,8 @@ public class BuchDAO implements DAOInterface<Buch> {
 				}	
 				
 				if (enthalten == false) {
-					sql = "INSERT INTO mediumautor "
-							+ "(medium_id, "
+					sql = "INSERT INTO autorbuch "
+							+ "(buch_id, "
 							+ "autor_id) "
 							+ "VALUES "
 							+ "( ?, ?)";
@@ -281,8 +289,8 @@ public class BuchDAO implements DAOInterface<Buch> {
 
 				}	
 				if (enthalten == false) {
-					sql = "DELETE FROM mediumautor "
-							+ "WHERE medium_id = ? "
+					sql = "DELETE FROM autorbuch "
+							+ "WHERE buch_id = ? "
 							+ "AND autor_id = ?";
 					pstmt = conn.prepareStatement(sql);
 					argCounter = 1;
@@ -401,6 +409,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ "m.statusMedi_id, "
 				+ "b.seiten, "
 				+ "m.person_id, "
+				+ "b.id, "
 				+ "b.auflage, "
 				+ "b.isbn "
 				+ "FROM medium m "
@@ -438,8 +447,8 @@ public class BuchDAO implements DAOInterface<Buch> {
 			if (domainObject.getAutoren().size() > 0) {
 				sql = sql + (whereUsed?"AND ": "WHERE ");
 				whereUsed = true;
-				sql = sql + "m.id IN (SELECT ma.medium_id FROM mediumautor ma "
-						+ "WHERE ma.autor_id IN (";
+				sql = sql + "m.id IN (SELECT ab.buch_id FROM autorbuch ab "
+						+ "WHERE ab.autor_id IN (";
 				for (int i = 0; i < domainObject.getAutoren().size();i++) {
 					sql = sql + (i + 1 == domainObject.getAutoren().size()?"? ))":"?, ");
 				}
@@ -511,9 +520,10 @@ public class BuchDAO implements DAOInterface<Buch> {
 				b.setAnzahlSeiten(rs.getInt(count++));
 				b.setErfasserId(rs.getInt(count++));
 				b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
+				b.setBuchId(rs.getInt(count++));
 				b.setAuflage(rs.getString(count++));
 				b.setIsbn(rs.getLong(count++));
-				b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
+				b.setAutoren(new AutorDAO().findeAutorZuBuch(b.getBuchId()));
 				b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
 				buchListe.add(b);
 			}
@@ -553,6 +563,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ "m.statusMedi_id, "
 				+ "b.seiten, "
 				+ "m.person_id, "
+				+ "b.id, "
 				+ "b.auflage "
 				+ "FROM medium m "
 				+ "INNER JOIN buch b on b.medium_id = m.id ";
@@ -583,8 +594,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 				b.setAnzahlSeiten(rs.getInt(count++));
 				b.setErfasserId(rs.getInt(count++));
 				b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
+				b.setBuchId(rs.getInt(count++));
 				b.setAuflage(rs.getString(count++));
-				b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
+				b.setAutoren(new AutorDAO().findeAutorZuBuch(b.getBuchId()));
 				b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
 			}
 		} catch (SQLException e) {
@@ -618,6 +630,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ "m.statusMedi_id, "
 				+ "b.seiten, "
 				+ "m.person_id, "
+				+ "b.id, "
 				+ "b.auflage "
 				+ "FROM medium m "
 				+ "INNER JOIN buch b on b.medium_id = m.id ";
@@ -648,8 +661,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 				b.setAnzahlSeiten(rs.getInt(count++));
 				b.setErfasserId(rs.getInt(count++));
 				b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
+				b.setBuchId(rs.getInt(count++));
 				b.setAuflage(rs.getString(count++));
-				b.setAutoren(new AutorDAO().findeAutorenZuMedium(b.getId()));
+				b.setAutoren(new AutorDAO().findeAutorZuBuch(b.getBuchId()));
 				b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
 			}
 		} catch (SQLException e) {

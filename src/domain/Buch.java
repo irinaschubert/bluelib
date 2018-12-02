@@ -9,6 +9,7 @@ import java.util.List;
  *
  */
 public class Buch extends Medium {
+	private int buchId;
 	private String barcode;
 	private Verlag verlag;
 	private String reihe;
@@ -93,6 +94,14 @@ public class Buch extends Medium {
 
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
+	}
+
+	public int getBuchId() {
+		return buchId;
+	}
+
+	public void setBuchId(int buchId) {
+		this.buchId = buchId;
 	}
 
 	
