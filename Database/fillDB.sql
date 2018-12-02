@@ -34,11 +34,11 @@ COMMIT;
 START TRANSACTION;
 INSERT INTO mitarbeiter (id, benutzername, passwort, admin, aktiv) 
 VALUES
-	(1, 'Mike', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 0, 1),
-	(2, 'Ueli', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 1, 1),
-	(3,'Irina', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 1, 1),
-	(4,'Tamara', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 1, 1),
-	(5,'Fritz', '5e822a0b52c71ce2ff2ecd3aa8ca46fc', 0, 0);
+	(1, 'Mike', 'e2fc714c4727ee9395f324cd2e7f331f', 0, 1),
+	(2, 'Ueli', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
+	(3,'Irina', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
+	(4,'Tamara', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
+	(5,'Fritz', 'e2fc714c4727ee9395f324cd2e7f331f', 0, 0);
 COMMIT;
 -- -----------------
 -- Data for Person
@@ -140,13 +140,6 @@ INSERT INTO autor (vorname, nachname, geburtsdatum, todesdatum, geloescht) VALUE
     ('i', 'ii', '1960-1-09', null,0),
     ('j', 'jj', '1960-1-10', null,0);
 COMMIT;
--- ---------------------
--- Data for mediumAutor
--- ---------------------
-START TRANSACTION;
-USE bluelib;
-INSERT INTO mediumAutor (medium_id,autor_id) VALUES (1,1),(2,2),(3,3);
-COMMIT;
 -- ---------------
 -- Data for buch
 -- ---------------
@@ -154,7 +147,13 @@ START TRANSACTION;
 USE bluelib;
 INSERT INTO buch (seiten, isbn, auflage,medium_id) VALUES (160,'9783150000120', '5te',1),(195,'9783864902833', 4,2), (384,'9783863555801', '5',3);
 COMMIT;
-
+-- ---------------------
+-- Data for AutorBuch
+-- ---------------------
+START TRANSACTION;
+USE bluelib;
+INSERT INTO autorBuch (buch_id,autor_id) VALUES (1,1),(2,2),(3,3);
+COMMIT;
 -- ------------------
 -- Data for inventur
 -- ------------------
