@@ -11,7 +11,11 @@ import domain.Verlag;
 import hilfsklassen.DateConverter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
-
+/**
+ * Verwaltet die CRUD- und weitere Operationen für Verlag
+ * @version 0.1 06.11.2018
+ * @author irina
+ */
 public class VerlagDAO implements DAOInterface<Verlag> {
 	
 	private DBConnection dbConnection = null;
@@ -42,12 +46,12 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				+ "(? "
 				+ (domainObject.getGruendungsDatum() != null?",? ":"")
 				+ (domainObject.getEndDatum()!= null?",? ":"")
-				+ ", ?)" ;
+				+ ", ?)";
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				argCounter++;
-				pstmt.setString(argCounter,domainObject.getName());
+				pstmt.setString(argCounter, domainObject.getName());
 				if (domainObject.getGruendungsDatum() != null) {
 					argCounter++;
 					pstmt.setDate(argCounter, DateConverter.convertJavaDateToSQLDateN(domainObject.getGruendungsDatum()));
@@ -64,52 +68,52 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				if(rs != null && rs.next()){
 					v = new VerlagDAO().findById(rs.getInt(1));
 				}
-				
 			}
-	  catch (SQLException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-     } finally{
-         try{
-             if(rs != null) rs.close();
-             if(pstmt != null) pstmt.close();
-             if(conn != null) conn.close();
-         } catch(Exception ex){}
-     }
-			
-		return v;
+			catch(SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(rs != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn != null) conn.close();
+				} 
+				catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return v;
 	}
 
 	@Override
 	public Verlag update(Verlag domainObject) {
 		ResultSet rs = null;
 		Verlag v = new Verlag();
-		String sql = "UPDATE verlag SET "
-				+ "name = ? "
-				+ ",gruendungsdatum = ?"
-				+ ",enddatum = ? "
-				+ ",geloescht = ?"
+		String sql = "UPDATE verlag SET"
+				+ " name = ?"
+				+ ", gruendungsdatum = ?"
+				+ ", enddatum = ?"
+				+ ", geloescht = ?"
 				+ " WHERE id = ?";
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1,domainObject.getName());
+				pstmt.setString(1, domainObject.getName());
 				
 				if (domainObject.getGruendungsDatum() != null) {
-				pstmt.setDate(2,DateConverter.convertJavaDateToSQLDateN(domainObject.getGruendungsDatum()));
+				pstmt.setDate(2, DateConverter.convertJavaDateToSQLDateN(domainObject.getGruendungsDatum()));
 				}
 				else {
-					pstmt.setNull(2,java.sql.Types.DATE);
+					pstmt.setNull(2, java.sql.Types.DATE);
 				}
 				
 				if (domainObject.getEndDatum() != null) {
-				pstmt.setDate(3,DateConverter.convertJavaDateToSQLDateN(domainObject.getEndDatum()));
+				pstmt.setDate(3, DateConverter.convertJavaDateToSQLDateN(domainObject.getEndDatum()));
 				}
 				else {
-					pstmt.setNull(3,java.sql.Types.DATE);
+					pstmt.setNull(3, java.sql.Types.DATE);
 				}
 				pstmt.setBoolean(4, domainObject.getGeloescht());
-				pstmt.setInt(5,  domainObject.getId());
+				pstmt.setInt(5, domainObject.getId());
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					v = domainObject;
@@ -117,91 +121,86 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				else {
 					v = null;
 				}
-								
 			}
-	  catch (SQLException e) {
-           e.printStackTrace();
-     } finally{
-         try{
-             if(rs != null) rs.close();
-             if(pstmt != null) pstmt.close();
-             if(conn != null) conn.close();
-         } catch(Exception ex){}
-     }
-			
-		return v;
+			catch (SQLException e) {
+				e.printStackTrace();
+			} 
+			finally {
+				try {
+					if(rs != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn != null) conn.close();
+				}
+				catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return v;
 	}
 
 	@Override
 	public boolean delete(Verlag domainObject) {
 		ResultSet rs = null;
 		boolean geloescht = false;
-		String sql = "DELETE FROM "
-				+ "verlag "
-				+ "WHERE id = ?";
+		String sql = "DELETE FROM verlag WHERE id ?";
 			try {
-				
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, domainObject.getId());
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					geloescht = true;
-				}
-								
+				}			
 			}
-	  catch (SQLException e) {
-           e.printStackTrace();
-     } finally{
-         try{
-             if(rs != null) rs.close();
-             if(pstmt != null) pstmt.close();
-             if(conn != null) conn.close();
-         } catch(Exception ex){}
-     }
-			
-		return geloescht;
-}
+			catch (SQLException e) {
+				e.printStackTrace();
+			} 
+			finally {
+				try {
+					if(rs != null) rs.close();
+					if(pstmt != null) pstmt.close();
+					if(conn != null) conn.close();
+				} 
+				catch(Exception ex){}
+			}
+			return geloescht;
+	}
 
 	@Override
 	public List<Verlag> getSelektion(Verlag domainObject) {
 		ResultSet rs = null;
-		int whereCounter =1;
-		String sql = "SELECT "
-				+ "id, "
-				+ "name, "
-				+ "gruendungsdatum, "
-				+ "enddatum, "
-				+ "geloescht "
-				+ "FROM verlag ";
-				
-				if (domainObject.getName() != null) {
-					sql = sql + "WHERE name";
-					sql = sql + (SQLHelfer.likePruefung(domainObject.getName())?" LIKE": " =");
-					sql = sql + " ?";
-					whereCounter++;
-				}
-				if (domainObject.getGruendungsDatum() != null) {
-					sql = sql + (whereCounter > 1?" AND": " WHERE");
-					sql = sql + (" gruendungsdatum = ?");
-					whereCounter++;
-				}
-				if (domainObject.getEndDatum() != null) {
-					sql = sql + (whereCounter > 1?" AND": " WHERE");
-					sql = sql + (" enddatum = ?");
-					whereCounter++;
-				}
-			
-					sql = sql + (whereCounter > 1?" AND": " WHERE");
-					sql = sql + (" geloescht = ?");
-				
-				
+		int whereCounter = 1;
+		String sql = "SELECT"
+			+ " id"
+			+ ", name"
+			+ ", gruendungsdatum"
+			+ ", enddatum"
+			+ ", geloescht"
+			+ " FROM verlag";
+			if (domainObject.getName() != null) {
+				sql = sql + " WHERE name";
+				sql = sql + (SQLHelfer.likePruefung(domainObject.getName())?" LIKE": " =");
+				sql = sql + " ?";
+				whereCounter++;
+			}
+			if (domainObject.getGruendungsDatum() != null) {
+				sql = sql + (whereCounter > 1?" AND": " WHERE");
+				sql = sql + (" gruendungsdatum = ?");
+				whereCounter++;
+			}
+			if (domainObject.getEndDatum() != null) {
+				sql = sql + (whereCounter > 1?" AND": " WHERE");
+				sql = sql + (" enddatum = ?");
+				whereCounter++;
+			}
+			sql = sql + (whereCounter > 1?" AND": " WHERE");
+			sql = sql + (" geloescht = ?");
 			try {
 				int pCounter = 1;
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				if (domainObject.getName() != null) {
-					pstmt.setString(pCounter,SQLHelfer.SternFragezeichenErsatz(domainObject.getName()));
+					pstmt.setString(pCounter, SQLHelfer.SternFragezeichenErsatz(domainObject.getName()));
 					pCounter++;
 				}
 				if (domainObject.getGruendungsDatum() != null) {
@@ -216,43 +215,43 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 				
 				rs = pstmt.executeQuery();
 				while(rs.next()) {
-					 Verlag v = new Verlag();
-					 v.setId(rs.getInt(1));
-					 v.setName(rs.getString(2));
-					 v.setGruendungsDatum(rs.getDate(3));
-					 v.setEndDatum(rs.getDate(4));
-					 v.setGeloescht(rs.getBoolean(5));
-					 verlagListe.add(v);
-					 }
-				
-			} catch (SQLException e) {
+					Verlag v = new Verlag();
+					v.setId(rs.getInt(1));
+					v.setName(rs.getString(2));
+					v.setGruendungsDatum(rs.getDate(3));
+					v.setEndDatum(rs.getDate(4));
+					v.setGeloescht(rs.getBoolean(5));
+					verlagListe.add(v);
+					}
+			}
+			catch (SQLException e) {
 				e.printStackTrace();
-
-				   } finally {
-				         
-					   try {
-				             if(rs != null) rs.close();
-				             if(pstmt != null) pstmt.close();
-				             if(conn != null) conn.close();
-				         } catch(Exception ex){}
-				     }
-			
+			}
+			finally {
+				try {
+					if(rs != null) rs.close();
+				    if(pstmt != null) pstmt.close();
+				    if(conn != null) conn.close();
+				}
+				catch(Exception ex){
+					ex.printStackTrace();
+				}
+			}
 			return verlagListe;
 	}
 
 	@Override
 	public Verlag findById(int id) {
 		Verlag v = new Verlag();
-		String sql = "SELECT "
-				+ "id, "
-				+ "name, "
-				+ "gruendungsdatum, "
-				+ "enddatum, "
-				+ "geloescht "
-				+ "FROM verlag "
-				+ "WHERE id = ?";
+		String sql = "SELECT"
+			+ " id"
+			+ ", name"
+			+ ", gruendungsdatum"
+			+ ", enddatum"
+			+ ", geloescht"
+			+ " FROM verlag"
+			+ " WHERE id = ?";
 			try {
-				
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1,id);
@@ -264,34 +263,31 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 					 v.setEndDatum(mRS.getDate(4));
 					 v.setGeloescht(mRS.getBoolean(5));
 				}
-			} catch (SQLException e) {
+			} 
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 			finally {
-						try {
-							conn.close();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-			
+				try {
+					conn.close();
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
-			
 			return v;
 	}
 	
-
 	@Override
 	public List<Verlag> findAll() {
-		String sql = "SELECT "
-				+ "id, "
-				+ "name, "
-				+ "gruendungsdatum, "
-				+ "enddatum, "
-				+ "geloescht "
-				+ "FROM verlag";
+		String sql = "SELECT"
+			+ " id"
+			+ ", name"
+			+ ", gruendungsdatum"
+			+ ", enddatum"
+			+ ", geloescht"
+			+ " FROM verlag";
 			try {
-				
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				mRS = pstmt.executeQuery();
@@ -302,22 +298,20 @@ public class VerlagDAO implements DAOInterface<Verlag> {
 					 v.setGruendungsDatum(mRS.getDate(3));
 					 v.setEndDatum(mRS.getDate(4));
 					 v.setGeloescht(mRS.getBoolean(5));
-					 verlagListe.add(v);}
-				
-			} catch (SQLException e) {
+					 verlagListe.add(v);
+				}
+			} 
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 			finally {
-						try {
-							dbConnection.closeConnection(conn);
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-			
+				try {
+					dbConnection.closeConnection(conn);
+				} 
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
-			
 			return verlagListe;
 	}
-
 }

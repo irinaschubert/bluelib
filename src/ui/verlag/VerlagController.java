@@ -50,13 +50,12 @@ public class VerlagController {
 		control();
 	}
 
-	// Buttonlisteners
+	// Buttons
 	private void control() {
 		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				if (inputValidierungSuchen()) {
 					verlagSuchobjekt = feldwertezuObjektSuchen();
 					verlagL = normdatenService.sucheVerlag(verlagSuchobjekt);
@@ -70,7 +69,7 @@ public class VerlagController {
 		ActionListener neuButtonActionListener = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				suchFelderLeeren();
+				erfassungFelderLeeren();
 				verlagView.getNeuAendernL().setText("Neuerfassung");
 			}
 		};
@@ -102,7 +101,7 @@ public class VerlagController {
 		};
 		verlagView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 		
-		// Doppelklick = Uebernehmen
+		// Doppelklick = Werte übernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -117,7 +116,6 @@ public class VerlagController {
 
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
-		
 		if (!verlagView.getGruendungsDatumSucheT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getGruendungsDatumSucheT().getText())) {
 				verlagView.getGruendungsDatumSucheT().setText("");
@@ -125,7 +123,6 @@ public class VerlagController {
 				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
 			}
 		}
-
 		if (!verlagView.getEndDatumSucheT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getEndDatumSucheT().getText())) {
 				verlagView.getEndDatumSucheT().setText("");
@@ -139,10 +136,9 @@ public class VerlagController {
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (verlagView.getNameT().getText().isEmpty() || (verlagView.getNameT().getText().isEmpty())) {
-			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
+			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder (*) erfassen");
 			keinInputFehler = false;
 		}
-
 		if (!verlagView.getGruendungsDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getGruendungsDatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Gründungsdatum");
@@ -150,7 +146,6 @@ public class VerlagController {
 				keinInputFehler = false;
 			}
 		}
-
 		if (!verlagView.getEndDatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(verlagView.getEndDatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Enddatum");
@@ -207,7 +202,6 @@ public class VerlagController {
 		erfassungFelderLeeren();
 		verlagView.getPKT().setText(Integer.toString(verlag.getId()));
 		verlagView.getNameT().setText(verlag.getName());
-
 		if (verlag.getGruendungsDatum() != null) {
 			verlagView.getGruendungsDatumT().setText(DateConverter.convertJavaDateToString(verlag.getGruendungsDatum()));
 		}
@@ -227,7 +221,6 @@ public class VerlagController {
 		}
 		suchFelderLeeren();
 		verlagView.getNeuAendernL().setText("");
-
 	}
 	
 	private void suchFelderLeeren() {
@@ -251,8 +244,6 @@ public class VerlagController {
 			}			
 		}
 	}
-
-	
 
 	public void initialisieren() {
 		verlagView.getPKL().setText("Nr:");
