@@ -26,8 +26,8 @@ import ui.benutzer.FormularMitGridbaglayout;
  * 
  * @version 1.0 06.11.2018
  * @author irina
- *
  */
+@SuppressWarnings("serial")
 public class AusleiheView extends JPanel {
 	private JFrame frame;
 	private JPanel centerPanel;

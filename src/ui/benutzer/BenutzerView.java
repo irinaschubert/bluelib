@@ -34,6 +34,7 @@ import ui.StandardTitelPanel;
  * @author irina
  *
  */
+@SuppressWarnings("serial")
 public class BenutzerView extends JPanel {
 	private JFrame frame;
 	private StandardButtonPanel buttonPanel;
@@ -160,7 +161,6 @@ public class BenutzerView extends JPanel {
 		plzOrtCbx = new JComboBox<>();
 				
         // Formularfelder
-		
 		formularHelfer.addLabel(PKL, benutzerNeuBearbeitenPanel);
         formularHelfer.addMiddleField(PKT, benutzerNeuBearbeitenPanel);
 		

@@ -3,11 +3,14 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import dao.VerlagDAO;
+import domain.Benutzer;
 import domain.Verlag;
 import hilfsklassen.DateConverter;
 import services.NormdatenService;
@@ -26,31 +29,45 @@ public class VerlagTest {
 		v.setGruendungsDatum(DateConverter.convertStringToJavaDate("01.01.1970"));
 		v.setEndDatum(DateConverter.convertStringToJavaDate("31.12.1999"));
 		v.setGeloescht(false);
-		v = verlagDAO.save(v);
+		n.sichereVerlag(v);
+		List<Verlag> verlage = n.sucheVerlag(v);
+		v = verlage.get(0);
 	}
 	
 	@Test
-	public void bearbeitenTest() {
+	public void aktualisierenTest() {
 		v.setName("Testverlag geändert");
 		v.setGruendungsDatum(DateConverter.convertStringToJavaDate("05.05.1975"));
 		v.setEndDatum(DateConverter.convertStringToJavaDate("01.01.2000"));
 		v.setGeloescht(true);
-		verlagDAO.update(v);
-		vZumVergleich.setName("Testverlag geändert");
-		vZumVergleich.setGruendungsDatum(DateConverter.convertStringToJavaDate("05.05.1975"));
-		vZumVergleich.setEndDatum(DateConverter.convertStringToJavaDate("01.01.2000"));
-		vZumVergleich.setGeloescht(true);
-		vZumVergleich = verlagDAO.save(vZumVergleich);
-		assertEquals(v.getName(), vZumVergleich.getName());
-		assertEquals(v.getGruendungsDatum(), vZumVergleich.getGruendungsDatum());
-		assertEquals(v.getEndDatum(), vZumVergleich.getEndDatum());
-		assertEquals(v.getGeloescht(), vZumVergleich.getGeloescht());
-		verlagDAO.delete(vZumVergleich);
+		n.aktualisiereVerlag(v);
+		List<Verlag> verlage = n.sucheVerlag(v);
+		v = verlage.get(0);
+		assertEquals(v.getName(), "Testverlag geändert");
+		assertEquals(v.getGruendungsDatum(), DateConverter.convertStringToJavaDate("05.05.1975"));
+		assertEquals(v.getEndDatum(), DateConverter.convertStringToJavaDate("01.01.2000"));
+		assertEquals(v.getGeloescht(), true);
+	}
+	
+	@Test
+	public void neuTest() {
+		Verlag vNeu = new Verlag();
+		vNeu.setName("Testverlag neu");
+		vNeu.setGruendungsDatum(DateConverter.convertStringToJavaDate("05.05.1975"));
+		vNeu.setEndDatum(DateConverter.convertStringToJavaDate("01.01.2000"));
+		vNeu.setGeloescht(false);
+		assertTrue(n.sichereVerlag(vNeu).isAktionErfolgreich());
+		List<Verlag> verlage = n.sucheVerlag(vNeu);
+		vNeu = verlage.get(0);
+		verlagDAO.delete(vNeu);
 	}
 	
 	@Test
 	public void loeschenTest() {
 		v.setGeloescht(true);
+		n.aktualisiereVerlag(v);
+		List<Verlag> verlage = n.sucheVerlag(v);
+		v = verlage.get(0);
 		assertTrue(v.getGeloescht());
 	}
 	
@@ -61,6 +78,8 @@ public class VerlagTest {
 
 	@After
 	public void tearDown() {
+		List<Verlag> verlage = n.sucheVerlag(v);
+		v = verlage.get(0);
 		verlagDAO.delete(v);
 	}
 }

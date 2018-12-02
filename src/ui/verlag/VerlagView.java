@@ -32,6 +32,7 @@ import ui.StandardTitelPanel;
  * @author irina
  *
  */
+
 public class VerlagView extends JPanel{
 	private StandardButtonPanel buttonPanel;
 	private JPanel neuerVerlagPanel;

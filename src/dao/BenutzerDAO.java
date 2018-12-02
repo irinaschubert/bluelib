@@ -269,7 +269,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 				whereCounter++;
 			}
 			if (domainObject.getName() != null) {
-				sql = sql + " WHERE nachname";
+				sql = sql + (whereCounter > 1?" AND": " WHERE");
+				sql = sql + (" nachname");
 				sql = sql + (SQLHelfer.likePruefung(domainObject.getName())?" LIKE": " =");
 				sql = sql + " ?";
 				whereCounter++;
