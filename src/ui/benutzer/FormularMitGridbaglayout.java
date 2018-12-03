@@ -6,7 +6,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class FormularMitGridbaglayout {
 	/**
@@ -15,6 +17,8 @@ public class FormularMitGridbaglayout {
     private GridBagConstraints lastConstraints = null;
     private GridBagConstraints middleConstraints = null;
     private GridBagConstraints labelConstraints = null;
+    
+    GridBagConstraints gbc = new GridBagConstraints();
 
     public FormularMitGridbaglayout() {
         lastConstraints = new GridBagConstraints();
@@ -53,4 +57,76 @@ public class FormularMitGridbaglayout {
         gbl.setConstraints(c, middleConstraints);
         parent.add(c);
     }
+    
+    
+
+	public void labelSetzen(JComponent comp, JPanel panel, int x, int y) {
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.insets = new Insets(0, 10, 0, 10);
+		gbc.weightx = 0;
+		panel.add(comp, gbc);
+	}
+	
+	public void labelSetzenMitAnker(JComponent comp, JPanel panel, int x, int y, int anker) {
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.anchor = anker;
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.insets = new Insets(0, 10, 0, 10);
+		gbc.weightx = 0.5;
+		panel.add(comp, gbc);
+	}
+
+	public void feldSetzen(JComponent comp, JPanel panel, int x, int y) {
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = 1;
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.insets = new Insets(5, 0, 0, 10);
+		gbc.weightx = 1;
+		panel.add(comp, gbc);
+	}
+
+	public void feldSetzenLang(JComponent comp, JPanel panel, int x, int y) {
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.insets = new Insets(5, 0, 0, 10);
+		gbc.weightx = 1;
+		panel.add(comp, gbc);
+	}
+
+	public void feldSetzenHoch(JComponent comp, JPanel panel, int x, int y, int height) {
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.VERTICAL;
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.gridheight = 2;
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.insets = new Insets(5, 0, 0, 10);
+		gbc.weighty = 1;
+		gbc.weightx = 0.5;
+		panel.add(comp, gbc);
+	}
+
+public void feldSetzenBreitHoch(JComponent comp, JPanel panel, int x, int y, int height, int width) {
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.anchor = GridBagConstraints.NORTH;
+		gbc.gridheight = height;
+		gbc.gridwidth = width;
+		gbc.gridx = x;
+		gbc.gridy = y;
+		gbc.insets = new Insets(5, 0, 0, 10);
+		gbc.weightx = 1;
+		panel.add(comp, gbc);
+	}
 }

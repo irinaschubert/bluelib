@@ -282,34 +282,33 @@ public class AutorDAO implements DAOInterface<Autor> {
 				+ "WHERE id = ?";
 			try {
 				
-				conn = dbConnection.getDBConnection();
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1,id);
-				rs = pstmt.executeQuery();
-				while(rs.next()) {
-					 a.setId(rs.getInt(1));
-					 a.setName(rs.getString(2));
-					 a.setVorname(rs.getString(3));
-					 a.setGeburtsdatum(rs.getDate(4));
-					 a.setTodesdatum(rs.getDate(5));
-					 a.setGeloescht(rs.getBoolean(6));
-				}
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				a.setId(rs.getInt(1));
+				a.setName(rs.getString(2));
+				a.setVorname(rs.getString(3));
+				a.setGeburtsdatum(rs.getDate(4));
+				a.setTodesdatum(rs.getDate(5));
+				a.setGeloescht(rs.getBoolean(6));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		finally {
+			try {
+				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 
-			finally {
-						try {
-							conn.close();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-			
-			}
-			
-			return a;
+		}
+
+		return a;
 	}
-	
 
 	@Override
 	public List<Autor> findAll() {
