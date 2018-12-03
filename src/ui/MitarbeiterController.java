@@ -207,8 +207,13 @@ public class MitarbeiterController {
 	public void initialisieren() {
 
 		mitarbeiterView.getPKL().setText("Nr:");
-		mitarbeiterView.getBenutzernameL().setText("Benutzername:*");
-		mitarbeiterView.getGeloescht().setText("Löschvormerkung:");
+		mitarbeiterView.getNameL().setText("Name:");
+		mitarbeiterView.getVornameL().setText("Vorname:");
+		mitarbeiterView.getGeloescht().setText("Aktive/r MitarbeiterIn:\"");
+		//
+		mitarbeiterView.getBenutzernameL().setText("Benutzername:");
+		mitarbeiterView.getPasswortL().setText("Passwort:");
+		mitarbeiterView.getAdminL().setText("Ist AdministratorIn:");
 
 		//
 		mitarbeiterView.getNameSucheL().setText("Name:");

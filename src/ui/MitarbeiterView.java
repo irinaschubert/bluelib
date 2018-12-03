@@ -41,6 +41,7 @@ public class MitarbeiterView extends JPanel {
 	private JLabel PasswortL;
 	private JLabel geloeschtL;
 	private JLabel NameSucheL;
+	private JLabel adminL;
 	private JLabel VornameSucheL;
 	private JLabel BenutzernameSucheL;
 	private JLabel geloeschtSucheL;
@@ -49,11 +50,13 @@ public class MitarbeiterView extends JPanel {
 	private JTextField NameT;
 	private JTextField NameSucheT;
 	private JTextField VornameT;
+	private JTextField PasswortT;
 	private JTextField VornameSucheT;
 	private JTextField BenutzernameT;
 	private JTextField BenutzernameSucheT;
 	private JCheckBox geloeschtCbx;
 	private JCheckBox geloeschtSucheCbx;
+	private JCheckBox adminCbx;
 	private JButton suchButton;
 	private JTable MitarbeiterTabelle;
 	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
@@ -98,8 +101,14 @@ public class MitarbeiterView extends JPanel {
 		MitarbeiterNeuBearbeitenPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
 
 		componentsNeuBearbeiten.put(PKL = new JLabel(), PKT = new JTextField());
-		componentsNeuBearbeiten.put(BenutzernameL = new JLabel(), BenutzernameT = new JTextField());
+		componentsNeuBearbeiten.put(NameL = new JLabel(), NameT = new JTextField());
+		componentsNeuBearbeiten.put(VornameL = new JLabel(), VornameT = new JTextField());
 		componentsNeuBearbeiten.put(geloeschtL = new JLabel(), geloeschtCbx = new JCheckBox());
+		//
+		componentsNeuBearbeiten.put(BenutzernameL = new JLabel(), BenutzernameT = new JTextField());
+		componentsNeuBearbeiten.put(PasswortL = new JLabel(), PasswortT = new JTextField());
+		componentsNeuBearbeiten.put(adminL = new JLabel(), adminCbx = new JCheckBox());
+		
 
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(componentsNeuBearbeiten.size(), 0));
@@ -120,26 +129,52 @@ public class MitarbeiterView extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		inputPanel.add(componentsNeuBearbeiten.get(PKL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 1;
+		inputPanel.add(componentsNeuBearbeiten.get(NameL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 2;
+		inputPanel.add(componentsNeuBearbeiten.get(VornameL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 3;
+		inputPanel.add(componentsNeuBearbeiten.get(geloeschtL), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.LINE_END;
 		c.weightx = 1;
 		c.gridwidth = 1;
-		c.gridx = 1;
+		c.gridx = 2;
 		c.gridy = 0;
 		inputPanel.add(neuAendernL, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 1;
 		inputPanel.add(componentsNeuBearbeiten.get(BenutzernameL), c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
+		c.gridx = 2;
+		c.gridy = 2;
+		inputPanel.add(componentsNeuBearbeiten.get(PasswortL), c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 1;
 		c.gridx = 0;
-		c.gridy = 5;
-		inputPanel.add(componentsNeuBearbeiten.get(geloeschtL), c);
+		c.gridy = 3;
+		inputPanel.add(componentsNeuBearbeiten.get(adminL), c);
+		
+		
 
 		MitarbeiterNeuBearbeitenPanel.add(labelPanel, BorderLayout.WEST);
 		MitarbeiterNeuBearbeitenPanel.add(inputPanel, BorderLayout.CENTER);
@@ -261,11 +296,26 @@ public class MitarbeiterView extends JPanel {
 	public JTextField getNameSucheT() {
 		return NameSucheT;
 	}
+	
+	public JLabel getNameL() {
+		return NameL;
+	}
+	public JTextField getNameT() {
+		return NameT;
+	}
+	
 	public JLabel getVornameSucheL() {
 		return VornameSucheL;
 	}
 	public JTextField getVornameSucheT() {
 		return VornameSucheT;
+	}
+	
+	public JLabel getVornameL() {
+		return VornameL;
+	}
+	public JTextField getVornameT() {
+		return VornameT;
 	}
 
 	public JLabel getBenutzernameL() {
@@ -274,6 +324,13 @@ public class MitarbeiterView extends JPanel {
 
 	public JTextField getBenutzernameT() {
 		return BenutzernameT;
+	}
+	
+	public JLabel getPasswortL() {
+		return PasswortL;
+	}
+	public JTextField getPasswortT() {
+		return PasswortT;
 	}
 
 	public JTextField getPKT() {
@@ -319,6 +376,16 @@ public class MitarbeiterView extends JPanel {
 	public JLabel getGeloescht() {
 		return geloeschtL;
 	}
+	public JLabel getAdminL() {
+		return adminL;
+	}
+	public JCheckBox getAdminCbx() {
+		return adminCbx;
+	}
+	
+	public void setAdminCbx(JCheckBox adminCbx) {
+		this.adminCbx = adminCbx;
+	}
 
 	public void setGeloescht(JLabel geloescht) {
 		this.geloeschtL = geloescht;
@@ -331,7 +398,7 @@ public class MitarbeiterView extends JPanel {
 	public void setGeloeschtSucheL(JLabel geloeschtSucheL) {
 		this.geloeschtSucheL = geloeschtSucheL;
 	}
-
+	
 	public JCheckBox getGeloeschtCbx() {
 		return geloeschtCbx;
 	}
