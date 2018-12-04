@@ -1,4 +1,4 @@
-package ui;
+package ui.Schlagwort;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +17,7 @@ import hilfsklassen.ButtonNamen;
 import models.TableModelSchlagwort;
 import services.NormdatenService;
 import services.Verifikation;
+import ui.HauptController;
 
 /**
  * 
