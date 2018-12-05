@@ -11,6 +11,8 @@ import ui.Autor.AutorController;
 import ui.Autor.AutorView;
 import ui.Bibliothek.BibliothekController;
 import ui.Bibliothek.BibliothekView;
+import ui.MA.MitarbeiterController;
+import ui.MA.MitarbeiterView;
 import ui.Schlagwort.SchlagwortController;
 import ui.Schlagwort.SchlagwortView;
 import ui.ausleihe.AusleiheController;
