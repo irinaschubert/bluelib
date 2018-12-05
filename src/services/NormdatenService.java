@@ -8,6 +8,7 @@ import dao.VerlagDAO;
 import dao.BibliothekDAO;
 import dao.DezKlassifikationDAO;
 import dao.DezKlassifikationGrpeDAO;
+import dao.MitarbeiterDAO;
 import dao.SchlagwortDAO;
 import domain.Anrede;
 import domain.Autor;
@@ -16,6 +17,7 @@ import domain.Bibliothek;
 import domain.DezKlassifikation;
 import domain.DezKlassifikationGrpe;
 import domain.Schlagwort;
+import domain.Mitarbeiter;
 
 /**
  * @version 1.0 15.11.2018
@@ -48,6 +50,10 @@ public class NormdatenService {
 	
 	public List<DezKlassifikation> alleDezKlassifikationen() {
 		return new DezKlassifikationDAO().findAll();
+	}
+		
+	public List<Mitarbeiter> alleMitarbeiter() {
+		return new MitarbeiterDAO().findAll();
 	}
 
 	// sichern
@@ -87,6 +93,19 @@ public class NormdatenService {
 			v.setNachricht("Das Schlagwort " + schlagwort.getSchlagwort() + " konnte nicht gespeichert werden.");
 		}
 
+		return v;
+	}
+	
+	public Verifikation sichereMitarbeiter(Mitarbeiter mitarbeiter) {
+		Verifikation v = new Verifikation();
+
+		if (new MitarbeiterDAO().save(mitarbeiter) != null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Der Mitarbeiter " + mitarbeiter.getBenutzername() + " wurde gespeichert.");
+		} else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Der Mitarbeiter " + mitarbeiter.getBenutzername() + " konnte nicht gespeichert werden.");
+		}
 		return v;
 	}
 
@@ -138,6 +157,18 @@ public class NormdatenService {
 		}
 		return v;
 	}
+	
+	public Verifikation aktualisiereMitarbeiter(Mitarbeiter mitarbeiter) {
+		Verifikation v = new Verifikation();
+		if (new MitarbeiterDAO().update(mitarbeiter) != null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Das Mitarbeiter " + mitarbeiter.getBenutzername() + " wurde aktualisiert.");
+		} else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Das Mitarbeiter " + mitarbeiter.getBenutzername() + " konnte nicht aktualisiert werden.");
+		}
+		return v;
+	}
 
 	// Suchen
 	public List<Autor> sucheAutor(Autor autor) {
@@ -148,11 +179,16 @@ public class NormdatenService {
 		return new VerlagDAO().getSelektion(verlag);
 	}
 
-	public List<Schlagwort> sucheSchlagwort(Schlagwort schlagwort) {
-		return new SchlagwortDAO().getSelektion(schlagwort);
+	public List<Mitarbeiter> sucheMitarbeiter(Mitarbeiter mitarbeiter) {
+		return new MitarbeiterDAO().getSelektion(mitarbeiter);
 	}
 
 	public Bibliothek bibliothekAnzeigen() {
 		return new BibliothekDAO().findById(1);
 	}
+	
+	public List<Schlagwort> sucheSchlagwort(Schlagwort schlagwort) {
+		return new SchlagwortDAO().getSelektion(schlagwort);
+	}
+
 }
