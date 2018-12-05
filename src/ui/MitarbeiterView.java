@@ -23,6 +23,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+
 /**
  * Zeigt alle Mitarbeiter an und ermoeglicht die Erfassung neuer Mitarbeiter
  * 
@@ -95,7 +96,7 @@ public class MitarbeiterView extends JPanel {
 	 * @return JPanel
 	 */
 	private JPanel createNeuesMitarbeiterPanel() {
-
+		
 		MitarbeiterNeuBearbeitenPanel = new JPanel();
 		MitarbeiterNeuBearbeitenPanel.setLayout(new BorderLayout());
 		MitarbeiterNeuBearbeitenPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
@@ -178,9 +179,7 @@ public class MitarbeiterView extends JPanel {
 
 		MitarbeiterNeuBearbeitenPanel.add(labelPanel, BorderLayout.WEST);
 		MitarbeiterNeuBearbeitenPanel.add(inputPanel, BorderLayout.CENTER);
-
 		return rahmenSetzen("Neu / Bearbeiten", MitarbeiterNeuBearbeitenPanel);
-
 	}
 
 	private JPanel createTabellenPanel() {
