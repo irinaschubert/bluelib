@@ -36,7 +36,6 @@ public class MitarbeiterController {
 	private TableModelMitarbeiter tableModelMitarbeiter;
 	private Mitarbeiter mitarbeiterSuchobjekt;
 	private HauptController hauptController;
-	
 
 	public MitarbeiterController(MitarbeiterView view, HauptController hauptController) {
 		mitarbeiterView = view;
@@ -159,7 +158,7 @@ public class MitarbeiterController {
 			m.setId(Integer.parseInt(mitarbeiterView.getPKT().getText()));
 		}
 		m.setBenutzername(mitarbeiterView.getBenutzernameT().getText());
-		m.setAktiv(mitarbeiterView.getGeloeschtCbx().isSelected());
+		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
 		return m;
 	}
 
@@ -168,7 +167,7 @@ public class MitarbeiterController {
 		if (!mitarbeiterView.getMitarbeiterSucheT().getText().isEmpty()) {
 			m.setBenutzername(mitarbeiterView.getMitarbeiterSucheT().getText());
 		}
-		m.setAdmin(mitarbeiterView.getGeloeschtSucheCbx().isSelected());
+		m.setAdmin(mitarbeiterView.getAktivSucheCbx().isSelected());
 		return m;
 	}
 
@@ -178,7 +177,7 @@ public class MitarbeiterController {
 
 		mitarbeiterView.getPKT().setText(Integer.toString(m.getId()));
 		mitarbeiterView.getBenutzernameT().setText(m.getBenutzername());
-		mitarbeiterView.getGeloeschtCbx().setSelected(m.isAktiv());
+		mitarbeiterView.getAktivCbx().setSelected(m.isAktiv());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
@@ -202,32 +201,28 @@ public class MitarbeiterController {
 			if (t instanceof JCheckBox) {
 				((JCheckBox) t).setSelected(false);
 			}
-
 		}
 	}
 
 	public void initialisieren() {
-
 		mitarbeiterView.getPKL().setText("Nr:");
 		mitarbeiterView.getNameL().setText("Name:");
 		mitarbeiterView.getVornameL().setText("Vorname:");
-		mitarbeiterView.getGeloescht().setText("Aktive/r MitarbeiterIn:\"");
+		mitarbeiterView.getAktiv().setText("Aktive:");
 		//
 		mitarbeiterView.getBenutzernameL().setText("Benutzername:");
 		mitarbeiterView.getPasswortL().setText("Passwort:");
-		mitarbeiterView.getAdminL().setText("Ist AdministratorIn:");
-
+		mitarbeiterView.getAdminL().setText("AdministratorIn:");
 		//
 		mitarbeiterView.getNameSucheL().setText("Name:");
 		mitarbeiterView.getVornameSucheL().setText("Vorname:");
 		mitarbeiterView.getBenutzernameSucheL().setText("Benutzername:");
-		mitarbeiterView.getGeloeschtSucheL().setText("inkl. gelöschte:");
+		mitarbeiterView.getAktivSucheL().setText("inkl. inaktive:");
 		mitarbeiterView.getSuchButton().setText("Suchen");
 		mitarbeiterView.getPKT().setEditable(false);
 		mitarbeiterView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
 		mitarbeiterView.getButtonPanel().getButton2().setVisible(false);
 		mitarbeiterView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
 		mitarbeiterView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
-
 	}
 }
