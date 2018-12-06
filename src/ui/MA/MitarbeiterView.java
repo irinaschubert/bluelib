@@ -110,7 +110,7 @@ public class MitarbeiterView extends JPanel {
 		PKT.setEditable(false);
 
 		NameL = new JLabel();
-		NameT = new JTextField();
+		NameT = new JTextField(10);
 
 		VornameL = new JLabel();
 		VornameT = new JTextField();
@@ -122,7 +122,7 @@ public class MitarbeiterView extends JPanel {
 		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 
 		BenutzernameL = new JLabel();
-		BenutzernameT = new JTextField();
+		BenutzernameT = new JTextField(10);
 
 		PasswortL = new JLabel();
 		PasswortT = new JTextField();
@@ -197,69 +197,6 @@ public class MitarbeiterView extends JPanel {
 		
 		gridBagHelfer.labelSetzen(suchButton, MitarbeiterSuchePanel, 2, 3);
 		
-		/*
-		JPanel suchPanel = new JPanel();
-		suchPanel.setBorder(new EmptyBorder(0, 0, 20, 0));
-		suchPanel.setLayout(new BorderLayout());
-
-		componentsSuche.put(NameSucheL = new JLabel(), NameSucheT = new JTextField());
-		componentsSuche.put(VornameSucheL = new JLabel(), VornameSucheT = new JTextField());
-		componentsSuche.put(BenutzernameSucheL = new JLabel(), BenutzernameSucheT = new JTextField());
-		componentsSuche.put(aktivSucheL = new JLabel(), aktivSucheCbx = new JCheckBox());
-
-		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout(new GridLayout(componentsSuche.size(), 0));
-		for (JLabel e : componentsSuche.keySet()) {
-			labelPanel.add(e);
-		}
-
-		labelPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
-		JPanel inputPanel = new JPanel();
-		inputPanel.setLayout(new GridBagLayout());
-
-		GridBagConstraints c = new GridBagConstraints();
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
-		c.gridwidth = 2;
-		c.gridx = 0;
-		c.gridy = 0;
-		inputPanel.add(componentsSuche.get(NameSucheL), c);
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
-		c.gridwidth = 2;
-		c.gridx = 0;
-		c.gridy = 1;
-		inputPanel.add(componentsSuche.get(VornameSucheL), c);
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
-		c.gridwidth = 2;
-		c.gridx = 0;
-		c.gridy = 2;
-		inputPanel.add(componentsSuche.get(BenutzernameSucheL), c);
-
-		c.weightx = 0;
-		c.gridwidth = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 3;
-		inputPanel.add(componentsSuche.get(aktivSucheL), c);
-
-		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.LINE_END;
-		c.insets = new Insets(0, 10, 0, 0);
-		c.weightx = 1;
-		c.gridwidth = 0;
-		c.gridx = 1;
-		c.gridy = 4;
-		inputPanel.add(suchButton, c);
-
-		suchPanel.add(labelPanel, BorderLayout.WEST);
-		suchPanel.add(inputPanel, BorderLayout.CENTER);
-		*/
-
 		return rahmenSetzen("Suche", MitarbeiterSuchePanel);
 	}
 

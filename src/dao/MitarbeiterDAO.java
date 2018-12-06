@@ -106,6 +106,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 				m.setAdmin(rs.getBoolean(pCounter++));
 				m.setAktiv(rs.getBoolean(pCounter++));
 				mitarbeiterListe.add(m);
+				pCounter = 1;
 			}
 
 		} catch (SQLException e) {
