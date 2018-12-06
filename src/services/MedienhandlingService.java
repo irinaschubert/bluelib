@@ -96,5 +96,10 @@ public class MedienhandlingService {
 	public List<Status> alleMedienStati(){
 		return new MedienStatusDAO().findAll();
 	}
+	
+	public Boolean istAusgeliehen(Buch buch) {
+		Boolean r = false;
+		return r;
+	}
 
 }

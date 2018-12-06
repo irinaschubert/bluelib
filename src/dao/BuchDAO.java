@@ -547,7 +547,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 	@Override
 	public Buch findById(int id) {
 		ResultSet rs = null;
-		Buch b = new Buch();
+		Buch b = null;
 		String sql = "SELECT "
 				+ "m.id, "
 				+ "m.titel, "
@@ -614,7 +614,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 
 	public Buch findByBarcode(String barcode) {
 		ResultSet rs = null;
-		Buch b = new Buch();
+		Buch b = null;
 		String sql = "SELECT "
 				+ "m.id, "
 				+ "m.titel, "

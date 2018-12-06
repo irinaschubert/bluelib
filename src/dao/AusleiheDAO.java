@@ -222,4 +222,94 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	public List<Ausleihe> getSelektion(Ausleihe domainObject) {
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @param id Buch
+	 * @return Ausleihe, falls das Buch ausgeliehen ist, sonst return = null;
+	 */
+	public Ausleihe findAusgeliehenesBuchById(int id) {
+		ResultSet rs = null;
+		Ausleihe ausleihe = null;
+		String sql = "SELECT "
+				+ "id "
+				+ ",person_id "
+				+ ",medium_id"
+				+ ",von "
+				+ ",erfasser_id"
+				+ "WHERE medium_id = ? "
+				+ "AND von is NOT NULL "
+				+ "AND retour IS NULL";
+		try {
+
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			rs = pstmt.executeQuery();
+			int count = 1;
+			ausleihe = new Ausleihe();
+			MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+			while(rs.next()) {
+				ausleihe.setId(rs.getInt(count++));
+				ausleihe.setBenutzerID(rs.getInt(count++));
+				ausleihe.setMediumID(rs.getInt(count++));
+				ausleihe.setAusleiheDatum(rs.getDate(count++));
+				ausleihe.setAusleiheMitarbeiterID(rs.getInt(count++));
+				String name = mitarbeiterDAO.findById(ausleihe.getAusleiheMitarbeiterID()).getName();
+				ausleihe.setAusleiheMitarbeiterName(name);
+			}
+			
+			
+			
+			
+
+		} catch (SQLException e) {
+			e.printStackTrace();	
+
+		} finally{
+
+			try{
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception ex){}
+		}
+		
+		return ausleihe;
+	}
+	
+	public Boolean mediumIstAusgeliehen(int id) {
+		ResultSet rs = null;
+		Boolean mediumAusgeliehen = false;
+		String sql = "SELECT 1 FROM ausleihe "
+				+ "WHERE medium_id = ? "
+				+ "AND von is NOT NULL "
+				+ "AND retour IS NULL";
+		try {
+
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				mediumAusgeliehen = true;					
+			}			
+
+		} catch (SQLException e) {
+			e.printStackTrace();	
+
+		} finally{
+
+			try{
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception ex){}
+		}
+		
+		return mediumAusgeliehen;
+
+		
+		
+	}
 }

@@ -17,6 +17,8 @@ import ui.buch.BuchController;
 import ui.buch.BuchView;
 import ui.login.LoginController;
 import ui.login.LoginView;
+import ui.rueckgabe.RueckgabeController;
+import ui.rueckgabe.RueckgabeView;
 import ui.verlag.VerlagController;
 import ui.verlag.VerlagView;
 
@@ -59,6 +61,7 @@ public class HauptController {
 		hauptView.getBenutzerBenutzerM().addActionListener(benutzerMenuActionListener());
 		hauptView.getAdministrationSchagworteM().addActionListener(schlagwortMenuActionListener());
 		hauptView.getAusleiheAusleiheM().addActionListener(ausleiheMenueActionListener());
+		hauptView.getAusleiheRueckgabeM().addActionListener(rueckgabeMenueActionListener());
 
 		
 	}
@@ -134,6 +137,27 @@ public class HauptController {
 			}
 		};
 		return ausleiheMenueActionListener;
+	}
+	
+	private ActionListener rueckgabeMenueActionListener() {
+		ActionListener rueckgabeMenueActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						RueckgabeView rueckgabeView= new RueckgabeView("Rückgabe"); 
+						new RueckgabeController(rueckgabeView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(rueckgabeView.getPreferredSize()));
+						hauptView.getContentPane().add(rueckgabeView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return rueckgabeMenueActionListener;
 	}
 	
 	private ActionListener stammdatenMenuActionListener() {
