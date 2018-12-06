@@ -1,5 +1,6 @@
 package ui.rueckgabe;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,9 +13,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+
 import dao.AusleiheDAO;
 import dao.BenutzerDAO;
 import dao.BuchDAO;
@@ -36,6 +42,7 @@ import services.Verifikation;
 import services.VerifikationMitAusleihe;
 import ui.HauptController;
 import ui.ausleihe.AusleiheView;
+import ui.buch.BuchSuchView;
 
 /**
  * Controller für die AusleiheView, der die Logik und die Ausleihaktionen der
@@ -55,11 +62,13 @@ public class RueckgabeController {
 	private AusleiheDAO ausleiheDAO;
 	private Buch buchZurRueckgabe;
 	private HauptController hauptController;
+	private RueckgabeController rueckgabeController;
 	private List buchL = new ArrayList<>();
 
 	public RueckgabeController(RueckgabeView view, HauptController hauptController) {
 		rueckgabeView = view;
 		this.hauptController = hauptController;
+		rueckgabeController = this;
 		ausleiheService = new AusleiheService();
 		medienHandlingService = new MedienhandlingService();
 		rueckgabeService = new RueckgabeService();
@@ -76,17 +85,8 @@ public class RueckgabeController {
 	// Buttons
 	private void control() {
 		rueckgabeView.getBarcodeT().addKeyListener(barcodeScanningKeyAdapter());
+		rueckgabeView.getSuchButtonBuch().addActionListener(buchSuchenButtonActionListener());
 		
-		
-		
-		
-		ActionListener buchSuchenButtonActionListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				findenBuch();
-			}
-		};
-		rueckgabeView.getSuchButtonBuch().addActionListener(buchSuchenButtonActionListener);
 
 				
 		ActionListener sichernButtonActionListener = new ActionListener() {
@@ -135,6 +135,32 @@ public class RueckgabeController {
 		rueckgabeView.getAusleiheTabelle().addMouseListener(doppelKlick);
 	}
 	
+	private ActionListener buchSuchenButtonActionListener() {
+	
+	ActionListener buchSuchenButtonActionListener = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			BuchSuchView buchSuchView = new BuchSuchView();
+			BuchSuchControllerAusRueckgabe bsc = new BuchSuchControllerAusRueckgabe(buchSuchView, rueckgabeController);
+			JFrame frame = new JFrame();
+			frame.setLayout(new BorderLayout());
+			frame.getContentPane().add(buchSuchView);
+			frame.add(buchSuchView);
+			frame.setSize(300, 300);
+			frame.setVisible(true);
+//			JDialog dialog = new JDialog(frame, "Buch suchen", true);
+//			 dialog.setDefaultCloseOperation(
+//	                 WindowConstants.DISPOSE_ON_CLOSE);
+//			 dialog.setSize(300,300);
+//	     dialog.setVisible(true);
+			//findenBuch();
+		}
+	};
+	
+	return buchSuchenButtonActionListener;
+	
+	}
+	
 	private KeyAdapter barcodeScanningKeyAdapter() {
 
 		KeyAdapter barcodeScanningKeyListener = new KeyAdapter() {
@@ -180,6 +206,9 @@ public class RueckgabeController {
 			rueckgabeView.getNotizT().setText(vma.getBuch().getBemerkung());
 			rueckgabeView.getErfasstVonT().setText(EingeloggterMA.getInstance().getMitarbeiter().getName());
 			rueckgabeView.getErfasstAmT().setText(new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
+		}
+		else {
+			JOptionPane.showMessageDialog(null, vma.getNachricht());
 		}
 	}
 
@@ -403,6 +432,7 @@ public class RueckgabeController {
 		rueckgabeView.getNotizT().setEditable(true);
 		rueckgabeView.getErfasstVonT().setEditable(false);
 		rueckgabeView.getErfasstAmT().setEditable(false);
+		
 		rueckgabeView.getButtonPanel().getButton1().setText(ButtonNamen.ZURUECKGABE.getName());
 		rueckgabeView.getButtonPanel().getButton2().setVisible(false);
 		rueckgabeView.getButtonPanel().getButton3().setVisible(false);
