@@ -183,14 +183,14 @@ public class VerlagController {
 		if (!verlagView.getNameSucheT().getText().isEmpty()) {
 			v.setName(verlagView.getNameSucheT().getText());
 		}
-		if (!verlagView.getGruendungsDatumT().getText().isEmpty()) {
-			if (DateConverter.datumIstGueltig(verlagView.getGruendungsDatumT().getText())) {
-				v.setGruendungsDatum(DateConverter.convertStringToJavaDate(verlagView.getGruendungsDatumT().getText()));
+		if (!verlagView.getGruendungsDatumSucheT().getText().isEmpty()) {
+			if (DateConverter.datumIstGueltig(verlagView.getGruendungsDatumSucheT().getText())) {
+				v.setGruendungsDatum(DateConverter.convertStringToJavaDate(verlagView.getGruendungsDatumSucheT().getText()));
 			}
 		}
-		if (!verlagView.getEndDatumT().getText().isEmpty()) {
-			if (DateConverter.datumIstGueltig(verlagView.getEndDatumT().getText())) {
-				v.setEndDatum(DateConverter.convertStringToJavaDate(verlagView.getEndDatumT().getText()));
+		if (!verlagView.getEndDatumSucheT().getText().isEmpty()) {
+			if (DateConverter.datumIstGueltig(verlagView.getEndDatumSucheT().getText())) {
+				v.setEndDatum(DateConverter.convertStringToJavaDate(verlagView.getEndDatumSucheT().getText()));
 			}
 		}
 		v.setGeloescht(verlagView.getGeloeschtSucheCbx().isSelected());
