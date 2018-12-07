@@ -1,4 +1,4 @@
-package ui.benutzer;
+package ui.renderer;
 
 import java.awt.Component;
 
@@ -7,7 +7,7 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import domain.Ort;
 
-public class PlzRenderer extends BasicComboBoxRenderer {
+public class PlzSucheRenderer extends BasicComboBoxRenderer {
 	  @Override
 	  public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 	    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -18,7 +18,7 @@ public class PlzRenderer extends BasicComboBoxRenderer {
 	    if (index == -1) {
 	    	Ort ort = (Ort) value;
 	    	if(ort == null) {
-	    		setText("-- bitte wählen --");
+	    		setText("-- alle --");
 	    	}else {
 	    		setText("" + ort.getPlz() + " " + ort.getOrt());
 	    	}

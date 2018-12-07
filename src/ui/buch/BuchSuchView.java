@@ -21,9 +21,9 @@ import domain.Status;
 import domain.Verlag;
 import ui.benutzer.FormularMitGridbaglayout;
 import ui.renderer.AutorRenderer;
+import ui.renderer.VerlagRenderer;
 import ui.standardKomponenten.StandardButtonPanel;
 import ui.status.StatusRenderer;
-import ui.verlag.VerlagRenderer;
 
 /**
  * Panel für die Buchsuche

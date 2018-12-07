@@ -1,4 +1,4 @@
-package ui.benutzer;
+package ui.renderer;
 
 import java.awt.Component;
 
