@@ -1,8 +1,5 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @version 0.1 16.10.2018
  * @author irina
