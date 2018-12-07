@@ -13,7 +13,7 @@ import domain.Benutzer;
 import hilfsklassen.DateConverter;
 import interfaces.DAOInterface;
 /**
- * Verwaltet die CRUD- und weitere Operationen für ausleihe
+ * Verwaltet die CRUD- und weitere Operationen für Ausleihen
  * @version 0.1 06.11.2018
  * @author irina
  */
@@ -57,9 +57,9 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 			argCounter++;
 			pstmt.setInt(argCounter,domainObject.getId());
 			argCounter++;
-			pstmt.setInt(argCounter,domainObject.getBenutzerID());
+			pstmt.setInt(argCounter,domainObject.getBenutzer().getId());
 			argCounter++;
-			pstmt.setInt(argCounter,domainObject.getMediumID());
+			pstmt.setInt(argCounter,domainObject.getMedium().getId());
 			if (domainObject.getAusleiheDatum() != null) {
 				argCounter++;
 				pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getAusleiheDatum()));
@@ -148,6 +148,8 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	@Override
 	public Ausleihe findById(int id) {
 		Ausleihe a = new Ausleihe();
+		BuchDAO buchDAO = new BuchDAO();
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		ResultSet rs = null;
 		String sql = "SELECT "
 				+ "id, person_id, medium_id, von, retour, "
@@ -161,8 +163,8 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				 a.setId(rs.getInt(1));
-				 a.setBenutzerID(rs.getInt(2));
-				 a.setMediumID(rs.getInt(3));
+				 a.setBenutzer(benutzerDAO.findById(rs.getInt(2)));
+				 a.setMedium(buchDAO.findById(rs.getInt(3)));
 				 a.setAusleiheDatum(rs.getDate(4));
 				 if(rs.getDate(5) != null) {
 					 a.setRueckgabeDatum(rs.getDate(5));
@@ -190,7 +192,7 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	@Override
 	public ArrayList<Ausleihe> findAll() {
 		ArrayList<Ausleihe> ausleihen = new ArrayList<>();
-		ResultSet rs = null;	
+		ResultSet rs = null;
 		String sql = "SELECT id from ausleihe";
 		try {
 			conn = dbConnection.getDBConnection();

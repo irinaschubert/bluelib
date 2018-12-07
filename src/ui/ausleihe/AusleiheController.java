@@ -174,6 +174,7 @@ public class AusleiheController {
 			int id = Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
 			Benutzer benutzer = benutzerDAO.findById(id);
 			int statusId = benutzer.getBenutzerStatus().getId();
+			// Status = 2: gesperrt, Status = 3: gelöscht
 			if (statusId == 2 || statusId == 3) {
 				JOptionPane.showMessageDialog(null, "Der Benutzer darf keine Medien ausleihen.");
 				return false;
@@ -192,6 +193,7 @@ public class AusleiheController {
 			int id = Integer.parseInt(ausleiheView.getPKTBuch().getText());
 			Buch buch = buchDAO.findById(id);
 			int statusId = buch.getStatus().getId();
+			// Status = 2: gesperrt, Status = 3: gelöscht
 			if (statusId == 2 || statusId == 3) {
 				JOptionPane.showMessageDialog(null, "Das Medium darf zur Zeit nicht ausgeliehen werden.");
 				return false;
@@ -204,16 +206,16 @@ public class AusleiheController {
 		}
 	}
 
-	private boolean pruefeAusleihe(int buchId, int benutzerId) {
+	private boolean validierungAusleihe(Buch buch, Benutzer benutzer) {
 		ArrayList<Ausleihe> ausleihen = new ArrayList<>();
 		AusleiheDAO ausleiheDAO = new AusleiheDAO();
 		ausleihen = ausleiheDAO.findAll();
 		for (Ausleihe a : ausleihen) {
-			if (a.getBenutzer().getId() == benutzerId && a.getMedium().getId() == buchId
+			if (a.getBenutzer().getId() == benutzer.getId() && a.getMedium().getId() == buch.getId()
 					&& a.getRueckgabeDatum() == null) {
 				JOptionPane.showMessageDialog(null, "Der Benutzer hat das Medium bereits ausgeliehen.");
 				return false;
-			} else if (a.getBenutzer().getId() == benutzerId && a.getMedium().getId() != buchId
+			} else if (a.getBenutzer().getId() == benutzer.getId() && a.getMedium().getId() != buch.getId()
 					&& a.getRueckgabeDatum() == null) {
 				JOptionPane.showMessageDialog(null, "Das Medium ist bereits ausgeliehen.");
 				return false;
@@ -226,10 +228,13 @@ public class AusleiheController {
 		Ausleihe a = new Ausleihe();
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		BuchDAO buchDAO = new BuchDAO();
-		if (pruefeAusleihe(Integer.parseInt(ausleiheView.getPKTBuch().getText()),
-				Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText())) == true) {
+		if(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()) > 0 && Integer.parseInt(ausleiheView.getPKTBuch().getText()) > 0) {
+			Benutzer benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
+			Buch buch = buchDAO.findById(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
+		}
+		
+		if (validierungAusleihe(buch, benutzer) == true) {
 			if (!ausleiheView.getPKTBuch().getText().isEmpty()) {
-				Buch buch = buchDAO.findById(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
 				a.setMedium(buch);
 				if (!ausleiheView.getNotizT().getText().isEmpty()) {
 					buch.setBemerkung(ausleiheView.getNotizT().getText());
