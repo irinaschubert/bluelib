@@ -10,15 +10,14 @@ import java.util.Date;
 public class Ausleihe {
 	
 	private int id;
-	private int mediumID;
-	private int benutzerID;
+	private Medium medium;
+	private Benutzer benutzer;
 	private Date ausleiheDatum;
 	private Date rueckgabeDatum;
 	private int ausleiheMitarbeiterID;
 	private String ausleiheMitarbeiterName;
 	private int rueckgabeMitarbeiterID;
 	private String rueckgabeMitarbeiterName;
-	private String notizAusleihe;
 	
 	
 	public Ausleihe() {
@@ -33,20 +32,20 @@ public class Ausleihe {
 		this.id = id;
 	}
 
-	public int getMediumID() {
-		return mediumID;
+	public Medium getMedium() {
+		return medium;
 	}
 
-	public void setMediumID(int id) {
-		this.mediumID = id;
+	public void setMedium(Medium medium) {
+		this.medium = medium;
 	}
 
-	public int getBenutzerID() {
-		return benutzerID;
+	public Benutzer getBenutzer() {
+		return benutzer;
 	}
 
-	public void setBenutzerID(int id) {
-		this.benutzerID = id;
+	public void setBenutzer(Benutzer benutzer) {
+		this.benutzer = benutzer;
 	}
 
 	public Date getAusleiheDatum() {
@@ -96,14 +95,5 @@ public class Ausleihe {
 	public void setRueckgabeMitarbeiterName(String rueckgabeMitarbeiterName) {
 		this.rueckgabeMitarbeiterName = rueckgabeMitarbeiterName;
 	}
-
-	public String getNotizAusleihe() {
-		return notizAusleihe;
-	}
-
-	public void setNotizAusleihe(String notizAusleihe) {
-		this.notizAusleihe = notizAusleihe;
-	}
-
 
 }

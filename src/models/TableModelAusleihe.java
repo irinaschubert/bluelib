@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -24,18 +25,12 @@ public class TableModelAusleihe extends AbstractTableModel {
 	
 	public void setAndSortListe(List<Ausleihe> liste) {
 		this.ausleihliste = liste;
-		listeSortieren();
 		fireTableDataChanged();
 	}
 	
 	public void ausleiheHinzufuegen(Ausleihe ausleihe) {
 		ausleihliste.add(ausleihe);
-		listeSortieren();
 		fireTableDataChanged();
-	}
-	
-	private void listeSortieren() {
-		//ausleihliste.sort(Comparator.comparingDate(Ausleihe::getAusleiheDatum);
 	}
 	
 	@Override
@@ -73,22 +68,21 @@ public class TableModelAusleihe extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		AusleiheDAO ausleihDAO = new AusleiheDAO();
-		BuchDAO buchDAO = new BuchDAO();
 		Ausleihe a = ausleihDAO.findById(ausleihliste.get(rowIndex).getId());
-		Buch buch = buchDAO.findById(ausleihliste.get(rowIndex).getMediumID());
+		Buch buch = (Buch) a.getMedium();
 		
 		Object returnWert = new Object();
 		
 		switch (columnIndex) {
 		case 0:
-			if(a.getMediumID() != 0) {
-				//String barcode = buch.getBarcode();
-				returnWert = "1000002";
+			if(a.getMedium() != null) {
+				int barcode = buch.getBarcodeNr();
+				returnWert = barcode;
 			}
 			else {returnWert = "";}
 			break;
 		case 1:
-			if(a.getMediumID() != 0) {
+			if(a.getMedium() != null) {
 				String titel = buch.getTitel();
 				returnWert = titel;
 			}
@@ -98,8 +92,8 @@ public class TableModelAusleihe extends AbstractTableModel {
 			returnWert = a.getAusleiheDatum();
 			break;
 		case 3:
-			if(a.getNotizAusleihe() != null) {
-				returnWert = a.getNotizAusleihe();
+			if(buch.getBemerkung() != null) {
+				returnWert = buch.getBemerkung();
 			}
 			else {returnWert = "";}
 			break;
