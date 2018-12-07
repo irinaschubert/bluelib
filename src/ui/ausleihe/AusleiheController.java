@@ -20,6 +20,7 @@ import domain.Buch;
 import domain.EingeloggterMA;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
+import hilfsklassen.TextComponentLimit;
 import models.TableModelAusleihe;
 import services.AusleiheService;
 import services.Verifikation;
@@ -407,6 +408,8 @@ public class AusleiheController {
 		ausleiheView.getBenutzerVornameT().setEditable(false);
 		ausleiheView.getErfasstVonT().setEditable(false);
 		ausleiheView.getErfasstAmT().setEditable(false);
+		TextComponentLimit.addTo(ausleiheView.getBarcodeT(), 15);
+		TextComponentLimit.addTo(ausleiheView.getBenutzerEingabeT(), 5);
 		ausleiheView.getButtonPanel().getButton1().setText(ButtonNamen.ZURUECKGABE.getName());
 		ausleiheView.getButtonPanel().getButton2().setVisible(false);
 		ausleiheView.getButtonPanel().getButton3().setVisible(false);

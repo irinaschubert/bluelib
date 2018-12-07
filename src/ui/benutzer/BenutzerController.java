@@ -27,6 +27,7 @@ import domain.Ort;
 import domain.Status;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
+import hilfsklassen.TextComponentLimit;
 import models.TableModelBenutzer;
 import services.BenutzerService;
 import services.Verifikation;
@@ -408,7 +409,18 @@ public class BenutzerController {
 		benutzerView.getStrasseNrSucheL().setText("Strasse/Nr.:");
 		benutzerView.getPlzOrtSucheL().setText("PLZ/Ort:");
 		benutzerView.getStatusSucheL().setText("Status:");
-		
+		TextComponentLimit.addTo(benutzerView.getBemerkungT(), 300);
+		TextComponentLimit.addTo(benutzerView.getMailT(), 50);
+		TextComponentLimit.addTo(benutzerView.getTelT(), 30);
+		TextComponentLimit.addTo(benutzerView.getGeburtsdatumT(), 10);
+		TextComponentLimit.addTo(benutzerView.getStrasseNrT(), 50);
+		TextComponentLimit.addTo(benutzerView.getPKT(), 15);
+		TextComponentLimit.addTo(benutzerView.getVornameT(), 30);
+		TextComponentLimit.addTo(benutzerView.getNachnameT(), 30);
+		TextComponentLimit.addTo(benutzerView.getPKSucheT(), 15);
+		TextComponentLimit.addTo(benutzerView.getNachnameSucheT(), 30);
+		TextComponentLimit.addTo(benutzerView.getVornameSucheT(), 30);
+		TextComponentLimit.addTo(benutzerView.getStrasseNrSucheT(), 50);
 		StatusRenderer statusR = new StatusRenderer();
 		benutzerView.getStatusCbx().setRenderer(statusR);
 		for(Status s : statusDao.findAll()) {
@@ -452,7 +464,7 @@ public class BenutzerController {
 		benutzerView.getSuchButton().setText("Suchen");
 		benutzerView.getPKT().setEditable(false);
 		benutzerView.getErfasstVonT().setEditable(false);
-		benutzerView.getErfasstAmT().setEditable(false);
+		benutzerView.getErfasstAmT().setEditable(false);		
 		benutzerView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
 		benutzerView.getButtonPanel().getButton2().setVisible(false);
 		benutzerView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
