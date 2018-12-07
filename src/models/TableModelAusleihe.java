@@ -1,11 +1,9 @@
 package models;
 
-import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import dao.AusleiheDAO;
-import dao.BuchDAO;
 import domain.Ausleihe;
 import domain.Buch;
 
@@ -70,9 +68,7 @@ public class TableModelAusleihe extends AbstractTableModel {
 		AusleiheDAO ausleihDAO = new AusleiheDAO();
 		Ausleihe a = ausleihDAO.findById(ausleihliste.get(rowIndex).getId());
 		Buch buch = (Buch) a.getMedium();
-		
 		Object returnWert = new Object();
-		
 		switch (columnIndex) {
 		case 0:
 			if(a.getMedium() != null) {

@@ -7,7 +7,6 @@ package domain;
  */
 public class Buch extends Medium {
 	private int buchId;
-	private String barcode;
 	private Verlag verlag;
 	private String reihe;
 	private String auflage;
@@ -83,14 +82,6 @@ public class Buch extends Medium {
 
 	public void setErscheinungsOrt(String erscheinungsOrt) {
 		this.erscheinungsOrt = erscheinungsOrt;
-	}
-
-	public String getBarcode() {
-		return barcode;
-	}
-
-	public void setBarcode(String barcode) {
-		this.barcode = barcode;
 	}
 
 	public int getBuchId() {

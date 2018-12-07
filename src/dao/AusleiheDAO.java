@@ -36,46 +36,39 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		int argCounter = 0;
 		String sql = "INSERT INTO "
 			+ "ausleihe "
-			+ "(id,"
-			+ " person_id,"
-			+ " medium_id"
-			+ (domainObject.getAusleiheDatum() != null ? ", von":"")
+			+ "(person_id,"
+			+ " medium_id,"
+			+ " von"
 			+ (domainObject.getRueckgabeDatum() != null ? ", retour":"")
-			+ (domainObject.getAusleiheMitarbeiterID() > 0 ? ", erfasser_person_id":"")
-			+ ", retour_person_id"
+			+ ", erfasser_person_id"
+			+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ", retour_person_id":"")
 			+ ") "
 			+ "VALUES "
 			+ "(?, ?, ?"
-			+ (domainObject.getAusleiheDatum() != null?",? ":"")
 			+ (domainObject.getRueckgabeDatum() != null?",? ":"")
-			+ (domainObject.getAusleiheMitarbeiterID() >0 ?",? ":"")
 			+ ", ?"
+			+ (domainObject.getRueckgabeMitarbeiterID() >0 ?",? ":"")
 			+ ")";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			argCounter++;
-			pstmt.setInt(argCounter,domainObject.getId());
-			argCounter++;
 			pstmt.setInt(argCounter,domainObject.getBenutzer().getId());
 			argCounter++;
 			pstmt.setInt(argCounter,domainObject.getMedium().getId());
-			if (domainObject.getAusleiheDatum() != null) {
-				argCounter++;
-				pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getAusleiheDatum()));
-			}
+			argCounter++;
+			pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getAusleiheDatum()));
 			if (domainObject.getRueckgabeDatum() != null) {
 				argCounter++;
 				pstmt.setDate(argCounter,DateConverter.convertJavaDateToSQLDateN(domainObject.getRueckgabeDatum()));
 			}
-			if (domainObject.getAusleiheMitarbeiterID() > 0) {
-				argCounter++;
-				pstmt.setInt(argCounter,domainObject.getAusleiheMitarbeiterID());
-			}
+			argCounter++;
+			pstmt.setInt(argCounter,domainObject.getAusleiheMitarbeiterID());
 			if (domainObject.getRueckgabeMitarbeiterID() > 0) {
 				argCounter++;
 				pstmt.setInt(argCounter,domainObject.getRueckgabeMitarbeiterID());
 			}
+			System.out.println(pstmt);
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			if(rs != null && rs.next()){
