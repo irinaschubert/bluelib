@@ -293,6 +293,9 @@ public class AutorController {
 		TextComponentLimit.addTo(autorView.getVornameT(), 50);
 		TextComponentLimit.addTo(autorView.getGeburtsDatumT(), 10);
 		TextComponentLimit.addTo(autorView.getTodesDatumT(), 10);
+		TextComponentLimit.addTo(autorView.getNachnameSucheT(), 50);
+		TextComponentLimit.addTo(autorView.getVornameSucheT(), 50);
+		TextComponentLimit.addTo(autorView.getGeburtsDatumSucheT(), 10);
 		
 		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
