@@ -234,11 +234,12 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		String sql = "SELECT "
 				+ "id "
 				+ ",person_id "
-				+ ",medium_id"
+				+ ",medium_id "
 				+ ",von "
-				+ ",erfasser_id"
+				+ ",erfasser_person_id "
+				+ "FROM ausleihe "
 				+ "WHERE medium_id = ? "
-				+ "AND von is NOT NULL "
+				+ "AND von IS NOT NULL "
 				+ "AND retour IS NULL";
 		try {
 

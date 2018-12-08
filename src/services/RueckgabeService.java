@@ -23,13 +23,13 @@ public class RueckgabeService {
 	
 	public VerifikationMitAusleihe ausleiheAnzeigenByBuchId(int id) {
 		VerifikationMitAusleihe v = new VerifikationMitAusleihe();
+		BuchDAO buchDAO = new BuchDAO();
 		if (istAusgeliehen(id)) {
 			v.setAktionErfolgreich(true);
 			Ausleihe a = new Ausleihe();
 		AusleiheDAO ausleiheDAO = new AusleiheDAO();
 		v.setAusleihe(ausleiheDAO.findAusgeliehenesBuchById(id));
 		
-		BuchDAO buchDAO = new BuchDAO();
 		v.setBuch(buchDAO.findById(v.getAusleihe().getMediumID()));
 		
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
@@ -38,7 +38,8 @@ public class RueckgabeService {
 		}
 		else {
 			v.setAktionErfolgreich(false);
-			v.setNachricht("Das Buch ist nicht ausgeliehen.");
+			String titel = buchDAO.findById(id).getTitel();
+			v.setNachricht("Das Buch '" + titel + "' ist nicht ausgeliehen.");
 		}
 			return v;
 	}

@@ -553,7 +553,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+ "m.titel, "
 				+ "m.barcode, "
 				+ "m.preis, "
-				//				+ "m.erscheinungsjahr, "
+				+ "m.erscheinungsjahr, "
 				+ "m.reihe, "
 				+ "m.erscheinungsort, "
 				+ "m.erfassungsdatum, "
@@ -576,14 +576,15 @@ public class BuchDAO implements DAOInterface<Buch> {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(pCounter,id);
 			rs = pstmt.executeQuery();
-
+			int count = 1;
+			b = new Buch();
 			while(rs.next()) {
-				int count = 1;
+				
 				b.setId(rs.getInt(count++));
 				b.setTitel(rs.getString(count++));
 				b.setBarcode(rs.getString(count++));
 				b.setPreis(rs.getBigDecimal(count++));
-				//					b.setErscheinungsJahr(rs.getString(count++));
+				b.setErscheinungsJahr(rs.getInt(count++));
 				b.setReihe(rs.getString(count++));
 				b.setErscheinungsOrt(rs.getString(count++));
 				b.setErfassungDatum(rs.getDate(count++));
@@ -685,8 +686,8 @@ public class BuchDAO implements DAOInterface<Buch> {
 		return null;
 	}
 
-	public Boolean BarcodeNichtZugeordnet(int barCode) {
-		Boolean barcodeNichtZugeordnet = true;
+	public Boolean BarcodeZugeordnet(int barCode) {
+		Boolean barcodeZugeordnet = false;
 		ResultSet rs = null;
 		String sql = "SELECT "
 				+ "1 "
@@ -700,7 +701,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 			pstmt.setInt(1,barCode);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				barcodeNichtZugeordnet = false;					
+				barcodeZugeordnet = true;					
 			}			
 
 		} catch (SQLException e) {
@@ -715,6 +716,6 @@ public class BuchDAO implements DAOInterface<Buch> {
 			} catch(Exception ex){}
 		}
 
-		return barcodeNichtZugeordnet;
+		return barcodeZugeordnet;
 	}	
 }

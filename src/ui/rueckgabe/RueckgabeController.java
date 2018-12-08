@@ -1,6 +1,5 @@
 package ui.rueckgabe;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,13 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-
+import javax.swing.SwingUtilities;
 import dao.AusleiheDAO;
 import dao.BenutzerDAO;
 import dao.BuchDAO;
@@ -30,10 +26,8 @@ import domain.Autor;
 import domain.Benutzer;
 import domain.Buch;
 import domain.EingeloggterMA;
-import hilfsklassen.BarcodePruefung;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
-import hilfsklassen.IntHelfer;
 import models.TableModelAusleihe;
 import services.AusleiheService;
 import services.MedienhandlingService;
@@ -41,8 +35,6 @@ import services.RueckgabeService;
 import services.Verifikation;
 import services.VerifikationMitAusleihe;
 import ui.HauptController;
-import ui.ausleihe.AusleiheView;
-import ui.buch.BuchSuchView;
 
 /**
  * Controller für die AusleiheView, der die Logik und die Ausleihaktionen der
@@ -140,20 +132,19 @@ public class RueckgabeController {
 	ActionListener buchSuchenButtonActionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			BuchSuchView buchSuchView = new BuchSuchView();
-			BuchSuchControllerAusRueckgabe bsc = new BuchSuchControllerAusRueckgabe(buchSuchView, rueckgabeController);
-			JFrame frame = new JFrame();
-			frame.setLayout(new BorderLayout());
-			frame.getContentPane().add(buchSuchView);
-			frame.add(buchSuchView);
-			frame.setSize(300, 300);
-			frame.setVisible(true);
-//			JDialog dialog = new JDialog(frame, "Buch suchen", true);
-//			 dialog.setDefaultCloseOperation(
-//	                 WindowConstants.DISPOSE_ON_CLOSE);
-//			 dialog.setSize(300,300);
-//	     dialog.setVisible(true);
-			//findenBuch();
+			
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					RueckgabeDialog rueckgabeDialog = new RueckgabeDialog("Buch suchen");
+					new RueckgabeDialogController(rueckgabeController, rueckgabeDialog);
+					rueckgabeDialog.setModal(true);
+					rueckgabeDialog.setVisible(true);
+
+				}
+
+			});
+			
 		}
 	};
 	
@@ -173,7 +164,7 @@ public class RueckgabeController {
 							Buch b = new Buch();
 							b.setBarcodeNr(Integer.parseInt(rueckgabeView.getBarcodeT().getText()));
 							Buch resultat = medienHandlingService.buchSuchen(b).get(0);
-							buchSuchenUndResultatAnzeigen(b.getId());
+							buchSuchenUndResultatAnzeigen(resultat.getId());
 							}
 					}
 						
@@ -204,11 +195,13 @@ public class RueckgabeController {
 			rueckgabeView.getBenutzerNameT().setText(vma.getBenutzer().getName());
 			rueckgabeView.getBenutzerStatusT().setText(vma.getBenutzer().getBenutzerStatus().getBezeichnung());
 			rueckgabeView.getNotizT().setText(vma.getBuch().getBemerkung());
-			rueckgabeView.getErfasstVonT().setText(EingeloggterMA.getInstance().getMitarbeiter().getName());
-			rueckgabeView.getErfasstAmT().setText(new SimpleDateFormat("dd.MM.yyyy").format(new Date()));
+			rueckgabeView.getErfasstVonT().setText(vma.getAusleihe().getAusleiheMitarbeiterName());
+			rueckgabeView.getErfasstAmT().setText(DateConverter.convertJavaDateToString(vma.getAusleihe().getAusleiheDatum()));
 		}
 		else {
 			JOptionPane.showMessageDialog(null, vma.getNachricht());
+			felderLeeren();
+			
 		}
 	}
 
@@ -255,11 +248,28 @@ public class RueckgabeController {
 		boolean keinInputFehler = true;
 
 		if (!rueckgabeView.getBarcodeT().getText().isEmpty()) {
-			Verifikation v = BarcodePruefung.istBarcode(rueckgabeView.getBarcodeT().getText());
+			Verifikation v = medienHandlingService.istBarcode(rueckgabeView.getBarcodeT().getText());
 			if (!v.isAktionErfolgreich()) {
 				JOptionPane.showMessageDialog(null, v.getNachricht());
-				rueckgabeView.getBarcodeT().setText("");			
+				rueckgabeView.getBarcodeT().setText("");		
+				keinInputFehler = false;
 			}
+			else {
+				int barCode = Integer.parseInt(rueckgabeView.getBarcodeT().getText()); 
+				
+				Verifikation vz = medienHandlingService.BarcodeZugeordnet(barCode);
+				if(!vz.isAktionErfolgreich()) {
+					JOptionPane.showMessageDialog(null, vz.getNachricht());
+					rueckgabeView.getBarcodeT().setText("");		
+					keinInputFehler = false;
+				}
+			}
+			
+			if (!keinInputFehler) {
+				felderLeeren();
+			}
+
+			
 		
 		
 
@@ -394,14 +404,18 @@ public class RueckgabeController {
 
 	// Felder leeren
 	private void felderLeeren() {
-		for (Component t : rueckgabeView.getZuweisenPanel().getComponents()) {
-			if (t instanceof JTextField) {
-				((JTextField) t).setText("");
-			}
-			if (t instanceof JTextArea) {
-				((JTextArea) t).setText("");
-			}
-		}
+		rueckgabeView.getBarcodeT().setText("");
+		rueckgabeView.getPKTBuch().setText("");
+		rueckgabeView.getBuchTitelT().setText("");
+		rueckgabeView.getAutorT().setText("");
+		rueckgabeView.getBuchStatusT().setText("");
+		rueckgabeView.getBenutzerIDT().setText("");
+		rueckgabeView.getBenutzerNameT().setText("");
+		rueckgabeView.getBenutzerVornameT().setText("");
+		rueckgabeView.getBenutzerStatusT().setText("");
+		rueckgabeView.getNotizT().setText("");
+		rueckgabeView.getErfasstVonT().setText("");
+		rueckgabeView.getErfasstAmT().setText("");
 	}
 	
 	public void initialisieren() {

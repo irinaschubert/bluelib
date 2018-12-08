@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
-import hilfsklassen.BarcodePruefung;
+import services.MedienhandlingService;
 import services.Verifikation;
 
 /**
@@ -70,13 +70,15 @@ public class BarCodeZuordnungController {
 	private Boolean barcodeUeberpruefen() {
 		Boolean r = true;
 		Verifikation v = new Verifikation();
-		v = BarcodePruefung.istBarcode(barCodeZuordnungView.getBarCodeT().getText());
+		MedienhandlingService medienhandlingService = new MedienhandlingService();
+		v = medienhandlingService.istBarcode(barCodeZuordnungView.getBarCodeT().getText()) ;
 		if (!v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			r = false;
 		} else {
-			v = BarcodePruefung.BarcodeNichtZugeordnet(barCodeZuordnungView.getBarCodeT().getText());
-			if (!v.isAktionErfolgreich()) {
+			int barCode = Integer.parseInt(barCodeZuordnungView.getBarCodeT().getText());
+			v = medienhandlingService.BarcodeZugeordnet(barCode);
+			if (v.isAktionErfolgreich()) {
 				JOptionPane.showMessageDialog(null, v.getNachricht());
 				r = false;
 			}
