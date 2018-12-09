@@ -30,6 +30,7 @@ import models.TableModelBuch;
 import models.TableModelRueckgabe;
 import services.MedienhandlingService;
 import services.NormdatenService;
+import services.RueckgabeService;
 import services.Verifikation;
 import ui.HauptController;
 
@@ -405,6 +406,13 @@ public class BuchController {
 	public void uebernehmen(Buch buch) {
 		
 		felderLeeren();
+		RueckgabeService rueckgabeService = new RueckgabeService();
+		if (rueckgabeService.istAusgeliehen(buch.getId())) {
+			buchView.getLeihstatusT().setText("Ausgeliehen");
+		}
+		else {
+			buchView.getLeihstatusT().setText("Verfügbar");
+		}
 		buchView.getNeuAendernL().setText("Bearbeiten");
 		buchView.getPKT().setText(Integer.toString(buch.getId()));
 		buchView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
@@ -458,6 +466,7 @@ public class BuchController {
 
 	private void felderLeeren() {
 		
+		buchView.getLeihstatusT().setText("");
 		buchView.getPKT().setText("");
 		buchView.getBarcodeT().setText("");
 		buchView.getTitelT().setText("");
@@ -486,6 +495,7 @@ public class BuchController {
 	}
 
 	private void neuBearbeitenPanelInitialisieren() {
+		buchView.getLeihstatusL().setText("Leihstatus:");
 		buchView.getPKL().setText("Nr.:");
 		buchView.getBarcodeL().setText("Barcode*:");
 		buchView.getErfassenBarcodeB().setText("Erfassen");
