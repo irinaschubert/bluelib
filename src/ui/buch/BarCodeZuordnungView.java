@@ -3,6 +3,7 @@ package ui.buch;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import ui.benutzer.FormularMitGridbaglayout;
 
-public class BarCodeZuordnungView extends JFrame {
+public class BarCodeZuordnungView extends JDialog {
 	
 	
 	private JLabel barCodeL;
@@ -24,7 +25,7 @@ public class BarCodeZuordnungView extends JFrame {
 		getContentPane().add(frameAufbauen());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(300, 100);
-		setVisible(true);		
+			
 		
 	}
 	

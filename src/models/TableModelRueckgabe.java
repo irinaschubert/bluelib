@@ -9,6 +9,7 @@ import dao.AusleiheDAO;
 import dao.BuchDAO;
 import domain.Ausleihe;
 import domain.Buch;
+import hilfsklassen.DateConverter;
 
 /**
  * Dient zur Darstellung und zum Updaten der Rückgabe
@@ -85,8 +86,7 @@ public class TableModelRueckgabe extends AbstractTableModel {
 		switch (columnIndex) {
 		case 0:
 			if(a.getMediumID() != 0) {
-				//String barcode = buch.getBarcode();
-				returnWert = "1000002";
+				returnWert = buch.getBarcode();
 			}
 			else {returnWert = "";}
 			break;
@@ -98,7 +98,7 @@ public class TableModelRueckgabe extends AbstractTableModel {
 			else {returnWert = "";}
 			break;
 		case 2:
-			returnWert = a.getAusleiheDatum();
+			returnWert = DateConverter.convertJavaDateToString(a.getRueckgabeDatum());
 			break;
 		case 3:
 			if(a.getNotizAusleihe() != null) {

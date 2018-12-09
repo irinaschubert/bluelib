@@ -11,9 +11,11 @@ import javax.swing.JOptionPane;
 import models.TableModelBuch;
 import ui.buch.BuchSuchController;
 import ui.buch.BuchSuchView;
+
 /**
  * 
  * Fügt das Suchpanel in den Dialog ein und steuert den Dialog
+ * 
  * @version 1.0 2018-12-08
  * @author Schmutz
  *

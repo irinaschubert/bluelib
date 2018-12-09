@@ -2,6 +2,9 @@ package ui.buch;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +26,8 @@ import hilfsklassen.TextComponentLimit;
 import models.ComboBoxModelAutor;
 import models.ComboBoxModelSchlagwort;
 import models.ComboBoxModelVerlag;
+import models.TableModelBuch;
+import models.TableModelRueckgabe;
 import services.MedienhandlingService;
 import services.NormdatenService;
 import services.Verifikation;
@@ -40,6 +45,7 @@ import ui.HauptController;
 
 public class BuchController {
 	private BuchView buchView;
+	BuchSuchView buchSuchView;
 	private List<Buch> buchL;
 	private MedienhandlingService medienHandlingService;
 	private NormdatenService normdatenService;
@@ -54,9 +60,9 @@ public class BuchController {
 		this.hauptController = hauptController;
 		medienHandlingService = new MedienhandlingService();
 		normdatenService = new NormdatenService();
+		buchSuchView = new BuchSuchView();
 		buchController = this;
-		BuchSuchView buchSuchView = new BuchSuchView();
-		buchSuchController = new BuchSuchControllerAusBuch(buchSuchView, this);
+		buchSuchController = new BuchSuchController(buchSuchView);
 		buchView.addBuchSuchView(buchSuchView);
 		neuBearbeitenPanelInitialisieren();
 		ButtonPanelInitialisieren();
@@ -75,6 +81,7 @@ public class BuchController {
 		buchView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener());
 		buchView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener());
 		buchView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener());
+		buchSuchView.getBuchTabelle().addMouseListener(doppelKlick());
 
 	}
 
@@ -265,6 +272,8 @@ public class BuchController {
 						BarCodeZuordnungView barCodeZuordnungView = new BarCodeZuordnungView("Barcode");
 						BarCodeZuordnungController barCodeZuordnungController = new BarCodeZuordnungController(
 								barCodeZuordnungView, buchController);
+						barCodeZuordnungView.setModal(true);
+						barCodeZuordnungView.setVisible(true);	
 
 					}
 
@@ -273,6 +282,22 @@ public class BuchController {
 			}
 		};
 		return barCodeZuweisenActionListsner;
+	}
+	
+	private MouseListener doppelKlick() {
+	
+	MouseListener doppelKlick = new MouseAdapter() {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getClickCount() == 2) {
+				TableModelBuch tableModelBuch = new TableModelBuch();
+				tableModelBuch = buchSuchController.getTableModelBuch();
+				buchController.uebernehmen(
+						tableModelBuch.getGeklicktesObjekt(buchSuchView.getBuchTabelle().getSelectedRow()));
+			}
+		}
+	};
+	return doppelKlick;
 	}
 
 	private boolean inputValidierungSpeichern() {

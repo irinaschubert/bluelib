@@ -103,9 +103,8 @@ public class AusleiheController {
 		ActionListener rueckgabeButtonActionListener = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO: öffnen des Rückgabefensters
 				hauptController.panelEntfernen();
-				ausleiheView.getRueckgabeWechselnL().setText("Zu Rückgabe wechseln");
+				hauptController.rueckgabeAnzeigen();
 			}
 		};
 		ausleiheView.getButtonPanel().getButton1().addActionListener(rueckgabeButtonActionListener);

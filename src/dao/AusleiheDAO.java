@@ -11,6 +11,7 @@ import java.util.List;
 import domain.Ausleihe;
 import domain.Benutzer;
 import hilfsklassen.DateConverter;
+import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 /**
  * Verwaltet die CRUD- und weitere Operationen für ausleihe
@@ -99,41 +100,43 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	}
 
  /**
-  * Es erfolgen nur Updates auf das Rückgabedatum, den Erfasser der Rückgabe
+  * Es erfolgen nur Updates auf das Rückgabedatum und den Erfasser der Rückgabe
   */
 	@Override
 	public Ausleihe update(Ausleihe domainObject) {
-		ResultSet rs = null;
 		Ausleihe a = null;
+		int updateErfolreich = 0;
 		int argCounter = 1;
 		String sql = "UPDATE ausleihe "
 			+ "SET "
-			+ (domainObject.getRueckgabeDatum() != null ? ", retour = ?":"")
-			+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ", retour_person_id = ?":"")
-			+ "FROM ausleihe a "
-			+ "WHERE a.id = ?";
-;
+			+ (domainObject.getRueckgabeDatum() != null ? " retour = ? ":" ")
+			+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ", retour_person_id = ? ":" ")
+			+ "WHERE id = ?";
+
 		try {
 			conn = dbConnection.getDBConnection();
-			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			pstmt = conn.prepareStatement(sql);
 			if (domainObject.getRueckgabeDatum() != null) {
 				pstmt.setDate(argCounter++,DateConverter.convertJavaDateToSQLDateN(domainObject.getRueckgabeDatum()));
 			}
 				if (domainObject.getRueckgabeMitarbeiterID() > 0) {
 				pstmt.setInt(argCounter++,domainObject.getRueckgabeMitarbeiterID());
 			}
-			pstmt.executeUpdate();
-			rs = pstmt.getGeneratedKeys();
-			if(rs != null && rs.next()){
-				a = new AusleiheDAO().findById(rs.getInt(1));
+				
+				pstmt.setInt(argCounter++, domainObject.getId());
+				
+			updateErfolreich = pstmt.executeUpdate();
+			if (updateErfolreich > 0) {
+				a = domainObject;
 			}
+			
+		
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		} 
 		finally {
 			try {
-				if(rs != null) rs.close();
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
 			} 
@@ -261,7 +264,55 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 
 	@Override
 	public List<Ausleihe> getSelektion(Ausleihe domainObject) {
-		return null;
+		ResultSet rs = null;
+		Ausleihe ausleihe = null;
+		String sql = "SELECT "
+				+ "id "
+				+ ",person_id "
+				+ ",medium_id "
+				+ ",von "
+				+ ",retour "
+				+ ",erfasser_person_id "
+				+ ",retour_person_id "
+				+ "FROM ausleihe "
+				+ "WHERE retour = ?";
+		// TODO Where-Statement muss noch fertigtestellt werden
+		try {
+
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setDate(1,DateConverter.convertJavaDateToSQLDateN(domainObject.getRueckgabeDatum()));
+			rs = pstmt.executeQuery();
+			
+			
+			MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+			while(rs.next()) {
+				int count = 1;
+				ausleihe = new Ausleihe();
+				ausleihe.setId(rs.getInt(count++));
+				ausleihe.setBenutzerID(rs.getInt(count++));
+				ausleihe.setMediumID(rs.getInt(count++));
+				ausleihe.setAusleiheDatum(rs.getDate(count++));
+				ausleihe.setRueckgabeDatum(rs.getDate(count++));
+				ausleihe.setAusleiheMitarbeiterID(rs.getInt(count++));
+				ausleihe.setRueckgabeMitarbeiterID(rs.getInt(count++));
+				String name = mitarbeiterDAO.findById(ausleihe.getAusleiheMitarbeiterID()).getName();
+				ausleihe.setAusleiheMitarbeiterName(name);
+				ausleiheListe.add(ausleihe);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+
+			try{
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception ex){}
+		}
+		return ausleiheListe;
 	}
 	
 	/**
@@ -286,12 +337,12 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,id);
+			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
-			
+
 			ausleihe = new Ausleihe();
 			MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-			while(rs.next()) {
+			while (rs.next()) {
 				int count = 1;
 				ausleihe.setId(rs.getInt(count++));
 				ausleihe.setBenutzerID(rs.getInt(count++));
@@ -301,13 +352,9 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 				String name = mitarbeiterDAO.findById(ausleihe.getAusleiheMitarbeiterID()).getName();
 				ausleihe.setAusleiheMitarbeiterName(name);
 			}
-			
-			
-			
-			
 
 		} catch (SQLException e) {
-			e.printStackTrace();	
+			e.printStackTrace();
 
 		} finally{
 
@@ -332,27 +379,29 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,id);
+			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				mediumAusgeliehen = true;					
-			}			
+			while (rs.next()) {
+				mediumAusgeliehen = true;
+			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();	
+			e.printStackTrace();
 
-		} finally{
+		} finally {
 
-			try{
-				if(rs != null) rs.close();
-				if(pstmt != null) pstmt.close();
-				if(conn != null) conn.close();
-			} catch(Exception ex){}
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+			}
 		}
-		
+
 		return mediumAusgeliehen;
 
-		
-		
 	}
 }

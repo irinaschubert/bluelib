@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,7 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-import ui.ausleihe.AusleiheButtonPanel;
 import ui.benutzer.FormularMitGridbaglayout;
 import ui.standardKomponenten.StandardButtonPanel;
 import ui.standardKomponenten.StandardTitelPanel;
@@ -37,25 +35,24 @@ public class RueckgabeView extends JPanel {
 	private JPanel buchSuchenPanel;
 	private JPanel rueckgabePanel;
 	private JPanel rueckgabeInfoPanel;
-	private JPanel tabellenPanel;
 	private StandardButtonPanel buttonPanel;
-	
+
 	private JLabel barcodeL;
 	private JLabel PKLBuch;
 	private JLabel buchStatusL;
 	private JLabel buchtitelL;
 	private JLabel autorL;
-	
+
 	private JLabel benutzerIDL;
 	private JLabel benutzerNameL;
 	private JLabel benutzerVornameL;
 	private JLabel benutzerStatusL;
-	
+
 	private JLabel notizL;
 	private JLabel erfasstVonL;
 	private JLabel erfasstAmL;
 	private JLabel ausgelieheneMedienL;
-	
+
 	private JTextField PKTBuch;
 	private JTextField barcodeT;
 	private JTextField buchStatusT;
@@ -68,52 +65,52 @@ public class RueckgabeView extends JPanel {
 	private JTextField benutzerStatusT;
 	private JTextField erfasstVonT;
 	private JTextField erfasstAmT;
-	
+
 	private JButton suchButtonBuch;
 	private JButton ausleiheSpeichernButton;
 	private JLabel rueckgabeWechselnL;
-	
+
 	private JTable ausleiheTabelle;
 	private static int HOEHE = 750;
 	private static int BREITE = 750;
 
 	public RueckgabeView(String panelTitel) {
-		
+
 		new JLabel(panelTitel);
 		buttonPanel = new StandardButtonPanel();
 		suchButtonBuch = new JButton();
 		ausleiheSpeichernButton = new JButton();
-		
-		zuweisenPanel = new JPanel(new GridLayout(1,2));
+
+		zuweisenPanel = new JPanel(new GridLayout(1, 2));
 		zuweisenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		zuweisenPanel.add(createBuchSuchenPanel());
 		zuweisenPanel.add(createBenutzerPanel());
-		
+
 		rueckgabePanel = new JPanel(new BorderLayout());
 		rueckgabePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		rueckgabePanel.add(createRueckgabeInfoPanel(), BorderLayout.NORTH);
 		rueckgabePanel.add(createTabellenPanel(), BorderLayout.SOUTH);
-		
+
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.add(zuweisenPanel, BorderLayout.NORTH);
 		centerPanel.add(rueckgabePanel, BorderLayout.SOUTH);
-		
+
 		this.setLayout(new BorderLayout());
 		this.add(new StandardTitelPanel(panelTitel), BorderLayout.NORTH);
 		this.add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		this.setPreferredSize(new Dimension(BREITE, HOEHE));
 	}
-	
+
 	private JPanel createBuchSuchenPanel() {
 		buchSuchenPanel = new JPanel();
 		buchSuchenPanel.setLayout(new GridBagLayout());
 		buchSuchenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
+		FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
-        PKLBuch = new JLabel();
-        PKTBuch = new JTextField();
+		PKLBuch = new JLabel();
+		PKTBuch = new JTextField();
 		barcodeL = new JLabel();
 		barcodeT = new JTextField();
 		buchStatusL = new JLabel();
@@ -122,34 +119,34 @@ public class RueckgabeView extends JPanel {
 		buchTitelT = new JTextField();
 		autorL = new JLabel();
 		autorT = new JTextField();
-				
-        // Formularfelder
-		formularHelfer.addLabel(barcodeL, buchSuchenPanel);
-        formularHelfer.addLastField(barcodeT, buchSuchenPanel);
-		
-		formularHelfer.addLabel(PKLBuch, buchSuchenPanel);
-        formularHelfer.addLastField(PKTBuch, buchSuchenPanel);
-		
-        formularHelfer.addLabel(buchtitelL, buchSuchenPanel);
-        formularHelfer.addLastField(buchTitelT, buchSuchenPanel);
-        
-        formularHelfer.addLabel(autorL, buchSuchenPanel);
-        formularHelfer.addLastField(autorT, buchSuchenPanel);
-        
-        formularHelfer.addLabel(buchStatusL, buchSuchenPanel);
-        formularHelfer.addLastField(buchStatusT, buchSuchenPanel);
-        
-        formularHelfer.addLabel(new JLabel(""), buchSuchenPanel);
-        formularHelfer.addLastField(suchButtonBuch, buchSuchenPanel);
 
-        return rahmenSetzen("Buch zuweisen", buchSuchenPanel );
+		// Formularfelder
+		formularHelfer.addLabel(barcodeL, buchSuchenPanel);
+		formularHelfer.addLastField(barcodeT, buchSuchenPanel);
+
+		formularHelfer.addLabel(PKLBuch, buchSuchenPanel);
+		formularHelfer.addLastField(PKTBuch, buchSuchenPanel);
+
+		formularHelfer.addLabel(buchtitelL, buchSuchenPanel);
+		formularHelfer.addLastField(buchTitelT, buchSuchenPanel);
+
+		formularHelfer.addLabel(autorL, buchSuchenPanel);
+		formularHelfer.addLastField(autorT, buchSuchenPanel);
+
+		formularHelfer.addLabel(buchStatusL, buchSuchenPanel);
+		formularHelfer.addLastField(buchStatusT, buchSuchenPanel);
+
+		formularHelfer.addLabel(new JLabel(""), buchSuchenPanel);
+		formularHelfer.addLastField(suchButtonBuch, buchSuchenPanel);
+
+		return rahmenSetzen("Buch zuweisen", buchSuchenPanel);
 	}
-	
+
 	private JPanel createBenutzerPanel() {
 		benutzerAnzeigePanel = new JPanel();
 		benutzerAnzeigePanel.setLayout(new GridBagLayout());
 		benutzerAnzeigePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
+		FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
 		benutzerIDL = new JLabel();
 		benutzerIDT = new JTextField();
@@ -159,54 +156,54 @@ public class RueckgabeView extends JPanel {
 		benutzerNameT = new JTextField();
 		benutzerVornameL = new JLabel();
 		benutzerVornameT = new JTextField();
-				
-        // Formularfelder
-        
-        formularHelfer.addLabel(benutzerIDL, benutzerAnzeigePanel);
-        formularHelfer.addLastField(benutzerIDT, benutzerAnzeigePanel);
-        
-        formularHelfer.addLabel(benutzerNameL, benutzerAnzeigePanel);
-        formularHelfer.addLastField(benutzerNameT, benutzerAnzeigePanel);
 
-        formularHelfer.addLabel(benutzerVornameL, benutzerAnzeigePanel);
-        formularHelfer.addLastField(benutzerVornameT, benutzerAnzeigePanel);
-        
-        formularHelfer.addLabel(benutzerStatusL, benutzerAnzeigePanel);
-        formularHelfer.addLastField(benutzerStatusT, benutzerAnzeigePanel);
+		// Formularfelder
 
-        return rahmenSetzen("Benutzer anzeigen", benutzerAnzeigePanel );
+		formularHelfer.addLabel(benutzerIDL, benutzerAnzeigePanel);
+		formularHelfer.addLastField(benutzerIDT, benutzerAnzeigePanel);
+
+		formularHelfer.addLabel(benutzerNameL, benutzerAnzeigePanel);
+		formularHelfer.addLastField(benutzerNameT, benutzerAnzeigePanel);
+
+		formularHelfer.addLabel(benutzerVornameL, benutzerAnzeigePanel);
+		formularHelfer.addLastField(benutzerVornameT, benutzerAnzeigePanel);
+
+		formularHelfer.addLabel(benutzerStatusL, benutzerAnzeigePanel);
+		formularHelfer.addLastField(benutzerStatusT, benutzerAnzeigePanel);
+
+		return rahmenSetzen("Benutzer anzeigen", benutzerAnzeigePanel);
 	}
-	
+
 	private JPanel createRueckgabeInfoPanel() {
 		rueckgabeInfoPanel = new JPanel();
 		rueckgabeInfoPanel.setLayout(new GridBagLayout());
 		rueckgabeInfoPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
+		FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
 		notizL = new JLabel();
-		notizT = new JTextArea(2,1);
+		notizT = new JTextArea(2, 1);
 		erfasstVonL = new JLabel();
 		erfasstVonT = new JTextField();
 		erfasstAmL = new JLabel();
 		erfasstAmT = new JTextField();
-				
-        // Formularfelder        
-        formularHelfer.addLabel(notizL, rueckgabeInfoPanel);
-        formularHelfer.addLastField(new JScrollPane(notizT), rueckgabeInfoPanel);
-		
-        formularHelfer.addLabel(erfasstAmL, rueckgabeInfoPanel);
-        formularHelfer.addLastField(erfasstAmT, rueckgabeInfoPanel);
-        
-        formularHelfer.addLabel(erfasstVonL, rueckgabeInfoPanel);
-        formularHelfer.addLastField(erfasstVonT, rueckgabeInfoPanel);
-        
-        formularHelfer.addLabel(new JLabel(""), rueckgabeInfoPanel);
-        formularHelfer.addMiddleField(new JLabel(""), rueckgabeInfoPanel);
-        formularHelfer.addLastField(ausleiheSpeichernButton, rueckgabeInfoPanel);
-        
-        return rahmenSetzen("Rückgabe", rueckgabeInfoPanel);
+
+		// Formularfelder
+		formularHelfer.addLabel(notizL, rueckgabeInfoPanel);
+		formularHelfer.addLastField(new JScrollPane(notizT), rueckgabeInfoPanel);
+
+		formularHelfer.addLabel(erfasstAmL, rueckgabeInfoPanel);
+		formularHelfer.addLastField(erfasstAmT, rueckgabeInfoPanel);
+
+		formularHelfer.addLabel(erfasstVonL, rueckgabeInfoPanel);
+		formularHelfer.addLastField(erfasstVonT, rueckgabeInfoPanel);
+
+		formularHelfer.addLabel(new JLabel(""), rueckgabeInfoPanel);
+		formularHelfer.addMiddleField(new JLabel(""), rueckgabeInfoPanel);
+		formularHelfer.addLastField(ausleiheSpeichernButton, rueckgabeInfoPanel);
+
+		return rahmenSetzen("Rückgabe", rueckgabeInfoPanel);
 	}
-	
+
 	private JPanel createTabellenPanel() {
 		ausleiheTabelle = new JTable();
 		ausleiheTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -215,16 +212,16 @@ public class RueckgabeView extends JPanel {
 		JLabel tabellenTitel = new JLabel("Heute zurückgegeben:");
 		tabellenPanel.add(tabellenTitel);
 		tabellenPanel.add(new JScrollPane(ausleiheTabelle));
-		tabellenPanel.setPreferredSize(new Dimension(680,200));
+		tabellenPanel.setPreferredSize(new Dimension(680, 200));
 		return tabellenPanel;
 	}
 
 	private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
 		JPanel rahmenPanel = new JPanel();
 		rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));
-		rahmenPanel.setBorder (BorderFactory.createTitledBorder (rahmentitel));
+		rahmenPanel.setBorder(BorderFactory.createTitledBorder(rahmentitel));
 		rahmenPanel.add(inhalt);
-	    return rahmenPanel;
+		return rahmenPanel;
 	}
 
 	public void spaltenBreiteSetzen() {
@@ -233,7 +230,7 @@ public class RueckgabeView extends JPanel {
 		ausleiheTabelle.getColumnModel().getColumn(2).setPreferredWidth(50); // Datum Ausleihe
 		ausleiheTabelle.getColumnModel().getColumn(3).setPreferredWidth(50); // Notiz
 	}
-	
+
 	public StandardButtonPanel getButton() {
 		return this.buttonPanel;
 	}
@@ -289,8 +286,6 @@ public class RueckgabeView extends JPanel {
 	public void setNotizL(JLabel notizL) {
 		this.notizL = notizL;
 	}
-
-	
 
 	public JLabel getBenutzerIDL() {
 		return benutzerIDL;
@@ -396,7 +391,6 @@ public class RueckgabeView extends JPanel {
 		this.notizT = notizT;
 	}
 
-	
 	public JTextField getBenutzerIDT() {
 		return benutzerIDT;
 	}
@@ -480,7 +474,7 @@ public class RueckgabeView extends JPanel {
 	public void setButtonPanel(StandardButtonPanel buttonPanel) {
 		this.buttonPanel = buttonPanel;
 	}
-	
+
 	public JButton getAusleiheSpeichernButton() {
 		return ausleiheSpeichernButton;
 	}
@@ -488,7 +482,7 @@ public class RueckgabeView extends JPanel {
 	public void setAusleiheSpeichernButton(JButton ausleiheSpeichernButton) {
 		this.ausleiheSpeichernButton = ausleiheSpeichernButton;
 	}
-	
+
 	public JLabel getRueckgabeWechselnL() {
 		return rueckgabeWechselnL;
 	}

@@ -122,18 +122,7 @@ public class HauptController {
 		ActionListener ausleiheMenueActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						AusleiheView ausleiheView = new AusleiheView("Ausleihe");
-						new AusleiheController(ausleiheView, hauptController);
-						hauptView.getContentPane().removeAll();
-						hauptView.setSize(new Dimension(ausleiheView.getPreferredSize()));
-						hauptView.getContentPane().add(ausleiheView);
-						hauptView.validate();
-						hauptView.setVisible(true);
-					}
-				});
+				ausleiheAnzeigen();
 			}
 		};
 		return ausleiheMenueActionListener;
@@ -143,18 +132,7 @@ public class HauptController {
 		ActionListener rueckgabeMenueActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						RueckgabeView rueckgabeView= new RueckgabeView("Rückgabe"); 
-						new RueckgabeController(rueckgabeView, hauptController);
-						hauptView.getContentPane().removeAll();
-						hauptView.setSize(new Dimension(rueckgabeView.getPreferredSize()));
-						hauptView.getContentPane().add(rueckgabeView);
-						hauptView.validate();
-						hauptView.setVisible(true);
-					}
-				});
+				rueckgabeAnzeigen();
 			}
 		};
 		return rueckgabeMenueActionListener;
@@ -254,6 +232,36 @@ public class HauptController {
 			}
 		};
 		return autorBeendenActionListener;
+	}
+	
+	public void ausleiheAnzeigen() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				AusleiheView ausleiheView = new AusleiheView("Ausleihe");
+				new AusleiheController(ausleiheView, hauptController);
+				hauptView.getContentPane().removeAll();
+				hauptView.setSize(new Dimension(ausleiheView.getPreferredSize()));
+				hauptView.getContentPane().add(ausleiheView);
+				hauptView.validate();
+				hauptView.setVisible(true);
+			}
+		});
+	}
+	
+	public void rueckgabeAnzeigen() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				RueckgabeView rueckgabeView= new RueckgabeView("Rückgabe"); 
+				new RueckgabeController(rueckgabeView, hauptController);
+				hauptView.getContentPane().removeAll();
+				hauptView.setSize(new Dimension(rueckgabeView.getPreferredSize()));
+				hauptView.getContentPane().add(rueckgabeView);
+				hauptView.validate();
+				hauptView.setVisible(true);
+			}
+		});
 	}
 
 	public void initialisierenNachLogin() {

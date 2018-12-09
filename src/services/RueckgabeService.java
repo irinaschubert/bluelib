@@ -1,5 +1,9 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import dao.AusleiheDAO;
 import dao.BenutzerDAO;
 import dao.BuchDAO;
@@ -56,7 +60,7 @@ public class RueckgabeService {
 		Verifikation v = new Verifikation();
 		AusleiheDAO ausleiheDAO = new AusleiheDAO();
 		Ausleihe a = new Ausleihe(); 
-		a = ausleiheDAO.save(ausleihe);
+		a = ausleiheDAO.update(ausleihe);
 		if (a != null) {
 			v.setAktionErfolgreich(true);
 			// TODO Buchnotiz speichern
@@ -67,9 +71,16 @@ public class RueckgabeService {
 		}
 		
 		return v;
+		
+	}
 	
-		
-		
+	public List<Ausleihe> heuteZurueckGegeben(){
+		List<Ausleihe> zurueck = new ArrayList<>();
+		Ausleihe ausleihe = new Ausleihe();
+		ausleihe.setRueckgabeDatum(new Date());
+		AusleiheDAO ausleiheDAO = new AusleiheDAO();
+		zurueck = ausleiheDAO.getSelektion(ausleihe);
+		return zurueck;
 	}
 
 }
