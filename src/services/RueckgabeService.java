@@ -44,7 +44,7 @@ public class RueckgabeService {
 	}
 		
 	
-	private Boolean istAusgeliehen(int id) {
+	public Boolean istAusgeliehen(int id) {
 		Boolean r = false;
 		AusleiheDAO ausleiheDAO = new AusleiheDAO();
 		r = ausleiheDAO.mediumIstAusgeliehen(id);

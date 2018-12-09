@@ -1,7 +1,9 @@
 package ui.buch;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -44,6 +46,7 @@ public class BuchView extends JPanel {
 	private JPanel centerPanel;
 	private BuchSuchView buchSuchView;
 
+	private JLabel leihStatusL;
 	private JLabel PKL;
 	private JLabel neuBearbeitenL;
 	private JLabel barcodeL;
@@ -72,6 +75,7 @@ public class BuchView extends JPanel {
 	private JButton zuweisenSchlagwortB;
 	private JButton entferntenSchlagwortB;
 
+	private JTextField leihStatusT;
 	private JTextField PKT;
 	private JTextField barcodeT;
 	private JTextField titelT;
@@ -137,6 +141,12 @@ public class BuchView extends JPanel {
 		buchNeuBearbeitenPanel.setLayout(gridBagLayout);
 		FormularMitGridbaglayout gridBagHelfer = new FormularMitGridbaglayout();
 
+		
+		leihStatusL = new JLabel();
+		leihStatusT = new JTextField();
+		leihStatusT.setEditable(false);
+		leihStatusT.setFont(leihStatusT.getFont().deriveFont(Font.BOLD, 14f));
+		
 		PKL = new JLabel();
 		PKT = new JTextField();
 		PKT.setEditable(false);
@@ -144,6 +154,8 @@ public class BuchView extends JPanel {
 		neuBearbeitenL = new JLabel();
 		neuBearbeitenL.setHorizontalAlignment(SwingConstants.CENTER);
 		neuBearbeitenL.setPreferredSize(new Dimension(150, 25));
+		neuBearbeitenL.setFont(leihStatusT.getFont().deriveFont(Font.BOLD, 14f));
+		neuBearbeitenL.setForeground(Color.red);
 
 		barcodeL = new JLabel();
 		barcodeT = new JTextField();
@@ -241,7 +253,9 @@ public class BuchView extends JPanel {
 		erfassungsUserT = new JTextField();
 		erfassungsUserT.setEditable(false);
 
-		gridBagHelfer.feldSetzenLang(neuBearbeitenL, buchNeuBearbeitenPanel, 1, 0);
+		gridBagHelfer.labelSetzen(leihStatusL, buchNeuBearbeitenPanel, 0, 0);
+		gridBagHelfer.feldSetzen(leihStatusT, buchNeuBearbeitenPanel, 1, 0);
+		gridBagHelfer.feldSetzenLang(neuBearbeitenL, buchNeuBearbeitenPanel, 4, 0);
 		gridBagHelfer.labelSetzen(PKL, buchNeuBearbeitenPanel, 0, 1);
 		gridBagHelfer.feldSetzen(PKT, buchNeuBearbeitenPanel, 1, 1);
 		gridBagHelfer.labelSetzen(barcodeL, buchNeuBearbeitenPanel, 0, 2);
@@ -727,6 +741,22 @@ public class BuchView extends JPanel {
 
 	public void setButtonPanel(StandardButtonPanel buttonPanel) {
 		this.buttonPanel = buttonPanel;
+	}
+
+	public JLabel getLeihstatusL() {
+		return leihStatusL;
+	}
+
+	public void setLeihstatusL(JLabel leihstatusL) {
+		this.leihStatusL = leihstatusL;
+	}
+
+	public JTextField getLeihstatusT() {
+		return leihStatusT;
+	}
+
+	public void setLeihstatusT(JTextField leihstatusT) {
+		this.leihStatusT = leihstatusT;
 	}
 
 }
