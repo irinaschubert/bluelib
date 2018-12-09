@@ -5,6 +5,8 @@ import ui.HauptController;
 import ui.HauptView;
 
 /**
+ * Main-Klasse wird beim Starten des Programms aufgerufen.
+ * 
  * @version 0.1 16.10.2018
  * @author BlueLib
  */
@@ -18,9 +20,7 @@ public class Main {
 			public void run() {
 				HauptView view = new HauptView("Hauptview");
 				new HauptController(view);
-
 			}
 		});
 	}
-
 }

@@ -582,7 +582,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				
 				b.setId(rs.getInt(count++));
 				b.setTitel(rs.getString(count++));
-				b.setBarcode(rs.getString(count++));
+				b.setBarcodeNr(rs.getInt(count++));
 				b.setPreis(rs.getBigDecimal(count++));
 				b.setErscheinungsJahr(rs.getInt(count++));
 				b.setReihe(rs.getString(count++));
@@ -613,7 +613,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 	}
 
 
-	public Buch findByBarcode(String barcode) {
+	public Buch findByBarcode(int wert) {
 		ResultSet rs = null;
 		Buch b = null;
 		String sql = "SELECT "
@@ -642,16 +642,16 @@ public class BuchDAO implements DAOInterface<Buch> {
 			int pCounter = 1;
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(pCounter,barcode);
+			pstmt.setInt(pCounter,wert);
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				int count = 1;
 				b.setId(rs.getInt(count++));
 				b.setTitel(rs.getString(count++));
-				b.setBarcode(rs.getString(count++));
+				b.setBarcodeNr(rs.getInt(count++));
 				b.setPreis(rs.getBigDecimal(count++));
-				//					b.setErscheinungsJahr(rs.getString(count++));
+				b.setErscheinungsJahr(rs.getInt(count++));
 				b.setReihe(rs.getString(count++));
 				b.setErscheinungsOrt(rs.getString(count++));
 				b.setErfassungDatum(rs.getDate(count++));
@@ -664,7 +664,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				b.setErfasserName(new MitarbeiterDAO().findNameVornameById(b.getErfasserId()));
 				b.setBuchId(rs.getInt(count++));
 				b.setAuflage(rs.getString(count++));
-				b.setAutoren(new AutorDAO().findeAutorZuBuch(b.getBuchId()));
+				b.setAutoren(new AutorDAO().findeAutorZuBuch(b.getId()));
 				b.setSchlagwoerter(new SchlagwortDAO().findeSchlagwoerterZuMedium(b.getId()));
 			}
 		} catch (SQLException e) {

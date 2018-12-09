@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import domain.Verlag;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
+import hilfsklassen.TextComponentLimit;
 import models.TableModelVerlag;
 import services.NormdatenService;
 import services.Verifikation;
@@ -64,9 +65,9 @@ public class VerlagController {
 			}
 		};
 		verlagView.getSuchButton().addActionListener(suchenButtonActionListener);
-		
+
 		// Neu
-		ActionListener neuButtonActionListener = new ActionListener(){
+		ActionListener neuButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				erfassungFelderLeeren();
@@ -74,7 +75,7 @@ public class VerlagController {
 			}
 		};
 		verlagView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
-		
+
 		// Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
 			@Override
@@ -100,7 +101,7 @@ public class VerlagController {
 			}
 		};
 		verlagView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
-		
+
 		// Doppelklick = Werte übernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
@@ -162,7 +163,7 @@ public class VerlagController {
 			v.setId(Integer.parseInt(verlagView.getPKT().getText()));
 		}
 		v.setName(verlagView.getNameT().getText());
-		
+
 		if (!verlagView.getGruendungsDatumT().getText().isEmpty()) {
 			if (DateConverter.datumIstGueltig(verlagView.getGruendungsDatumT().getText())) {
 				v.setGruendungsDatum(DateConverter.convertStringToJavaDate(verlagView.getGruendungsDatumT().getText()));
@@ -182,14 +183,15 @@ public class VerlagController {
 		if (!verlagView.getNameSucheT().getText().isEmpty()) {
 			v.setName(verlagView.getNameSucheT().getText());
 		}
-		if (!verlagView.getGruendungsDatumT().getText().isEmpty()) {
-			if (DateConverter.datumIstGueltig(verlagView.getGruendungsDatumT().getText())) {
-				v.setGruendungsDatum(DateConverter.convertStringToJavaDate(verlagView.getGruendungsDatumT().getText()));
+		if (!verlagView.getGruendungsDatumSucheT().getText().isEmpty()) {
+			if (DateConverter.datumIstGueltig(verlagView.getGruendungsDatumSucheT().getText())) {
+				v.setGruendungsDatum(
+						DateConverter.convertStringToJavaDate(verlagView.getGruendungsDatumSucheT().getText()));
 			}
 		}
-		if (!verlagView.getEndDatumT().getText().isEmpty()) {
-			if (DateConverter.datumIstGueltig(verlagView.getEndDatumT().getText())) {
-				v.setEndDatum(DateConverter.convertStringToJavaDate(verlagView.getEndDatumT().getText()));
+		if (!verlagView.getEndDatumSucheT().getText().isEmpty()) {
+			if (DateConverter.datumIstGueltig(verlagView.getEndDatumSucheT().getText())) {
+				v.setEndDatum(DateConverter.convertStringToJavaDate(verlagView.getEndDatumSucheT().getText()));
 			}
 		}
 		v.setGeloescht(verlagView.getGeloeschtSucheCbx().isSelected());
@@ -203,7 +205,8 @@ public class VerlagController {
 		verlagView.getPKT().setText(Integer.toString(verlag.getId()));
 		verlagView.getNameT().setText(verlag.getName());
 		if (verlag.getGruendungsDatum() != null) {
-			verlagView.getGruendungsDatumT().setText(DateConverter.convertJavaDateToString(verlag.getGruendungsDatum()));
+			verlagView.getGruendungsDatumT()
+					.setText(DateConverter.convertJavaDateToString(verlag.getGruendungsDatum()));
 		}
 
 		if (verlag.getEndDatum() != null) {
@@ -222,7 +225,7 @@ public class VerlagController {
 		suchFelderLeeren();
 		verlagView.getNeuAendernL().setText("");
 	}
-	
+
 	private void suchFelderLeeren() {
 		for (JComponent t : verlagView.getComponentsSuche().values()) {
 			if (t instanceof JTextField) {
@@ -230,10 +233,10 @@ public class VerlagController {
 			}
 			if (t instanceof JCheckBox) {
 				((JCheckBox) t).setSelected(false);
-			}			
+			}
 		}
 	}
-	
+
 	private void erfassungFelderLeeren() {
 		for (JComponent t : verlagView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
@@ -241,7 +244,7 @@ public class VerlagController {
 			}
 			if (t instanceof JCheckBox) {
 				((JCheckBox) t).setSelected(false);
-			}			
+			}
 		}
 	}
 
@@ -257,6 +260,12 @@ public class VerlagController {
 		verlagView.getGeloeschtSucheL().setText("Gelöschte Verlage:");
 		verlagView.getSuchButton().setText("Suchen");
 		verlagView.getPKT().setEditable(false);
+		TextComponentLimit.addTo(verlagView.getNameT(), 50);
+		TextComponentLimit.addTo(verlagView.getGruendungsDatumT(), 10);
+		TextComponentLimit.addTo(verlagView.getEndDatumT(), 10);
+		TextComponentLimit.addTo(verlagView.getNameSucheT(), 50);
+		TextComponentLimit.addTo(verlagView.getGruendungsDatumSucheT(), 10);
+		TextComponentLimit.addTo(verlagView.getEndDatumSucheT(), 10);
 		verlagView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
 		verlagView.getButtonPanel().getButton2().setVisible(false);
 		verlagView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());

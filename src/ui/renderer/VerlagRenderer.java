@@ -1,31 +1,28 @@
-package ui.status;
+package ui.renderer;
 
 import java.awt.Component;
 
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
-
-import domain.Status;
+import domain.Verlag;
 
 /**
- * Regelt die Werte und deren Darstellung der Status in der Dropdownliste
+ * Stellt die Werte für die Verlag-Dropdownlisten zusammen
  * 
  * @version 1.0 18.10.2018
  * @author irina
  */
-@SuppressWarnings("serial")
-public class StatusRenderer extends BasicComboBoxRenderer {
+
+public class VerlagRenderer extends BasicComboBoxRenderer {
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
 		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+//	    Definition der Variablen aus dem Objekt, welche in der ComboBox angezeigt werden sollen
+//	    Der Rückgabewert sollte vom Datentyp String sein. Der Cast des Objekts ist leidernötig
 		if (value != null) {
-			Status status = (Status) value;
-			setText(String.valueOf(status.getBezeichnung()));
-		}
-		if (index == -1) {
-			Status status = (Status) value;
-			setText("" + status.getBezeichnung());
+			String verlagText = ((Verlag) value).getName();
+			setText(verlagText);
 		}
 		return this;
 	}

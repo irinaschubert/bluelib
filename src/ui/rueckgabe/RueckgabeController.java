@@ -167,22 +167,22 @@ public class RueckgabeController {
 		VerifikationMitAusleihe vma = rueckgabeService.ausleiheAnzeigenByBuchId(id);
 		if (vma.isAktionErfolgreich()) {
 			ausleihe = vma.getAusleihe();
-			rueckgabeView.getPKTBuch().setText(Integer.toString(vma.getBuch().getId()));
-			rueckgabeView.getBuchTitelT().setText(vma.getBuch().getTitel());
+			rueckgabeView.getPKTBuch().setText(Integer.toString(vma.getAusleihe().getMedium().getId()));
+			rueckgabeView.getBuchTitelT().setText(vma.getAusleihe().getMedium().getTitel());
 			String autor = "";
-			for (int i = 0; i < vma.getBuch().getAutoren().size(); i++) {
-				autor = autor + vma.getBuch().getAutoren().get(i).getName() + " "
-						+ vma.getBuch().getAutoren().get(i).getVorname();
-				autor = autor + (i + 1 == vma.getBuch().getAutoren().size() ? "" : ", ");
+			for (int i = 0; i < vma.getAusleihe().getMedium().getAutoren().size(); i++) {
+				autor = autor + vma.getAusleihe().getMedium().getAutoren().get(i).getName() + " "
+						+ vma.getAusleihe().getMedium().getAutoren().get(i).getVorname();
+				autor = autor + (i + 1 == vma.getAusleihe().getMedium().getAutoren().size() ? "" : ", ");
 			}
 
 			rueckgabeView.getAutorT().setText(autor);
-			rueckgabeView.getBuchStatusT().setText(vma.getBuch().getStatus().getBezeichnung());
-			rueckgabeView.getBenutzerIDT().setText(Integer.toString(vma.getBenutzer().getId()));
-			rueckgabeView.getBenutzerVornameT().setText(vma.getBenutzer().getVorname());
-			rueckgabeView.getBenutzerNameT().setText(vma.getBenutzer().getName());
-			rueckgabeView.getBenutzerStatusT().setText(vma.getBenutzer().getBenutzerStatus().getBezeichnung());
-			rueckgabeView.getNotizT().setText(vma.getBuch().getBemerkung());
+			rueckgabeView.getBuchStatusT().setText(vma.getAusleihe().getMedium().getStatus().getBezeichnung());
+			rueckgabeView.getBenutzerIDT().setText(Integer.toString(vma.getAusleihe().getBenutzer().getId()));
+			rueckgabeView.getBenutzerVornameT().setText(vma.getAusleihe().getBenutzer().getVorname());
+			rueckgabeView.getBenutzerNameT().setText(vma.getAusleihe().getBenutzer().getName());
+			rueckgabeView.getBenutzerStatusT().setText(vma.getAusleihe().getBenutzer().getBenutzerStatus().getBezeichnung());
+			rueckgabeView.getNotizT().setText(vma.getAusleihe().getMedium().getBemerkung());
 			rueckgabeView.getErfasstVonT().setText(ausleihe.getAusleiheMitarbeiterName());
 			rueckgabeView.getErfasstAmT().setText(DateConverter.convertJavaDateToString(ausleihe.getAusleiheDatum()));
 		} else {

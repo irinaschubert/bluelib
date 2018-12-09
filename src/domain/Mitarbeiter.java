@@ -6,17 +6,17 @@ package domain;
  *
  */
 public class Mitarbeiter extends Person {
-	
+
 	private int idMA;
 	private String benutzername;
 	private String passwort;
 	private boolean admin;
 	private boolean aktiv;
-	
+
 	public Mitarbeiter() {
-		
+
 	}
-	
+
 	public int getMAId() {
 		return idMA;
 	}
@@ -56,7 +56,4 @@ public class Mitarbeiter extends Person {
 	public void setAktiv(boolean aktiv) {
 		this.aktiv = aktiv;
 	}
-	
-	
-
 }

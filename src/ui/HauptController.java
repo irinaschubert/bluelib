@@ -9,6 +9,12 @@ import domain.EingeloggterMA;
 import services.LoginService;
 import ui.Autor.AutorController;
 import ui.Autor.AutorView;
+import ui.Bibliothek.BibliothekController;
+import ui.Bibliothek.BibliothekView;
+import ui.MA.MitarbeiterController;
+import ui.MA.MitarbeiterView;
+import ui.Schlagwort.SchlagwortController;
+import ui.Schlagwort.SchlagwortView;
 import ui.ausleihe.AusleiheController;
 import ui.ausleihe.AusleiheView;
 import ui.benutzer.BenutzerController;
@@ -62,7 +68,7 @@ public class HauptController {
 		hauptView.getAdministrationSchagworteM().addActionListener(schlagwortMenuActionListener());
 		hauptView.getAusleiheAusleiheM().addActionListener(ausleiheMenueActionListener());
 		hauptView.getAusleiheRueckgabeM().addActionListener(rueckgabeMenueActionListener());
-
+		hauptView.getAdministrationMitarbeiterM().addActionListener(mitarbeiterMenuActionListener());
 		
 	}
 	
@@ -178,6 +184,27 @@ public class HauptController {
 			}
 		};
 		return schlagwortMenuActionListener;
+	}
+	
+	private ActionListener mitarbeiterMenuActionListener() {
+		ActionListener mitarbeiterMenuActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						MitarbeiterView mitarbeiterView = new MitarbeiterView("Mitarbeiter");
+						new MitarbeiterController(mitarbeiterView, hauptController);
+						hauptView.getContentPane().removeAll();
+						hauptView.setSize(new Dimension(mitarbeiterView.getPreferredSize()));
+						hauptView.getContentPane().add(mitarbeiterView);
+						hauptView.validate();
+						hauptView.setVisible(true);
+					}
+				});
+			}
+		};
+		return mitarbeiterMenuActionListener;
 	}
 
 	

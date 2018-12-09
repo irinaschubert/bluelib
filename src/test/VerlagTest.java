@@ -20,8 +20,8 @@ public class VerlagTest {
 	Verlag vZumVergleich = new Verlag();
 	VerlagDAO verlagDAO = new VerlagDAO();
 	Verifikation ver = new Verifikation();
-	NormdatenService n = new NormdatenService();	
-	
+	NormdatenService n = new NormdatenService();
+
 	@Before
 	public void setUp() {
 		v.setName("Testverlag initial");
@@ -32,7 +32,7 @@ public class VerlagTest {
 		List<Verlag> verlage = n.sucheVerlag(v);
 		v = verlage.get(0);
 	}
-	
+
 	@Test
 	public void aktualisierenTest() {
 		v.setName("Testverlag geändert");
@@ -47,7 +47,7 @@ public class VerlagTest {
 		assertEquals(v.getEndDatum(), DateConverter.convertStringToJavaDate("01.01.2000"));
 		assertEquals(v.getGeloescht(), true);
 	}
-	
+
 	@Test
 	public void neuTest() {
 		Verlag vNeu = new Verlag();
@@ -60,7 +60,7 @@ public class VerlagTest {
 		vNeu = verlage.get(0);
 		verlagDAO.delete(vNeu);
 	}
-	
+
 	@Test
 	public void loeschenTest() {
 		v.setGeloescht(true);
@@ -69,7 +69,7 @@ public class VerlagTest {
 		v = verlage.get(0);
 		assertTrue(v.getGeloescht());
 	}
-	
+
 	@Test
 	public void suchenTest() {
 		assertTrue(n.sucheVerlag(v).size() == 1);

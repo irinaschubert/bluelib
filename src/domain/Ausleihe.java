@@ -3,24 +3,24 @@ package domain;
 import java.util.Date;
 
 /**
+ * Die Klasse der Ausleih-Objekte. Ausleihen haben eine id, ein Medium, ein
+ * Ausleih- und Rückgabedatum sowie einen Ausleih- und Rückgabemitarbeiter
+ * 
  * @version 0.1 16.10.2018
  * @author irina
- *
  */
 public class Ausleihe {
-	
+
 	private int id;
-	private int mediumID;
-	private int benutzerID;
+	private Medium medium;
+	private Benutzer benutzer;
 	private Date ausleiheDatum;
 	private Date rueckgabeDatum;
 	private int ausleiheMitarbeiterID;
 	private String ausleiheMitarbeiterName;
 	private int rueckgabeMitarbeiterID;
 	private String rueckgabeMitarbeiterName;
-	private String notizAusleihe;
-	
-	
+
 	public Ausleihe() {
 		this.id = -1;
 	}
@@ -33,20 +33,20 @@ public class Ausleihe {
 		this.id = id;
 	}
 
-	public int getMediumID() {
-		return mediumID;
+	public Medium getMedium() {
+		return medium;
 	}
 
-	public void setMediumID(int id) {
-		this.mediumID = id;
+	public void setMedium(Medium medium) {
+		this.medium = medium;
 	}
 
-	public int getBenutzerID() {
-		return benutzerID;
+	public Benutzer getBenutzer() {
+		return benutzer;
 	}
 
-	public void setBenutzerID(int id) {
-		this.benutzerID = id;
+	public void setBenutzer(Benutzer benutzer) {
+		this.benutzer = benutzer;
 	}
 
 	public Date getAusleiheDatum() {
@@ -80,7 +80,7 @@ public class Ausleihe {
 	public void setRueckgabeMitarbeiterID(int id) {
 		this.rueckgabeMitarbeiterID = id;
 	}
-	
+
 	public String getAusleiheMitarbeiterName() {
 		return ausleiheMitarbeiterName;
 	}
@@ -96,14 +96,5 @@ public class Ausleihe {
 	public void setRueckgabeMitarbeiterName(String rueckgabeMitarbeiterName) {
 		this.rueckgabeMitarbeiterName = rueckgabeMitarbeiterName;
 	}
-
-	public String getNotizAusleihe() {
-		return notizAusleihe;
-	}
-
-	public void setNotizAusleihe(String notizAusleihe) {
-		this.notizAusleihe = notizAusleihe;
-	}
-
 
 }

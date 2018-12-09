@@ -23,16 +23,16 @@ public class TableModelRueckgabe extends AbstractTableModel {
 
 	// Definition der Spaltennamen
 	private static final String[] COLUMN_NAMES = { "Barcode Buch", "Buchtitel", "Datum Rückgabe", "Notiz"};
-	private List<Ausleihe> ausleihliste;
+	private List<Ausleihe> rueckgabeListe;
 	
 	public void setAndSortListe(List<Ausleihe> liste) {
-		this.ausleihliste = liste;
+		this.rueckgabeListe = liste;
 		listeSortieren();
 		fireTableDataChanged();
 	}
 	
 	public void ausleiheHinzufuegen(Ausleihe ausleihe) {
-		ausleihliste.add(ausleihe);
+		rueckgabeListe.add(ausleihe);
 		listeSortieren();
 		fireTableDataChanged();
 	}
@@ -49,8 +49,8 @@ public class TableModelRueckgabe extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		if(ausleihliste.size() != 0) {
-			return ausleihliste.size();
+		if(rueckgabeListe.size() != 0) {
+			return rueckgabeListe.size();
 		}
 		else {
 			return 0;
@@ -65,46 +65,33 @@ public class TableModelRueckgabe extends AbstractTableModel {
 	
 	// Rueckgabe des PK
 	public int getPK(int rowIndex) {
-		Ausleihe a = ausleihliste.get(rowIndex);
+		Ausleihe a = rueckgabeListe.get(rowIndex);
 		return a.getId();
 	}
 	
 	// Rueckgabe des angeklickten Objekts
 	public Ausleihe getGeklicktesObjekt(int rowIndex) {
-		return ausleihliste.get(rowIndex);
+		return rueckgabeListe.get(rowIndex);
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		AusleiheDAO ausleihDAO = new AusleiheDAO();
-		BuchDAO buchDAO = new BuchDAO();
-		Ausleihe a = ausleihDAO.findById(ausleihliste.get(rowIndex).getId());
-		Buch buch = buchDAO.findById(ausleihliste.get(rowIndex).getMediumID());
-		
+	
+		Ausleihe a = rueckgabeListe.get(rowIndex);
 		Object returnWert = new Object();
 		
 		switch (columnIndex) {
 		case 0:
-			if(a.getMediumID() != 0) {
-				returnWert = buch.getBarcode();
-			}
-			else {returnWert = "";}
+			returnWert = a.getMedium().getBarcodeNr();
 			break;
 		case 1:
-			if(a.getMediumID() != 0) {
-				String titel = buch.getTitel();
-				returnWert = titel;
-			}
-			else {returnWert = "";}
+			returnWert = a.getMedium().getTitel();
 			break;
 		case 2:
 			returnWert = DateConverter.convertJavaDateToString(a.getRueckgabeDatum());
 			break;
 		case 3:
-			if(a.getNotizAusleihe() != null) {
-				returnWert = a.getNotizAusleihe();
-			}
-			else {returnWert = "";}
+			returnWert = a.getMedium().getBemerkung();
 			break;
 		}
 		return returnWert;

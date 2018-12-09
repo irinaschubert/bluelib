@@ -9,6 +9,12 @@ import java.util.List;
 import domain.Status;
 import interfaces.DAOInterface;
 
+/**
+ * Die Klasse stellt den Zugriff auf die Status-Objekte zur Verfügung
+ * 
+ * @version 0.1 14.11.2018
+ * @author irina
+ */
 public class StatusDAO implements DAOInterface<Status> {
 	
 	private DBConnection dbConnection = null;

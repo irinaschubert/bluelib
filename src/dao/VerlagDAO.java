@@ -11,8 +11,10 @@ import domain.Verlag;
 import hilfsklassen.DateConverter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
+
 /**
- * Verwaltet die CRUD- und weitere Operationen für Verlag
+ * Verwaltet die CRUD- und weitere Operationen für Verlag-Objekte
+ * 
  * @version 0.1 06.11.2018
  * @author irina
  */

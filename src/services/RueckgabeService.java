@@ -33,12 +33,7 @@ public class RueckgabeService {
 			Ausleihe a = new Ausleihe();
 		AusleiheDAO ausleiheDAO = new AusleiheDAO();
 		v.setAusleihe(ausleiheDAO.findAusgeliehenesBuchById(id));
-		
-		v.setBuch(buchDAO.findById(v.getAusleihe().getMediumID()));
-		
-		BenutzerDAO benutzerDAO = new BenutzerDAO();
-		v.setBenutzer(benutzerDAO.findById(v.getAusleihe().getBenutzerID()));
-		
+			
 		}
 		else {
 			v.setAktionErfolgreich(false);

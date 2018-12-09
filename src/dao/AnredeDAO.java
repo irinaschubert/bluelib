@@ -11,6 +11,7 @@ import domain.Anrede;
 import interfaces.DAOInterface;
 
 /**
+ * Die Klasse stellt den Zugriff auf die Anrede-Objekte zur Verfügung
  * 
  * @version 0.1 14.11.2018
  * @author irina
@@ -19,14 +20,14 @@ import interfaces.DAOInterface;
 public class AnredeDAO implements DAOInterface<Anrede> {
 
 	private DBConnection dbConnection = null;
-	private Connection conn = null; 
+	private Connection conn = null;
 	private ResultSet mRS = null;
 	private PreparedStatement pstmt = null;
-	
-	public AnredeDAO(){
+
+	public AnredeDAO() {
 		dbConnection = DBConnection.getInstance();
 	}
-	
+
 	@Override
 	public Anrede save(Anrede domainObject) {
 		// TODO Auto-generated method stub
@@ -58,16 +59,15 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,id);
+			pstmt.setInt(1, id);
 			mRS = pstmt.executeQuery();
-			while(mRS.next()) {
+			while (mRS.next()) {
 				a.setId(mRS.getInt(1));
 				a.setBezeichnung(mRS.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -76,7 +76,6 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 		}
 		return a;
 	}
-	
 
 	@Override
 	public ArrayList<Anrede> findAll() {
@@ -86,7 +85,7 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			mRS = pstmt.executeQuery();
-			while(mRS.next()) {
+			while (mRS.next()) {
 				Anrede a = new Anrede();
 				a.setId(mRS.getInt(1));
 				a.setBezeichnung(mRS.getString(2));
@@ -94,8 +93,7 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
@@ -104,9 +102,4 @@ public class AnredeDAO implements DAOInterface<Anrede> {
 		}
 		return allAnrede;
 	}
-
-	
-
-	
-
 }
