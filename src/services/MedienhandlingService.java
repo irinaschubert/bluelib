@@ -1,11 +1,8 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import dao.BuchDAO;
 import dao.MedienStatusDAO;
-import dao.VerlagDAO;
 import domain.Benutzer;
 import domain.Buch;
 import domain.Medium;
@@ -122,6 +119,7 @@ public class MedienhandlingService {
 		return new BuchDAO().getSelektion(buch);
 	}
 	
+	
 	public Medium mediumScannen(long barcode) {
 		Buch b = new Buch();
 		return b;
@@ -129,11 +127,6 @@ public class MedienhandlingService {
 	
 	public List<Status> alleMedienStati(){
 		return new MedienStatusDAO().findAll();
-	}
-	
-	public Boolean istAusgeliehen(Buch buch) {
-		Boolean r = false;
-		return r;
 	}
 
 }

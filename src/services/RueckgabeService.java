@@ -8,6 +8,7 @@ import dao.AusleiheDAO;
 import dao.BenutzerDAO;
 import dao.BuchDAO;
 import domain.Ausleihe;
+import domain.Buch;
 
 /**
  * 
@@ -54,11 +55,14 @@ public class RueckgabeService {
 	public Verifikation rueckgabe(Ausleihe ausleihe) {
 		Verifikation v = new Verifikation();
 		AusleiheDAO ausleiheDAO = new AusleiheDAO();
-		Ausleihe a = new Ausleihe(); 
+		Ausleihe a = new Ausleihe();
 		a = ausleiheDAO.update(ausleihe);
 		if (a != null) {
 			v.setAktionErfolgreich(true);
-			// TODO Buchnotiz speichern
+			BuchDAO buchDAO = new BuchDAO();
+			Buch b = buchDAO.findById(ausleihe.getMedium().getId());
+			b.setBemerkung(ausleihe.getMedium().getBemerkung());
+			buchDAO.update(b);
 		}
 		else {
 			v.setAktionErfolgreich(false);
