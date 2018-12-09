@@ -7,7 +7,10 @@ import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
 import domain.Verlag;
-
+/**
+ * @version 0.1 16.10.2018
+ * @author irina
+ */
 @SuppressWarnings("serial")
 public class ComboBoxModelVerlag extends AbstractListModel<Verlag> implements ComboBoxModel<Verlag>{
 

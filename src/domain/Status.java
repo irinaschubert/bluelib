@@ -3,9 +3,10 @@ package domain;
 import dao.StatusDAO;
 
 /**
+ * Die Klasse der Status-Objekte. Status-Objekte werden sowohl für Benutzer
+ * als auch für Bücher verwendet.
  * @version 0.1 16.10.2018
  * @author irina
- *
  */
 public class Status {
 

@@ -9,10 +9,8 @@ import hilfsklassen.DateConverter;
 
 /**
  * Dient zur Darstellung und zum Updaten der Verlagsliste
- * 
  * @version 1.0 26.10.2018
  * @author irina
- *
  */
 @SuppressWarnings("serial")
 public class TableModelVerlag extends AbstractTableModel {

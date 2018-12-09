@@ -28,11 +28,10 @@ import ui.standardKomponenten.StandardButtonPanel;
 import ui.standardKomponenten.StandardTitelPanel;
 
 /**
- * Suche nach, neu Erstellen und Bearbeiten von Benutzern
+ * View für die Suche nach, das neu Erstellen und Bearbeiten von Benutzern
  * 
  * @version 1.0 06.11.2018
  * @author irina
- *
  */
 @SuppressWarnings("serial")
 public class BenutzerView extends JPanel {

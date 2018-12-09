@@ -10,6 +10,11 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Wird für komplexe Formulare benötigt.
+ * @version 0.1 09.12.2018
+ * @author irina
+ */
 public class FormularMitGridbaglayout {
 	/**
      * Grid bag constraints für Eingabefelder und Labels

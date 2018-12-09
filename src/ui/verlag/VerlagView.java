@@ -26,7 +26,7 @@ import ui.standardKomponenten.StandardButtonPanel;
 import ui.standardKomponenten.StandardTitelPanel;
 
 /**
- * Zeigt alle Verlage an und ermoeglicht die Erfassung neuer Verlage
+ * Ermöglicht das Durchsuchen und Erfassen neuer Verlage
  * 
  * @version 1.0 26.10.2018
  * @author irina

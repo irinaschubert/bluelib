@@ -7,6 +7,11 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import domain.Ort;
 
+/** 
+ * Regelt die Darstellung der PLZ und Orte in der Dropdownliste
+ * @version 1.0 18.10.2018
+ * @author irina
+ */
 public class PlzRenderer extends BasicComboBoxRenderer {
 	  @Override
 	  public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {

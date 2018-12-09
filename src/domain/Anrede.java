@@ -1,9 +1,9 @@
 package domain;
 
 /**
+ * Die Klasse der Anrede-Objekte. Anrede-Objekte werden für Benutzer verwendet.
  * @version 0.1 16.10.2018
  * @author irina
- *
  */
 public class Anrede {
 	
@@ -34,6 +34,4 @@ public class Anrede {
 	public void setBezeichnung(String bezeichnung) {
 		this.bezeichnung = bezeichnung;
 	}
-	
-	
 }

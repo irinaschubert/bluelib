@@ -10,9 +10,9 @@ import domain.Ausleihe;
 import domain.Benutzer;
 
 /**
+ * Die Serviceklasse vermittelt zwischen dem BenutzerController und dem BenutzerDAO
  * @version 0.1 16.10.2018
  * @author irina
- *
  */
 public class BenutzerService {
 	

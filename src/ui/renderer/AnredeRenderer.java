@@ -8,9 +8,9 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import domain.Anrede;
 
 /** 
+ * Regelt die Werte und deren Darstellung der Anreden in der Dropdownliste
  * @version 1.0 18.10.2018
- * @author Schmutz
- *
+ * @author irina
  */
 
 @SuppressWarnings("serial")

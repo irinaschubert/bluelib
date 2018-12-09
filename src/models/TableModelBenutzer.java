@@ -12,10 +12,8 @@ import domain.Status;
 
 /**
  * Dient zur Darstellung und zum Updaten der Benutzerliste
- * 
  * @version 1.0 06.11.2018
  * @author irina
- *
  */
 @SuppressWarnings("serial")
 public class TableModelBenutzer extends AbstractTableModel {

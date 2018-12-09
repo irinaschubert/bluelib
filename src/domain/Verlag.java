@@ -3,9 +3,10 @@ package domain;
 import java.util.Date;
 
 /**
+ * Die Klasse für Verlag-Objekte. Ein Verlag hat einen Namen, ein Gründungs-
+ * und ein Enddatum. Ein Verlag ist ein Normadatensatz.
  * @version 0.1 16.10.2018
  * @author irina
- *
  */
 public class Verlag {
 	

@@ -20,9 +20,9 @@ import domain.Schlagwort;
 import domain.Mitarbeiter;
 
 /**
+ * Die Serviceklasse vermittelt zwischen den Controllern der Normdaten und den DAOs
  * @version 1.0 15.11.2018
  * @author Schmutz
- *
  */
 
 public class NormdatenService {

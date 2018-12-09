@@ -7,12 +7,10 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import domain.Verlag;
 
 /**
- * 
- * Stellt die Werte für die Verlag-Comboboxen zusammen
+ * Stellt die Werte für die Verlag-Dropdownlisten zusammen
  * 
  * @version 1.0 18.10.2018
- * @author Schmutz
- *
+ * @author irina
  */
 
 public class VerlagRenderer extends BasicComboBoxRenderer{
