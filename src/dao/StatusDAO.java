@@ -11,6 +11,7 @@ import interfaces.DAOInterface;
 
 /**
  * Die Klasse stellt den Zugriff auf die Status-Objekte zur Verfügung
+ * 
  * @version 0.1 14.11.2018
  * @author irina
  */

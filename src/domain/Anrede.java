@@ -2,13 +2,14 @@ package domain;
 
 /**
  * Die Klasse der Anrede-Objekte. Anrede-Objekte werden für Benutzer verwendet.
+ * 
  * @version 0.1 16.10.2018
  * @author irina
  */
 public class Anrede {
-	
+
 	private int id;
-	private String bezeichnung;	
+	private String bezeichnung;
 
 	public Anrede(int id, String bezeichnung) {
 		this.id = id;
@@ -16,7 +17,7 @@ public class Anrede {
 	}
 
 	public Anrede() {
-		
+
 	}
 
 	public int getId() {

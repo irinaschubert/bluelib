@@ -11,6 +11,7 @@ import interfaces.DAOInterface;
 
 /**
  * Die Klasse verwaltet die CRUD- und weitere Operationen für Ort-Objekte
+ * 
  * @version 0.1 06.11.2018
  * @author irina
  */

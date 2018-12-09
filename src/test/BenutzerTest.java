@@ -28,8 +28,8 @@ public class BenutzerTest {
 	Benutzer b = new Benutzer();
 	BenutzerDAO benutzerDAO = new BenutzerDAO();
 	Verifikation ver = new Verifikation();
-	BenutzerService bs = new BenutzerService();	
-	
+	BenutzerService bs = new BenutzerService();
+
 	@Before
 	public void setUp() {
 		b.setName("Testbenutzer initial");
@@ -39,7 +39,7 @@ public class BenutzerTest {
 		b.setAnrede(anrede);
 		OrtDAO ortDAO = new OrtDAO();
 		Ort testort = ortDAO.findById(3); // Lausanne
-		Adresse adresse =  new Adresse("Teststrasse 13", testort);
+		Adresse adresse = new Adresse("Teststrasse 13", testort);
 		b.setAdresse(adresse);
 		b.setGeburtsdatum(DateConverter.convertStringToJavaDate("01.01.1970"));
 		b.setTelefon("078 888 22 33");
@@ -57,7 +57,7 @@ public class BenutzerTest {
 		List<Benutzer> benutzer = bs.sucheBenutzer(b);
 		b = benutzer.get(0);
 	}
-	
+
 	@Test
 	public void bearbeitenTest() {
 		b.setName("Testbenutzer geändert");
@@ -67,7 +67,7 @@ public class BenutzerTest {
 		b.setAnrede(anrede);
 		OrtDAO ortDAO = new OrtDAO();
 		Ort testort = ortDAO.findById(8); // Prilly
-		Adresse adresse =  new Adresse("Teststrasse 13 geändert", testort);
+		Adresse adresse = new Adresse("Teststrasse 13 geändert", testort);
 		b.setAdresse(adresse);
 		b.setGeburtsdatum(DateConverter.convertStringToJavaDate("10.10.1970"));
 		b.setTelefon("078 888 22 44");
@@ -84,7 +84,7 @@ public class BenutzerTest {
 		bs.aktualisiereBenutzer(b);
 		List<Benutzer> benutzer = bs.sucheBenutzer(b);
 		b = benutzer.get(0);
-		
+
 		assertEquals(b.getName(), "Testbenutzer geändert");
 		assertEquals(b.getVorname(), "Testvorname geändert");
 		int bAnredeId = b.getAnrede().getId();
@@ -105,7 +105,7 @@ public class BenutzerTest {
 		assertEquals(b.getErfassungMitarbeiterId(), 1);
 		assertEquals(b.getErfassungDatum(), DateConverter.convertStringToJavaDate("01.01.1980"));
 	}
-	
+
 	@Test
 	public void statusAendernTest() {
 		StatusDAO statusDAO = new StatusDAO();
@@ -114,7 +114,7 @@ public class BenutzerTest {
 		bs.aktualisiereBenutzer(b);
 		assertEquals(b.getBenutzerStatus().getId(), 3);
 	}
-	
+
 	@Test
 	public void neuTest() {
 		Benutzer bNeu = new Benutzer();
@@ -125,7 +125,7 @@ public class BenutzerTest {
 		bNeu.setAnrede(anrede);
 		OrtDAO ortDAO = new OrtDAO();
 		Ort testort = ortDAO.findById(3); // Lausanne
-		Adresse adresse =  new Adresse("Teststrasse 13", testort);
+		Adresse adresse = new Adresse("Teststrasse 13", testort);
 		bNeu.setAdresse(adresse);
 		bNeu.setGeburtsdatum(DateConverter.convertStringToJavaDate("01.01.1970"));
 		bNeu.setTelefon("078 888 22 33");
