@@ -7,11 +7,14 @@ import java.awt.event.KeyEvent;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import dao.BuchDAO;
 import domain.Ausleihe;
 import domain.Buch;
 import domain.EingeloggterMA;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
+import hilfsklassen.TextComponentLimit;
 import models.TableModelRueckgabe;
 import services.MedienhandlingService;
 import services.RueckgabeService;
@@ -93,9 +96,7 @@ public class RueckgabeController {
 				if (!rueckgabeView.getPKTBuch().getText().isEmpty()) {
 					ausleihe.setRueckgabeDatum(new Date());
 					ausleihe.setRueckgabeMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getId());
-					// TODO Notiz zum buch muss noch gespeichert werden. Funkioniert erst, wenn das
-					// Ausleihe-Objekt auch das
-					// komplette Buchobjekt enthält
+					ausleihe.getMedium().setBemerkung(rueckgabeView.getNotizT().getText());
 					Verifikation v = rueckgabeService.rueckgabe(ausleihe);
 
 					if (v.isAktionErfolgreich()) {
@@ -266,6 +267,8 @@ public class RueckgabeController {
 		rueckgabeView.getNotizT().setEditable(true);
 		rueckgabeView.getErfasstVonT().setEditable(false);
 		rueckgabeView.getErfasstAmT().setEditable(false);
+		
+		TextComponentLimit.addTo(rueckgabeView.getNotizT(), 300);
 
 		rueckgabeView.getButtonPanel().getButton1().setText(ButtonNamen.AUSLEIHE.getName());
 		rueckgabeView.getButtonPanel().getButton2().setVisible(false);
