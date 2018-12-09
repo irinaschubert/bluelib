@@ -397,7 +397,7 @@ public class BenutzerController {
 		benutzerView.getVornameL().setText("Vorname:*");
 		benutzerView.getStrasseNrL().setText("Strasse/Nr.:*");
 		benutzerView.getPlzOrtL().setText("PLZ/Ort:*");
-		benutzerView.getGeburtsdatumL().setText("Geburtsdatum:*");
+		benutzerView.getGeburtsdatumL().setText("Geburtsdatum:");
 		benutzerView.getTelL().setText("Telefonnummer:");
 		benutzerView.getMailL().setText("E-Mailadresse:");
 		benutzerView.getBemerkungL().setText("Bemerkung: ");
