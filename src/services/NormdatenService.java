@@ -20,9 +20,11 @@ import domain.Schlagwort;
 import domain.Mitarbeiter;
 
 /**
+ * Die Serviceklasse vermittelt zwischen den Controllern der Normdaten und den
+ * DAOs
+ * 
  * @version 1.0 15.11.2018
  * @author Schmutz
- *
  */
 
 public class NormdatenService {
@@ -43,15 +45,15 @@ public class NormdatenService {
 	public List<Schlagwort> alleSchlagworte() {
 		return new SchlagwortDAO().findAll();
 	}
-	
+
 	public List<DezKlassifikationGrpe> alleDezKlassifikationenGruppen() {
 		return new DezKlassifikationGrpeDAO().findAll();
 	}
-	
+
 	public List<DezKlassifikation> alleDezKlassifikationen() {
 		return new DezKlassifikationDAO().findAll();
 	}
-		
+
 	public List<Mitarbeiter> alleMitarbeiter() {
 		return new MitarbeiterDAO().findAll();
 	}
@@ -95,7 +97,7 @@ public class NormdatenService {
 
 		return v;
 	}
-	
+
 	public Verifikation sichereMitarbeiter(Mitarbeiter mitarbeiter) {
 		Verifikation v = new Verifikation();
 
@@ -157,7 +159,7 @@ public class NormdatenService {
 		}
 		return v;
 	}
-	
+
 	public Verifikation aktualisiereMitarbeiter(Mitarbeiter mitarbeiter) {
 		Verifikation v = new Verifikation();
 		if (new MitarbeiterDAO().update(mitarbeiter) != null) {
@@ -186,7 +188,7 @@ public class NormdatenService {
 	public Bibliothek bibliothekAnzeigen() {
 		return new BibliothekDAO().findById(1);
 	}
-	
+
 	public List<Schlagwort> sucheSchlagwort(Schlagwort schlagwort) {
 		return new SchlagwortDAO().getSelektion(schlagwort);
 	}

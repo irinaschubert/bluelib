@@ -3,12 +3,14 @@ package domain;
 import java.util.Date;
 
 /**
+ * Die Klasse der Ausleih-Objekte. Ausleihen haben eine id, ein Medium, ein
+ * Ausleih- und Rückgabedatum sowie einen Ausleih- und Rückgabemitarbeiter
+ * 
  * @version 0.1 16.10.2018
  * @author irina
- *
  */
 public class Ausleihe {
-	
+
 	private int id;
 	private Medium medium;
 	private Benutzer benutzer;
@@ -18,8 +20,7 @@ public class Ausleihe {
 	private String ausleiheMitarbeiterName;
 	private int rueckgabeMitarbeiterID;
 	private String rueckgabeMitarbeiterName;
-	
-	
+
 	public Ausleihe() {
 		this.id = -1;
 	}
@@ -79,7 +80,7 @@ public class Ausleihe {
 	public void setRueckgabeMitarbeiterID(int id) {
 		this.rueckgabeMitarbeiterID = id;
 	}
-	
+
 	public String getAusleiheMitarbeiterName() {
 		return ausleiheMitarbeiterName;
 	}

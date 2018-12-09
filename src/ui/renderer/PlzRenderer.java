@@ -7,22 +7,29 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import domain.Ort;
 
+/**
+ * Regelt die Darstellung der PLZ und Orte in der Dropdownliste
+ * 
+ * @version 1.0 18.10.2018
+ * @author irina
+ */
 public class PlzRenderer extends BasicComboBoxRenderer {
-	  @Override
-	  public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-	    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-	    if (value != null) {
-	      Ort ort = (Ort) value;
-	      setText(String.valueOf(ort.getPlz() + " " + ort.getOrt()));
-	    }
-	    if (index == -1) {
-	    	Ort ort = (Ort) value;
-	    	if(ort == null) {
-	    		setText("-- bitte wählen --");
-	    	}else {
-	    		setText("" + ort.getPlz() + " " + ort.getOrt());
-	    	}
-	    }
-	    return this;
-	  }
+	@Override
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
+		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+		if (value != null) {
+			Ort ort = (Ort) value;
+			setText(String.valueOf(ort.getPlz() + " " + ort.getOrt()));
+		}
+		if (index == -1) {
+			Ort ort = (Ort) value;
+			if (ort == null) {
+				setText("-- bitte wählen --");
+			} else {
+				setText("" + ort.getPlz() + " " + ort.getOrt());
+			}
+		}
+		return this;
 	}
+}

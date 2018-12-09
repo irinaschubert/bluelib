@@ -3,9 +3,9 @@ package domain;
 import java.util.Date;
 
 /**
+ * 
  * @version 0.1 16.10.2018
  * @author irina
- *
  */
 public abstract class Person {
 	private int id;
@@ -20,9 +20,9 @@ public abstract class Person {
 	private Date erfassungDatum;
 	private int erfassungMitarbeiterId;
 	private String erfassungMitarbeiterName;
-	
+
 	public Person() {
-		
+
 	}
 
 	public int getId() {
@@ -120,11 +120,4 @@ public abstract class Person {
 	public void setErfassungMitarbeiterName(String erfassungMitarbeiterName) {
 		this.erfassungMitarbeiterName = erfassungMitarbeiterName;
 	}
-
-
-
-
-	
-	
-
 }
