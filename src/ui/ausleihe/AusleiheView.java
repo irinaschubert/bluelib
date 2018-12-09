@@ -125,8 +125,6 @@ public class AusleiheView extends JPanel {
 		buchTitelT = new JTextField();
 		autorL = new JLabel();
 		autorT = new JTextField();
-		notizL = new JLabel();
-		notizT = new JTextArea(2, 1);
 
 		// Formularfelder
 		formularHelfer.addLabel(barcodeL, buchSuchenPanel);
@@ -143,9 +141,6 @@ public class AusleiheView extends JPanel {
 
 		formularHelfer.addLabel(buchStatusL, buchSuchenPanel);
 		formularHelfer.addLastField(buchStatusT, buchSuchenPanel);
-
-		formularHelfer.addLabel(notizL, buchSuchenPanel);
-		formularHelfer.addLastField(new JScrollPane(notizT), buchSuchenPanel);
 
 		formularHelfer.addLabel(new JLabel(""), buchSuchenPanel);
 		formularHelfer.addLastField(suchButtonBuch, buchSuchenPanel);
@@ -198,12 +193,17 @@ public class AusleiheView extends JPanel {
 		ausleiheInfoPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
 
+		notizL = new JLabel();
+		notizT = new JTextArea(2, 1);
 		erfasstVonL = new JLabel();
 		erfasstVonT = new JTextField();
 		erfasstAmL = new JLabel();
 		erfasstAmT = new JTextField();
 
 		// Formularfelder
+		formularHelfer.addLabel(notizL, ausleiheInfoPanel);
+		formularHelfer.addLastField(new JScrollPane(notizT), ausleiheInfoPanel);
+		
 		formularHelfer.addLabel(erfasstAmL, ausleiheInfoPanel);
 		formularHelfer.addLastField(erfasstAmT, ausleiheInfoPanel);
 

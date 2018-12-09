@@ -399,7 +399,7 @@ public class AusleiheController {
 		ausleiheView.getBuchStatusT().setEditable(false);
 		ausleiheView.getBuchTitelT().setEditable(false);
 		ausleiheView.getAutorT().setEditable(false);
-		ausleiheView.getNotizT().setEditable(false);
+		ausleiheView.getNotizT().setEditable(true);
 		ausleiheView.getBenutzerEingabeT().setEditable(true);
 		ausleiheView.getBenutzerIDT().setEditable(false);
 		ausleiheView.getBenutzerStatusT().setEditable(false);
