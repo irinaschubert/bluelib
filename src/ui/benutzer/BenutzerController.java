@@ -178,7 +178,7 @@ public class BenutzerController {
 		if (!benutzerView.getGeburtsdatumT().getText().isEmpty()) {
 			if (!DateConverter.datumIstGueltig(benutzerView.getGeburtsdatumT().getText())) {
 				JOptionPane.showMessageDialog(null, "Ungültiges Geburtsdatum");
-				benutzerView.getGeburtsdatumL().setText("");
+				benutzerView.getGeburtsdatumT().setText("");
 				return keinInputFehler = false;
 			}
 		}
