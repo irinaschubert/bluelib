@@ -86,8 +86,8 @@ public class AusleiheController {
 			public void actionPerformed(ActionEvent e) {
 				Ausleihe a = new Ausleihe();
 				if (inputValidierungBuch(true) == true && inputValidierungBenutzer(true) == true
-						&& validierungBenutzer() == true && validierungBuch() == true) {
-					if (validierungAusleihe() == true) {
+						&& validierungBenutzer() == true && validierungBuch() == true ) {
+					if(validierungAusleihe() == true) {
 						a = feldwerteZuObjektSpeichern();
 						nachArbeitSpeichern(ausleiheService.sichereAusleihe(a));
 					}
@@ -368,7 +368,7 @@ public class AusleiheController {
 		ausleiheView.getAutorT().setText("");
 		ausleiheView.getNotizT().setText("");
 	}
-
+	
 	private void felderLeerenBenutzer() {
 		ausleiheView.getBenutzerEingabeT().setText("");
 		ausleiheView.getBenutzerIDT().setText("");

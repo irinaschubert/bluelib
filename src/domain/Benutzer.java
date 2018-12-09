@@ -1,16 +1,15 @@
 package domain;
 
 /**
- * Die Klasse der Benutzer-Objekte. Ein Benutzer erbt von Person und hält
- * zusätzlich einen status
- * 
+ * Die Klasse der Benutzer-Objekte. Ein Benutzer erbt von Person und
+ * hält zusätzlich einen status
  * @version 0.1 06.11.2018
  * @author irina
  */
 public class Benutzer extends Person {
 
 	private Status benutzerStatus;
-
+	
 	public Benutzer() {
 		this.benutzerStatus = new Status(1);
 	}

@@ -12,57 +12,58 @@ import javax.swing.JPanel;
 
 /**
  * Wird für komplexe Formulare benötigt.
- * 
  * @version 0.1 09.12.2018
  * @author irina
  */
 public class FormularMitGridbaglayout {
 	/**
-	 * Grid bag constraints für Eingabefelder und Labels
-	 */
-	private GridBagConstraints lastConstraints = null;
-	private GridBagConstraints middleConstraints = null;
-	private GridBagConstraints labelConstraints = null;
+     * Grid bag constraints für Eingabefelder und Labels
+     */
+    private GridBagConstraints lastConstraints = null;
+    private GridBagConstraints middleConstraints = null;
+    private GridBagConstraints labelConstraints = null;
+    
+    GridBagConstraints gbc = new GridBagConstraints();
 
-	GridBagConstraints gbc = new GridBagConstraints();
+    public FormularMitGridbaglayout() {
+        lastConstraints = new GridBagConstraints();
+        lastConstraints.fill = GridBagConstraints.HORIZONTAL;
+        lastConstraints.anchor = GridBagConstraints.NORTHWEST;
+        lastConstraints.weightx = 1.0;
+        lastConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        lastConstraints.insets = new Insets(1, 1, 1, 1);
+        middleConstraints = (GridBagConstraints) lastConstraints.clone();
+        middleConstraints.gridwidth = GridBagConstraints.RELATIVE;
+        labelConstraints = (GridBagConstraints) lastConstraints.clone();
+        labelConstraints.weightx = 0.0;
+        labelConstraints.gridwidth = 1;
+    }
+    
+    public void addLastField(Component c, Container parent) {
+        GridBagLayout gbl = (GridBagLayout) parent.getLayout();
+        gbl.setConstraints(c, lastConstraints);
+        parent.add(c);
+    }
+    
+    public void addLabel(Component c, Container parent) {
+        GridBagLayout gbl = (GridBagLayout) parent.getLayout();
+        gbl.setConstraints(c, labelConstraints);
+        parent.add(c);
+    }
 
-	public FormularMitGridbaglayout() {
-		lastConstraints = new GridBagConstraints();
-		lastConstraints.fill = GridBagConstraints.HORIZONTAL;
-		lastConstraints.anchor = GridBagConstraints.NORTHWEST;
-		lastConstraints.weightx = 1.0;
-		lastConstraints.gridwidth = GridBagConstraints.REMAINDER;
-		lastConstraints.insets = new Insets(1, 1, 1, 1);
-		middleConstraints = (GridBagConstraints) lastConstraints.clone();
-		middleConstraints.gridwidth = GridBagConstraints.RELATIVE;
-		labelConstraints = (GridBagConstraints) lastConstraints.clone();
-		labelConstraints.weightx = 0.0;
-		labelConstraints.gridwidth = 1;
-	}
+    public JLabel addLabel(String s, Container parent) {
+        JLabel c = new JLabel(s);
+        addLabel(c, parent);
+        return c;
+    }
 
-	public void addLastField(Component c, Container parent) {
-		GridBagLayout gbl = (GridBagLayout) parent.getLayout();
-		gbl.setConstraints(c, lastConstraints);
-		parent.add(c);
-	}
-
-	public void addLabel(Component c, Container parent) {
-		GridBagLayout gbl = (GridBagLayout) parent.getLayout();
-		gbl.setConstraints(c, labelConstraints);
-		parent.add(c);
-	}
-
-	public JLabel addLabel(String s, Container parent) {
-		JLabel c = new JLabel(s);
-		addLabel(c, parent);
-		return c;
-	}
-
-	public void addMiddleField(Component c, Container parent) {
-		GridBagLayout gbl = (GridBagLayout) parent.getLayout();
-		gbl.setConstraints(c, middleConstraints);
-		parent.add(c);
-	}
+    public void addMiddleField(Component c, Container parent) {
+        GridBagLayout gbl = (GridBagLayout) parent.getLayout();
+        gbl.setConstraints(c, middleConstraints);
+        parent.add(c);
+    }
+    
+    
 
 	public void labelSetzen(JComponent comp, JPanel panel, int x, int y) {
 		gbc = new GridBagConstraints();
@@ -73,7 +74,7 @@ public class FormularMitGridbaglayout {
 		gbc.weightx = 0;
 		panel.add(comp, gbc);
 	}
-
+	
 	public void labelSetzenMitAnker(JComponent comp, JPanel panel, int x, int y, int anker) {
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.NONE;
@@ -121,7 +122,7 @@ public class FormularMitGridbaglayout {
 		panel.add(comp, gbc);
 	}
 
-	public void feldSetzenBreitHoch(JComponent comp, JPanel panel, int x, int y, int height, int width) {
+public void feldSetzenBreitHoch(JComponent comp, JPanel panel, int x, int y, int height, int width) {
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.anchor = GridBagConstraints.NORTH;

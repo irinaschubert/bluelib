@@ -3,22 +3,21 @@ package domain;
 import java.util.Date;
 
 /**
- * Die Klasse für Verlag-Objekte. Ein Verlag hat einen Namen, ein Gründungs- und
- * ein Enddatum. Ein Verlag ist ein Normadatensatz.
- * 
+ * Die Klasse für Verlag-Objekte. Ein Verlag hat einen Namen, ein Gründungs-
+ * und ein Enddatum. Ein Verlag ist ein Normadatensatz.
  * @version 0.1 16.10.2018
  * @author irina
  */
 public class Verlag {
-
+	
 	private int id;
 	private String name;
 	private Date gruendungsDatum;
 	private Date endDatum;
 	private boolean geloescht;
-
+	
 	public Verlag() {
-
+		
 	}
 
 	public int getId() {
@@ -52,7 +51,7 @@ public class Verlag {
 	public void setEndDatum(Date endDatum) {
 		this.endDatum = endDatum;
 	}
-
+	
 	public boolean getGeloescht() {
 		return geloescht;
 	}
@@ -60,5 +59,7 @@ public class Verlag {
 	public void setGeloescht(boolean geloescht) {
 		this.geloescht = geloescht;
 	}
+	
+	
 
 }

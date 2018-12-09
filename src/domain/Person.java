@@ -20,9 +20,9 @@ public abstract class Person {
 	private Date erfassungDatum;
 	private int erfassungMitarbeiterId;
 	private String erfassungMitarbeiterName;
-
+	
 	public Person() {
-
+		
 	}
 
 	public int getId() {
