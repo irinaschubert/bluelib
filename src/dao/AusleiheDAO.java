@@ -32,7 +32,7 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	@Override
 	public Ausleihe save(Ausleihe domainObject) {
 		ResultSet rs = null;
-		Ausleihe a = new Ausleihe();
+		Ausleihe a = null;
 		int argCounter = 0;
 		String sql = "INSERT INTO "
 			+ "ausleihe "
@@ -98,9 +98,50 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		return a;
 	}
 
+ /**
+  * Es erfolgen nur Updates auf das Rückgabedatum, den Erfasser der Rückgabe
+  */
 	@Override
 	public Ausleihe update(Ausleihe domainObject) {
-		return null;
+		ResultSet rs = null;
+		Ausleihe a = null;
+		int argCounter = 1;
+		String sql = "UPDATE ausleihe "
+			+ "SET "
+			+ (domainObject.getRueckgabeDatum() != null ? ", retour = ?":"")
+			+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ", retour_person_id = ?":"")
+			+ "FROM ausleihe a "
+			+ "WHERE a.id = ?";
+;
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			if (domainObject.getRueckgabeDatum() != null) {
+				pstmt.setDate(argCounter++,DateConverter.convertJavaDateToSQLDateN(domainObject.getRueckgabeDatum()));
+			}
+				if (domainObject.getRueckgabeMitarbeiterID() > 0) {
+				pstmt.setInt(argCounter++,domainObject.getRueckgabeMitarbeiterID());
+			}
+			pstmt.executeUpdate();
+			rs = pstmt.getGeneratedKeys();
+			if(rs != null && rs.next()){
+				a = new AusleiheDAO().findById(rs.getInt(1));
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} 
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		return a;
 	}
 
 	@Override
@@ -247,10 +288,11 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,id);
 			rs = pstmt.executeQuery();
-			int count = 1;
+			
 			ausleihe = new Ausleihe();
 			MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
 			while(rs.next()) {
+				int count = 1;
 				ausleihe.setId(rs.getInt(count++));
 				ausleihe.setBenutzerID(rs.getInt(count++));
 				ausleihe.setMediumID(rs.getInt(count++));

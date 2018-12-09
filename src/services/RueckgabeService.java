@@ -51,5 +51,25 @@ public class RueckgabeService {
 		r = ausleiheDAO.mediumIstAusgeliehen(id);
 		return r;
 	}
+	
+	public Verifikation rueckgabe(Ausleihe ausleihe) {
+		Verifikation v = new Verifikation();
+		AusleiheDAO ausleiheDAO = new AusleiheDAO();
+		Ausleihe a = new Ausleihe(); 
+		a = ausleiheDAO.save(ausleihe);
+		if (a != null) {
+			v.setAktionErfolgreich(true);
+			// TODO Buchnotiz speichern
+		}
+		else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Das Buch konnte nicht zurückgegeben werden.");
+		}
+		
+		return v;
+	
+		
+		
+	}
 
 }

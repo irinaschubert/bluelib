@@ -35,6 +35,7 @@ import services.RueckgabeService;
 import services.Verifikation;
 import services.VerifikationMitAusleihe;
 import ui.HauptController;
+import ui.ausleihe.AusleiheView;
 
 /**
  * Controller für die AusleiheView, der die Logik und die Ausleihaktionen der
@@ -52,7 +53,7 @@ public class RueckgabeController {
 	private List<Ausleihe> rueckgabeL;
 	private TableModelAusleihe tableModelAusleihe;
 	private AusleiheDAO ausleiheDAO;
-	private Buch buchZurRueckgabe;
+	private Ausleihe ausleihe;
 	private HauptController hauptController;
 	private RueckgabeController rueckgabeController;
 	private List buchL = new ArrayList<>();
@@ -66,6 +67,7 @@ public class RueckgabeController {
 		rueckgabeService = new RueckgabeService();
 		rueckgabeL = new ArrayList<>();
 		ausleiheDAO = new AusleiheDAO();
+		ausleihe = new Ausleihe();
 		tableModelAusleihe = new TableModelAusleihe();
 		tableModelAusleihe.setAndSortListe(rueckgabeL);
 		view.getAusleiheTabelle().setModel(tableModelAusleihe);
@@ -78,24 +80,7 @@ public class RueckgabeController {
 	private void control() {
 		rueckgabeView.getBarcodeT().addKeyListener(barcodeScanningKeyAdapter());
 		rueckgabeView.getSuchButtonBuch().addActionListener(buchSuchenButtonActionListener());
-		
-
-				
-		ActionListener sichernButtonActionListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Ausleihe a = new Ausleihe();
-				if (inputValidierungBuch(true) == true && validierungBuch() == true) {
-					a = feldwertezuObjektSpeichern();
-					if(a.getId() > 0) {
-						nachArbeitSpeichern(ausleiheService.sichereAusleihe(a));
-					}
-				}else if (inputValidierungBuch(true) != true){
-					JOptionPane.showMessageDialog(null, "Bitte Buch und Benutzer eingeben.");
-				}
-			}
-		};
-		rueckgabeView.getAusleiheSpeichernButton().addActionListener(sichernButtonActionListener);
+		rueckgabeView.getAusleiheSpeichernButton().addActionListener(rueckgabeSpeichern());
 		
 		ActionListener rueckgabeButtonActionListener = new ActionListener(){
 			@Override
@@ -152,6 +137,37 @@ public class RueckgabeController {
 	
 	}
 	
+	private ActionListener rueckgabeSpeichern() {
+	
+	ActionListener speichernButtonActionListener = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (!rueckgabeView.getPKTBuch().getText().isEmpty()) {
+				ausleihe.setRueckgabeDatum(new Date());
+				ausleihe.setRueckgabeMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getId());
+				// TODO Notiz zum buch muss noch gespeichert werden. Funkioniert erst, wenn das Ausleihe-Objekt auch das 
+				// komplette Buchobjekt enthält
+				Verifikation v = rueckgabeService.rueckgabe(ausleihe);
+				
+				if (v.isAktionErfolgreich()) {
+					felderLeeren();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, v.getNachricht());
+				}
+		
+			}
+			
+			
+			else {
+				JOptionPane.showMessageDialog(null, "Bitte Buch auswählen");
+			}
+		}
+	};
+	 return speichernButtonActionListener;
+	
+	}
+	
 	private KeyAdapter barcodeScanningKeyAdapter() {
 
 		KeyAdapter barcodeScanningKeyListener = new KeyAdapter() {
@@ -179,7 +195,7 @@ public class RueckgabeController {
 	public void buchSuchenUndResultatAnzeigen(int id) {
 		VerifikationMitAusleihe vma = rueckgabeService.ausleiheAnzeigenByBuchId(id);
 		if (vma.isAktionErfolgreich()) {
-			
+			ausleihe = vma.getAusleihe();
 			rueckgabeView.getPKTBuch().setText(Integer.toString(vma.getBuch().getId()));
 			rueckgabeView.getBuchTitelT().setText(vma.getBuch().getTitel());
 			String autor = "";
@@ -195,8 +211,8 @@ public class RueckgabeController {
 			rueckgabeView.getBenutzerNameT().setText(vma.getBenutzer().getName());
 			rueckgabeView.getBenutzerStatusT().setText(vma.getBenutzer().getBenutzerStatus().getBezeichnung());
 			rueckgabeView.getNotizT().setText(vma.getBuch().getBemerkung());
-			rueckgabeView.getErfasstVonT().setText(vma.getAusleihe().getAusleiheMitarbeiterName());
-			rueckgabeView.getErfasstAmT().setText(DateConverter.convertJavaDateToString(vma.getAusleihe().getAusleiheDatum()));
+			rueckgabeView.getErfasstVonT().setText(ausleihe.getAusleiheMitarbeiterName());
+			rueckgabeView.getErfasstAmT().setText(DateConverter.convertJavaDateToString(ausleihe.getAusleiheDatum()));
 		}
 		else {
 			JOptionPane.showMessageDialog(null, vma.getNachricht());
