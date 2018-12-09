@@ -382,7 +382,7 @@ public class AusleiheController {
 		ausleiheView.getBuchStatusL().setText("Status:");
 		ausleiheView.getBuchtitelL().setText("Titel:");
 		ausleiheView.getAutorL().setText("Autor:");
-		ausleiheView.getNotizL().setText("Bemerkung: ");
+		ausleiheView.getNotizL().setText("Notiz: ");
 		ausleiheView.getBenutzerEingabeL().setText("Benutzer-ID:");
 		ausleiheView.getBenutzerIDL().setText("ID:");
 		ausleiheView.getBenutzerStatusL().setText("Status:");
