@@ -139,6 +139,7 @@ public class BenutzerTest {
 		Mitarbeiter mitarbeiter = mitarbeiterDAO.findById(1);
 		bNeu.setErfassungMitarbeiterName(mitarbeiter.getName());
 		bNeu.setErfassungDatum(DateConverter.convertStringToJavaDate("01.01.1980"));
+		
 		assertTrue(bs.sichereBenutzer(bNeu).isAktionErfolgreich());
 		List<Benutzer> benutzer = bs.sucheBenutzer(bNeu);
 		bNeu = benutzer.get(0);
