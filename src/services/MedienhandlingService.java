@@ -35,10 +35,44 @@ public class MedienhandlingService {
 		return v;
 	}
 	
-	public Verifikation zuordnungBarcodeUeberpruefen(long barcode) {
+	public Verifikation istBarcode(String barcode) {
 		Verifikation v = new Verifikation();
+		v.setAktionErfolgreich(true);
+		try 
+        { 
+            // checking valid integer using parseInt() method 
+            Integer.parseInt(barcode); 
+        }  
+        catch (NumberFormatException e)  
+        { 
+            v.setAktionErfolgreich(false);
+            v.setNachricht("Der Barcode darf nur aus Zahlen bestehen");
+        } 
+		
+		if (!(barcode.length() == 7)) {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Der Barcode muss 7 Ziffern lang sein.");
+		}
+		
 		return v;
 	}
+	
+	public Verifikation BarcodeZugeordnet(int barCode) {
+				
+			Verifikation v = new Verifikation();
+			v.setAktionErfolgreich(false);
+			BuchDAO buchDAO = new BuchDAO();
+			if (buchDAO.BarcodeZugeordnet(barCode)) {
+				v.setAktionErfolgreich(true);
+				v.setNachricht("Dieser Barcode ist bereits einem Medium zugeordnet.");
+			}
+			else {
+				v.setAktionErfolgreich(false);
+				v.setNachricht("Dieser Barcode ist keinem einem Medium zugeordnet.");
+				
+			}
+			return v;
+		}	
 	
 	public Benutzer ausgeliehenDurch(Medium medium) {
 		Benutzer b = new Benutzer();
@@ -95,6 +129,11 @@ public class MedienhandlingService {
 	
 	public List<Status> alleMedienStati(){
 		return new MedienStatusDAO().findAll();
+	}
+	
+	public Boolean istAusgeliehen(Buch buch) {
+		Boolean r = false;
+		return r;
 	}
 
 }

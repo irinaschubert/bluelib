@@ -7,7 +7,8 @@ public enum ButtonNamen {
 	NEU("Neu"),
 	SCHLIESSEN("Schliessen"),
 	ANMELDEN("Anmelden"),
-	ZURUECKGABE("Zur Rückgabe");
+	ZURUECKGABE("Zur Rückgabe"),
+	AUSLEIHE("Zur Ausleihe");
 	
 	private final String name;
 	

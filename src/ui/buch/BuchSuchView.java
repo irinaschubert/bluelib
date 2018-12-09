@@ -48,6 +48,7 @@ public class BuchSuchView extends JPanel {
 	private JTextField signaturSucheT;
 	private JComboBox<Status> statusSucheCbx;
 
+
 	private JButton suchButton;
 	private JTable buchTabelle;
 	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();

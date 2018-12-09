@@ -13,7 +13,6 @@ import domain.Autor;
 import domain.Buch;
 import domain.Status;
 import domain.Verlag;
-import hilfsklassen.BarcodePruefung;
 import hilfsklassen.IntHelfer;
 import models.ComboBoxModelAutor;
 import models.ComboBoxModelVerlag;
@@ -32,7 +31,7 @@ import services.Verifikation;
  *
  */
 
-public abstract class BuchSuchController {
+public class BuchSuchController {
 	protected BuchSuchView buchSuchView;
 	private List<Buch> buchL;
 	private MedienhandlingService medienHandlingService;
@@ -62,7 +61,7 @@ public abstract class BuchSuchController {
 		boolean keinInputFehler = true;
 
 		if (!buchSuchView.getBarcodeSucheT().getText().isEmpty()) {
-			Verifikation v = BarcodePruefung.istBarcode(buchSuchView.getBarcodeSucheT().getText());
+			Verifikation v = medienHandlingService.istBarcode(buchSuchView.getBarcodeSucheT().getText());
 			if (!v.isAktionErfolgreich()) {
 				JOptionPane.showMessageDialog(null, v.getNachricht());
 				buchSuchView.getBarcodeSucheT().setText("");
@@ -181,6 +180,14 @@ public abstract class BuchSuchController {
 		buchSuchView.getBuchTabelle().setModel(tableModelBuch);
 		buchSuchView.spaltenBreiteSetzen();
 
+	}
+	
+	public BuchSuchView getBuchSuchView() {
+		return buchSuchView;
+	}
+
+	public TableModelBuch getTableModelBuch() {
+		return tableModelBuch;
 	}
 
 }
