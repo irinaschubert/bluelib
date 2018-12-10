@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+archivesBaseName = 'someJar'
+version = '1.0-SNAPSHOT' 
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'main.Main'
+    }
+}
+
+dependencies {
+   compile  'log4j:log4j:1.2.16'
+   //compile  'commons-codec-1.11'
+   //compile 'mysql-connector-java-8.0.12'
+   //classpath "mysql:mysql-connector-java:8.0.12"
+} 
