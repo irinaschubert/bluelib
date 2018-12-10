@@ -48,10 +48,47 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public List<Mitarbeiter> getSelektion2(Mitarbeiter domainObject) {
+		ResultSet rs = null;
+		Mitarbeiter m = null;
+		String sql = "SELECT " 
+				+ "ma.id, " 
+				+ "ma.benutzername, " 
+				+ "ma.passwort, " 
+				+ "ma.admin, " 
+				+ "ma.aktiv, "
+				+ "p.id, "
+				+ "p.vorname, "
+				+ "p.nachname, "
+				+ "p.mitarbeiter_id "
+				+ "FROM mitarbeiter ma "
+				+ "INNER JOIN person p on p.mitarbeiter_id = ma.id ";
+
+		// Admin-Flag wird immer abgefragt, daher mit WHERE
+				sql = sql + ("WHERE admin = ? ");
+
+				if (domainObject.getBenutzername() != null) {
+					sql = sql + "AND benutzername";
+					sql = sql + (SQLHelfer.likePruefung(domainObject.getBenutzername()) ? " LIKE" : " =");
+					sql = sql + " ?";
+				}
+				// Passwort darf nie mit Wildcard abgefragt werden
+				if (domainObject.getPasswort() != null) {
+					sql = sql + ("AND passwort = ? ");
+				}
+
+				// Status ist immer gesetzt
+				sql = sql + ("AND aktiv = ?");
+
+		
+		
+
+	}
 
 	@Override
 	public List<Mitarbeiter> getSelektion(Mitarbeiter domainObject) {
-
 		ResultSet rs = null;
 		String sql = "SELECT " 
 				+ "id, " 
