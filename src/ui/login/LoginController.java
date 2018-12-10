@@ -31,9 +31,13 @@ public class LoginController {
 		control();
 	}
 
-//	Definieren des Listeners für die Button-Klicks
 	private void control() {
 
+		loginView.getButtonPanel().getButton4().addActionListener(anmeldenActionListener());
+		loginView.getButtonPanel().getButton3().addActionListener(abbrechenActionListener());
+	}
+
+	private ActionListener anmeldenActionListener() {
 		ActionListener anmeldenActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -55,8 +59,10 @@ public class LoginController {
 				}
 			}
 		};
-		loginView.getButtonPanel().getButton4().addActionListener(anmeldenActionListener);
+		return anmeldenActionListener;
+	}
 
+	private ActionListener abbrechenActionListener() {
 		ActionListener abbrechenActionListener = new ActionListener() {
 
 			@Override
@@ -64,7 +70,7 @@ public class LoginController {
 				hauptController.applikationSchliessen();
 			}
 		};
-		loginView.getButtonPanel().getButton3().addActionListener(abbrechenActionListener);
+		return abbrechenActionListener;
 	}
 
 	public void initialisieren() {
