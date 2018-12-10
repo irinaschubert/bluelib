@@ -106,13 +106,21 @@ public class BuchView extends JPanel {
 
 	private static int HOEHE = 900;
 	private static int BREITE = 815;
-	
+
 	public static String BELLETRISTIK = "belletristik";
 	public static String SACHBUCH = "sachbuch";
 
+	/**
+	 * 
+	 * Panel zur Neuerfassung und Aktualisierung eines Buchs, Buchsuch-Panel wird
+	 * hinzugefuegt
+	 * 
+	 * @version 1.0 2018-11-15
+	 * @param Titel des Panels
+	 * @author Ueli
+	 */
 	public BuchView(String panelTitel) {
 
-		
 		buttonPanel = new StandardButtonPanel(); // Button-Panel am unteren Rand des Panels
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -130,27 +138,27 @@ public class BuchView extends JPanel {
 
 	private JPanel createNeuesBuchPanel() {
 
-		
-		// Das Grigbaglayout ist eigenwillig und verschiebt die Spaltenbreiten auf ungewünschte Art. Zwei Massnahmen 
-		//waren nötige:
-		//Breite der Scrollpanes festlegen
-		//Je einem Textfeld bei der Initialisierung eine beliebige Anzahl Zeichen zuweisen, damit beim Befüllen
-		//mit Text kenie Änderung der Spaltenbreiten erfolgt.
+		// Das Grigbaglayout ist eigenwillig und verschiebt die Spaltenbreiten auf
+		// ungewünschte Art. Zwei Massnahmen
+		// waren noetig:
+		// Breite der Scrollpanes festlegen
+		// Je einem Textfeld bei der Initialisierung eine beliebige Anzahl Zeichen
+		// zuweisen, damit beim Befuellen
+		// mit Text kenie Aenderung der Spaltenbreiten erfolgt.
 		buchNeuBearbeitenPanel = new JPanel();
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		buchNeuBearbeitenPanel.setLayout(gridBagLayout);
 		FormularMitGridbaglayout gridBagHelfer = new FormularMitGridbaglayout();
 
-		
 		leihStatusL = new JLabel();
 		leihStatusT = new JTextField();
 		leihStatusT.setEditable(false);
 		leihStatusT.setFont(leihStatusT.getFont().deriveFont(Font.BOLD, 14f));
-		
+
 		PKL = new JLabel();
 		PKT = new JTextField();
 		PKT.setEditable(false);
-		
+
 		neuBearbeitenL = new JLabel();
 		neuBearbeitenL.setHorizontalAlignment(SwingConstants.CENTER);
 		neuBearbeitenL.setPreferredSize(new Dimension(150, 25));
@@ -193,7 +201,7 @@ public class BuchView extends JPanel {
 
 		statusL = new JLabel();
 		statusCbx = new JComboBox<>();
-		statusCbx.setRenderer(new StatusRenderer() );
+		statusCbx.setRenderer(new StatusRenderer());
 		statusCbx.setPreferredSize(new Dimension(60, 25));
 
 		autorL = new JLabel();
@@ -238,7 +246,6 @@ public class BuchView extends JPanel {
 		scrollPaneSchlagwortList.setPreferredSize(new Dimension(250, 10));
 		schlagwortList.setCellRenderer(new SchlagwortListCellRenderer());
 
-
 		notizL = new JLabel();
 		notizA = new JTextArea(10, 10);
 		JScrollPane scrollPaneNotiz = new JScrollPane();
@@ -253,6 +260,7 @@ public class BuchView extends JPanel {
 		erfassungsUserT = new JTextField();
 		erfassungsUserT.setEditable(false);
 
+		// Platzieren der Komponenten
 		gridBagHelfer.labelSetzen(leihStatusL, buchNeuBearbeitenPanel, 0, 0);
 		gridBagHelfer.feldSetzen(leihStatusT, buchNeuBearbeitenPanel, 1, 0);
 		gridBagHelfer.feldSetzenLang(neuBearbeitenL, buchNeuBearbeitenPanel, 4, 0);
@@ -286,7 +294,6 @@ public class BuchView extends JPanel {
 		gridBagHelfer.labelSetzen(entfernenAutorB, buchNeuBearbeitenPanel, 0, 9);
 		gridBagHelfer.labelSetzen(statusL, buchNeuBearbeitenPanel, 3, 10);
 		gridBagHelfer.feldSetzen(statusCbx, buchNeuBearbeitenPanel, 4, 10);
-
 		gridBagHelfer.labelSetzen(schlagwortL, buchNeuBearbeitenPanel, 0, 10);
 		gridBagHelfer.feldSetzen(schlagwortCbx, buchNeuBearbeitenPanel, 1, 10);
 		gridBagHelfer.labelSetzen(signaturL, buchNeuBearbeitenPanel, 3, 11);
@@ -311,6 +318,12 @@ public class BuchView extends JPanel {
 		centerPanel.add(this.buchSuchView, BorderLayout.NORTH);
 	}
 
+	/**
+	 * 
+	 * @param rahmentitel
+	 * @param             Pane, um welches der Rahmen gelegt werden soll
+	 * @return Panel mit Rahmen
+	 */
 	private JPanel rahmenSetzen(String rahmentitel, JPanel inhalt) {
 		JPanel rahmenPanel = new JPanel();
 		rahmenPanel.setLayout(new BoxLayout(rahmenPanel, BoxLayout.Y_AXIS));

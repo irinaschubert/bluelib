@@ -8,7 +8,7 @@ import java.io.*;
  * Connectionstring
  * 
  * @version 0.1 16.10.2018
- * @author Schmutz
+ * @author Ueli
  *
  */
 public class DBConnectionInfo {

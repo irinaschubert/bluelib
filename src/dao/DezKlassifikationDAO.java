@@ -9,6 +9,14 @@ import java.util.List;
 import domain.DezKlassifikation;
 import interfaces.DAOInterface;
 
+/**
+ * Stellt die CRUD-Operationen der Dezimalklassifikation-Objekte zur Verfügung
+ * 
+ * @version 1.0 2018-11-03
+ * @author Ueli
+ *
+ */
+
 public class DezKlassifikationDAO implements DAOInterface<DezKlassifikation> {
 	
 	private DBConnection dbConnection = null;

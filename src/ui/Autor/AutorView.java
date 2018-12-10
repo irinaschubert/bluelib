@@ -29,7 +29,7 @@ import ui.standardKomponenten.StandardTitelPanel;
  * Zeigt alle Autoren an und ermoeglicht die Erfassung neuer Autoren
  * 
  * @version 1.0 24.10.2018
- * @author Schmutz
+ * @author Ueli
  *
  */
 public class AutorView extends JPanel {

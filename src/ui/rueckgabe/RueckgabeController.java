@@ -8,7 +8,6 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import dao.BuchDAO;
 import domain.Ausleihe;
 import domain.Buch;
 import domain.EingeloggterMA;
@@ -27,7 +26,7 @@ import ui.HauptController;
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 2018-12-09
- * @author Schmutz
+ * @author Ueli
  */
 
 public class RueckgabeController {
@@ -153,7 +152,7 @@ public class RueckgabeController {
 
 						Buch b = new Buch();
 						b.setBarcodeNr(Integer.parseInt(rueckgabeView.getBarcodeT().getText()));
-						Buch resultat = medienHandlingService.buchSuchen(b).get(0);
+						Buch resultat = medienHandlingService.suchenBuch(b).get(0);
 						buchSuchenUndResultatAnzeigen(resultat.getId());
 					}
 				}

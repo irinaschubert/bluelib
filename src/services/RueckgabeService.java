@@ -12,7 +12,7 @@ import domain.Buch;
 
 /**
  * 
- * Die Klasse stellt die Methoden zur Rückgabe von Medien zur Verfügung
+ * Stellt die Services zum Rueckgabe der Medien zur Verfuegung
  * 
  * @version 1.0 2018-12-07
  * @author Schmutz

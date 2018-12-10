@@ -10,8 +10,8 @@ import javax.swing.border.EmptyBorder;
  * 
  * Stellt die Standardbuttons der Menüs zusammen. Muss noch angepasst werden.
  * 
- * @version 1.0 18.10.2018
- * @author BlueLib
+ * @version 1.0 2018-10-18
+ * @author Ueli
  *
  */
 

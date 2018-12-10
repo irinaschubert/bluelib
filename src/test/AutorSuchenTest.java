@@ -11,6 +11,14 @@ import org.junit.Test;
 import domain.Autor;
 import services.NormdatenService;
 
+/**
+ * Prueft, ob die Autorensuche korrekt funktioniert
+ * 
+ * @version 2.0 2018-12-10
+ * @author Ueli
+ *
+ */
+
 public class AutorSuchenTest {
 
 	private Autor autor = null;

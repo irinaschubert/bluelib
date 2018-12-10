@@ -10,7 +10,8 @@ import java.awt.*;
  * 
  * Legt für JTextField die Anzahl der erfassbaren Zeichen fest 
  * 
- * @author BlueLib
+ * @version 1.0 2018-12-01
+ * @author Ueli
  *
  */
 

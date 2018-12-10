@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import dao.AutorDAO;
 import dao.BenutzerDAO;
 import dao.BuchDAO;
@@ -26,6 +25,14 @@ import services.BenutzerService;
 import services.MedienhandlingService;
 import services.NormdatenService;
 
+/**
+ * Stellt Objekte für die Unittests zur Verfuegung
+ * 
+ * @version 1.0 2018-12-10
+ * @author Ueli
+ *
+ */
+
 public class TestDomaenenObjekte {
 	private NormdatenService normdatenService;
 	private Buch buch;
@@ -41,6 +48,11 @@ public class TestDomaenenObjekte {
 		normdatenService = new NormdatenService();
 	}
 
+	/**
+	 * Vollstaendig ausgefülltest, nicht in DB gespeichertes Buch-Objekt ohne id
+	 * 
+	 * @return Buch-Objekt 
+	 */
 	public Buch getDummyBuch() {
 		Buch b = new Buch();
 		b.setTitel("Dummy-Titel");
@@ -66,19 +78,26 @@ public class TestDomaenenObjekte {
 
 	}
 
+	/**
+	 * 
+	 * @return in DB neu erstelltes Buch-Objekt
+	 */
 	public Buch getFertigesDummyBuch() {
 		if (buch == null) {
 			MedienhandlingService medienhandlingService = new MedienhandlingService();
 			buch = getDummyBuch();
-			medienhandlingService.buchNeuErfassen(buch);
+			medienhandlingService.speichernBuch(buch);
 			List<Buch> bL = new ArrayList<>();
-			bL = medienhandlingService.buchSuchen(buch);
+			bL = medienhandlingService.suchenBuch(buch);
 			buch = bL.get(0);
 		}
 		return buch;
 
 	}
 
+	/**
+	 * Loescht das Dummy-Buch mit den zugehoerigen Verlag Autor, und Schlagwort in der DB
+	 */
 	public void loeschenDummyBuch() {
 		BuchDAO buchDAO = new BuchDAO();
 		Boolean r = buchDAO.delete(buch);
@@ -86,7 +105,11 @@ public class TestDomaenenObjekte {
 		loeschenDummyAutor1();
 		loeschenDummySchlagwort1();
 	}
-
+/**
+ *Vollstaendig ausgefülltest, nicht in DB gespeichertes Autoren-Objekt ohne id
+ * 
+ * @return Autor
+ */
 	public Autor getDummyAutor1() {
 		Autor a = new Autor();
 		a.setName("Dummy-Autor 1");
@@ -97,9 +120,13 @@ public class TestDomaenenObjekte {
 		return a;
 	}
 
+	/**
+	 * 
+	 * @return in DB neu erstellter Autor
+	 */
 	public Autor getFertigerDummyAutor1() {
 		if (autor1 == null) {
-			normdatenService.sichereAutor(getDummyAutor1());
+			normdatenService.speichereAutor(getDummyAutor1());
 			List<Autor> aL = new ArrayList<>();
 			aL = normdatenService.sucheAutor(getDummyAutor1());
 			autor1 = aL.get(0);
@@ -107,11 +134,19 @@ public class TestDomaenenObjekte {
 		return autor1;
 	}
 
+	/**
+	 * Loescht den Dummy-Autor1 in der DB
+	 */
 	public void loeschenDummyAutor1() {
 		AutorDAO autorDAO = new AutorDAO();
 		autorDAO.delete(autor1);
 	}
-
+	
+	/**
+	 *Vollstaendig ausgefülltest, nicht in DB gespeichertes Autoren-Objekt ohne id
+	 * 
+	 * @return Autor
+	 */
 	public Autor getDummyAutor2() {
 		Autor a = new Autor();
 		a.setName("Dummy-Autor 2");
@@ -121,10 +156,14 @@ public class TestDomaenenObjekte {
 		a.setGeloescht(false);
 		return a;
 	}
-
+	
+	/**
+	 * 
+	 * @return in DB neu erstellter Autor
+	 */
 	public Autor getFertigerDummyAutor2() {
 		if (autor2 == null) {
-			normdatenService.sichereAutor(getDummyAutor2());
+			normdatenService.speichereAutor(getDummyAutor2());
 			List<Autor> aL = new ArrayList<>();
 			aL = normdatenService.sucheAutor(getDummyAutor2());
 			autor2 = aL.get(0);
@@ -132,11 +171,19 @@ public class TestDomaenenObjekte {
 		return autor2;
 	}
 
+	/**
+	 * Loescht den Dummy-Autor2 in der DB
+	 */
 	public void loeschenDummyAutor2() {
 		AutorDAO autorDAO = new AutorDAO();
 		autorDAO.delete(autor2);
 	}
 
+	/**
+	 *Vollstaendig ausgefülltest, nicht in DB gespeichertes Schlagwort-Objekt ohne id
+	 * 
+	 * @return Schlagwort
+	 */
 	public static Schlagwort getDummySchlagwort1() {
 		Schlagwort s = new Schlagwort();
 		s.setSchlagwort("Dummy-Schlagwort 1000");
@@ -144,6 +191,10 @@ public class TestDomaenenObjekte {
 		return s;
 	}
 
+	/**
+	 * 
+	 * @return in DB neu erstelltes Schlagwort
+	 */
 	public Schlagwort getFertigesDummySchlagwort1() {
 		if (schlagwort1 == null) {
 			normdatenService.sichereSchlagwort(getDummySchlagwort1());
@@ -154,11 +205,19 @@ public class TestDomaenenObjekte {
 		return schlagwort1;
 	}
 
+	/**
+	 * Loescht das Schlagwort in der DB
+	 */
 	public void loeschenDummySchlagwort1() {
 		SchlagwortDAO schlagwortDAO = new SchlagwortDAO();
 		Boolean r = schlagwortDAO.delete(schlagwort1);
 	}
 
+	/**
+	 *Vollstaendig ausgefülltest, nicht in DB gespeichertes Schlagwort-Objekt ohne id
+	 * 
+	 * @return Schlagwort
+	 */
 	public static Schlagwort getDummySchlagwort2() {
 		Schlagwort s = new Schlagwort();
 		s.setSchlagwort("Dummy-Schlagwort 1001");
@@ -166,6 +225,10 @@ public class TestDomaenenObjekte {
 		return s;
 	}
 
+	/**
+	 * 
+	 * @return in DB neu erstelltes Schlagwort
+	 */
 	public Schlagwort getFertigesDummySchlagwort2() {
 		if (schlagwort2 == null) {
 			normdatenService.sichereSchlagwort(getDummySchlagwort2());
@@ -176,11 +239,20 @@ public class TestDomaenenObjekte {
 		return schlagwort2;
 	}
 
+	/**
+	 * Loescht das Schlagwort in der DB
+	 */
 	public void loeschenDummySchlagwort2() {
 		SchlagwortDAO schlagwortDAO = new SchlagwortDAO();
 		Boolean r = schlagwortDAO.delete(schlagwort2);
 	}
 
+
+	/**
+	 *Vollstaendig ausgefülltes, nicht in DB gespeichertes Benutzer-Objekt ohne id
+	 * 
+	 * @return Benutzer
+	 */
 	public Benutzer getDummyBenutzer() {
 		Benutzer b = new Benutzer();
 		b.setName("Dummy-Benutzer");
@@ -198,6 +270,10 @@ public class TestDomaenenObjekte {
 
 	}
 
+	/**
+	 * 
+	 * @return in DB neu erstellter Benutzer
+	 */
 	public Benutzer getFertigerDummyBenutzer() {
 		if (benutzer == null) {
 			BenutzerService benutzerService = new BenutzerService();
@@ -209,11 +285,20 @@ public class TestDomaenenObjekte {
 		return benutzer;
 	}
 
+	
+	/**
+	 * Loescht den Benutzer in der DB
+	 */
 	public void loeschenDummyBenutzer() {
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		Boolean b = benutzerDAO.delete(benutzer);
 	}
 
+	/**
+	 *Vollstaendig ausgefülltes, nicht in DB gespeichertes Verlag-Objekt ohne id
+	 * 
+	 * @return Verlag
+	 */
 	public Verlag getDummyVerlag1() {
 		Verlag v = new Verlag();
 		v.setName("Dummy-Verlag 1");
@@ -223,6 +308,10 @@ public class TestDomaenenObjekte {
 		return v;
 	}
 
+	/**
+	 * 
+	 * @return in DB neu erstellter Verlag
+	 */
 	public Verlag getFertigerDummyVerlag1() {
 		if (verlag1 == null) {
 			normdatenService.sichereVerlag(getDummyVerlag1());
@@ -233,11 +322,20 @@ public class TestDomaenenObjekte {
 		return verlag1;
 	}
 
+	
+	/**
+	 * Loescht den Verlagin der DB
+	 */
 	public void loeschenDummyVerlag1() {
 		VerlagDAO verlagDAO = new VerlagDAO();
 		verlagDAO.delete(verlag1);
 	}
-
+	
+	/**
+	 *Vollstaendig ausgefülltes, nicht in DB gespeichertes Verlag-Objekt ohne id
+	 * 
+	 * @return Verlag
+	 */
 	public Verlag getDummyVerlag2() {
 		Verlag v = new Verlag();
 		v.setName("Dummy-Verlag 2");
@@ -247,6 +345,10 @@ public class TestDomaenenObjekte {
 		return v;
 	}
 
+	/**
+	 * 
+	 * @return in DB neu erstellter Verlag
+	 */
 	public Verlag getFertigerDummyVerlag2() {
 		if (verlag2 == null) {
 			normdatenService.sichereVerlag(getDummyVerlag2());
@@ -257,37 +359,27 @@ public class TestDomaenenObjekte {
 		return verlag2;
 	}
 
+	/**
+	 * Loescht den Verlagin der DB
+	 */
 	public void loeschenDummyVerlag2() {
 		VerlagDAO verlagDAO = new VerlagDAO();
 		verlagDAO.delete(verlag2);
 	}
 
-//	public Mitarbeiter dummyMitarbeiter() {
-//		Mitarbeiter m = new Mitarbeiter();
-//		m.setAdmin(true);
-//		m.setAdresse(dummyAdresse());
-//		m.setAktiv(true);
-//		m.setAnrede(anredeHerr());
-//		m.setBemerkung("Dummy-Bemerkung Mitarbeiter");
-//		m.setBenutzername("dummybenutzer");
-//		m.setEmail("dummymitarbeiter@test.com");
-//		m.setErfassungDatum(new Date());
-//		m.setErfassungMitarbeiterId(1);
-//		m.setErfassungMitarbeiterName("Initialer Mitarbeiter");
-//		m.setGeburtsdatum(DateConverter.convertStringToJavaDate("01.01.1995"));
-//		m.setMAId(1);
-//		m.setName("Dummy-Mitarbeiter");
-//		m.setPasswort("1234");
-//		m.setTelefon("044 444 44 44");
-//		m.setVorname("Vorname");
-//		return m;
-//	}
 
 	public Mitarbeiter getFertigerMitarbeiter() {
 		MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
 		return mitarbeiterDAO.findById(1);
 	}
 
+	/**
+	 * 
+	 * Zum initialen Login muss in der DB zwingend ein Mitarbeiter vorhanden sein. Daher ist es nicht 
+	 * noetig, zuerst einen Mitarbeiter in der DB zu erstellen
+	 * 
+	 * @return Mitarbeiter
+	 */
 	public Anrede getAnredeHerr() {
 		Anrede a = new Anrede();
 		a.setBezeichnung("Frau");
@@ -295,6 +387,10 @@ public class TestDomaenenObjekte {
 		return a;
 	}
 
+	/**
+	 * 
+	 * @return Adresse
+	 */
 	private Adresse getDummyAdresse() {
 		Adresse a = new Adresse(getOrtLausanne());
 		a.setStrasse("Dummy-Strasse 1");
@@ -302,6 +398,10 @@ public class TestDomaenenObjekte {
 		return a;
 	}
 
+	/**
+	 * 
+	 * @return Lausanne als Ort
+	 */
 	private Ort getOrtLausanne() {
 		Ort o = new Ort();
 		o.setId(1);

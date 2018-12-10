@@ -18,7 +18,15 @@ import domain.Status;
 import domain.Verlag;
 import services.MedienhandlingService;
 
-public class BuchBearbeitenTest {
+/**
+ * Prueft, ob alle Werte des Buchs korrekt auktualisiert werden
+ * 
+ * @version 1.0 2018-12-10
+ * @author Ueli
+ *
+ */
+
+public class BuchAktualisierenTest {
 	MedienhandlingService medienhandlingService;
 	TestDomaenenObjekte testDomaenenObjekte;
 	Buch buch;
@@ -29,9 +37,9 @@ public class BuchBearbeitenTest {
 		medienhandlingService = new MedienhandlingService();
 		testDomaenenObjekte = new TestDomaenenObjekte();
 		buch = testDomaenenObjekte.getDummyBuch();
-		medienhandlingService.buchNeuErfassen(buch);
+		medienhandlingService.speichernBuch(buch);
 		List<Buch> bL = new ArrayList<>();
-		bL = medienhandlingService.buchSuchen(buch);
+		bL = medienhandlingService.suchenBuch(buch);
 		if (bL.size() > 0) {
 			buch = bL.get(0);
 		}
@@ -78,7 +86,7 @@ public class BuchBearbeitenTest {
 
 		medienhandlingService.buchBearbeiten(buch);
 		List<Buch> bL = new ArrayList<>();
-		bL = medienhandlingService.buchSuchen(buch);
+		bL = medienhandlingService.suchenBuch(buch);
 		if (bL.size() > 0) {
 			buchUpdate = bL.get(0);
 		}

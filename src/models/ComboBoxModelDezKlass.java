@@ -9,9 +9,9 @@ import domain.DezKlassifikation;
 
 /**
  * 
- * Enthält die Gruppenbegriffe der Dezimalklassifikation
+ * Verwaltet die Dezimalklassifikationen
  * 
- * @author Schmutz
+ * @author Ueli
  * @version 1.0 2018-11-17
  *
  */

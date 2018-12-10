@@ -1,7 +1,6 @@
 package ui.buch;
 
 import java.awt.GridBagLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -9,46 +8,51 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
 import ui.benutzer.FormularMitGridbaglayout;
 
+/**
+ * 
+ * View zur Zuordnung von Barcodes
+ * 
+ * @version 1.0 2018-12-1
+ * @author Ueli
+ *
+ */
+
 public class BarCodeZuordnungView extends JDialog {
-	
-	
+
 	private JLabel barCodeL;
 	private JTextField barCodeT;
 	private JButton uebernehmenB;
-	
-	
+
 	public BarCodeZuordnungView(String titel) {
 		super.setTitle(titel);
 		getContentPane().add(frameAufbauen());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(300, 100);
-			
-		
+
 	}
-	
+
 	private JPanel frameAufbauen() {
-		
+
 		FormularMitGridbaglayout formularMitGridbaglayout = new FormularMitGridbaglayout();
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
-		
+
 		barCodeL = new JLabel();
 		barCodeT = new JTextField();
 		uebernehmenB = new JButton();
-				
+
 		formularMitGridbaglayout.addLabel(barCodeL, panel);
 		formularMitGridbaglayout.addLastField(barCodeT, panel);
 		formularMitGridbaglayout.addLabel(uebernehmenB, panel);
-				
+
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		
+
 		return panel;
-	
+
 	}
-	
+
 	public JLabel getBarCodeL() {
 		return barCodeL;
 	}
@@ -76,7 +80,5 @@ public class BarCodeZuordnungView extends JDialog {
 	public void schliessen() {
 		dispose();
 	}
-	
-	
 
 }

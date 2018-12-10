@@ -7,8 +7,11 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import domain.Schlagwort;
 
 /** 
+ * 
+ * Regelt die Werte und deren Darstellung der Schlagworte in der Dropdownliste
+ * 
  * @version 1.0 2018-11-22
- * @author Schmutz
+ * @author Ueli
  *
  */
 

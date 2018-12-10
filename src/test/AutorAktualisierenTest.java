@@ -15,6 +15,14 @@ import domain.Autor;
 import hilfsklassen.DateConverter;
 import services.NormdatenService;
 
+
+/**
+ * Prueft, ob alle Werte des Autors korrekt auktualisiert werden
+ * 
+ * @version 2.0 2018-12-10
+ * @author Ueli
+ *
+ */
 public class AutorAktualisierenTest {
 
 	private Autor autor = null;

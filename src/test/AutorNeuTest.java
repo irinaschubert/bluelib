@@ -12,6 +12,15 @@ import dao.AutorDAO;
 import domain.Autor;
 import services.NormdatenService;
 
+
+/**
+ * Prueft, ob ein Autor korrekt neu erstellt wird
+ * 
+ * @version 2.0 2018-12-10
+ * @author Ueli
+ *
+ */
+
 public class AutorNeuTest {
 	Autor autor = null;
 	TestDomaenenObjekte testDomaenenObjekte;
@@ -27,7 +36,7 @@ public class AutorNeuTest {
 	@Test
 	public void testNeu() {
 		normdatenService = new NormdatenService();
-		normdatenService.sichereAutor(autor);
+		normdatenService.speichereAutor(autor);
 		List<Autor> aL = new ArrayList<>();
 		aL = normdatenService.sucheAutor(autor);
 		if (aL.size() > 0) {

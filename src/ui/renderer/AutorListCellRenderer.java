@@ -2,12 +2,17 @@ package ui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
-
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-
 import domain.Autor;
+
+/**
+ * Regelt die Darstellung der Werte der Autoren in der JList
+ * 
+ * @version 1.0 2018-11-18
+ * @author Ueli
+ */
 
 public class AutorListCellRenderer extends JLabel implements ListCellRenderer<Autor> {
 	

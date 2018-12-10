@@ -15,10 +15,11 @@ import domain.Status;
 import hilfsklassen.DateConverter;
 import interfaces.DAOInterface;
 /**
+ * Stellt die CRUD-Operationen der Medienstatus-Objekte zur Verfügung
+ * 
  * @version 0.1 28.10.2018
  * @author Mike
- *
- */
+ * */
 public class MedienStatusDAO implements DAOInterface<Status> {
 	private DBConnection dbConnection = null;
 	private Connection conn = null; 

@@ -9,29 +9,23 @@ import domain.Medium;
 import domain.Status;
 
 /**
+ * Bietet die Services zur Verwaltung der Medien an
+ * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Ueli
  *
  */
 public class MedienhandlingService {
 	
 	public MedienhandlingService() {}
 	
-	public boolean istVerfuegbar(Medium medium) {
-		boolean yes = true;
-		return yes;
-	}
 	
-	public Verifikation ausleihen(Medium medium, Benutzer benutzer) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-	
-	public Verifikation isbnPruefen(String isbn) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-	
+	/**
+	 * Prueft, ob es sich beim Parameter um einen validen Barcode handelt
+	 * 
+	 * @param barcode
+	 * @return Barcode valide: true, Barcode falsch: false
+	 */
 	public Verifikation istBarcode(String barcode) {
 		Verifikation v = new Verifikation();
 		v.setAktionErfolgreich(true);
@@ -71,17 +65,7 @@ public class MedienhandlingService {
 			return v;
 		}	
 	
-	public Benutzer ausgeliehenDurch(Medium medium) {
-		Benutzer b = new Benutzer();
-		return b;
-	}
-	
-	public Verifikation zurueckgeben(Medium medium) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-	
-	public Verifikation buchNeuErfassen(Buch buch) {
+	public Verifikation speichernBuch(Buch buch) {
 		Verifikation v = new Verifikation();
 		Buch b = null;
 		BuchDAO buchDAO = new BuchDAO();
@@ -115,14 +99,8 @@ public class MedienhandlingService {
 		return v;
 	}
 	
-	public List<Buch> buchSuchen(Buch buch) {
+	public List<Buch> suchenBuch(Buch buch) {
 		return new BuchDAO().getSelektion(buch);
-	}
-	
-	
-	public Medium mediumScannen(long barcode) {
-		Buch b = new Buch();
-		return b;
 	}
 	
 	public List<Status> alleMedienStati(){

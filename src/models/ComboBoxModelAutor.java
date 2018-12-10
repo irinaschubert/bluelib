@@ -2,11 +2,17 @@ package models;
 
 import java.util.Comparator;
 import java.util.List;
-
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
-
 import domain.Autor;
+
+/**
+ * Verwaltet die Werte der Auoren-Bomboboxen
+ * 
+ * @version 1.0 2018-11-28
+ * @author Ueli
+ *
+ */
 
 public class ComboBoxModelAutor extends AbstractListModel implements ComboBoxModel{
 

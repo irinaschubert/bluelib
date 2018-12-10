@@ -22,10 +22,10 @@ import ui.standardKomponenten.StandardButtonPanel;
 import ui.standardKomponenten.StandardTitelPanel;
 
 /**
- * View für das Verwalten der Ausleihen
+ * View für das Verwalten der Buchrueckgaben
  * 
- * @version 1.0 06.11.2018
- * @author irina
+ * @version 1.0 2018-12-08
+ * @author Ueli
  */
 @SuppressWarnings("serial")
 public class RueckgabeView extends JPanel {

@@ -29,7 +29,7 @@ import ui.status.StatusRenderer;
  * Panel für die Buchsuche
  * 
  * @version 1.0 13.11.2018
- * @author Schmutz
+ * @author Ueli
  *
  */
 public class BuchSuchView extends JPanel {
@@ -48,7 +48,6 @@ public class BuchSuchView extends JPanel {
 	private JTextField signaturSucheT;
 	private JComboBox<Status> statusSucheCbx;
 
-
 	private JButton suchButton;
 	private JTable buchTabelle;
 	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
@@ -61,7 +60,6 @@ public class BuchSuchView extends JPanel {
 		this.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.add(createSuchePanel(), BorderLayout.NORTH);
 		this.add(createTabellenPanel(), BorderLayout.CENTER);
-
 
 	}
 

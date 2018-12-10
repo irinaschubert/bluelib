@@ -20,11 +20,10 @@ import domain.Schlagwort;
 import domain.Mitarbeiter;
 
 /**
- * Die Serviceklasse vermittelt zwischen den Controllern der Normdaten und den
- * DAOs
+ * Stellt die Services zum Verwalten der Normdaten zur Verfügung
  * 
  * @version 1.0 15.11.2018
- * @author Schmutz
+ * @author Irina, Mike, Ueli
  */
 
 public class NormdatenService {
@@ -58,8 +57,8 @@ public class NormdatenService {
 		return new MitarbeiterDAO().findAll();
 	}
 
-	// sichern
-	public Verifikation sichereAutor(Autor autor) {
+
+	public Verifikation speichereAutor(Autor autor) {
 		Verifikation v = new Verifikation();
 
 		if (new AutorDAO().save(autor) != null) {
