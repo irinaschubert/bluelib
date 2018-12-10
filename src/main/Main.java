@@ -20,6 +20,7 @@ public class Main {
 			public void run() {
 				HauptView view = new HauptView("Hauptview");
 				new HauptController(view);
+				
 			}
 		});
 	}
