@@ -40,11 +40,6 @@ public class BuchSuchenTest {
 	@After
 	public void tearDown() {
 		testDomaenenObjekte.loeschenDummyBuch();
-//		BuchDAO buchDAO = new BuchDAO();
-//		buchDAO.delete(buchListe.get(0));
-//		testDomaenenObjekte.loeschenDummyAutor1();
-//		testDomaenenObjekte.loeschenDummyVerlag1();
-//		testDomaenenObjekte.loeschenDummySchlagwort1();
 	}
 
 }

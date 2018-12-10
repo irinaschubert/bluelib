@@ -3,6 +3,7 @@ package test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
@@ -13,49 +14,76 @@ import dao.AutorDAO;
 import domain.Autor;
 import hilfsklassen.DateConverter;
 import services.NormdatenService;
-import services.Verifikation;
 
 public class AutorAktualisierenTest {
 
-	private Autor a = new Autor();
-	private List<Autor> liste = new ArrayList<>();
-	private Autor an = new Autor();
-	private Verifikation v = new Verifikation();
-	private NormdatenService n = new NormdatenService();
-	private static String TESTNAME = "Testname1";
+	private Autor autor = null;
+	private Autor autorTest = null;
+	private TestDomaenenObjekte testDomaenenObjekte;
+	private NormdatenService normdatenService;
 
 	@Before
-	public void vorbereiten() throws Exception {
-		a.setName("Testname");
-		a.setVorname("Testvorname");
-		a.setGeburtsdatum(DateConverter.convertStringToJavaDate("10.10.1950"));
-		a.setTodesdatum(DateConverter.convertStringToJavaDate("01.05.2005"));
-		a.setGeloescht(true);
-		
-		NormdatenService n = new NormdatenService();
-		
-		v = n.sichereAutor(a);
+	public void setUp() throws Exception {
+		testDomaenenObjekte = new TestDomaenenObjekte();
+		autor = new Autor();
+		autor = testDomaenenObjekte.getFertigerDummyAutor1();
 
-		liste = n.sucheAutor(a);
-		for (Autor i : liste) {
-			an = i;
-		}
+		String name = "Dummy-Autor 3";
+		String vorname = "Vorname 1";
+		Date geburtsDatum = DateConverter.convertStringToJavaDate("01.03.1950");
+		Date todesDatum = DateConverter.convertStringToJavaDate("01.01.2000");
+		Boolean geloescht = true;
 
-		an.setName(TESTNAME);
-		System.out.println(an.getName());
-		v = n.aktualisiereAutor(an);
+		autor.setName(name);
+		autor.setVorname(vorname);
+		autor.setGeburtsdatum(geburtsDatum);
+		autor.setTodesdatum(todesDatum);
+		autor.setGeloescht(geloescht);
+
+		autor.setName("Testname");
+		autor.setVorname("Testvorname");
+		autor.setGeburtsdatum(DateConverter.convertStringToJavaDate("10.10.1950"));
+		autor.setTodesdatum(DateConverter.convertStringToJavaDate("01.05.2005"));
+		autor.setGeloescht(true);
+
 	}
 
 	@Test
 	public void test() {
 
-		assertEquals(new AutorDAO().findById(an.getId()).getName(), TESTNAME);
+		String name = "Dummy-Autor 3";
+		String vorname = "Vorname 1";
+		Date geburtsDatum = DateConverter.convertStringToJavaDate("01.03.1950");
+		Date todesDatum = DateConverter.convertStringToJavaDate("01.01.2000");
+		Boolean geloescht = true;
+
+		autor.setName(name);
+		autor.setVorname(vorname);
+		autor.setGeburtsdatum(geburtsDatum);
+		autor.setTodesdatum(todesDatum);
+		autor.setGeloescht(geloescht);
+
+		normdatenService = new NormdatenService();
+		normdatenService.aktualisiereAutor(autor);
+
+		List<Autor> aL = new ArrayList<>();
+		aL = normdatenService.sucheAutor(autor);
+		if (aL.size() > 0) {
+			autorTest = aL.get(0);
+		}
+
+		assertEquals(autor.getName(), autorTest.getName());
+		assertEquals(autor.getVorname(), autorTest.getVorname());
+		assertEquals(autor.getGeburtsdatum(), autorTest.getGeburtsdatum());
+		assertEquals(autor.getTodesdatum(), autorTest.getTodesdatum());
+		assertEquals(autor.getGeloescht(), autorTest.getGeloescht());
 
 	}
 
 	@After
-	public void neuenAutorLoeschen() {
-		new AutorDAO().delete(an);
+	public void tearDown() {
+		new AutorDAO().delete(autorTest);
+
 	}
 
 }

@@ -1,6 +1,6 @@
 package test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,35 +10,39 @@ import org.junit.Before;
 import org.junit.Test;
 import dao.AutorDAO;
 import domain.Autor;
-import hilfsklassen.DateConverter;
 import services.NormdatenService;
-import services.Verifikation;
 
 public class AutorNeuTest {
-	Autor a = new Autor();
-	Autor an = new Autor();
+	Autor autor = null;
+	TestDomaenenObjekte testDomaenenObjekte;
+	NormdatenService normdatenService;
 	List<Autor> liste = new ArrayList<>();
-	Verifikation b = new Verifikation();
 
 	@Before
-	public void vorbereiten() throws Exception {
-		a.setName("Testname");
-		a.setVorname("Testvorname");
-		a.setGeburtsdatum(DateConverter.convertStringToJavaDate("10.10.1950"));
-		a.setTodesdatum(DateConverter.convertStringToJavaDate("01.05.2005"));
-		a.setGeloescht(true);
+	public void setUp() throws Exception {
+		testDomaenenObjekte = new TestDomaenenObjekte();
+		autor = testDomaenenObjekte.getDummyAutor1();
 	}
 
 	@Test
-	public void test() {
-		NormdatenService n = new NormdatenService();
-		assertTrue(n.sichereAutor(a).isAktionErfolgreich());
-
+	public void testNeu() {
+		normdatenService = new NormdatenService();
+		normdatenService.sichereAutor(autor);
+		List<Autor> aL = new ArrayList<>();
+		aL = normdatenService.sucheAutor(autor);
+		if (aL.size() > 0) {
+			autor = aL.get(0);
+		}
+		assertEquals(autor.getName(), testDomaenenObjekte.getDummyAutor1().getName());
+		assertEquals(autor.getVorname(), testDomaenenObjekte.getDummyAutor1().getVorname());
+		assertEquals(autor.getGeburtsdatum(), testDomaenenObjekte.getDummyAutor1().getGeburtsdatum());
+		assertEquals(autor.getTodesdatum(), testDomaenenObjekte.getDummyAutor1().getTodesdatum());
+		assertEquals(autor.getGeloescht(), testDomaenenObjekte.getDummyAutor1().getGeloescht());
 	}
 
 	@After
-	public void neuenAutorLoeschen() {
-		liste = new AutorDAO().getSelektion(a);
+	public void tearDown() {
+		liste = new AutorDAO().getSelektion(autor);
 		for (Autor i : liste)
 			new AutorDAO().delete(i);
 	}
