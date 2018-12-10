@@ -68,8 +68,8 @@ public class LoginController {
 	}
 
 	public void initialisieren() {
-		loginView.getBenutzerNameL().setText("Benutzername*:");
-		loginView.getPasswortL().setText("Passwort*:");
+		loginView.getBenutzerNameL().setText("Benutzername:*");
+		loginView.getPasswortL().setText("Passwort:*");
 		loginView.getButtonPanel().getButton1().setVisible(false);
 		loginView.getButtonPanel().getButton2().setVisible(false);
 		loginView.getButtonPanel().getButton3().setText(ButtonNamen.ABBRECHEN.getName());
