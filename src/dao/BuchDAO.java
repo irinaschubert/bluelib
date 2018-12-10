@@ -59,6 +59,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				+")" ;
 		try {
 			conn = dbConnection.getDBConnection();
+			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			int argCounter = 1;
 			pstmt.setString(argCounter++,domainObject.getTitel());
@@ -144,7 +145,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 					pstmt.setInt(argCounter++,s.getId());
 					pstmt.executeUpdate();
 				}
-
+				conn.commit();
 				b = new BuchDAO().findById(medium_id);
 
 
@@ -155,12 +156,14 @@ public class BuchDAO implements DAOInterface<Buch> {
 			e.printStackTrace();
 		} finally{
 			try{
+				conn.setAutoCommit(true);
 				if(rs != null) rs.close();
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
+				
 			} catch(Exception ex){}
 		}
-
+		
 		return b;
 	}
 
@@ -183,6 +186,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 
 		try {
 			conn = dbConnection.getDBConnection();
+			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			int argCounter = 1;
 			pstmt.setString(argCounter++,domainObject.getTitel());
@@ -366,7 +370,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				}
 
 			}
-
+			conn.commit();
 			b = domainObject;			
 
 
@@ -376,6 +380,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 			e.printStackTrace();
 		} finally{
 			try{
+				conn.setAutoCommit(true);
 				if(rs != null) rs.close();
 				if(pstmt != null) pstmt.close();
 				if(conn != null) conn.close();
@@ -387,8 +392,71 @@ public class BuchDAO implements DAOInterface<Buch> {
 
 	@Override
 	public boolean delete(Buch domainObject) {
-		// TODO Auto-generated method stub
-		return false;
+		ResultSet rs = null;
+		Boolean geloescht = true;
+		String sql = "DELETE FROM "
+				+ "autorbuch  "
+				+ "WHERE buch_id = ?";
+		
+		try {
+			conn = dbConnection.getDBConnection();
+			conn.setAutoCommit(false);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,domainObject.getBuchId());
+			int i = pstmt.executeUpdate();
+			if (i<=0) {
+				geloescht = false;
+			}
+						
+			sql = "DELETE FROM "
+					+ "mediumschlagwort "
+					+ "WHERE medium_id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,domainObject.getId());
+			pstmt.executeUpdate();
+							
+			sql = "DELETE FROM "
+					+ "autorbuch "
+					+ "WHERE buch_id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,domainObject.getBuchId());
+			pstmt.executeUpdate();
+								
+			sql = "DELETE FROM "
+					+ "buch "
+					+ "WHERE id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,domainObject.getBuchId());
+			pstmt.executeUpdate();
+		
+						
+			sql = "DELETE FROM "
+					+ "medium " 
+					+ "WHERE id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,domainObject.getId());
+			pstmt.executeUpdate();
+			conn.commit();
+	
+		} catch (SQLException e) {
+			e.printStackTrace();	
+
+		} finally{
+
+			try{
+				conn.setAutoCommit(true);
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception ex){}
+		}
+		
+		return geloescht;
+				
 	}
 
 	@Override
@@ -450,7 +518,7 @@ public class BuchDAO implements DAOInterface<Buch> {
 				sql = sql + "m.id IN (SELECT ab.buch_id FROM autorbuch ab "
 						+ "WHERE ab.autor_id IN (";
 				for (int i = 0; i < domainObject.getAutoren().size();i++) {
-					sql = sql + (i + 1 == domainObject.getAutoren().size()?"? ))":"?, ");
+					sql = sql + (i + 1 == domainObject.getAutoren().size()?"? )) ":"?, ");
 				}
 			}
 		}
@@ -463,8 +531,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 		if (domainObject.getSignatur() != null) {
 			sql = sql + (whereUsed?"AND ": "WHERE ");
 			whereUsed = true;
-			sql = sql + "m.verlag_id ";
+			sql = sql + "m.signatur ";
 			sql = sql + (SQLHelfer.likePruefung(domainObject.getSignatur())?" LIKE": " =");
+			sql = sql + " ? ";
 		}
 
 		try {
