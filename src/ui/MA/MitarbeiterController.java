@@ -182,7 +182,10 @@ public class MitarbeiterController {
 		m = tableModelMitarbeiter.getGeklicktesObjekt(mitarbeiterView.getMitarbeiterTabelle().getSelectedRow());
 		mitarbeiterView.getPKT().setText(Integer.toString(m.getId()));
 		mitarbeiterView.getBenutzernameT().setText(m.getBenutzername());
+		mitarbeiterView.getNameT().setText(m.getName());
+		mitarbeiterView.getVornameT().setText(m.getVorname());
 		mitarbeiterView.getAktivCbx().setSelected(m.isAktiv());
+		mitarbeiterView.getAdminCbx().setSelected(m.isAdmin());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {

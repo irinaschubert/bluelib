@@ -22,7 +22,6 @@ public class TableModelMitarbeiter extends AbstractTableModel {
 
 	public void setAndSortListe(List<Mitarbeiter> liste) {
 		this.mitarbeiterenListe = liste;
-		//listeSortieren();
 		// Damit erhält die Liste in der View ein Update
 		fireTableDataChanged();
 
@@ -34,11 +33,6 @@ public class TableModelMitarbeiter extends AbstractTableModel {
 
 		// Damit erhält die Liste in der View ein Update
 		fireTableDataChanged();
-	}
-
-	private void listeSortieren() {
-		mitarbeiterenListe.sort(Comparator.comparing(Mitarbeiter::getName)
-				.thenComparing(Comparator.comparing(Mitarbeiter::getVorname)));
 	}
 
 	@Override
