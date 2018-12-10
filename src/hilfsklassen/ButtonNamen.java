@@ -1,5 +1,13 @@
 package hilfsklassen;
 
+/**
+ * Stellt Beschriftungen der Buttons zur Verfügung: das Naming soll identisch sein
+ * 
+ * @version 1.0 2018-10-1
+ * @author Ueli
+ *
+ */
+
 public enum ButtonNamen {
 	SICHERN("Sichern"),
 	UEBERNEHMEN("Übernehmen"),

@@ -14,9 +14,10 @@ import hilfsklassen.DateConverter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 /**
- * @version 0.1 28.10.2018
- * @author Mike
- *
+ * Stellt die CRUD- und weitere Operationen zum Verwalten der Buch-Objekte zur Verfügung
+ * 
+ * @version 1.1 2018-12-05
+ * @author Ueli
  */
 public class BuchDAO implements DAOInterface<Buch> {
 	private DBConnection dbConnection = null;
@@ -29,6 +30,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 		dbConnection = DBConnection.getInstance();
 	}
 
+	/**
+	 * @return Bei Erfolg: gespeichertes Buch-Objekt, bei Misserfolg: null
+	 */
 	@Override
 	public Buch save(Buch domainObject) {
 		ResultSet rs = null;
@@ -167,6 +171,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 		return b;
 	}
 
+	/**
+	 * @return Bei Erfolg: Aktualisertes Buch-Objekt, bei Misserfolg: null
+	 */
 	@Override
 	public Buch update(Buch domainObject) {
 		ResultSet rs = null;
@@ -376,7 +383,6 @@ public class BuchDAO implements DAOInterface<Buch> {
 
 		}
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
 			try{
@@ -390,6 +396,10 @@ public class BuchDAO implements DAOInterface<Buch> {
 		return b;
 	}
 
+	
+	/**
+	 * @return true, falls Loeschen erfolgreich
+	 */
 	@Override
 	public boolean delete(Buch domainObject) {
 		ResultSet rs = null;
@@ -459,6 +469,9 @@ public class BuchDAO implements DAOInterface<Buch> {
 				
 	}
 
+	/**
+	 * @return Leere Liste, falls kein Treffer
+	 */
 	@Override
 	public List<Buch> getSelektion(Buch domainObject) {
 		ResultSet rs = null;

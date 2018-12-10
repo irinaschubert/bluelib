@@ -15,7 +15,7 @@ import hilfsklassen.DateConverter;
  * Dient zur Darstellung und zum Updaten der Rückgabe
  * 
  * @version 1.0 2018-12-09
- * @author Schmutz
+ * @author Ueli
  *
  */
 @SuppressWarnings("serial")

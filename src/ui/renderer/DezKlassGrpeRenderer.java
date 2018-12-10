@@ -12,7 +12,7 @@ import domain.DezKlassifikationGrpe;
  * Stellt die Werte für die Comboboxen der Dezimalklassifikationsgruppen bereit
  * 
  * @version 1.0 18.10.2018
- * @author Schmutz
+ * @author Ueli
  *
  */
 

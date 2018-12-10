@@ -7,12 +7,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
 import domain.Autor;
 import domain.Buch;
 import domain.EingeloggterMA;
@@ -27,7 +25,6 @@ import models.ComboBoxModelAutor;
 import models.ComboBoxModelSchlagwort;
 import models.ComboBoxModelVerlag;
 import models.TableModelBuch;
-import models.TableModelRueckgabe;
 import services.MedienhandlingService;
 import services.NormdatenService;
 import services.RueckgabeService;
@@ -40,17 +37,15 @@ import ui.HauptController;
  * steuert und der View die Models übergibt
  * 
  * @version 1.0 2018-11-13
- * @author Schmutz
+ * @author Ueli
  *
  */
 
 public class BuchController {
 	private BuchView buchView;
 	BuchSuchView buchSuchView;
-	private List<Buch> buchL;
 	private MedienhandlingService medienHandlingService;
 	private NormdatenService normdatenService;
-	private Buch buchSuchobjekt;
 	private HauptController hauptController;
 	private ComboBoxModelVerlag comboBoxModelVerlag;
 	BuchController buchController;
@@ -98,13 +93,12 @@ public class BuchController {
 					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
 					if (buchView.getPKT().getText().isEmpty()) {
 
-						nachAarbeitSpeichern(medienHandlingService.buchNeuErfassen(b));
-					}
-					else {
+						nachAarbeitSpeichern(medienHandlingService.speichernBuch(b));
+					} else {
 						nachAarbeitSpeichern(medienHandlingService.buchBearbeiten(b));
 					}
 
-				} 
+				}
 
 			}
 
@@ -253,6 +247,8 @@ public class BuchController {
 						DezimalKlassifikationView dezKlassView = new DezimalKlassifikationView("Dezimalklassifikation");
 						DezimalKlassifikationController dezKlassController = new DezimalKlassifikationController(
 								dezKlassView, buchController);
+						dezKlassView.setModal(true);
+						dezKlassView.setVisible(true);
 
 					}
 
@@ -275,7 +271,7 @@ public class BuchController {
 								barCodeZuordnungView, buchController);
 						barCodeZuordnungView.setModal(true);
 						barCodeZuordnungView.setLocationRelativeTo(buchView);
-						barCodeZuordnungView.setVisible(true);	
+						barCodeZuordnungView.setVisible(true);
 
 					}
 
@@ -285,36 +281,49 @@ public class BuchController {
 		};
 		return barCodeZuweisenActionListsner;
 	}
-	
+
 	private MouseListener doppelKlick() {
-	
-	MouseListener doppelKlick = new MouseAdapter() {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (e.getClickCount() == 2) {
-				TableModelBuch tableModelBuch = new TableModelBuch();
-				tableModelBuch = buchSuchController.getTableModelBuch();
-				buchController.uebernehmen(
-						tableModelBuch.getGeklicktesObjekt(buchSuchView.getBuchTabelle().getSelectedRow()));
+
+		MouseListener doppelKlick = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					TableModelBuch tableModelBuch = new TableModelBuch();
+					tableModelBuch = buchSuchController.getTableModelBuch();
+					buchController.uebernehmen(
+							tableModelBuch.getGeklicktesObjekt(buchSuchView.getBuchTabelle().getSelectedRow()));
+				}
 			}
-		}
-	};
-	return doppelKlick;
+		};
+		return doppelKlick;
 	}
 
+	/**
+	 * @return Boolean, falls alle Pflichtfelder erfasst
+	 */
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
-		if ((buchView.getBarcodeT().getText().isEmpty()) || (buchView.getTitelT().getText().isEmpty())
-				|| (buchView.getBarcodeT().getText().isEmpty()) || (buchView.getVerlagCbx().getSelectedIndex() < 0)
-				|| (buchView.getAuflageT().getText().isEmpty()) || (buchView.getAnzahlSeitenT().getText().isEmpty())
-				|| (buchView.getIsbnT().getText().isEmpty()) || (buchView.getJahrT().getText().isEmpty())
-				|| (buchView.getAutorList().getModel().getSize() <= 0)
-				|| (buchView.getSignaturT().getText().isEmpty())) {
-			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
-			keinInputFehler = false;
-		}
-
-		else if (!IntHelfer.istInteger(buchView.getAnzahlSeitenT().getText())) {
+		if (buchView.getBarcodeT().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Bitte Barcode erfassen");
+		} else if (buchView.getTitelT().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Bitte Titel eingeben");
+		} else if (buchView.getVerlagCbx().getSelectedIndex() < 0) {
+			JOptionPane.showMessageDialog(null, "Bitte Verlag auswählen");
+		} else if (buchView.getAuflageT().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Bitte Auflage erfassen");
+		} else if (buchView.getAnzahlSeitenT().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Bitte Seitenzahl erfassen");
+		} else if (buchView.getIsbnT().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Bitte ISBN-Nummer erfassen");
+		} else if (buchView.getJahrT().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Bitte Erscheinungsjahr erfassen");
+		} else if (buchView.getAutorList().getModel().getSize() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bitte mindestens einen Autoren erfassen");
+		} else if (buchView.getSignaturT().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Bitte signatur Erfassenn");
+		} else if (buchView.getSchlagwortList().getModel().getSize() <= 0) {
+			JOptionPane.showMessageDialog(null, "Bitte mindestens ein Schlagwort erfassen");
+		} else if (!IntHelfer.istInteger(buchView.getAnzahlSeitenT().getText())) {
 			JOptionPane.showMessageDialog(null, "Als Seitenzahl bitte einen Zahlenwert erfassen.");
 			keinInputFehler = false;
 		} else if (!IntHelfer.istInteger(buchView.getJahrT().getText())) {
@@ -337,6 +346,11 @@ public class BuchController {
 
 	}
 
+	/**
+	 * Uebertraegt die Werte aus der View in ein Buch-Objekt
+	 * 
+	 * @return Buch
+	 */
 	private Buch feldwertezuObjektSpeichern() {
 		Buch b = new Buch();
 		if (!buchView.getPKT().getText().isEmpty()) {
@@ -404,14 +418,16 @@ public class BuchController {
 		buchView.getBarcodeT().setText(barCode);
 	}
 
+	/**
+	 * Uebernahme der Werte eines Buch-Objekts in die View
+	 */
 	public void uebernehmen(Buch buch) {
-		
+
 		felderLeeren();
 		RueckgabeService rueckgabeService = new RueckgabeService();
 		if (rueckgabeService.istAusgeliehen(buch.getId())) {
 			buchView.getLeihstatusT().setText("Ausgeliehen");
-		}
-		else {
+		} else {
 			buchView.getLeihstatusT().setText("Verfügbar");
 		}
 		buchView.getNeuAendernL().setText("Bearbeiten");
@@ -466,7 +482,7 @@ public class BuchController {
 	}
 
 	private void felderLeeren() {
-		
+
 		buchView.getLeihstatusT().setText("");
 		buchView.getPKT().setText("");
 		buchView.getBarcodeT().setText("");
@@ -517,8 +533,6 @@ public class BuchController {
 		buchView.getSachbuchR().setText("Sachbuch");
 		buchView.getSignaturL().setText("Signatur*:");
 		buchView.getBelletristikR().setSelected(true);
-		buchView.getSchlagwortL().setText("Schlagwort*");
-		buchView.getZuweisenSchlagwortB().setText("zuweisen");
 		buchView.getEntferntenSchlagwortB().setText("entfernen");
 		buchView.getNotizL().setText("Notiz");
 		buchView.getErfassungsDatumL().setText("Erfassungsdatum:");
@@ -533,7 +547,8 @@ public class BuchController {
 		comboBoxModelSchlagwort.geloeschteEntfernen();
 		buchView.getSchlagwortCbx().setModel(comboBoxModelSchlagwort);
 		buchView.getSchlagwortList().setModel(new DefaultListModel());
-		
+
+		// Begrenzen der Eingabelaenge
 		TextComponentLimit.addTo(buchView.getTitelT(), 100);
 		TextComponentLimit.addTo(buchView.getAuflageT(), 30);
 		TextComponentLimit.addTo(buchView.getAnzahlSeitenT(), 11);
@@ -545,7 +560,6 @@ public class BuchController {
 		TextComponentLimit.addTo(buchView.getIsbnT(), 13);
 		TextComponentLimit.addTo(buchView.getOrtT(), 30);
 		TextComponentLimit.addTo(buchView.getSignaturT(), 20);
-	
 
 	}
 

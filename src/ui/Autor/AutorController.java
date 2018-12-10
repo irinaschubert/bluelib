@@ -27,7 +27,7 @@ import ui.HauptController;
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 25.10.2018
- * @author Schmutz
+ * @author Ueli
  *
  */
 
@@ -98,7 +98,7 @@ public class AutorController {
 					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
 					if (autorView.getPKT().getText().isEmpty()) {
 
-						nachAarbeitSpeichern(normdatenService.sichereAutor(a));
+						nachAarbeitSpeichern(normdatenService.speichereAutor(a));
 
 					} else {
 						nachAarbeitSpeichern(normdatenService.aktualisiereAutor(a));

@@ -14,6 +14,14 @@ import services.AusleiheService;
 import services.MedienhandlingService;
 import services.RueckgabeService;
 
+/**
+ * Prueft, ob die Autorensuche korrekt funktioniert
+ * 
+ * @version 1.0 2018-12-10
+ * @author Ueli
+ *
+ */
+
 public class RueckgabeTest {
 
 	MedienhandlingService medienhandlingService;

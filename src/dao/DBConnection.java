@@ -13,8 +13,9 @@ import java.sql.SQLException;
  * Die DB-Verbindung wird bei jedem SQL-Statement auf - und wieder abgebaut. Der
  * Abbau muss in einem finally-Block liegen.
  * 
+ * @author Ueli
  * @version 0.1 16.10.2018
- * @author Schmutz
+ * 
  *
  */
 public final class DBConnection {

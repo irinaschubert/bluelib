@@ -12,14 +12,14 @@ import services.Verifikation;
  * 
  * Controller für die View zur Überprüfung und Zuordnung der Barcodes
  * 
- * @author Schmutz
+ * @author Ueli
  * @version 1.0 2018-11-28
  *
  */
 
 public class BarCodeZuordnungController {
 	protected BarCodeZuordnungView barCodeZuordnungView;
-		private BuchController buchController;
+	private BuchController buchController;
 
 	public BarCodeZuordnungController(BarCodeZuordnungView view, BuchController buchController) {
 		barCodeZuordnungView = view;
@@ -71,7 +71,7 @@ public class BarCodeZuordnungController {
 		Boolean r = true;
 		Verifikation v = new Verifikation();
 		MedienhandlingService medienhandlingService = new MedienhandlingService();
-		v = medienhandlingService.istBarcode(barCodeZuordnungView.getBarCodeT().getText()) ;
+		v = medienhandlingService.istBarcode(barCodeZuordnungView.getBarCodeT().getText());
 		if (!v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			r = false;

@@ -14,10 +14,10 @@ import ui.buch.BuchSuchView;
 
 /**
  * 
- * Fügt das Suchpanel in den Dialog ein und steuert den Dialog
+ * Fügt das Suchpanel in den Dialog ein und steuert den Dialog fuer die Buch-Suche
  * 
  * @version 1.0 2018-12-08
- * @author Schmutz
+ * @author Ueli
  *
  */
 public class RueckgabeDialogController {

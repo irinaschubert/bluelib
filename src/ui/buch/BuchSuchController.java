@@ -27,7 +27,7 @@ import services.Verifikation;
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 2018-11-23
- * @author Schmutz
+ * @author Ueli
  *
  */
 
@@ -103,10 +103,13 @@ public class BuchSuchController {
 		return barcodeScanningKeyListener;
 	}
 
+	/**
+	 * Anzeigen der Suchresultate in der Tabelle
+	 */
 	public void buchSuchenUndResultatAnzeigen() {
 		if (inputValidierungSuchen()) {
 			buchSuchobjekt = feldwertezuObjektSuchen();
-			buchL = medienHandlingService.buchSuchen(buchSuchobjekt);
+			buchL = medienHandlingService.suchenBuch(buchSuchobjekt);
 			tableModelBuch.setAndSortListe(buchL);
 			if (buchL.size() == 0) {
 				JOptionPane.showMessageDialog(null, "Kein Treffer gefunden");
@@ -114,6 +117,10 @@ public class BuchSuchController {
 		}
 	}
 
+	/**
+	 * 
+	 * @return Buch mit den Feldwerten aus der Suche
+	 */
 	private Buch feldwertezuObjektSuchen() {
 		Buch b = new Buch();
 		if (!buchSuchView.getBarcodeSucheT().getText().isEmpty()) {
@@ -143,15 +150,8 @@ public class BuchSuchController {
 		return b;
 	}
 
-	private void nachAarbeitSpeichern() {
-
-		tableModelBuch.setAndSortListe(medienHandlingService.buchSuchen(buchSuchobjekt));
-
-	}
-
 	public void suchPanelInitialisieren() {
 
-//		buchView.getPKL().setText("Nr:");
 		buchSuchView.getBarcodeSucheL().setText("Barcode:");
 		buchSuchView.getTitelSucheL().setText("Titel:");
 		buchSuchView.getAutorSucheL().setText("Autor:");
@@ -181,7 +181,7 @@ public class BuchSuchController {
 		buchSuchView.spaltenBreiteSetzen();
 
 	}
-	
+
 	public BuchSuchView getBuchSuchView() {
 		return buchSuchView;
 	}

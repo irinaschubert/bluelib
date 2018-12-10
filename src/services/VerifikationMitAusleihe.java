@@ -1,8 +1,14 @@
 package services;
 
 import domain.Ausleihe;
-import domain.Benutzer;
-import domain.Buch;
+
+/**
+ * Erweitert die Verifikationsklasse um das Ausleihe-Objekt
+ * 
+ * @version 1.0 2018-12-06
+ * @author Ueli
+ *
+ */
 
 public class VerifikationMitAusleihe extends Verifikation {
 	private Ausleihe ausleihe;

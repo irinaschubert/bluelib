@@ -11,8 +11,9 @@ import javax.swing.border.EmptyBorder;
 /**
  * 
  * Standard-Titel-Panel zur Verwendung in jeder View
- * @version 1.0 30.10.2018
- * @author Schmutz
+ * 
+ * @version 1.0 2018-10-30
+ * @author Ueli
  *
  */
 public class StandardTitelPanel extends JPanel{

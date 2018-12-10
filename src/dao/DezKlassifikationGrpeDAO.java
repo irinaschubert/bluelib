@@ -9,6 +9,15 @@ import java.util.List;
 import domain.DezKlassifikationGrpe;
 import interfaces.DAOInterface;
 
+/**
+ * Stellt die CRUD-Operationen der Dezimalklassifikationgruppen-Objekte zur Verfügung
+ * 
+ * @version 1.0 2018-11-03
+ * @author Ueli
+ *
+ */
+
+
 public class DezKlassifikationGrpeDAO implements DAOInterface<DezKlassifikationGrpe> {
 	
 	private DBConnection dbConnection = null;

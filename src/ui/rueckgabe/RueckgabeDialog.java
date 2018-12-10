@@ -9,7 +9,8 @@ import ui.standardKomponenten.StandardTitelPanel;
 
 /**
  * 
- * Dialog-View zur Suche eines Buches in der Rückgabe
+ * Dialog-View zur Suche eines Buches in der Rueckgabe
+ * Verwendet die BuchSuchView
  * 
  * @version 1.0 2018-12-08
  * @author Schmutz

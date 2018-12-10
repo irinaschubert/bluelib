@@ -10,7 +10,7 @@ import hilfsklassen.DateConverter;
  * Dient zur Darstellung und zum Updaten der Autorenliste
  * 
  * @version 1.0 24.10.2018
- * @author Schmutz
+ * @author Ueli
  *
  */
 public class TableModelAutor extends AbstractTableModel {

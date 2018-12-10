@@ -5,8 +5,10 @@ import domain.EingeloggterMA;
 import domain.Mitarbeiter;
 
 /**
+ * Bietet Services zum Login an
+ * 
  * @version 1.0 08.11.2018
- * @author irina
+ * @author Ueli
  *
  */
 public class LoginService {

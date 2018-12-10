@@ -12,10 +12,11 @@ import hilfsklassen.DateConverter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 
-/*
+/**
  * Verwaltet die CRUD-Operationen für Autoren
- * @autor Schmutz
  * 
+ * @version 1.0 2018-10-10
+ * @autor Ueli
  */
 public class AutorDAO implements DAOInterface<Autor> {
 	
@@ -30,7 +31,9 @@ public class AutorDAO implements DAOInterface<Autor> {
 		dbConnection = DBConnection.getInstance();
 	}
 	
-	
+	/**
+	 * @return Bei Erfolg: gespeichertes Autor-Objekt, bei Misserfolg: null
+	 */
 	@Override
 	public Autor save(Autor domainObject) {
 		ResultSet rs = null;
@@ -75,7 +78,6 @@ public class AutorDAO implements DAOInterface<Autor> {
 				
 			}
 	  catch (SQLException e) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
      } finally{
          try{
@@ -88,6 +90,9 @@ public class AutorDAO implements DAOInterface<Autor> {
 		return a;
 	}
 
+	/**
+	 * @return Bei Erfolg: aktualisiertes Autor-Objekt, bei Misserfolg: null
+	 */
 	@Override
 	public Autor update(Autor domainObject) {
 		ResultSet rs = null;
@@ -142,6 +147,9 @@ public class AutorDAO implements DAOInterface<Autor> {
 		return a;
 	}
 
+	/**
+	 * @return Bei Erfolg: true, bei Misserfolg: false
+	 */
 	@Override
 	public boolean delete(Autor domainObject) {
 			ResultSet rs = null;
@@ -173,6 +181,9 @@ public class AutorDAO implements DAOInterface<Autor> {
 			return geloescht;
 	}
 
+	/**
+	 * @return bei keinem Treffer: leere Liste
+	 */
 	@Override
 	public List<Autor> getSelektion(Autor domainObject) {
 		ResultSet rs = null;
@@ -267,6 +278,9 @@ public class AutorDAO implements DAOInterface<Autor> {
 		
 	}
 
+	/**
+	 * @return Treffer: gefundenes Buch-Objekt, kein Treffer: null
+	 */
 	@Override
 	public Autor findById(int id) {
 		Autor a = new Autor();
@@ -309,7 +323,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 
 		return a;
 	}
-
+	
 	@Override
 	public List<Autor> findAll() {
 		ResultSet rs = null;
@@ -353,6 +367,7 @@ public class AutorDAO implements DAOInterface<Autor> {
 			
 			return autorListe;
 	}
+	
 	
 	public List<Autor> findeAutorZuBuch(int id){
 		ResultSet rs = null;

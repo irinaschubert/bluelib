@@ -3,8 +3,9 @@ package hilfsklassen;
 /**
  * 
  * Hilft beim Prüfen und Formatieren von SQL-Statements
+ * 
  * @version 1.0 30.10.2018
- * @author Schmutz
+ * @author Ueli
  *
  */
 public class SQLHelfer {

@@ -1,5 +1,13 @@
 package hilfsklassen;
 
+/**
+ * Uebnerimmt diverse Pruefungen zu Zahlenwerten
+ * 
+ * @version 1.0 2018-12-01
+ * @author Ueli
+ *
+ */
+
 public class IntHelfer {
 public static Boolean istInteger(String input) {
 	Boolean r = false;

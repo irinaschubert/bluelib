@@ -30,11 +30,11 @@ import ui.verlag.VerlagView;
 
 /**
  * 
- * Der Hauptcontroller stellt die Menübefehle zur Verfügung und steuert den
+ * Der Hauptcontroller stellt die Menuebefehle zur Verfügung und steuert den
  * Aufruf der Views und Controller der jeweiligen Menübefehle
  * 
  * @version 2018-11-07
- * @author Schmutz
+ * @author Ueli
  *
  */
 
@@ -55,9 +55,7 @@ public class HauptController {
 		control();
 	}
 
-//	Definierten des Listeners für die Button-Klicks
 	private void control() {
-
 
 		hauptView.getMedienBuchM().addActionListener(buchMenueActionListener());
 		hauptView.getMedienAutorM().addActionListener(autorMenueActionListener());

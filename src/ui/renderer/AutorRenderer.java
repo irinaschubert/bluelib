@@ -11,7 +11,7 @@ import domain.Autor;
  * Stellt die Werte für die Autoren-Comboboxen zusammen
  * 
  * @version 1.0 18.10.2018
- * @author Schmutz
+ * @author Ueli
  *
  */
 

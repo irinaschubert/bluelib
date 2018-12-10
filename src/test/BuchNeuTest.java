@@ -2,22 +2,21 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import dao.BuchDAO;
-import domain.Autor;
 import domain.Buch;
-import domain.Schlagwort;
-import domain.Status;
-import domain.Verlag;
 import services.MedienhandlingService;
 import services.Verifikation;
+
+/**
+ * Prueft, ob ein Buch korrekt neu erstellt wird
+ * 
+ * @version 1.0 2018-12-10
+ * @author Ueli
+ *
+ */
 
 public class BuchNeuTest {
 	MedienhandlingService medienhandlingService;
@@ -36,7 +35,7 @@ public class BuchNeuTest {
 	
 	@Test
 	public void neuTest() {
-		Verifikation v = medienhandlingService.buchNeuErfassen(buch);
+		Verifikation v = medienhandlingService.speichernBuch(buch);
 		assertTrue(v.isAktionErfolgreich());
 	}
 

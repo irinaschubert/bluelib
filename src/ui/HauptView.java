@@ -7,10 +7,10 @@ import javax.swing.JMenuItem;
 
 /**
  * 
- * Die Klasse stellt die View mit den Menübefehlen bereit
+ * Die Klasse stellt die View mit den Menuebefehlen bereit
  * 
  * @version 2018-11-07
- * @author Schmutz
+ * @author Ueli
  *
  */
 @SuppressWarnings("serial")
@@ -32,7 +32,6 @@ public class HauptView extends JFrame {
 	private JMenuBar menuBar = new JMenuBar();
 
 	public HauptView(String name) {
-		//this.add(new JLabel(new ImageIcon("")));
 		setJMenuBar(erstelleMenuBar());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(800, 1000);
@@ -66,8 +65,6 @@ public class HauptView extends JFrame {
 		benutzerM.add(benutzerBenutzerM);
 		return benutzerM;
 	}
-
-
 
 	private JMenuItem erstelleAdministrationMenu() {
 		administrationM.add(administrationMitarbeiterM);
@@ -151,8 +148,6 @@ public class HauptView extends JFrame {
 	public void setBenutzerBenutzerM(JMenuItem benutzerBenutzerM) {
 		this.benutzerBenutzerM = benutzerBenutzerM;
 	}
-
-
 
 	public JMenuItem getAdministrationM() {
 		return administrationM;

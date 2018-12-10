@@ -18,8 +18,9 @@ import ui.standardKomponenten.StandardTitelPanel;
 /**
  * 
  * Stellt die Login-View bereit
+ * 
  * @version 1.0 2018-11-07
- * @author Schmutz
+ * @author Ueli
  *
  */
 public class LoginView extends JPanel {
