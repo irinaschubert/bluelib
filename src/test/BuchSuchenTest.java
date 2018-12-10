@@ -2,7 +2,6 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import dao.BuchDAO;
-import domain.Autor;
 import domain.Buch;
-import domain.Schlagwort;
-import domain.Status;
-import domain.Verlag;
 import services.MedienhandlingService;
 
 public class BuchSuchenTest {
@@ -30,7 +24,7 @@ public class BuchSuchenTest {
 	
 		medienhandlingService = new MedienhandlingService();
 		testDomaenenObjekte = new TestDomaenenObjekte();
-		buch = testDomaenenObjekte.fertigesDummyBuch();
+		buch = testDomaenenObjekte.getFertigesDummyBuch();
 		buchListe = new ArrayList<>();
 		buchListe = medienhandlingService.buchSuchen(buch);
 		
@@ -45,12 +39,7 @@ public class BuchSuchenTest {
 
 	@After
 	public void tearDown() {
-		testDomaenenObjekte.dummyBuchLoeschen();
-//		BuchDAO buchDAO = new BuchDAO();
-//		buchDAO.delete(buchListe.get(0));
-//		testDomaenenObjekte.loeschenDummyAutor1();
-//		testDomaenenObjekte.loeschenDummyVerlag1();
-//		testDomaenenObjekte.loeschenDummySchlagwort1();
+		testDomaenenObjekte.loeschenDummyBuch();
 	}
 
 }

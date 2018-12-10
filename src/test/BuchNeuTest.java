@@ -29,7 +29,7 @@ public class BuchNeuTest {
 	public void setUp() {
 		medienhandlingService = new MedienhandlingService();
 		testDomaenenObjekte = new TestDomaenenObjekte();
-		buch = testDomaenenObjekte.dummyBuch();
+		buch = testDomaenenObjekte.getDummyBuch();
 
 	}
 
@@ -42,7 +42,7 @@ public class BuchNeuTest {
 
 	@After
 	public void tearDown() {
-		testDomaenenObjekte.dummyBuchLoeschen();
+		testDomaenenObjekte.loeschenDummyBuch();
 //		BuchDAO buchDAO = new BuchDAO();
 //		buchDAO.delete(buch);
 //		testDomaenenObjekte.loeschenDummyAutor1();

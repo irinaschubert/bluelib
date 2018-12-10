@@ -28,7 +28,7 @@ public class BuchBearbeitenTest {
 	public void setUp() {
 		medienhandlingService = new MedienhandlingService();
 		testDomaenenObjekte = new TestDomaenenObjekte();
-		buch = testDomaenenObjekte.dummyBuch();
+		buch = testDomaenenObjekte.getDummyBuch();
 		medienhandlingService.buchNeuErfassen(buch);
 		List<Buch> bL = new ArrayList<>();
 		bL = medienhandlingService.buchSuchen(buch);
