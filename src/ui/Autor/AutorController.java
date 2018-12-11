@@ -2,6 +2,7 @@ package ui.Autor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -54,8 +55,17 @@ public class AutorController {
 		control();
 	}
 
-//	Definierten des Listeners für die Button-Klicks
 	private void control() {
+
+		autorView.getSuchButton().addActionListener(suchenButtonActionListener());
+		autorView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener());
+		autorView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener());
+		autorView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener());
+		autorView.getAutorenTabelle().addMouseListener(doppelKlick());
+
+	}
+
+	private ActionListener suchenButtonActionListener() {
 
 		ActionListener suchenButtonActionListener = new ActionListener() {
 
@@ -63,17 +73,17 @@ public class AutorController {
 			public void actionPerformed(ActionEvent e) {
 
 				if (inputValidierungSuchen()) {
-					autorSuchobjekt = feldwertezuObjektSuchen();
-					autorL = normdatenService.sucheAutor(autorSuchobjekt);
-					tableModelAutor.setAndSortListe(autorL);
+					sucheAusfuehren();
 				}
 
 			}
 
 		};
 
-		// Zuweisen des Actionlisteners zum Suchen-Button
-		autorView.getSuchButton().addActionListener(suchenButtonActionListener);
+		return suchenButtonActionListener;
+	}
+
+	private ActionListener neuButtonActionListener() {
 
 		ActionListener neuButtonActionListener = new ActionListener() {
 
@@ -84,9 +94,10 @@ public class AutorController {
 			}
 
 		};
+		return neuButtonActionListener;
+	}
 
-		// Zuweisen des Actionlisteners zum Neu-Button
-		autorView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
+	private ActionListener sichernButtonActionListener() {
 
 		ActionListener sichernButtonActionListener = new ActionListener() {
 
@@ -108,10 +119,10 @@ public class AutorController {
 			}
 
 		};
+		return sichernButtonActionListener;
+	}
 
-		// Zuweisen des Actionlisteners zum Sichern-Button
-		autorView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
-
+	private ActionListener schliessenButtonActionListener() {
 		ActionListener schliessenButtonActionListener = new ActionListener() {
 
 			@Override
@@ -120,9 +131,10 @@ public class AutorController {
 			}
 		};
 
-		// Zuweisen des Actionlisteners zum Schliessen-Button
-		autorView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
+		return schliessenButtonActionListener;
+	}
 
+	private MouseListener doppelKlick() {
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -133,11 +145,14 @@ public class AutorController {
 			}
 		};
 
-		// Zuweisen des Mouselisteners zur Tabelle
-		autorView.getAutorenTabelle().addMouseListener(doppelKlick);
+		return doppelKlick;
 
 	}
 
+	/**
+	 * 
+	 * @return Input der Suchfelder valide: true, Input der Suchfelder nicht valide = false
+	 */
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
 
@@ -153,6 +168,10 @@ public class AutorController {
 
 	}
 
+	/**
+	 * 
+	 * @return Input der Neu/Bearbeiten-Felder valide = true, nicht valide = false
+	 */
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (autorView.getNachnameT().getText().isEmpty() || (autorView.getVornameT().getText().isEmpty())) {
@@ -180,6 +199,10 @@ public class AutorController {
 
 	}
 
+	/**
+	 * 
+	 * @return Autor-Objekt, gefuellt mit den Werten aus den Feldwerten in Neu/Bearbeiten
+	 */
 	private Autor feldwertezuObjektSpeichern() {
 		Autor a = new Autor();
 		if (!autorView.getPKT().getText().isEmpty()) {
@@ -200,6 +223,10 @@ public class AutorController {
 		return a;
 	}
 
+	/**
+	 * 
+	 * @return Autor-Objekt, gefuellt mit den Feldwerten der Suche
+	 */
 	private Autor feldwertezuObjektSuchen() {
 		Autor a = new Autor();
 		if (!autorView.getNachnameSucheT().getText().isEmpty()) {
@@ -213,10 +240,13 @@ public class AutorController {
 			a.setGeburtsdatum(DateConverter.convertStringToJavaDate(autorView.getGeburtsDatumSucheT().getText()));
 		}
 
-		a.setGeloescht(autorView.getGeloeschtSucheCbx().isSelected());
+//		a.setGeloescht(autorView.getGeloeschtSucheCbx().isSelected());
 		return a;
 	}
 
+	/**
+	 * Uebernahme der Werte des selektierten Objektes in der Tabelle zu den Feldern in Neu/Bearbeiten
+	 */
 	private void uebernehmen() {
 		Autor autor = new Autor();
 		neuBearbeitenFelderLeeren();
@@ -236,10 +266,31 @@ public class AutorController {
 		autorView.getGeloeschtCbx().setSelected(autor.getGeloescht());
 	}
 
+	/**
+	 * Sucht die Autoren. Falls das Flag zur Inkludierung der gelöschten Autoren gesetzt ist, 
+	 * muessen zwei Suchen ausgeführt werden: 1x geloescht = false und 1x geloescht = true. Die Resultate der 2. Suche
+	 * muessen iterativ dem Tablemodel uebergeben wrden. 
+	 */
+	private void sucheAusfuehren() {
+	
+		autorSuchobjekt = feldwertezuObjektSuchen();
+		autorL = normdatenService.sucheAutor(autorSuchobjekt);
+		tableModelAutor.setAndSortListe(autorL);
+		if (autorView.getGeloeschtSucheCbx().isSelected()) {
+			autorSuchobjekt.setGeloescht(true);
+			autorL = normdatenService.sucheAutor(autorSuchobjekt);
+			for (Autor a: autorL) {
+				tableModelAutor.autorHinzufuegen(a);
+			}
+			autorSuchobjekt.setGeloescht(false);
+		}
+		
+	}
+	
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelAutor.setAndSortListe(normdatenService.sucheAutor(autorSuchobjekt));
+			sucheAusfuehren();
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
@@ -261,7 +312,7 @@ public class AutorController {
 
 		}
 	}
-	
+
 	private void suchFelderLeeren() {
 
 		// Felder leeren
@@ -287,8 +338,8 @@ public class AutorController {
 		autorView.getNachnameSucheL().setText("Name:");
 		autorView.getVornameSucheL().setText("Vorname:");
 		autorView.getGeburtsDatumSucheL().setText("Geburtsdatum:");
-		autorView.getGeloeschtSucheL().setText("Gelöschte Autoren:");
-		
+		autorView.getGeloeschtSucheL().setText("inkl. gelöschte:");
+
 		TextComponentLimit.addTo(autorView.getNachnameT(), 50);
 		TextComponentLimit.addTo(autorView.getVornameT(), 50);
 		TextComponentLimit.addTo(autorView.getGeburtsDatumT(), 10);
@@ -296,7 +347,7 @@ public class AutorController {
 		TextComponentLimit.addTo(autorView.getNachnameSucheT(), 50);
 		TextComponentLimit.addTo(autorView.getVornameSucheT(), 50);
 		TextComponentLimit.addTo(autorView.getGeburtsDatumSucheT(), 10);
-		
+
 		autorView.getSuchButton().setText("Suchen");
 		autorView.getPKT().setEditable(false);
 		autorView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());

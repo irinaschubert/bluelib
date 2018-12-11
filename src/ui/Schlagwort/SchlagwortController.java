@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import domain.Schlagwort;
+import domain.Verlag;
 import hilfsklassen.ButtonNamen;
 import models.TableModelSchlagwort;
 import services.NormdatenService;
@@ -62,9 +63,7 @@ public class SchlagwortController {
 			public void actionPerformed(ActionEvent e) {
 
 				if (inputValidierungSuchen()) {
-					schlagwortSuchobjekt = feldwertezuObjektSuchen();
-					schlagwortL = normdatenService.sucheSchlagwort(schlagwortSuchobjekt);
-					tableModelSchlagwort.setAndSortListe(schlagwortL);
+					sucheAusfuehren();
 				}
 
 			}
@@ -170,7 +169,6 @@ public class SchlagwortController {
 			s.setSchlagwort(schlagwortView.getSchlagwortSucheT().getText());
 		}
 
-		s.setGeloescht(schlagwortView.getGeloeschtSucheCbx().isSelected());
 		return s;
 	}
 
@@ -184,10 +182,31 @@ public class SchlagwortController {
 		schlagwortView.getGeloeschtCbx().setSelected(s.getGeloescht());
 	}
 
+	/**
+	 * Sucht die Schlagworte. Falls das Flag zur Inkludierung der geloeschten Schlagworte gesetzt ist, 
+	 * muessen zwei Suchen ausgeführt werden: 1x geloescht = false und 1x geloescht = true. Die Resultate der 2. Suche
+	 * muessen iterativ dem Tablemodel uebergeben wrden. 
+	 */
+	private void sucheAusfuehren() {
+	
+		schlagwortSuchobjekt = feldwertezuObjektSuchen();
+		schlagwortL = normdatenService.sucheSchlagwort(schlagwortSuchobjekt);
+		tableModelSchlagwort.setAndSortListe(schlagwortL);
+		if (schlagwortView.getGeloeschtSucheCbx().isSelected()) {
+			schlagwortSuchobjekt.setGeloescht(true);
+			schlagwortL = normdatenService.sucheSchlagwort(schlagwortSuchobjekt);
+			for (Schlagwort a: schlagwortL) {
+				tableModelSchlagwort.schlagwortHinzufuegen(a);
+			}
+			schlagwortSuchobjekt.setGeloescht(false);
+		}
+		
+	}
+	
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelSchlagwort.setAndSortListe(normdatenService.sucheSchlagwort(schlagwortSuchobjekt));
+			sucheAusfuehren();
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
