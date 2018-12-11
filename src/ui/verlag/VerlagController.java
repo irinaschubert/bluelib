@@ -12,6 +12,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import domain.Autor;
 import domain.Verlag;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
@@ -58,9 +60,7 @@ public class VerlagController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (inputValidierungSuchen()) {
-					verlagSuchobjekt = feldwertezuObjektSuchen();
-					verlagL = normdatenService.sucheVerlag(verlagSuchobjekt);
-					tableModelVerlag.setAndSortListe(verlagL);
+					sucheAusfuehren();
 				}
 			}
 		};
@@ -194,8 +194,28 @@ public class VerlagController {
 				v.setEndDatum(DateConverter.convertStringToJavaDate(verlagView.getEndDatumSucheT().getText()));
 			}
 		}
-		v.setGeloescht(verlagView.getGeloeschtSucheCbx().isSelected());
 		return v;
+	}
+	
+	/**
+	 * Sucht die Verlage. Falls das Flag zur Inkludierung der gelöschten Verlage gesetzt ist, 
+	 * muessen zwei Suchen ausgeführt werden: 1x geloescht = false und 1x geloescht = true. Die Resultate der 2. Suche
+	 * muessen iterativ dem Tablemodel uebergeben wrden. 
+	 */
+	private void sucheAusfuehren() {
+	
+		verlagSuchobjekt = feldwertezuObjektSuchen();
+		verlagL = normdatenService.sucheVerlag(verlagSuchobjekt);
+		tableModelVerlag.setAndSortListe(verlagL);
+		if (verlagView.getGeloeschtSucheCbx().isSelected()) {
+			verlagSuchobjekt.setGeloescht(true);
+			verlagL = normdatenService.sucheVerlag(verlagSuchobjekt);
+			for (Verlag a: verlagL) {
+				tableModelVerlag.verlagHinzufuegen(a);
+			}
+			verlagSuchobjekt.setGeloescht(false);
+		}
+		
 	}
 
 	private void uebernehmen() {
@@ -218,7 +238,8 @@ public class VerlagController {
 	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelVerlag.setAndSortListe(normdatenService.sucheVerlag(verlagSuchobjekt));
+			sucheAusfuehren();
+//			tableModelVerlag.setAndSortListe(normdatenService.sucheVerlag(verlagSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
@@ -257,7 +278,7 @@ public class VerlagController {
 		verlagView.getNameSucheL().setText("Name:");
 		verlagView.getGruendungsDatumSucheL().setText("Gründungsdatum:");
 		verlagView.getEndDatumSucheL().setText("Enddatum:");
-		verlagView.getGeloeschtSucheL().setText("Gelöschte Verlage:");
+		verlagView.getGeloeschtSucheL().setText("inkl. geloeschte:");
 		verlagView.getSuchButton().setText("Suchen");
 		verlagView.getPKT().setEditable(false);
 		TextComponentLimit.addTo(verlagView.getNameT(), 50);
