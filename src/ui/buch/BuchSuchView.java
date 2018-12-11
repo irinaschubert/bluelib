@@ -2,6 +2,7 @@ package ui.buch;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.LinkedHashMap;
 import javax.swing.BorderFactory;
@@ -96,25 +97,25 @@ public class BuchSuchView extends JPanel {
 		componentsSuche.put(signaturSucheL = new JLabel(), signaturSucheT = new JTextField());
 		componentsSuche.put(statusSucheL = new JLabel(), statusSucheCbx);
 
-		formularHelfer.addLabel(barcodeSucheL, suchPanel);
-		formularHelfer.addLastField(componentsSuche.get(barcodeSucheL), suchPanel);
+		formularHelfer.labelSetzen(barcodeSucheL, suchPanel, 0, 0);
+		formularHelfer.feldSetzen(componentsSuche.get(barcodeSucheL), suchPanel, 1, 0);
 
-		formularHelfer.addLabel(titelSucheL, suchPanel);
-		formularHelfer.addLastField(componentsSuche.get(titelSucheL), suchPanel);
+		formularHelfer.labelSetzen(titelSucheL, suchPanel, 0, 1);
+		formularHelfer.feldSetzen(componentsSuche.get(titelSucheL), suchPanel, 1, 1);
 
-		formularHelfer.addLabel(autorSucheL, suchPanel);
-		formularHelfer.addLastField(componentsSuche.get(autorSucheL), suchPanel);
+		formularHelfer.labelSetzen(autorSucheL, suchPanel, 0, 2);
+		formularHelfer.feldSetzen(componentsSuche.get(autorSucheL), suchPanel, 1, 2);
 
-		formularHelfer.addLabel(verlagSucheL, suchPanel);
-		formularHelfer.addLastField(componentsSuche.get(verlagSucheL), suchPanel);
+		formularHelfer.labelSetzen(verlagSucheL, suchPanel, 0, 3);
+		formularHelfer.feldSetzen(componentsSuche.get(verlagSucheL), suchPanel, 1, 3);
 
-		formularHelfer.addLabel(signaturSucheL, suchPanel);
-		formularHelfer.addLastField(componentsSuche.get(signaturSucheL), suchPanel);
+		formularHelfer.labelSetzen(signaturSucheL, suchPanel, 0, 4);
+		formularHelfer.feldSetzen(componentsSuche.get(signaturSucheL), suchPanel, 1, 4);
 
-		formularHelfer.addLabel(statusSucheL, suchPanel);
-		formularHelfer.addMiddleField(componentsSuche.get(statusSucheL), suchPanel);
+		formularHelfer.labelSetzen(statusSucheL, suchPanel, 0, 5);
+		formularHelfer.feldSetzen(componentsSuche.get(statusSucheL), suchPanel, 1, 5);
 
-		formularHelfer.addLastField(suchButton, suchPanel);
+		formularHelfer.labelSetzenMitAnker(suchButton, suchPanel, 2, 5, GridBagConstraints.CENTER);
 
 		suchPanel.setPreferredSize(new Dimension(80, 200));
 

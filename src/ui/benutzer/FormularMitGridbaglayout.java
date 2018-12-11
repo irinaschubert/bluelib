@@ -36,6 +36,7 @@ public class FormularMitGridbaglayout {
 		middleConstraints = (GridBagConstraints) lastConstraints.clone();
 		middleConstraints.gridwidth = GridBagConstraints.RELATIVE;
 		labelConstraints = (GridBagConstraints) lastConstraints.clone();
+		labelConstraints.insets = new Insets(0, 0, 0, 10);
 		labelConstraints.weightx = 0.0;
 		labelConstraints.gridwidth = 1;
 	}

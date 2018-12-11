@@ -305,24 +305,34 @@ public class BuchController {
 		boolean keinInputFehler = true;
 		if (buchView.getBarcodeT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte Barcode erfassen");
+			keinInputFehler = false;
 		} else if (buchView.getTitelT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte Titel eingeben");
+			keinInputFehler = false;
 		} else if (buchView.getVerlagCbx().getSelectedIndex() < 0) {
 			JOptionPane.showMessageDialog(null, "Bitte Verlag auswählen");
+			keinInputFehler = false;
 		} else if (buchView.getAuflageT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte Auflage erfassen");
+			keinInputFehler = false;
 		} else if (buchView.getAnzahlSeitenT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte Seitenzahl erfassen");
+			keinInputFehler = false;
 		} else if (buchView.getIsbnT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte ISBN-Nummer erfassen");
+			keinInputFehler = false;
 		} else if (buchView.getJahrT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte Erscheinungsjahr erfassen");
+			keinInputFehler = false;
 		} else if (buchView.getAutorList().getModel().getSize() <= 0) {
 			JOptionPane.showMessageDialog(null, "Bitte mindestens einen Autoren erfassen");
+			keinInputFehler = false;
 		} else if (buchView.getSignaturT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte signatur Erfassenn");
+			keinInputFehler = false;
 		} else if (buchView.getSchlagwortList().getModel().getSize() <= 0) {
 			JOptionPane.showMessageDialog(null, "Bitte mindestens ein Schlagwort erfassen");
+			keinInputFehler = false;
 		} else if (!IntHelfer.istInteger(buchView.getAnzahlSeitenT().getText())) {
 			JOptionPane.showMessageDialog(null, "Als Seitenzahl bitte einen Zahlenwert erfassen.");
 			keinInputFehler = false;
@@ -533,6 +543,7 @@ public class BuchController {
 		buchView.getSachbuchR().setText("Sachbuch");
 		buchView.getSignaturL().setText("Signatur:*");
 		buchView.getBelletristikR().setSelected(true);
+		buchView.getZuweisenSchlagwortB().setText("zuweisen");
 		buchView.getEntferntenSchlagwortB().setText("entfernen");
 		buchView.getNotizL().setText("Notiz");
 		buchView.getErfassungsDatumL().setText("Erfassungsdatum:");
