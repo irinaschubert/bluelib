@@ -48,7 +48,6 @@ public class BuchView extends JPanel {
 
 	private JLabel leihStatusL;
 	private JLabel PKL;
-	private JLabel neuBearbeitenL;
 	private JLabel barcodeL;
 	private JLabel titelL;
 	private JLabel verlagL;
@@ -76,6 +75,7 @@ public class BuchView extends JPanel {
 	private JButton entferntenSchlagwortB;
 
 	private JTextField leihStatusT;
+	private JTextField neuBearbeitenL;
 	private JTextField PKT;
 	private JTextField barcodeT;
 	private JTextField titelT;
@@ -159,11 +159,13 @@ public class BuchView extends JPanel {
 		PKT = new JTextField();
 		PKT.setEditable(false);
 
-		neuBearbeitenL = new JLabel();
-		neuBearbeitenL.setHorizontalAlignment(SwingConstants.CENTER);
-		neuBearbeitenL.setPreferredSize(new Dimension(150, 25));
+		
+		neuBearbeitenL = new JTextField();
+		neuBearbeitenL.setHorizontalAlignment(SwingConstants.RIGHT);
 		neuBearbeitenL.setFont(leihStatusT.getFont().deriveFont(Font.BOLD, 14f));
 		neuBearbeitenL.setForeground(Color.red);
+		neuBearbeitenL.setEditable(false);
+		neuBearbeitenL.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 
 		barcodeL = new JLabel();
 		barcodeT = new JTextField();
@@ -263,7 +265,8 @@ public class BuchView extends JPanel {
 		// Platzieren der Komponenten
 		gridBagHelfer.labelSetzen(leihStatusL, buchNeuBearbeitenPanel, 0, 0);
 		gridBagHelfer.feldSetzen(leihStatusT, buchNeuBearbeitenPanel, 1, 0);
-		gridBagHelfer.feldSetzenLang(neuBearbeitenL, buchNeuBearbeitenPanel, 4, 0);
+//		gridBagHelfer.labelSetzen(neuBearbeitenDummyLabel, buchNeuBearbeitenPanel, 3, 0);
+		gridBagHelfer.feldSetzen(neuBearbeitenL, buchNeuBearbeitenPanel, 4, 0);
 		gridBagHelfer.labelSetzen(PKL, buchNeuBearbeitenPanel, 0, 1);
 		gridBagHelfer.feldSetzen(PKT, buchNeuBearbeitenPanel, 1, 1);
 		gridBagHelfer.labelSetzen(barcodeL, buchNeuBearbeitenPanel, 0, 2);
@@ -744,11 +747,11 @@ public class BuchView extends JPanel {
 		this.notizA = notizA;
 	}
 
-	public JLabel getNeuAendernL() {
+	public JTextField getNeuAendernL() {
 		return neuBearbeitenL;
 	}
 
-	public void setNeuAendernL(JLabel neuAendernL) {
+	public void setNeuAendernL(JTextField neuAendernL) {
 		this.neuBearbeitenL = neuAendernL;
 	}
 
