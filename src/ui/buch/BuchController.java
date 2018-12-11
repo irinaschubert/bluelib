@@ -533,6 +533,7 @@ public class BuchController {
 		buchView.getSachbuchR().setText("Sachbuch");
 		buchView.getSignaturL().setText("Signatur:*");
 		buchView.getBelletristikR().setSelected(true);
+		buchView.getZuweisenSchlagwortB().setText("zuweisen");
 		buchView.getEntferntenSchlagwortB().setText("entfernen");
 		buchView.getNotizL().setText("Notiz");
 		buchView.getErfassungsDatumL().setText("Erfassungsdatum:");
