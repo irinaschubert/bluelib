@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,13 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
-import domain.Autor;
-import domain.Status;
-import domain.Verlag;
-import ui.renderer.AutorRenderer;
-import ui.renderer.VerlagRenderer;
 import ui.standardKomponenten.StandardButtonPanel;
-import ui.status.StatusRenderer;
 
 /**
  * View für die Suche nach Benutzern in Ausleihe
@@ -56,9 +49,7 @@ public class BenutzerSuchView extends JPanel {
 	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
 
 	public BenutzerSuchView(String panelTitel) {
-		
 		suchButton = new JButton();
-
 		this.setLayout(new BorderLayout());
 		this.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.add(createSuchePanel(), BorderLayout.NORTH);

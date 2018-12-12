@@ -1,40 +1,15 @@
 package ui.benutzer;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-
-import dao.BenutzerDAO;
-import dao.MitarbeiterDAO;
-import dao.OrtDAO;
-import dao.StatusDAO;
-import domain.Adresse;
-import domain.Anrede;
 import domain.Benutzer;
-import domain.Buch;
-import domain.EingeloggterMA;
-import domain.Ort;
-import domain.Status;
-import hilfsklassen.DateConverter;
 import hilfsklassen.TextComponentLimit;
 import models.TableModelBenutzer;
-import models.TableModelBuch;
 import services.BenutzerService;
-import services.MedienhandlingService;
-import services.NormdatenService;
-import services.Verifikation;
-import ui.HauptController;
-import ui.buch.BuchSuchView;
 
 /**
  * Controller für die Benutzer-View der Ausleihe, der die Logik und die Benutzeraktionen der
@@ -53,34 +28,19 @@ public class BenutzerSuchController {
 	private Benutzer benutzerSuchobjekt;
 
 	public BenutzerSuchController(BenutzerSuchView view) {
-		
-		
 		benutzerSuchView = view;
 		benutzerService = new BenutzerService();
-		//benutzerL = new ArrayList<>();
 		benutzerSuchobjekt = new Benutzer();
 		initialisieren();
 		control();
-		
-		/*tableModelBenutzer = new TableModelBenutzer();
-		tableModelBenutzer.setAndSortListe(benutzerL);
-		view.getBenutzerTabelle().setModel(tableModelBenutzer);
-		view.spaltenBreiteSetzen();
-		
-		initialisieren();
-		control();*/
 	}
 
-	// Buttons
+	// Suchbutton
 	private void control() {
-		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				benutzerSuchenUndResultatAnzeigen();
-				/*benutzerSuchobjekt = feldwertezuObjektSuchen();
-				benutzerL = benutzerService.suchenBenutzer(benutzerSuchobjekt);
-				tableModelBenutzer.setAndSortListe(benutzerL);*/
 			}
 		};
 		benutzerSuchView.getSuchButton().addActionListener(suchenButtonActionListener);
@@ -88,12 +48,6 @@ public class BenutzerSuchController {
 	
 	private boolean inputValidierungBenutzer(boolean ruhig) {
 		boolean keinInputFehler = true;
-		if (benutzerSuchView.getPKSucheT().getText().isEmpty()) {
-			if (ruhig != true) {
-				JOptionPane.showMessageDialog(null, "Bitte einen Benutzer eingeben.");
-			}
-			return keinInputFehler = false;
-		}
 		try {
 			Integer.parseInt(benutzerSuchView.getPKSucheT().getText());
 		} catch (NumberFormatException e) {

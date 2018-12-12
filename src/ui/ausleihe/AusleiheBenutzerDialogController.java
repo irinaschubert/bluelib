@@ -12,8 +12,7 @@ import ui.benutzer.BenutzerSuchController;
 import ui.benutzer.BenutzerSuchView;
 
 /**
- * 
- * Fügt das Suchpanel in den Dialog ein und steuert den Dialog für die Benutzer-Suche
+ * Fügt das Suchpanel in den Dialog ein und steuert den Dialog für die Benutzer-Suche in der Ausleihe
  * 
  * @version 1.0 2018-12-08
  * @author Irina
@@ -67,7 +66,7 @@ public class AusleiheBenutzerDialogController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (benutzerSuchView.getBenutzerTabelle().getSelectedRow() == -1) {
-					JOptionPane.showMessageDialog(null, "Es ist kein Benutzer ausgewählt");
+					JOptionPane.showMessageDialog(null, "Es ist kein Benutzer ausgewählt.");
 				} else {
 					auswahlZurueckgeben();
 					ausleiheBenutzerDialog.schliessen();

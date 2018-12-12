@@ -72,6 +72,7 @@ public class AusleiheController {
 	// Buttons
 	private void control() {
 		ausleiheView.getBarcodeT().addKeyListener(barcodeScanningKeyAdapter());
+		ausleiheView.getBenutzerEingabeT().addKeyListener(enterKeyAdapter());
 		
 		ActionListener buchSuchenButtonActionListener = new ActionListener() {
 			@Override
@@ -170,6 +171,23 @@ public class AusleiheController {
 			}
 		};
 		return barcodeScanningKeyListener;
+	}
+	
+	private KeyAdapter enterKeyAdapter() {
+		KeyAdapter enterKeyListener = new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (inputValidierungBenutzer(true)) {
+						Benutzer b = new Benutzer();
+						b.setId(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));						
+						Benutzer resultat = benutzerService.suchenBenutzer(b).get(0);
+						suchenBenutzerMitId(resultat.getId());
+					}
+				}
+			}
+		};
+		return enterKeyListener;
 	}
 	
 	private boolean inputValidierungBuch(boolean ruhig) {

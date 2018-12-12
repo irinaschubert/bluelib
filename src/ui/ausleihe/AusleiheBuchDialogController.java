@@ -68,7 +68,7 @@ public class AusleiheBuchDialogController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (buchSuchView.getBuchTabelle().getSelectedRow() == -1) {
-					JOptionPane.showMessageDialog(null, "Es ist kein Buch ausgewählt");
+					JOptionPane.showMessageDialog(null, "Es ist kein Buch ausgewählt.");
 				} else {
 					auswahlZurueckgeben();
 					ausleiheBuchDialog.schliessen();
