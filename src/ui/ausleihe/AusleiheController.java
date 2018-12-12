@@ -33,10 +33,11 @@ import ui.HauptController;
 
 /**
  * Controller für die AusleiheView, der die Logik und die Ausleihaktionen der
- * View steuert und der View die Models übergibt
+ * View steuert und der View die Models übergibt.
  * 
  * @version 1.0 22.11.2018
  * @author Irina
+ * 
  */
 
 public class AusleiheController {
@@ -151,9 +152,7 @@ public class AusleiheController {
 	}
 
 	private KeyAdapter barcodeScanningKeyAdapter() {
-
 		KeyAdapter barcodeScanningKeyListener = new KeyAdapter() {
-
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -168,7 +167,6 @@ public class AusleiheController {
 		};
 		return barcodeScanningKeyListener;
 	}
-	
 	
 	private boolean inputValidierungBuch(boolean ruhig) {
 		boolean keinInputFehler = true;
@@ -330,61 +328,31 @@ public class AusleiheController {
 			ausleiheView.getErfasstAmT().setText("");
 		}
 	}
-
-	private void suchenBuch() {
-		if (inputValidierungBuch(false) == true) {
-			Buch buch = new Buch();
-			BuchDAO buchDAO = new BuchDAO();
-			try {
-				int barcodeWert = Integer.parseInt(ausleiheView.getBarcodeT().getText());
-				buch = buchDAO.findByBarcode(barcodeWert);
-				ausleiheView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
-				ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
-				ausleiheView.getBuchTitelT().setText(buch.getTitel());
-				List<Autor> autoren = new ArrayList<>();
-				autoren = buch.getAutoren();
-				List<String> autorenListe = new ArrayList<>();
-				for (Autor autor : autoren) {
-					String nachname = autor.getName();
-					String vorname = autor.getVorname();
-					String autorname = nachname + ", " + vorname;
-					autorenListe.add(autorname);
-				}
-				ausleiheView.getAutorT().setText(String.join(", ", autorenListe));
-				ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
-				ausleiheView.getNotizT().setText(buch.getBemerkung());
-			} catch (NullPointerException npe) {
-				felderLeerenBuch();
-				JOptionPane.showMessageDialog(null, "Kein Medium mit diesem Barcode vorhanden.");
-			}
-
-		}
-	}
 	
 	protected void suchenBuchMitId(int id) {
-			Buch buch = new Buch();
-			BuchDAO buchDAO = new BuchDAO();
-			try {
-				buch = buchDAO.findById(id);
-				ausleiheView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
-				ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
-				ausleiheView.getBuchTitelT().setText(buch.getTitel());
-				List<Autor> autoren = new ArrayList<>();
-				autoren = buch.getAutoren();
-				List<String> autorenListe = new ArrayList<>();
-				for (Autor autor : autoren) {
-					String nachname = autor.getName();
-					String vorname = autor.getVorname();
-					String autorname = nachname + ", " + vorname;
-					autorenListe.add(autorname);
-				}
-				ausleiheView.getAutorT().setText(String.join(", ", autorenListe));
-				ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
-				ausleiheView.getNotizT().setText(buch.getBemerkung());
-			} catch (NullPointerException npe) {
-				felderLeerenBuch();
-				JOptionPane.showMessageDialog(null, "Kein Medium mit diesem Barcode vorhanden.");
+		Buch buch = new Buch();
+		BuchDAO buchDAO = new BuchDAO();
+		try {
+			buch = buchDAO.findById(id);
+			ausleiheView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
+			ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
+			ausleiheView.getBuchTitelT().setText(buch.getTitel());
+			List<Autor> autoren = new ArrayList<>();
+			autoren = buch.getAutoren();
+			List<String> autorenListe = new ArrayList<>();
+			for (Autor autor : autoren) {
+				String nachname = autor.getName();
+				String vorname = autor.getVorname();
+				String autorname = nachname + ", " + vorname;
+				autorenListe.add(autorname);
 			}
+			ausleiheView.getAutorT().setText(String.join(", ", autorenListe));
+			ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
+			ausleiheView.getNotizT().setText(buch.getBemerkung());
+		} catch (NullPointerException npe) {
+			felderLeerenBuch();
+			JOptionPane.showMessageDialog(null, "Kein Medium mit diesem Barcode vorhanden.");
+		}
 	}
 
 	private void suchenBenutzer() {
