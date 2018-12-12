@@ -2,6 +2,8 @@ package ui.benutzer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,8 @@ public class BenutzerSuchController {
 
 	// Suchbutton
 	private void control() {
+		benutzerSuchView.getPKSucheT().addKeyListener(enterKeyAdapter());
+		
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -47,18 +51,17 @@ public class BenutzerSuchController {
 		benutzerSuchView.getSuchButton().addActionListener(suchenButtonActionListener);
 	}
 	
-/*	private boolean inputValidierungBenutzer(boolean ruhig) {
-		boolean keinInputFehler = true;
-		try {
-			Integer.parseInt(benutzerSuchView.getPKSucheT().getText());
-		} catch (NumberFormatException e) {
-			if (ruhig != true) {
-				JOptionPane.showMessageDialog(null, "Ungültige ID");
+	private KeyAdapter enterKeyAdapter() {
+		KeyAdapter enterKeyListener = new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					benutzerSuchenUndResultatAnzeigen();
+				}
 			}
-			keinInputFehler = false;
-		}
-		return keinInputFehler;
-	}*/
+		};
+		return enterKeyListener;
+	}
 	
 	private boolean inputValidierungSuche() {
 		boolean keinInputFehler = true;
@@ -70,17 +73,14 @@ public class BenutzerSuchController {
 				benutzerSuchView.getPKSucheT().setText("");
 				keinInputFehler = false;
 			}
-
 		}
-
 		return keinInputFehler;
-
 	}
 	
 	/**
 	 * Anzeigen der Suchresultate in der Tabelle
 	 */
-	public void benutzerSuchenUndResultatAnzeigen() {
+	public void benutzerSuchenUndResultatAnzeigen() {		
 		if (inputValidierungSuche()) {
 			benutzerSuchobjekt = feldwertezuObjektSuchen();
 			benutzerL = benutzerService.suchenBenutzer(benutzerSuchobjekt);
