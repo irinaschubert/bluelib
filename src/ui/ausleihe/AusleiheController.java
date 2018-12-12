@@ -29,10 +29,7 @@ import models.TableModelAusleihe;
 import services.AusleiheService;
 import services.MedienhandlingService;
 import services.Verifikation;
-import services.VerifikationMitAusleihe;
 import ui.HauptController;
-import ui.rueckgabe.RueckgabeDialog;
-import ui.rueckgabe.RueckgabeDialogController;
 
 /**
  * Controller für die AusleiheView, der die Logik und die Ausleihaktionen der
