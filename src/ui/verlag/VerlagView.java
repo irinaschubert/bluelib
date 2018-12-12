@@ -26,10 +26,10 @@ import ui.standardKomponenten.StandardButtonPanel;
 import ui.standardKomponenten.StandardTitelPanel;
 
 /**
- * Ermöglicht das Durchsuchen und Erfassen neuer Verlage
+ * Enthält das Layout (Felder, Buttons, Ordnung) für das Durchsuchen, Erfassen und Bearbeiten von Verlagen.
  * 
  * @version 1.0 26.10.2018
- * @author irina
+ * @author Irina
  *
  */
 

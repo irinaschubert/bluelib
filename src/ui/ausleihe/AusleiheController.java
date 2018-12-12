@@ -31,7 +31,7 @@ import ui.HauptController;
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 22.11.2018
- * @author irina
+ * @author Irina
  */
 
 public class AusleiheController {

@@ -8,10 +8,11 @@ import domain.Verlag;
 import hilfsklassen.DateConverter;
 
 /**
- * Dient zur Darstellung und zum Updaten der Verlagsliste
+ * Dient zur Darstellung und zum Updaten der Verlagsliste.
  * 
  * @version 1.0 26.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 @SuppressWarnings("serial")
 public class TableModelVerlag extends AbstractTableModel {

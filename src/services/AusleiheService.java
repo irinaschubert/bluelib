@@ -8,10 +8,11 @@ import domain.Benutzer;
 
 /**
  * Die Serviceklasse vermittelt zwischen dem AusleiheController und dem
- * AusleiheDAO
+ * AusleiheDAO.
  * 
  * @version 0.1 22.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class AusleiheService {
 

@@ -8,10 +8,10 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import domain.Status;
 
 /**
- * Regelt die Werte und deren Darstellung der Status in der Dropdownliste
+ * Regelt die Werte und deren Darstellung der Stati in der Dropdownliste im Erfassungsbereich.
  * 
  * @version 1.0 18.10.2018
- * @author irina
+ * @author Irina
  */
 @SuppressWarnings("serial")
 public class StatusRenderer extends BasicComboBoxRenderer {

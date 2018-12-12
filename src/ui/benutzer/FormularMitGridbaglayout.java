@@ -14,7 +14,8 @@ import javax.swing.JPanel;
  * Wird für komplexe Formulare benötigt.
  * 
  * @version 0.1 09.12.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class FormularMitGridbaglayout {
 	/**

@@ -13,10 +13,11 @@ import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 
 /**
- * Verwaltet die CRUD- und weitere Operationen für Verlag-Objekte
+ * Verwaltet die CRUD- und weitere Operationen für Verlag-Objekte.
  * 
  * @version 0.1 06.11.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class VerlagDAO implements DAOInterface<Verlag> {
 	private DBConnection dbConnection = null;

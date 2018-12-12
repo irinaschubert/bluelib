@@ -1,10 +1,10 @@
 package services;
 
 /**
- * Klasse zur Kommunkation von Service zu Kontroller
+ * Klasse zur Kommunkation von Service zu Controller
  * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Irina
  *
  */
 public class Verifikation {

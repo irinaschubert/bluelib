@@ -13,7 +13,6 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import domain.Autor;
 import domain.Verlag;
 import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
@@ -25,10 +24,11 @@ import ui.HauptController;
 
 /**
  * Controller für die verlagView, der die Logik und die Benutzeraktionen der
- * View steuert und der View die Models übergibt
+ * View steuert und der View die Models übergibt.
  * 
  * @version 1.0 26.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 
 public class VerlagController {

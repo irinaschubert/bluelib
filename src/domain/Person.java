@@ -3,9 +3,11 @@ package domain;
 import java.util.Date;
 
 /**
+ * Die Klasse der Person-Objekte. Von ihr werden Mitarbeiter und Benutzer abgeleitet.
  * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public abstract class Person {
 	private int id;

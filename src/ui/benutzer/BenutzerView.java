@@ -31,7 +31,8 @@ import ui.standardKomponenten.StandardTitelPanel;
  * View für die Suche nach, das neu Erstellen und Bearbeiten von Benutzern
  * 
  * @version 1.0 06.11.2018
- * @author irina
+ * @author Irina
+ * 
  */
 @SuppressWarnings("serial")
 public class BenutzerView extends JPanel {

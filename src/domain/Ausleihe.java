@@ -4,10 +4,11 @@ import java.util.Date;
 
 /**
  * Die Klasse der Ausleih-Objekte. Ausleihen haben eine id, ein Medium, ein
- * Ausleih- und Rückgabedatum sowie einen Ausleih- und Rückgabemitarbeiter
+ * Ausleih- und Rückgabedatum sowie einen Ausleih- und Rückgabemitarbeiter.
  * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class Ausleihe {
 

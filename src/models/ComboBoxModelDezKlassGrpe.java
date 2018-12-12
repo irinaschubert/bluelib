@@ -7,7 +7,6 @@ import javax.swing.ComboBoxModel;
 import domain.DezKlassifikationGrpe;
 
 /**
- * 
  * Verwaltet die Gruppen der Dezimalklassifikationen
  *
  * @author Ueli

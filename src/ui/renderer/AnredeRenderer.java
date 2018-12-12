@@ -11,7 +11,8 @@ import domain.Anrede;
  * Regelt die Werte und deren Darstellung der Anreden in der Dropdownliste
  * 
  * @version 1.0 18.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 
 @SuppressWarnings("serial")

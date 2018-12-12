@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Die Klasse der Medium-Objekte. Medien wie z.B. Buch werden von ihr abgeleitet.
+ * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Irina
  *
  */
 public abstract class Medium {

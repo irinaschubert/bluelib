@@ -8,7 +8,6 @@ import javax.swing.ComboBoxModel;
 import domain.DezKlassifikation;
 
 /**
- * 
  * Verwaltet die Dezimalklassifikationen
  * 
  * @author Ueli

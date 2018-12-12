@@ -43,7 +43,8 @@ import ui.status.StatusSucheRenderer;
  * View steuert und der View die Models übergibt
  * 
  * @version 1.0 06.11.2018
- * @author irina
+ * @author Irina
+ * 
  */
 
 public class BenutzerController {
@@ -256,11 +257,7 @@ public class BenutzerController {
 		Anrede auswahlAnrede = (Anrede) benutzerView.getAnredeCbx().getSelectedItem();
 		b.setAnrede(auswahlAnrede);
 
-		if (benutzerView.getErfasstVonT().getText().isEmpty() || benutzerView.getErfasstVonT().getText().equals("")) { // Wenn
-																														// Erfassung-MA
-																														// =
-																														// neu
-																														// anlegen
+		if (benutzerView.getErfasstVonT().getText().isEmpty() || benutzerView.getErfasstVonT().getText().equals("")) {
 			b.setErfassungMitarbeiterId(EingeloggterMA.getInstance().getMitarbeiter().getId());
 			String nachname = EingeloggterMA.getInstance().getMitarbeiter().getName();
 			String vorname = EingeloggterMA.getInstance().getMitarbeiter().getVorname();

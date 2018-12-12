@@ -10,10 +10,11 @@ import domain.Ort;
 import interfaces.DAOInterface;
 
 /**
- * Die Klasse verwaltet die CRUD- und weitere Operationen für Ort-Objekte
+ * Die Klasse verwaltet die CRUD- und weitere Operationen für Ort-Objekte.
  * 
  * @version 0.1 06.11.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class OrtDAO implements DAOInterface<Ort> {
 	

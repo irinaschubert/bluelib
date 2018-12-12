@@ -3,7 +3,7 @@ package services;
 import domain.Ausleihe;
 
 /**
- * Erweitert die Verifikationsklasse um das Ausleihe-Objekt
+ * Erweitert die Verifikationsklasse um das Ausleihe-Objekt.
  * 
  * @version 1.0 2018-12-06
  * @author Ueli

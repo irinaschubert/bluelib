@@ -11,10 +11,11 @@ import domain.Benutzer;
 
 /**
  * Die Serviceklasse vermittelt zwischen dem BenutzerController und dem
- * BenutzerDAO
+ * BenutzerDAO.
  * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class BenutzerService {
 

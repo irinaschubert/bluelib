@@ -8,10 +8,11 @@ import domain.Ausleihe;
 import domain.Buch;
 
 /**
- * Dient zur Darstellung und zum Updaten der Ausleiheliste
+ * Dient zur Darstellung und zum Updaten der Ausleiheliste.
  * 
  * @version 1.0 22.11.2018
- * @author irina
+ * @author Irina
+ * 
  */
 @SuppressWarnings("serial")
 public class TableModelAusleihe extends AbstractTableModel {

@@ -20,10 +20,11 @@ import domain.Schlagwort;
 import domain.Mitarbeiter;
 
 /**
- * Stellt die Services zum Verwalten der Normdaten zur Verfügung
+ * Stellt die Services zum Verwalten der Normdaten zur Verfügung.
  * 
  * @version 1.0 15.11.2018
  * @author Irina, Mike, Ueli
+ * 
  */
 
 public class NormdatenService {

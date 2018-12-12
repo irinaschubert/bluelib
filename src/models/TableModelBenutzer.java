@@ -11,10 +11,11 @@ import domain.Ort;
 import domain.Status;
 
 /**
- * Dient zur Darstellung und zum Updaten der Benutzerliste
+ * Dient zur Darstellung und zum Updaten der Benutzerliste.
  * 
  * @version 1.0 06.11.2018
- * @author irina
+ * @author Irina
+ * 
  */
 @SuppressWarnings("serial")
 public class TableModelBenutzer extends AbstractTableModel {

@@ -10,7 +10,8 @@ import domain.Verlag;
  * Stellt die Werte für die Verlag-Dropdownlisten zusammen
  * 
  * @version 1.0 18.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 
 public class VerlagRenderer extends BasicComboBoxRenderer {

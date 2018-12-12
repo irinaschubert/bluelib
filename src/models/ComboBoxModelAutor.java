@@ -7,7 +7,7 @@ import javax.swing.ComboBoxModel;
 import domain.Autor;
 
 /**
- * Verwaltet die Werte der Auoren-Bomboboxen
+ * Verwaltet die Werte der Autoren-Comboboxen
  * 
  * @version 1.0 2018-11-28
  * @author Ueli

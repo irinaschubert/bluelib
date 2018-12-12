@@ -11,14 +11,14 @@ import java.util.List;
 import domain.Ausleihe;
 import domain.Benutzer;
 import hilfsklassen.DateConverter;
-import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 
 /**
- * Verwaltet die CRUD- und weitere Operationen für Ausleihe-Objekte
+ * Verwaltet die CRUD- und weitere Operationen für Ausleihe-Objekte.
  * 
  * @version 0.1 06.11.2018
- * @author irina
+ * @author Irina, Ueli
+ * 
  */
 public class AusleiheDAO implements DAOInterface<Ausleihe> {
 
@@ -37,7 +37,11 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		ResultSet rs = null;
 		Ausleihe a = null;
 		int argCounter = 0;
-		String sql = "INSERT INTO " + "ausleihe " + "(person_id," + " medium_id," + " von"
+		String sql = "INSERT INTO " 
+				+ "ausleihe " 
+				+ "(person_id," 
+				+ " medium_id," 
+				+ " von"
 				+ (domainObject.getRueckgabeDatum() != null ? ", retour" : "") + ", erfasser_person_id"
 				+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ", retour_person_id" : "") + ") " + "VALUES "
 				+ "(?, ?, ?" + (domainObject.getRueckgabeDatum() != null ? ",? " : "") + ", ?"
@@ -84,9 +88,8 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		return a;
 	}
 
- /**
-  * Es erfolgen nur Updates auf das Rückgabedatum und den Erfasser der Rückgabe
-  */
+	
+	// Es erfolgen nur Updates auf das Rückgabedatum und den Erfasser der Rückgabe
 	@Override
 	public Ausleihe update(Ausleihe domainObject) {
 		Ausleihe a = null;
@@ -114,8 +117,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 			if (updateErfolreich > 0) {
 				a = domainObject;
 			}
-			
-		
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -139,7 +140,11 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 
 	public List<Ausleihe> getSelektionByBenutzer(Benutzer domainObject) {
 		ResultSet rs = null;
-		String sql = "SELECT " + "id, " + "medium_id, " + "von " + "FROM ausleihe ";
+		String sql = "SELECT " 
+				+ "id, " 
+				+ "medium_id, " 
+				+ "von " 
+				+ "FROM ausleihe ";
 		sql = sql + ("where person_id = ?");
 		try {
 			int pCounter = 1;
@@ -175,8 +180,11 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		BuchDAO buchDAO = new BuchDAO();
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		ResultSet rs = null;
-		String sql = "SELECT " + "id, person_id, medium_id, von, retour, " + "erfasser_person_id, retour_person_id "
-				+ "FROM ausleihe " + "WHERE id = ?";
+		String sql = "SELECT " 
+				+ "id, person_id, medium_id, von, retour, " 
+				+ "erfasser_person_id, retour_person_id "
+				+ "FROM ausleihe " 
+				+ "WHERE id = ?";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -260,7 +268,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 			pstmt.setDate(1,DateConverter.convertJavaDateToSQLDateN(domainObject.getRueckgabeDatum()));
 			rs = pstmt.executeQuery();
 			
-			
 			MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
 			while(rs.next()) {
 				int count = 1;
@@ -294,9 +301,8 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	}
 	
 	/**
-	 * 
 	 * @param id Buch
-	 * @return Ausleihe, falls das Buch ausgeliehen ist, sonst return = null;
+	 * @return Ausleihe, falls das Buch ausgeliehen ist, sonst null;
 	 */
 	public Ausleihe findAusgeliehenesBuchById(int id) {
 		ResultSet rs = null;
@@ -348,15 +354,18 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		return ausleihe;
 	}
 	
+	/**
+	 * @param id Buch
+	 * @return true, falls das Buch ausgeliehen ist, sonst null;
+	 */
 	public Boolean mediumIstAusgeliehen(int id) {
 		ResultSet rs = null;
 		Boolean mediumAusgeliehen = false;
 		String sql = "SELECT 1 FROM ausleihe "
 				+ "WHERE medium_id = ? "
-				+ "AND von is NOT NULL "
+				+ "AND von IS NOT NULL "
 				+ "AND retour IS NULL";
 		try {
-
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
@@ -382,7 +391,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		}
 
 		return mediumAusgeliehen;
-
 	}
 	
 	

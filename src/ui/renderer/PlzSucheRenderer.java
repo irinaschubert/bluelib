@@ -8,10 +8,11 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import domain.Ort;
 
 /**
- * Regelt die Darstellung der PLZ und Orte in der Dropdownliste
+ * Regelt die Darstellung der PLZ und Orte in der Dropdownliste im Suchbereich
  * 
  * @version 1.0 18.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class PlzSucheRenderer extends BasicComboBoxRenderer {
 	@Override

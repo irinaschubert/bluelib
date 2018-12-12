@@ -17,10 +17,11 @@ import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 
 /**
- * Die Klasse verwaltet die CRUD- und weitere Operationen für Benutzer-Objekte
+ * Die Klasse verwaltet die CRUD- und weitere Operationen für Benutzer-Objekte.
  * 
  * @version 0.1 06.11.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class BenutzerDAO implements DAOInterface<Benutzer> {
 

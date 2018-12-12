@@ -2,10 +2,11 @@ package domain;
 
 /**
  * Die Klasse der Benutzer-Objekte. Ein Benutzer erbt von Person und hält
- * zusätzlich einen status
+ * zusätzlich einen status.
  * 
  * @version 0.1 06.11.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class Benutzer extends Person {
 

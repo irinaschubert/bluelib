@@ -7,7 +7,8 @@ import java.util.Date;
  * ein Enddatum. Ein Verlag ist ein Normadatensatz.
  * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Irina
+ * 
  */
 public class Verlag {
 

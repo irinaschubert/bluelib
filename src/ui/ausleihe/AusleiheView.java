@@ -25,7 +25,7 @@ import ui.standardKomponenten.StandardTitelPanel;
  * View für das Verwalten der Ausleihen
  * 
  * @version 1.0 06.11.2018
- * @author irina
+ * @author Irina
  */
 @SuppressWarnings("serial")
 public class AusleiheView extends JPanel {
