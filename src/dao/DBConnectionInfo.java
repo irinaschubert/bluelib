@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Objects;
 import java.util.Properties;
 import java.io.*;
 
@@ -46,23 +47,52 @@ public class DBConnectionInfo {
 		Properties prop = new Properties();
 		try {
 			// Name des Konfigurationsfiles
-			String fileName = "app.config";
-			// Ohne Pfadname wird das File nicht gefunden
-			String path = Properties.class.getResource("/").getPath();
+						String fileName = "app.config";
+						String path;
+						if (isDevelopmentEnvironment()) {
+							// Ohne Pfadname wird das File nicht gefunden
+							path = Properties.class.getResource("/").getPath();
+						}
+						else {
+							File directory = new File("./config/");
+							path = directory.toString() + "/";
+							
+						}
+						
+						// Ohne Pfadname wird das File nicht gefunden
+						//String path = Properties.class.getResource("/").getPath();
+//						String path = "./../config/";
+//						File directory = new File("./config/");
+//						path = directory.toString();
+//						path = path + "/";
+//						System.out.println(directory.getCanonicalPath());
 
-			InputStream in = new BufferedInputStream(new FileInputStream(path + fileName));
+						InputStream in = new BufferedInputStream(new FileInputStream(path + fileName));
 
-			// Laden des Files
-			prop.load(in);
+						// Laden des Files
+						prop.load(in);
 
-			// Lesen der werte
-			dbUser = prop.getProperty("dbUser");
-			dbpw = prop.getProperty("dbpw");
-			dataBase = prop.getProperty("dataBase");
-			dbServer = prop.getProperty("dbServer");
+						// Lesen der werte
+						dbUser = prop.getProperty("dbUser");
+						dbpw = prop.getProperty("dbpw");
+						dataBase = prop.getProperty("dataBase");
+						dbServer = prop.getProperty("dbServer");
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				public boolean isDevelopmentEnvironment() {
+					Boolean isDev = false;
+					
+					String protocol = this.getClass().getResource("").getProtocol();
+					if(Objects.equals(protocol, "jar")){
+					   isDev = false;
+					} else if(Objects.equals(protocol, "file")) {
+					    isDev = true;
+					}
+					
+					return isDev;
+				}
 }
