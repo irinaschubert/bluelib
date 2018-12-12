@@ -3,6 +3,7 @@ package ui.MA;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -108,6 +109,7 @@ public class MitarbeiterView extends JPanel {
 		PKL = new JLabel();
 		PKT = new JTextField();
 		PKT.setEditable(false);
+		PKT.setFont(PKT.getFont().deriveFont(12f));
 
 		NameL = new JLabel();
 		NameT = new JTextField();
@@ -120,6 +122,8 @@ public class MitarbeiterView extends JPanel {
 
 		neuAendernL = new JLabel();
 		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
+		neuAendernL.setFont(PKT.getFont().deriveFont(Font.BOLD, 14f));
+		neuAendernL.setForeground(Color.red);
 
 		BenutzernameL = new JLabel();
 		BenutzernameT = new JTextField();
@@ -153,8 +157,7 @@ public class MitarbeiterView extends JPanel {
 
 	private JPanel createTabellenPanel() {
 		MitarbeiterTabelle = new JTable(); // Panel für die Tabelle
-		MitarbeiterTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Nur eine Zeile darf ausgewaehlt
-																					// werden
+		MitarbeiterTabelle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Nur eine Zeile darf ausgewaehlt werden
 		JScrollPane scroll = new JScrollPane(MitarbeiterTabelle);
 
 		JPanel tabellenPanel = new JPanel();

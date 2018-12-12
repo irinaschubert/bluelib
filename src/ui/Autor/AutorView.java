@@ -1,7 +1,9 @@
 package ui.Autor;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -66,7 +68,6 @@ public class AutorView extends JPanel {
 	private static int BREITE = 500;
 
 	public AutorView(String panelTitel) {
-
 		neuAendernL = new JLabel();
 		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
 		suchButton = new JButton();
@@ -102,6 +103,9 @@ public class AutorView extends JPanel {
 		autorNeuBearbeitenPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
 
 		componentsNeuBearbeiten.put(PKL = new JLabel(), PKT = new JTextField());
+		PKT.setFont(PKT.getFont().deriveFont(12f));
+		neuAendernL.setFont(PKT.getFont().deriveFont(Font.BOLD, 14f));
+		neuAendernL.setForeground(Color.red);
 		componentsNeuBearbeiten.put(nachnameL = new JLabel(), nachnameT = new JTextField());
 		componentsNeuBearbeiten.put(vornameL = new JLabel(), vornameT = new JTextField());
 		componentsNeuBearbeiten.put(geburtsDatumL = new JLabel(), geburtsDatumT = new JTextField());

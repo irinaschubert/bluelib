@@ -1,7 +1,9 @@
 package ui.benutzer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.util.LinkedHashMap;
 
@@ -128,13 +130,15 @@ public class BenutzerView extends JPanel {
 		benutzerNeuBearbeitenPanel = new JPanel();
 		benutzerNeuBearbeitenPanel.setLayout(new GridBagLayout());
 		benutzerNeuBearbeitenPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		// benutzerNeuBearbeitenPanel.setPreferredSize(new Dimension(680,400));
 		FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
-
-		neuAendernL = new JLabel();
-		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		PKL = new JLabel();
 		PKT = new JTextField();
+		PKT.setFont(PKT.getFont().deriveFont(12f));
+		neuAendernL = new JLabel();
+		neuAendernL.setHorizontalAlignment(SwingConstants.CENTER);
+		neuAendernL.setFont(PKT.getFont().deriveFont(Font.BOLD, 14f));
+		neuAendernL.setForeground(Color.red);
 		nachnameL = new JLabel();
 		nachnameT = new JTextField();
 		vornameL = new JLabel();

@@ -3,6 +3,7 @@ package ui.Schlagwort;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -92,6 +93,9 @@ public class SchlagwortView extends JPanel {
 		schlagwortNeuBearbeitenPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
 
 		componentsNeuBearbeiten.put(PKL = new JLabel(), PKT = new JTextField());
+		PKT.setFont(PKT.getFont().deriveFont(12f));
+		neuAendernL.setFont(PKT.getFont().deriveFont(Font.BOLD, 14f));
+		neuAendernL.setForeground(Color.red);
 		componentsNeuBearbeiten.put(schlagwortL = new JLabel(), schlagwortT = new JTextField());
 		componentsNeuBearbeiten.put(geloeschtL = new JLabel(), geloeschtCbx = new JCheckBox());
 
