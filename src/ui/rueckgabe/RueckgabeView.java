@@ -227,7 +227,7 @@ public class RueckgabeView extends JPanel {
 	public void spaltenBreiteSetzen() {
 		ausleiheTabelle.getColumnModel().getColumn(0).setPreferredWidth(50); // Barcode
 		ausleiheTabelle.getColumnModel().getColumn(1).setPreferredWidth(50); // Buchtitel
-		ausleiheTabelle.getColumnModel().getColumn(2).setPreferredWidth(50); // Datum Ausleihe
+		ausleiheTabelle.getColumnModel().getColumn(2).setPreferredWidth(50); // Datum Rueckgabe
 		ausleiheTabelle.getColumnModel().getColumn(3).setPreferredWidth(50); // Notiz
 	}
 
