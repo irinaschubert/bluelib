@@ -238,6 +238,36 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 		}
 		return geloescht;
 	}
+	
+	public Boolean idZugeordnet(int id) {
+		Boolean idZugeordnet = false;
+		ResultSet rs = null;
+		String sql = "SELECT "
+				+ "1 "
+				+ "FROM person "
+				+ "WHERE id = ?";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				idZugeordnet = true;					
+			}			
+
+		} catch (SQLException e) {
+			e.printStackTrace();	
+
+		} finally{
+
+			try{
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch(Exception ex){}
+		}
+		return idZugeordnet;
+	}	
 
 	@Override
 	public List<Benutzer> getSelektion(Benutzer domainObject) {

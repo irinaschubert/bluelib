@@ -161,7 +161,7 @@ public class AusleiheController {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (inputValidierungBuch()) {
+					if (inputValidierungBuchSuchen()) {
 						Buch b = new Buch();
 						b.setBarcodeNr(Integer.parseInt(ausleiheView.getBarcodeT().getText()));						
 						Buch resultat = medienHandlingService.suchenBuch(b).get(0);
@@ -178,7 +178,7 @@ public class AusleiheController {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (inputValidierungBenutzer(true)) {
+					if (inputValidierungBenutzerSuchen()) {
 						Benutzer b = new Benutzer();
 						b.setId(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
 						Benutzer resultat = benutzerService.suchenBenutzerMitID(b.getId());
@@ -193,7 +193,7 @@ public class AusleiheController {
 		return enterKeyListener;
 	}
 	
-	private boolean inputValidierungBuch() {
+	private boolean inputValidierungBuchSuchen() {
 		boolean keinInputFehler = true;
 		if (!ausleiheView.getBarcodeT().getText().isEmpty() || ausleiheView.getBarcodeT().getText().equals("")) {
 			Verifikation v = medienHandlingService.istBarcode(ausleiheView.getBarcodeT().getText());
@@ -218,8 +218,32 @@ public class AusleiheController {
 		return keinInputFehler;
 	}
 
-	private boolean inputValidierungBenutzer(boolean ruhig) {
+	private boolean inputValidierungBenutzerSuchen() {
 		boolean keinInputFehler = true;
+		if (!ausleiheView.getBenutzerEingabeT().getText().isEmpty() || ausleiheView.getBenutzerEingabeT().getText().equals("")) {
+			Verifikation v = benutzerService.istBenutzerID(ausleiheView.getBenutzerEingabeT().getText());
+			if (!v.isAktionErfolgreich()) {
+				JOptionPane.showMessageDialog(null, v.getNachricht());
+				ausleiheView.getBenutzerEingabeT().setText("");
+				keinInputFehler = false;
+			}else {
+				int id = Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
+
+				Verifikation vz = benutzerService.idZugeordnet(id);
+				if (!vz.isAktionErfolgreich()) {
+					JOptionPane.showMessageDialog(null, vz.getNachricht());
+					ausleiheView.getBenutzerEingabeT().setText("");
+					keinInputFehler = false;
+				}
+			}
+			if (!keinInputFehler) {
+				felderLeerenBenutzer();
+			}
+		}
+		return keinInputFehler;
+		
+		
+		/*boolean keinInputFehler = true;
 		if (ausleiheView.getBenutzerEingabeT().getText().isEmpty()) {
 			if (ruhig != true) {
 				JOptionPane.showMessageDialog(null, "Bitte einen Benutzer eingeben.");
@@ -234,7 +258,7 @@ public class AusleiheController {
 			}
 			keinInputFehler = false;
 		}
-		return keinInputFehler;
+		return keinInputFehler;*/
 	}
 
 

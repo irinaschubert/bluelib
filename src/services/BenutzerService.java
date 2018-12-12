@@ -44,6 +44,22 @@ public class BenutzerService {
         } 
 		return v;
 	}
+	
+	public Verifikation idZugeordnet(int id) {
+		Verifikation v = new Verifikation();
+		v.setAktionErfolgreich(false);
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
+		if (benutzerDAO.idZugeordnet(id)) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Diese ID ist bereits einem Benutzer zugeordnet.");
+		}
+		else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Diese ID ist keinem Benutzer zugeordnet.");
+			
+		}
+		return v;
+	}
 
 	public Verifikation darfAusleihen(Benutzer benutzer) {
 		Verifikation v = new Verifikation();
