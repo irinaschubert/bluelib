@@ -2,10 +2,14 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import dao.BuchDAO;
 import domain.Buch;
 import services.MedienhandlingService;
 import services.Verifikation;
@@ -41,12 +45,14 @@ public class BuchNeuTest {
 
 	@After
 	public void tearDown() {
-		testDomaenenObjekte.loeschenDummyBuch();
-//		BuchDAO buchDAO = new BuchDAO();
-//		buchDAO.delete(buch);
-//		testDomaenenObjekte.loeschenDummyAutor1();
-//		testDomaenenObjekte.loeschenDummyVerlag1();
-//		testDomaenenObjekte.loeschenDummySchlagwort1();
+		List<Buch> bL = new ArrayList<>();
+		bL = medienhandlingService.suchenBuch(buch);
+		buch = bL.get(0);
+		BuchDAO buchDAO = new BuchDAO();
+		buchDAO.delete(buch);
+		testDomaenenObjekte.loeschenDummyAutor1();
+		testDomaenenObjekte.loeschenDummyVerlag1();
+		testDomaenenObjekte.loeschenDummySchlagwort1();
 	}
 
 }

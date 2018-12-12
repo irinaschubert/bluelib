@@ -33,7 +33,6 @@ public class SchlagwortDAO implements DAOInterface<Schlagwort> {
 
 	@Override
 	public Schlagwort save(Schlagwort domainObject) {
-		System.out.println("dao save");
 		ResultSet rs = null;
 		Schlagwort s = new Schlagwort();
 		int argCounter = 0;
@@ -197,9 +196,6 @@ public class SchlagwortDAO implements DAOInterface<Schlagwort> {
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				System.out.println("getint for id: "+rs.getInt(1));
-				System.out.println("getstring for schlgw: "+rs.getString(2));
-				System.out.println("getbool for gel: "+rs.getBoolean(3));
 				s.setId(rs.getInt(1));
 				s.setSchlagwort(rs.getString(2));
 				s.setGeloescht(rs.getBoolean(3));

@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import domain.Schlagwort;
 
