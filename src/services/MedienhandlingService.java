@@ -56,7 +56,7 @@ public class MedienhandlingService {
 			}
 			else {
 				v.setAktionErfolgreich(false);
-				v.setNachricht("Dieser Barcode ist keinem einem Medium zugeordnet.");
+				v.setNachricht("Dieser Barcode ist keinem Medium zugeordnet.");
 				
 			}
 			return v;

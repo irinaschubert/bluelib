@@ -10,6 +10,7 @@ import domain.Benutzer;
 import hilfsklassen.TextComponentLimit;
 import models.TableModelBenutzer;
 import services.BenutzerService;
+import services.Verifikation;
 
 /**
  * Controller für die Benutzer-View der Ausleihe, der die Logik und die Benutzeraktionen der
@@ -46,7 +47,7 @@ public class BenutzerSuchController {
 		benutzerSuchView.getSuchButton().addActionListener(suchenButtonActionListener);
 	}
 	
-	private boolean inputValidierungBenutzer(boolean ruhig) {
+/*	private boolean inputValidierungBenutzer(boolean ruhig) {
 		boolean keinInputFehler = true;
 		try {
 			Integer.parseInt(benutzerSuchView.getPKSucheT().getText());
@@ -57,13 +58,30 @@ public class BenutzerSuchController {
 			keinInputFehler = false;
 		}
 		return keinInputFehler;
+	}*/
+	
+	private boolean inputValidierungSuche() {
+		boolean keinInputFehler = true;
+
+		if (!benutzerSuchView.getPKSucheT().getText().isEmpty()) {
+			Verifikation v = benutzerService.istBenutzerID(benutzerSuchView.getPKSucheT().getText());
+			if (!v.isAktionErfolgreich()) {
+				JOptionPane.showMessageDialog(null, v.getNachricht());
+				benutzerSuchView.getPKSucheT().setText("");
+				keinInputFehler = false;
+			}
+
+		}
+
+		return keinInputFehler;
+
 	}
 	
 	/**
 	 * Anzeigen der Suchresultate in der Tabelle
 	 */
 	public void benutzerSuchenUndResultatAnzeigen() {
-		if (inputValidierungBenutzer(false)) {
+		if (inputValidierungSuche()) {
 			benutzerSuchobjekt = feldwertezuObjektSuchen();
 			benutzerL = benutzerService.suchenBenutzer(benutzerSuchobjekt);
 			tableModelBenutzer.setAndSortListe(benutzerL);

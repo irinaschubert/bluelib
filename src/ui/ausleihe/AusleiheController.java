@@ -110,17 +110,17 @@ public class AusleiheController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Ausleihe a = new Ausleihe();
-				if (inputValidierungBuch(true) == true && inputValidierungBenutzer(true) == true
+				if (ausleiheView.getPKTBuch().getText().isEmpty()  != true && ausleiheView.getBenutzerIDT().getText().isEmpty() != true
 						&& validierungBenutzer() == true && validierungBuch() == true) {
 					if (validierungAusleihe() == true) {
 						a = feldwerteZuObjektSpeichern();
 						nachArbeitSpeichern(ausleiheService.speichernAusleihe(a));
 					}
-				} else if (inputValidierungBuch(true) != true && inputValidierungBenutzer(true) != true) {
+				} else if (ausleiheView.getPKTBuch().getText().isEmpty() == true && ausleiheView.getBenutzerIDT().getText().isEmpty() == true) {
 					JOptionPane.showMessageDialog(null, "Bitte Buch und Benutzer eingeben.");
-				} else if (inputValidierungBuch(true) == true && inputValidierungBenutzer(true) != true) {
+				} else if (ausleiheView.getPKTBuch().getText().isEmpty() != true && ausleiheView.getBenutzerIDT().getText().isEmpty() == true) {
 					JOptionPane.showMessageDialog(null, "Bitte Benutzer eingeben.");
-				} else if (inputValidierungBuch(true) != true && inputValidierungBenutzer(true) == true) {
+				} else if (ausleiheView.getPKTBuch().getText().isEmpty() == true && ausleiheView.getBenutzerIDT().getText().isEmpty() != true) {
 					JOptionPane.showMessageDialog(null, "Bitte Buch eingeben.");
 				}
 			}
@@ -161,7 +161,7 @@ public class AusleiheController {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (inputValidierungBuch(true)) {
+					if (inputValidierungBuch()) {
 						Buch b = new Buch();
 						b.setBarcodeNr(Integer.parseInt(ausleiheView.getBarcodeT().getText()));						
 						Buch resultat = medienHandlingService.suchenBuch(b).get(0);
@@ -180,31 +180,40 @@ public class AusleiheController {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (inputValidierungBenutzer(true)) {
 						Benutzer b = new Benutzer();
-						b.setId(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));						
-						Benutzer resultat = benutzerService.suchenBenutzer(b).get(0);
-						suchenBenutzerMitId(resultat.getId());
+						b.setId(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
+						Benutzer resultat = benutzerService.suchenBenutzerMitID(b.getId());
+						ausleiheL = ausleiheService.sucheAusleihenProBenutzer(b);
+						tableModelAusleihe.setAndSortListe(ausleiheL);
+						pruefenUndUebernehmenBenutzerMitId(resultat.getId());
 					}
+
 				}
 			}
 		};
 		return enterKeyListener;
 	}
 	
-	private boolean inputValidierungBuch(boolean ruhig) {
+	private boolean inputValidierungBuch() {
 		boolean keinInputFehler = true;
-		if ((ausleiheView.getBarcodeT().getText().isEmpty())) {
-			if (ruhig != true) {
-				JOptionPane.showMessageDialog(null, "Bitte ein Buch eingeben.");
+		if (!ausleiheView.getBarcodeT().getText().isEmpty() || ausleiheView.getBarcodeT().getText().equals("")) {
+			Verifikation v = medienHandlingService.istBarcode(ausleiheView.getBarcodeT().getText());
+			if (!v.isAktionErfolgreich()) {
+				JOptionPane.showMessageDialog(null, v.getNachricht());
+				ausleiheView.getBarcodeT().setText("");
+				keinInputFehler = false;
+			} else {
+				int barCode = Integer.parseInt(ausleiheView.getBarcodeT().getText());
+
+				Verifikation vz = medienHandlingService.BarcodeZugeordnet(barCode);
+				if (!vz.isAktionErfolgreich()) {
+					JOptionPane.showMessageDialog(null, vz.getNachricht());
+					ausleiheView.getBarcodeT().setText("");
+					keinInputFehler = false;
+				}
 			}
-			return keinInputFehler = false;
-		}
-		try {
-			Integer.parseInt(ausleiheView.getBarcodeT().getText());
-		} catch (NumberFormatException e) {
-			if (ruhig != true) {
-				JOptionPane.showMessageDialog(null, "Ungültiger Barcode");
+			if (!keinInputFehler) {
+				felderLeerenBuch();
 			}
-			keinInputFehler = false;
 		}
 		return keinInputFehler;
 	}
@@ -228,6 +237,7 @@ public class AusleiheController {
 		return keinInputFehler;
 	}
 
+
 	private boolean validierungBuch() {
 		BuchDAO buchDAO = new BuchDAO();
 		try {
@@ -242,7 +252,7 @@ public class AusleiheController {
 				return true;
 			}
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Ungültige ID");
+			JOptionPane.showMessageDialog(null, "Kein Medium ausgewählt.");
 			return false;
 		}
 	}
@@ -250,7 +260,7 @@ public class AusleiheController {
 	private boolean validierungBenutzer() {
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		try {
-			int id = Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
+			int id = Integer.parseInt(ausleiheView.getBenutzerIDT().getText());
 			Benutzer benutzer = benutzerDAO.findById(id);
 			int statusId = benutzer.getBenutzerStatus().getId();
 			// Status = 2: gesperrt, Status = 3: gelscht
@@ -261,7 +271,7 @@ public class AusleiheController {
 				return true;
 			}
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Ungltige ID");
+			JOptionPane.showMessageDialog(null, "Kein Benutzer ausgewählt.");
 			return false;
 		}
 	}
@@ -379,34 +389,7 @@ public class AusleiheController {
 		}
 	}
 
-	/*private void suchenBenutzer() {
-		if (inputValidierungBenutzer(false) == true) {
-			Benutzer benutzer = new Benutzer();
-			BenutzerDAO benutzerDAO = new BenutzerDAO();
-			try {
-				benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
-				ausleiheView.getBenutzerIDT().setText(Integer.toString(benutzer.getId()));
-				ausleiheView.getBenutzerNameT().setText(benutzer.getName());
-				ausleiheView.getBenutzerVornameT().setText(benutzer.getVorname());
-				ausleiheView.getBenutzerStatusT().setText(benutzer.getBenutzerStatus().getBezeichnung());
-				if (benutzer.getId() <= 0) {
-					ausleiheView.getBenutzerIDT().setText("");
-					JOptionPane.showMessageDialog(null, "Kein Benutzer mit dieser ID vorhanden.");
-				}
-
-			} catch (NullPointerException npe) {
-				ausleiheView.getBenutzerIDT().setText("");
-				JOptionPane.showMessageDialog(null, "Kein Benutzer mit dieser ID vorhanden.");
-			} catch (NumberFormatException e) {
-				ausleiheView.getBenutzerIDT().setText("");
-				JOptionPane.showMessageDialog(null, "Id ungültig");
-			}
-		} else {
-			felderLeerenBenutzer();
-		}
-	}*/
-	
-	void suchenBenutzerMitId(int id) {
+	void pruefenUndUebernehmenBenutzerMitId(int id) {
 		Benutzer benutzer = new Benutzer();
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		try {
@@ -417,7 +400,7 @@ public class AusleiheController {
 			ausleiheView.getBenutzerStatusT().setText(benutzer.getBenutzerStatus().getBezeichnung());
 			if (benutzer.getId() <= 0) {
 				ausleiheView.getBenutzerIDT().setText("");
-				JOptionPane.showMessageDialog(null, "Kein Benutzer mit dieser ID vorhanden.");
+				JOptionPane.showMessageDialog(null, "Ungültige ID.");
 			}
 
 		} catch (NullPointerException npe) {
@@ -425,7 +408,7 @@ public class AusleiheController {
 			JOptionPane.showMessageDialog(null, "Kein Benutzer mit dieser ID vorhanden.");
 		} catch (NumberFormatException e) {
 			ausleiheView.getBenutzerIDT().setText("");
-			JOptionPane.showMessageDialog(null, "Id ungültig");
+			JOptionPane.showMessageDialog(null, "Ungültige ID.");
 		}
 	}
 	
@@ -433,7 +416,7 @@ public class AusleiheController {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			BenutzerDAO benutzerDAO = new BenutzerDAO();
-			Benutzer benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
+			Benutzer benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
 			tableModelAusleihe.setAndSortListe(ausleiheService.sucheAusleihenProBenutzer(benutzer));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());

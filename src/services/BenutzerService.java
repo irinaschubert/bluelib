@@ -5,6 +5,7 @@ import java.util.List;
 
 import dao.AnredeDAO;
 import dao.BenutzerDAO;
+import dao.BuchDAO;
 import domain.Anrede;
 import domain.Ausleihe;
 import domain.Benutzer;
@@ -22,8 +23,26 @@ public class BenutzerService {
 	public BenutzerService() {
 	}
 
-	public List<Anrede> alleAnreden() {
-		return new AnredeDAO().findAll();
+	/**
+	 * Prueft, ob es sich beim Parameter um eine valide id handelt
+	 * 
+	 * @param id
+	 * @return id valide: true, id falsch: false
+	 */
+	public Verifikation istBenutzerID(String id) {
+		Verifikation v = new Verifikation();
+		v.setAktionErfolgreich(true);
+		try 
+        { 
+            // checking valid integer using parseInt() method 
+            Integer.parseInt(id); 
+        }  
+        catch (NumberFormatException e)  
+        { 
+            v.setAktionErfolgreich(false);
+            v.setNachricht("Ungültige ID");
+        } 
+		return v;
 	}
 
 	public Verifikation darfAusleihen(Benutzer benutzer) {
@@ -31,29 +50,6 @@ public class BenutzerService {
 		return v;
 	}
 
-	public Verifikation aktivieren(Benutzer benutzer) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-
-	public Verifikation sperren(Benutzer benutzer) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-
-	public Verifikation loeschen(Benutzer benutzer) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-
-	public ArrayList<Ausleihe> leihlisteAnzeigen(Benutzer benutzer) {
-		ArrayList<Ausleihe> list = new ArrayList<>();
-		return list;
-	}
-
-	public List<Benutzer> alleBenutzer() {
-		return new BenutzerDAO().findAll();
-	}
 
 	public Verifikation speichernBenutzer(Benutzer benutzer) {
 		Verifikation v = new Verifikation();
@@ -81,6 +77,10 @@ public class BenutzerService {
 
 	public List<Benutzer> suchenBenutzer(Benutzer benutzer) {
 		return new BenutzerDAO().getSelektion(benutzer);
+	}
+	
+	public Benutzer suchenBenutzerMitID(int id) {
+		return new BenutzerDAO().findById(id);
 	}
 
 }

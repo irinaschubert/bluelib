@@ -19,20 +19,6 @@ public class AusleiheService {
 	public AusleiheService() {
 	}
 
-	public Verifikation darfAusleihen(Ausleihe ausleihe) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-
-	public Verifikation loeschen(Ausleihe ausleihe) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-
-	public List<Ausleihe> alleAusleihen() {
-		return new AusleiheDAO().findAll();
-	}
-
 	public Verifikation speichernAusleihe(Ausleihe ausleihe) {
 		Verifikation v = new Verifikation();
 		if (new AusleiheDAO().save(ausleihe) != null) {

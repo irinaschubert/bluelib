@@ -23,7 +23,6 @@ public class AusleiheBenutzerDialog extends JDialog {
 	StandardTitelPanel standardTitelPanel;
 	private int HOEHE = 500;
 	private int BREITE = 700;
-
 	public AusleiheBenutzerDialog(String titel) {
 		standardButtonPanel = new StandardButtonPanel();
 		standardTitelPanel = new StandardTitelPanel(titel);
