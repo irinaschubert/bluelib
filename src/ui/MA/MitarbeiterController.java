@@ -12,12 +12,20 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import dao.BenutzerDAO;
+import dao.MitarbeiterDAO;
+import domain.Benutzer;
 import domain.Mitarbeiter;
 import hilfsklassen.ButtonNamen;
 import models.TableModelMitarbeiter;
 import services.NormdatenService;
 import services.Verifikation;
 import ui.HauptController;
+import ui.MA.MitarbeiterBenutzerDialog;
+import ui.MA.MitarbeiterBenutzerDialogController;
+import ui.MA.MitarbeiterController;
 
 /**
  * 
@@ -36,10 +44,12 @@ public class MitarbeiterController {
 	private TableModelMitarbeiter tableModelMitarbeiter;
 	private Mitarbeiter mitarbeiterSuchobjekt;
 	private HauptController hauptController;
+	private MitarbeiterController mitarbeiterController;
 
 	public MitarbeiterController(MitarbeiterView view, HauptController hauptController) {
 		mitarbeiterView = view;
 		this.hauptController = hauptController;
+		mitarbeiterController = this;
 		normdatenService = new NormdatenService();
 		mitarbeiterL = new ArrayList<>();
 		tableModelMitarbeiter = new TableModelMitarbeiter();
@@ -47,16 +57,14 @@ public class MitarbeiterController {
 		view.getMitarbeiterTabelle().setModel(tableModelMitarbeiter);
 		view.spaltenBreiteSetzen();
 		mitarbeiterSuchobjekt = new Mitarbeiter();
-
 		initialisieren();
 		control();
-
 	}
 
 	// Button Klick ActionListener
 	private void control() {
-		
-		//Suche Button
+
+		// Suche Button
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -76,9 +84,17 @@ public class MitarbeiterController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println();
 				suchFelderLeeren();
 				mitarbeiterView.getNeuAendernL().setText("Neuerfassung");
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						MitarbeiterBenutzerDialog mitarbeiterBenutzerDialog = new MitarbeiterBenutzerDialog("Benutzer suchen");
+						new MitarbeiterBenutzerDialogController(mitarbeiterController, mitarbeiterBenutzerDialog);
+						mitarbeiterBenutzerDialog.setModal(true);
+						mitarbeiterBenutzerDialog.setVisible(true);
+					}
+				});
 			}
 
 		};
@@ -199,6 +215,34 @@ public class MitarbeiterController {
 		mitarbeiterView.getNeuAendernL().setText("");
 
 	}
+	void pruefenUndUebernehmenBenutzerMitId(int id) {
+		Benutzer benutzer = new Benutzer();
+		System.out.println("doit 2");
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
+		MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
+		//int ma;
+		try {
+			benutzer = benutzerDAO.findById(id);
+			//ma = mitarbeiterDAO.findIdByName(benutzer.getName(), benutzer.getVorname());
+			//System.out.println("maid ist: "+ma);
+			mitarbeiterView.getPKT().setText(Integer.toString(benutzer.getId()));
+			mitarbeiterView.getNameT().setText(benutzer.getName());
+			mitarbeiterView.getVornameT().setText(benutzer.getVorname());
+			mitarbeiterView.getAktivCbx().setSelected(true);
+			mitarbeiterView.getBenutzernameT();
+			if (benutzer.getId() <= 0) {
+				mitarbeiterView.getPKT().setText("");
+				JOptionPane.showMessageDialog(null, "Ungültige ID.");
+			}
+
+		} catch (NullPointerException npe) {
+			mitarbeiterView.getPKT().setText("");
+			JOptionPane.showMessageDialog(null, "Kein Benutzer mit dieser ID vorhanden.");
+		} catch (NumberFormatException e) {
+			mitarbeiterView.getPKT().setText("");
+			JOptionPane.showMessageDialog(null, "Ungültige ID.");
+		}
+	}
 
 	private void suchFelderLeeren() {
 		// Felder leeren
@@ -225,9 +269,12 @@ public class MitarbeiterController {
 		mitarbeiterView.getNameSucheL().setText("Name:");
 		mitarbeiterView.getVornameSucheL().setText("Vorname:");
 		mitarbeiterView.getBenutzernameSucheL().setText("Benutzername:");
-		mitarbeiterView.getAktivSucheL().setText("inkl. inaktive:");
+		mitarbeiterView.getAktivSucheL().setText("Aktiv:");
+		mitarbeiterView.getAktivSucheCbx().setSelected(true);
 		mitarbeiterView.getSuchButton().setText("Suchen");
 		mitarbeiterView.getPKT().setEditable(false);
+		mitarbeiterView.getNameT().setEditable(false);
+		mitarbeiterView.getVornameT().setEditable(false);
 		mitarbeiterView.getButtonPanel().getButton1().setText(ButtonNamen.NEU.getName());
 		mitarbeiterView.getButtonPanel().getButton2().setVisible(false);
 		mitarbeiterView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());

@@ -74,13 +74,13 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		// Vorname
 		if (domainObject.getVorname() != null) {
 			sql = sql + "AND p.vorname";
-			sql = sql + (SQLHelfer.likePruefung(domainObject.getName()) ? " LIKE" : " =");
+			sql = sql + (SQLHelfer.likePruefung(domainObject.getVorname()) ? " LIKE" : " =");
 			sql = sql + " ?";
 		}
 		// Nachname
 		if (domainObject.getName() != null) {
 			sql = sql + "AND p.nachname";
-			sql = sql + (SQLHelfer.likePruefung(domainObject.getVorname()) ? " LIKE" : " =");
+			sql = sql + (SQLHelfer.likePruefung(domainObject.getName()) ? " LIKE" : " =");
 			sql = sql + " ?";
 		}
 		
@@ -92,6 +92,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			
 			//pstmt.setBoolean(pCounter++, domainObject.isAdmin());
 			pstmt.setBoolean(pCounter++, domainObject.isAktiv());
+			System.out.println("isaktiv? "+domainObject.isAktiv());
 			
 			if (domainObject.getBenutzername() != null) {
 				pstmt.setString(pCounter++, SQLHelfer.SternFragezeichenErsatz(domainObject.getBenutzername()));
@@ -140,77 +141,6 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 
 		return mitarbeiterListe;
 	}
-/*
-	@Override
-	public List<Mitarbeiter> getSelektion(Mitarbeiter domainObject) {
-		ResultSet rs = null;
-		String sql = "SELECT " + "id, " + "benutzername, " + "passwort, " + "admin, " + "aktiv " + "FROM mitarbeiter ";
-
-		// Admin-Flag wird immer abgefragt, daher mit WHERE
-		sql = sql + ("WHERE admin = ? ");
-
-		if (domainObject.getBenutzername() != null) {
-			sql = sql + "AND benutzername";
-			sql = sql + (SQLHelfer.likePruefung(domainObject.getBenutzername()) ? " LIKE" : " =");
-			sql = sql + " ?";
-		}
-		// Passwort darf nie mit Wildcard abgefragt werden
-		if (domainObject.getPasswort() != null) {
-			sql = sql + ("AND passwort = ? ");
-		}
-
-		// Status ist immer gesetzt
-		sql = sql + ("AND aktiv = ?");
-
-		try {
-
-			int pCounter = 1;
-			conn = dbConnection.getDBConnection();
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setBoolean(pCounter++, domainObject.isAdmin());
-			;
-
-			if (domainObject.getVorname() != null) {
-				pstmt.setString(pCounter++, SQLHelfer.SternFragezeichenErsatz(domainObject.getBenutzername()));
-
-			}
-			if (domainObject.getPasswort() != null) {
-				pstmt.setString(pCounter++, HashRechner.hashBerechnen(domainObject.getBenutzername()));
-
-			}
-			pstmt.setBoolean(pCounter++, domainObject.isAktiv());
-
-			rs = pstmt.executeQuery();
-			pCounter = 1;
-			while (rs.next()) {
-				Mitarbeiter m = new Mitarbeiter();
-				m.setId(rs.getInt(pCounter++));
-				m.setBenutzername(rs.getString(pCounter++));
-				m.setPasswort(rs.getString(pCounter++));
-				m.setAdmin(rs.getBoolean(pCounter++));
-				m.setAktiv(rs.getBoolean(pCounter++));
-				mitarbeiterListe.add(m);
-				pCounter = 1;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception ex) {
-			}
-		}
-
-		return mitarbeiterListe;
-	}*/
 
 	// Hier wird die PersonenId übergeben. Achtung, Adresse wird im
 	// Mitarbeiterobjekt nicht geliefert.
@@ -312,6 +242,40 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 	}
 
 	public int findIdByName(String name, String vorname) {
+		ResultSet rs = null;
+		int id = 0;
+		String sql = "SELECT " + "id " + "FROM person " + "WHERE nachname = ? AND vorname = ?";
+		try {
+
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, name);
+			pstmt.setString(2, vorname);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				id = (rs.getInt(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+			}
+		}
+		return id;
+	}
+	
+	public int findMAIdByPersonName(String name, String vorname) {
 		ResultSet rs = null;
 		int id = 0;
 		String sql = "SELECT " + "id " + "FROM person " + "WHERE nachname = ? AND vorname = ?";
