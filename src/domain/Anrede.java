@@ -12,11 +12,6 @@ public class Anrede {
 	private int id;
 	private String bezeichnung;
 
-	public Anrede(int id, String bezeichnung) {
-		this.id = id;
-		this.bezeichnung = bezeichnung;
-	}
-
 	public Anrede() {
 
 	}

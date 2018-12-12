@@ -72,10 +72,10 @@ public class AutorAktualisierenTest {
 		autor.setGeloescht(geloescht);
 
 		normdatenService = new NormdatenService();
-		normdatenService.aktualisiereAutor(autor);
+		normdatenService.aktualisierenAutor(autor);
 
 		List<Autor> aL = new ArrayList<>();
-		aL = normdatenService.sucheAutor(autor);
+		aL = normdatenService.suchenAutor(autor);
 		if (aL.size() > 0) {
 			autorTest = aL.get(0);
 		}

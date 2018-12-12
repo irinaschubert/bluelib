@@ -28,8 +28,8 @@ public class VerlagTest {
 		v.setGruendungsDatum(DateConverter.convertStringToJavaDate("01.01.1970"));
 		v.setEndDatum(DateConverter.convertStringToJavaDate("31.12.1999"));
 		v.setGeloescht(false);
-		n.sichereVerlag(v);
-		List<Verlag> verlage = n.sucheVerlag(v);
+		n.speichernVerlag(v);
+		List<Verlag> verlage = n.suchenVerlag(v);
 		v = verlage.get(0);
 	}
 
@@ -39,8 +39,8 @@ public class VerlagTest {
 		v.setGruendungsDatum(DateConverter.convertStringToJavaDate("05.05.1975"));
 		v.setEndDatum(DateConverter.convertStringToJavaDate("01.01.2000"));
 		v.setGeloescht(true);
-		n.aktualisiereVerlag(v);
-		List<Verlag> verlage = n.sucheVerlag(v);
+		n.aktualisierenVerlag(v);
+		List<Verlag> verlage = n.suchenVerlag(v);
 		v = verlage.get(0);
 		assertEquals(v.getName(), "Testverlag geändert");
 		assertEquals(v.getGruendungsDatum(), DateConverter.convertStringToJavaDate("05.05.1975"));
@@ -55,8 +55,8 @@ public class VerlagTest {
 		vNeu.setGruendungsDatum(DateConverter.convertStringToJavaDate("05.05.1975"));
 		vNeu.setEndDatum(DateConverter.convertStringToJavaDate("01.01.2000"));
 		vNeu.setGeloescht(false);
-		assertTrue(n.sichereVerlag(vNeu).isAktionErfolgreich());
-		List<Verlag> verlage = n.sucheVerlag(vNeu);
+		assertTrue(n.speichernVerlag(vNeu).isAktionErfolgreich());
+		List<Verlag> verlage = n.suchenVerlag(vNeu);
 		vNeu = verlage.get(0);
 		verlagDAO.delete(vNeu);
 	}
@@ -64,20 +64,20 @@ public class VerlagTest {
 	@Test
 	public void loeschenTest() {
 		v.setGeloescht(true);
-		n.aktualisiereVerlag(v);
-		List<Verlag> verlage = n.sucheVerlag(v);
+		n.aktualisierenVerlag(v);
+		List<Verlag> verlage = n.suchenVerlag(v);
 		v = verlage.get(0);
 		assertTrue(v.getGeloescht());
 	}
 
 	@Test
 	public void suchenTest() {
-		assertTrue(n.sucheVerlag(v).size() == 1);
+		assertTrue(n.suchenVerlag(v).size() == 1);
 	}
 
 	@After
 	public void tearDown() {
-		List<Verlag> verlage = n.sucheVerlag(v);
+		List<Verlag> verlage = n.suchenVerlag(v);
 		v = verlage.get(0);
 		verlagDAO.delete(v);
 	}

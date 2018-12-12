@@ -63,7 +63,7 @@ public class MitarbeiterController {
 
 				if (inputValidierungSuchen()) {
 					mitarbeiterSuchobjekt = feldwertezuObjektSuchen();
-					mitarbeiterL = normdatenService.sucheMitarbeiter(mitarbeiterSuchobjekt);
+					mitarbeiterL = normdatenService.suchenMitarbeiter(mitarbeiterSuchobjekt);
 					tableModelMitarbeiter.setAndSortListe(mitarbeiterL);
 				}
 
@@ -97,9 +97,9 @@ public class MitarbeiterController {
 					// Prüfung, ob ein neuer Mitarbeiter erfasst wurde oder ein Mitarbeiter
 					// aktialisiert wird
 					if (mitarbeiterView.getPKT().getText().isEmpty()) {
-						nachAarbeitSpeichern(normdatenService.sichereMitarbeiter(m));
+						nachAarbeitSpeichern(normdatenService.speichernMitarbeiter(m));
 					} else {
-						nachAarbeitSpeichern(normdatenService.aktualisiereMitarbeiter(m));
+						nachAarbeitSpeichern(normdatenService.aktualisierenMitarbeiter(m));
 					}
 				}
 
@@ -183,7 +183,7 @@ public class MitarbeiterController {
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelMitarbeiter.setAndSortListe(normdatenService.sucheMitarbeiter(mitarbeiterSuchobjekt));
+			tableModelMitarbeiter.setAndSortListe(normdatenService.suchenMitarbeiter(mitarbeiterSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}

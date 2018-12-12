@@ -96,9 +96,9 @@ public class SchlagwortController {
 					// Prüfung, ob ein neuer Schlagwort erfasst wurde oder ein Schlagwort
 					// aktialisiert wird
 					if (schlagwortView.getPKT().getText().isEmpty()) {
-						nachAarbeitSpeichern(normdatenService.sichereSchlagwort(s));
+						nachAarbeitSpeichern(normdatenService.speichernSchlagwort(s));
 					} else {
-						nachAarbeitSpeichern(normdatenService.aktualisiereSchlagwort(s));
+						nachAarbeitSpeichern(normdatenService.aktualisierenSchlagwort(s));
 					}
 				}
 
@@ -190,11 +190,11 @@ public class SchlagwortController {
 	private void sucheAusfuehren() {
 	
 		schlagwortSuchobjekt = feldwertezuObjektSuchen();
-		schlagwortL = normdatenService.sucheSchlagwort(schlagwortSuchobjekt);
+		schlagwortL = normdatenService.suchenSchlagwort(schlagwortSuchobjekt);
 		tableModelSchlagwort.setAndSortListe(schlagwortL);
 		if (schlagwortView.getGeloeschtSucheCbx().isSelected()) {
 			schlagwortSuchobjekt.setGeloescht(true);
-			schlagwortL = normdatenService.sucheSchlagwort(schlagwortSuchobjekt);
+			schlagwortL = normdatenService.suchenSchlagwort(schlagwortSuchobjekt);
 			for (Schlagwort a: schlagwortL) {
 				tableModelSchlagwort.schlagwortHinzufuegen(a);
 			}

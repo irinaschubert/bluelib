@@ -15,11 +15,6 @@ public class Status {
 	private int id;
 	private String bezeichnung;
 
-	public Status(int id, String bezeichnung) {
-		this.id = id;
-		this.bezeichnung = bezeichnung;
-	}
-
 	public Status(int id) {
 		this.id = id;
 	}

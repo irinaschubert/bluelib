@@ -84,9 +84,9 @@ public class VerlagController {
 				if (inputValidierungSpeichern()) {
 					v = feldwertezuObjektSpeichern();
 					if (verlagView.getPKT().getText().isEmpty()) {
-						nachArbeitSpeichern(normdatenService.sichereVerlag(v));
+						nachArbeitSpeichern(normdatenService.speichernVerlag(v));
 					} else {
-						nachArbeitSpeichern(normdatenService.aktualisiereVerlag(v));
+						nachArbeitSpeichern(normdatenService.aktualisierenVerlag(v));
 					}
 				}
 			}
@@ -205,11 +205,11 @@ public class VerlagController {
 	private void sucheAusfuehren() {
 	
 		verlagSuchobjekt = feldwertezuObjektSuchen();
-		verlagL = normdatenService.sucheVerlag(verlagSuchobjekt);
+		verlagL = normdatenService.suchenVerlag(verlagSuchobjekt);
 		tableModelVerlag.setAndSortListe(verlagL);
 		if (verlagView.getGeloeschtSucheCbx().isSelected()) {
 			verlagSuchobjekt.setGeloescht(true);
-			verlagL = normdatenService.sucheVerlag(verlagSuchobjekt);
+			verlagL = normdatenService.suchenVerlag(verlagSuchobjekt);
 			for (Verlag a: verlagL) {
 				tableModelVerlag.verlagHinzufuegen(a);
 			}

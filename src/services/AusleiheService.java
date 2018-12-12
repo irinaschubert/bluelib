@@ -33,7 +33,7 @@ public class AusleiheService {
 		return new AusleiheDAO().findAll();
 	}
 
-	public Verifikation sichereAusleihe(Ausleihe ausleihe) {
+	public Verifikation speichernAusleihe(Ausleihe ausleihe) {
 		Verifikation v = new Verifikation();
 		if (new AusleiheDAO().save(ausleihe) != null) {
 			v.setAktionErfolgreich(true);

@@ -59,7 +59,7 @@ public class NormdatenService {
 	}
 
 
-	public Verifikation speichereAutor(Autor autor) {
+	public Verifikation speichernAutor(Autor autor) {
 		Verifikation v = new Verifikation();
 
 		if (new AutorDAO().save(autor) != null) {
@@ -72,7 +72,7 @@ public class NormdatenService {
 		return v;
 	}
 
-	public Verifikation sichereVerlag(Verlag verlag) {
+	public Verifikation speichernVerlag(Verlag verlag) {
 		Verifikation v = new Verifikation();
 		if (new VerlagDAO().save(verlag) != null) {
 			v.setAktionErfolgreich(true);
@@ -84,7 +84,7 @@ public class NormdatenService {
 		return v;
 	}
 
-	public Verifikation sichereSchlagwort(Schlagwort schlagwort) {
+	public Verifikation speichernSchlagwort(Schlagwort schlagwort) {
 		Verifikation v = new Verifikation();
 
 		if (new SchlagwortDAO().save(schlagwort) != null) {
@@ -98,7 +98,7 @@ public class NormdatenService {
 		return v;
 	}
 
-	public Verifikation sichereMitarbeiter(Mitarbeiter mitarbeiter) {
+	public Verifikation speichernMitarbeiter(Mitarbeiter mitarbeiter) {
 		Verifikation v = new Verifikation();
 
 		if (new MitarbeiterDAO().save(mitarbeiter) != null) {
@@ -112,7 +112,7 @@ public class NormdatenService {
 	}
 
 	// aktualisieren
-	public Verifikation aktualisiereVerlag(Verlag verlag) {
+	public Verifikation aktualisierenVerlag(Verlag verlag) {
 		Verifikation v = new Verifikation();
 		if (new VerlagDAO().update(verlag) != null) {
 			v.setAktionErfolgreich(true);
@@ -124,7 +124,7 @@ public class NormdatenService {
 		return v;
 	}
 
-	public Verifikation aktualisiereAutor(Autor autor) {
+	public Verifikation aktualisierenAutor(Autor autor) {
 		Verifikation v = new Verifikation();
 		if (new AutorDAO().update(autor) != null) {
 			v.setAktionErfolgreich(true);
@@ -136,7 +136,7 @@ public class NormdatenService {
 		return v;
 	}
 
-	public Verifikation aktualisiereBibliothek(Bibliothek bibliothek) {
+	public Verifikation aktualisierenBibliothek(Bibliothek bibliothek) {
 		Verifikation v = new Verifikation();
 		if (new BibliothekDAO().update(bibliothek) != null) {
 			v.setAktionErfolgreich(true);
@@ -148,7 +148,7 @@ public class NormdatenService {
 		return v;
 	}
 
-	public Verifikation aktualisiereSchlagwort(Schlagwort schlagwort) {
+	public Verifikation aktualisierenSchlagwort(Schlagwort schlagwort) {
 		Verifikation v = new Verifikation();
 		if (new SchlagwortDAO().update(schlagwort) != null) {
 			v.setAktionErfolgreich(true);
@@ -160,7 +160,7 @@ public class NormdatenService {
 		return v;
 	}
 
-	public Verifikation aktualisiereMitarbeiter(Mitarbeiter mitarbeiter) {
+	public Verifikation aktualisierenMitarbeiter(Mitarbeiter mitarbeiter) {
 		Verifikation v = new Verifikation();
 		if (new MitarbeiterDAO().update(mitarbeiter) != null) {
 			v.setAktionErfolgreich(true);
@@ -173,23 +173,23 @@ public class NormdatenService {
 	}
 
 	// Suchen
-	public List<Autor> sucheAutor(Autor autor) {
+	public List<Autor> suchenAutor(Autor autor) {
 		return new AutorDAO().getSelektion(autor);
 	}
 
-	public List<Verlag> sucheVerlag(Verlag verlag) {
+	public List<Verlag> suchenVerlag(Verlag verlag) {
 		return new VerlagDAO().getSelektion(verlag);
 	}
 
-	public List<Mitarbeiter> sucheMitarbeiter(Mitarbeiter mitarbeiter) {
+	public List<Mitarbeiter> suchenMitarbeiter(Mitarbeiter mitarbeiter) {
 		return new MitarbeiterDAO().getSelektion(mitarbeiter);
 	}
 
-	public Bibliothek bibliothekAnzeigen() {
+	public Bibliothek anzeigenBibliothek() {
 		return new BibliothekDAO().findById(1);
 	}
 
-	public List<Schlagwort> sucheSchlagwort(Schlagwort schlagwort) {
+	public List<Schlagwort> suchenSchlagwort(Schlagwort schlagwort) {
 		return new SchlagwortDAO().getSelektion(schlagwort);
 	}
 

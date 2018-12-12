@@ -109,10 +109,10 @@ public class AutorController {
 					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
 					if (autorView.getPKT().getText().isEmpty()) {
 
-						nachAarbeitSpeichern(normdatenService.speichereAutor(a));
+						nachAarbeitSpeichern(normdatenService.speichernAutor(a));
 
 					} else {
-						nachAarbeitSpeichern(normdatenService.aktualisiereAutor(a));
+						nachAarbeitSpeichern(normdatenService.aktualisierenAutor(a));
 					}
 				}
 
@@ -274,11 +274,11 @@ public class AutorController {
 	private void sucheAusfuehren() {
 	
 		autorSuchobjekt = feldwertezuObjektSuchen();
-		autorL = normdatenService.sucheAutor(autorSuchobjekt);
+		autorL = normdatenService.suchenAutor(autorSuchobjekt);
 		tableModelAutor.setAndSortListe(autorL);
 		if (autorView.getGeloeschtSucheCbx().isSelected()) {
 			autorSuchobjekt.setGeloescht(true);
-			autorL = normdatenService.sucheAutor(autorSuchobjekt);
+			autorL = normdatenService.suchenAutor(autorSuchobjekt);
 			for (Autor a: autorL) {
 				tableModelAutor.autorHinzufuegen(a);
 			}

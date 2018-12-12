@@ -1,8 +1,10 @@
 package domain;
 
 /**
+ * Die Klasse der Adress-Objekte. Adress-Objekte bestehen aus einer Strasse (inkl. Hausnr.) und einem Ort.
+ * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Irina
  *
  */
 public class Adresse {
@@ -13,10 +15,7 @@ public class Adresse {
     	this.strasse = strasse;
     	this.ort = ort;
     }
-    public Adresse(String strasse) {
-    	this.strasse = strasse;
-    	this.ort = new Ort(0,0,"");
-    }
+    
     public Adresse(Ort ort) {
     	this.strasse = "";
     	this.ort = ort;
@@ -37,5 +36,4 @@ public class Adresse {
 	public void setStrasse(String strasse) {
 		this.strasse = strasse;
 	}
-    
 }

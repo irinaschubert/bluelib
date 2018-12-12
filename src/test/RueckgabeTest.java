@@ -40,7 +40,7 @@ public class RueckgabeTest {
 		ausleihe.setBenutzer(testDomaenenObjekte.getFertigerDummyBenutzer());
 		ausleihe.setMedium(testDomaenenObjekte.getFertigesDummyBuch());
 		ausleiheService = new AusleiheService();
-		ausleiheService.sichereAusleihe(ausleihe);
+		ausleiheService.speichernAusleihe(ausleihe);
 
 	}
 

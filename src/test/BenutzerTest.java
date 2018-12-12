@@ -53,8 +53,8 @@ public class BenutzerTest {
 		Mitarbeiter mitarbeiter = mitarbeiterDAO.findById(1);
 		b.setErfassungMitarbeiterName(mitarbeiter.getName());
 		b.setErfassungDatum(DateConverter.convertStringToJavaDate("01.01.1980"));
-		bs.sichereBenutzer(b);
-		List<Benutzer> benutzer = bs.sucheBenutzer(b);
+		bs.speichernBenutzer(b);
+		List<Benutzer> benutzer = bs.suchenBenutzer(b);
 		b = benutzer.get(0);
 	}
 
@@ -81,8 +81,8 @@ public class BenutzerTest {
 		Mitarbeiter mitarbeiter = mitarbeiterDAO.findById(1);
 		b.setErfassungMitarbeiterName(mitarbeiter.getName());
 		b.setErfassungDatum(DateConverter.convertStringToJavaDate("01.01.1980"));
-		bs.aktualisiereBenutzer(b);
-		List<Benutzer> benutzer = bs.sucheBenutzer(b);
+		bs.aktualisierenBenutzer(b);
+		List<Benutzer> benutzer = bs.suchenBenutzer(b);
 		b = benutzer.get(0);
 
 		assertEquals(b.getName(), "Testbenutzer geändert");
@@ -111,7 +111,7 @@ public class BenutzerTest {
 		StatusDAO statusDAO = new StatusDAO();
 		Status s = statusDAO.findById(3);
 		b.setBenutzerStatus(s);
-		bs.aktualisiereBenutzer(b);
+		bs.aktualisierenBenutzer(b);
 		assertEquals(b.getBenutzerStatus().getId(), 3);
 	}
 
@@ -140,15 +140,15 @@ public class BenutzerTest {
 		bNeu.setErfassungMitarbeiterName(mitarbeiter.getName());
 		bNeu.setErfassungDatum(DateConverter.convertStringToJavaDate("01.01.1980"));
 		
-		assertTrue(bs.sichereBenutzer(bNeu).isAktionErfolgreich());
-		List<Benutzer> benutzer = bs.sucheBenutzer(bNeu);
+		assertTrue(bs.speichernBenutzer(bNeu).isAktionErfolgreich());
+		List<Benutzer> benutzer = bs.suchenBenutzer(bNeu);
 		bNeu = benutzer.get(0);
 		benutzerDAO.delete(bNeu);
 	}
 
 	@Test
 	public void suchenTest() {
-		assertTrue(bs.sucheBenutzer(b).size() == 1);
+		assertTrue(bs.suchenBenutzer(b).size() == 1);
 	}
 
 	@After

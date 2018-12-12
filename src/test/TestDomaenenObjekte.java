@@ -126,9 +126,9 @@ public class TestDomaenenObjekte {
 	 */
 	public Autor getFertigerDummyAutor1() {
 		if (autor1 == null) {
-			normdatenService.speichereAutor(getDummyAutor1());
+			normdatenService.speichernAutor(getDummyAutor1());
 			List<Autor> aL = new ArrayList<>();
-			aL = normdatenService.sucheAutor(getDummyAutor1());
+			aL = normdatenService.suchenAutor(getDummyAutor1());
 			autor1 = aL.get(0);
 		}
 		return autor1;
@@ -163,9 +163,9 @@ public class TestDomaenenObjekte {
 	 */
 	public Autor getFertigerDummyAutor2() {
 		if (autor2 == null) {
-			normdatenService.speichereAutor(getDummyAutor2());
+			normdatenService.speichernAutor(getDummyAutor2());
 			List<Autor> aL = new ArrayList<>();
-			aL = normdatenService.sucheAutor(getDummyAutor2());
+			aL = normdatenService.suchenAutor(getDummyAutor2());
 			autor2 = aL.get(0);
 		}
 		return autor2;
@@ -197,9 +197,9 @@ public class TestDomaenenObjekte {
 	 */
 	public Schlagwort getFertigesDummySchlagwort1() {
 		if (schlagwort1 == null) {
-			normdatenService.sichereSchlagwort(getDummySchlagwort1());
+			normdatenService.speichernSchlagwort(getDummySchlagwort1());
 			List<Schlagwort> sL = new ArrayList<>();
-			sL = normdatenService.sucheSchlagwort(getDummySchlagwort1());
+			sL = normdatenService.suchenSchlagwort(getDummySchlagwort1());
 			schlagwort1 = sL.get(0);
 		}
 		return schlagwort1;
@@ -231,9 +231,9 @@ public class TestDomaenenObjekte {
 	 */
 	public Schlagwort getFertigesDummySchlagwort2() {
 		if (schlagwort2 == null) {
-			normdatenService.sichereSchlagwort(getDummySchlagwort2());
+			normdatenService.speichernSchlagwort(getDummySchlagwort2());
 			List<Schlagwort> sL = new ArrayList<>();
-			sL = normdatenService.sucheSchlagwort(getDummySchlagwort2());
+			sL = normdatenService.suchenSchlagwort(getDummySchlagwort2());
 			schlagwort2 = sL.get(0);
 		}
 		return schlagwort2;
@@ -277,9 +277,9 @@ public class TestDomaenenObjekte {
 	public Benutzer getFertigerDummyBenutzer() {
 		if (benutzer == null) {
 			BenutzerService benutzerService = new BenutzerService();
-			benutzerService.sichereBenutzer(getDummyBenutzer());
+			benutzerService.speichernBenutzer(getDummyBenutzer());
 			List<Benutzer> bL = new ArrayList<>();
-			bL = benutzerService.sucheBenutzer(getDummyBenutzer());
+			bL = benutzerService.suchenBenutzer(getDummyBenutzer());
 			benutzer = bL.get(0);
 		}
 		return benutzer;
@@ -314,9 +314,9 @@ public class TestDomaenenObjekte {
 	 */
 	public Verlag getFertigerDummyVerlag1() {
 		if (verlag1 == null) {
-			normdatenService.sichereVerlag(getDummyVerlag1());
+			normdatenService.speichernVerlag(getDummyVerlag1());
 			List<Verlag> vL = new ArrayList<>();
-			vL = normdatenService.sucheVerlag(getDummyVerlag1());
+			vL = normdatenService.suchenVerlag(getDummyVerlag1());
 			verlag1 = vL.get(0);
 		}
 		return verlag1;
@@ -351,9 +351,9 @@ public class TestDomaenenObjekte {
 	 */
 	public Verlag getFertigerDummyVerlag2() {
 		if (verlag2 == null) {
-			normdatenService.sichereVerlag(getDummyVerlag2());
+			normdatenService.speichernVerlag(getDummyVerlag2());
 			List<Verlag> vL = new ArrayList<>();
-			vL = normdatenService.sucheVerlag(getDummyVerlag2());
+			vL = normdatenService.suchenVerlag(getDummyVerlag2());
 			verlag2 = vL.get(0);
 		}
 		return verlag2;

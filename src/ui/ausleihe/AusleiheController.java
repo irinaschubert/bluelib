@@ -81,7 +81,7 @@ public class AusleiheController {
 		};
 		ausleiheView.getSuchButtonBenutzer().addActionListener(benutzerSuchenButtonActionListener);
 
-		ActionListener sichernButtonActionListener = new ActionListener() {
+		ActionListener speichernButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Ausleihe a = new Ausleihe();
@@ -89,14 +89,14 @@ public class AusleiheController {
 						&& validierungBenutzer() == true && validierungBuch() == true) {
 					if (validierungAusleihe() == true) {
 						a = feldwerteZuObjektSpeichern();
-						nachArbeitSpeichern(ausleiheService.sichereAusleihe(a));
+						nachArbeitSpeichern(ausleiheService.speichernAusleihe(a));
 					}
 				} else if (inputValidierungBuch(true) != true && inputValidierungBenutzer(true) != true) {
 					JOptionPane.showMessageDialog(null, "Bitte Buch und Benutzer eingeben.");
 				}
 			}
 		};
-		ausleiheView.getAusleiheSpeichernButton().addActionListener(sichernButtonActionListener);
+		ausleiheView.getAusleiheSpeichernButton().addActionListener(speichernButtonActionListener);
 
 		ActionListener rueckgabeButtonActionListener = new ActionListener() {
 			@Override

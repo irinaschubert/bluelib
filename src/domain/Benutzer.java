@@ -12,6 +12,7 @@ public class Benutzer extends Person {
 
 	private Status benutzerStatus;
 
+	// Benutzer wird mit Status "aktiv" (=1) initialisiert
 	public Benutzer() {
 		this.benutzerStatus = new Status(1);
 	}

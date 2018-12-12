@@ -67,8 +67,8 @@ public class AusleiheTest {
 		Mitarbeiter mitarbeiter = mitarbeiterDAO.findById(1);
 		benutzer.setErfassungMitarbeiterName(mitarbeiter.getName());
 		benutzer.setErfassungDatum(DateConverter.convertStringToJavaDate("01.01.1980"));
-		bs.sichereBenutzer(benutzer);
-		List<Benutzer> benutzerList = bs.sucheBenutzer(benutzer);
+		bs.speichernBenutzer(benutzer);
+		List<Benutzer> benutzerList = bs.suchenBenutzer(benutzer);
 		benutzer = benutzerList.get(0);
 		System.out.println("benutzer: " + benutzer.getId());
 		// Buch initialisieren
@@ -78,7 +78,7 @@ public class AusleiheTest {
 		a.setAusleiheMitarbeiterID(1);
 		a.setAusleiheMitarbeiterName("Testmitarbeiter");
 		a.setAusleiheDatum(DateConverter.convertStringToJavaDate("01.01.1990"));
-		assertTrue(as.sichereAusleihe(a).isAktionErfolgreich());
+		assertTrue(as.speichernAusleihe(a).isAktionErfolgreich());
 		List<Ausleihe> ausleihen = as.sucheAusleihenProBenutzer(benutzer);
 		a = ausleihen.get(0);
 		System.out.println(a.getId());

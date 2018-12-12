@@ -36,9 +36,9 @@ public class AutorNeuTest {
 	@Test
 	public void testNeu() {
 		normdatenService = new NormdatenService();
-		normdatenService.speichereAutor(autor);
+		normdatenService.speichernAutor(autor);
 		List<Autor> aL = new ArrayList<>();
-		aL = normdatenService.sucheAutor(autor);
+		aL = normdatenService.suchenAutor(autor);
 		if (aL.size() > 0) {
 			autor = aL.get(0);
 		}

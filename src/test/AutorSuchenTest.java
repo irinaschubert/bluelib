@@ -35,7 +35,7 @@ public class AutorSuchenTest {
 	public void testSuchen() {
 		normdatenService = new NormdatenService();
 		List<Autor> aL = new ArrayList<>();
-		aL = normdatenService.sucheAutor(autor);
+		aL = normdatenService.suchenAutor(autor);
 		assertTrue(aL.size() > 0);
 
 	}

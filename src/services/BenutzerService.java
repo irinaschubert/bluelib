@@ -55,7 +55,7 @@ public class BenutzerService {
 		return new BenutzerDAO().findAll();
 	}
 
-	public Verifikation sichereBenutzer(Benutzer benutzer) {
+	public Verifikation speichernBenutzer(Benutzer benutzer) {
 		Verifikation v = new Verifikation();
 		if (new BenutzerDAO().save(benutzer) != null) {
 			v.setAktionErfolgreich(true);
@@ -67,7 +67,7 @@ public class BenutzerService {
 		return v;
 	}
 
-	public Verifikation aktualisiereBenutzer(Benutzer benutzer) {
+	public Verifikation aktualisierenBenutzer(Benutzer benutzer) {
 		Verifikation v = new Verifikation();
 		if (new BenutzerDAO().update(benutzer) != null) {
 			v.setAktionErfolgreich(true);
@@ -79,7 +79,7 @@ public class BenutzerService {
 		return v;
 	}
 
-	public List<Benutzer> sucheBenutzer(Benutzer benutzer) {
+	public List<Benutzer> suchenBenutzer(Benutzer benutzer) {
 		return new BenutzerDAO().getSelektion(benutzer);
 	}
 

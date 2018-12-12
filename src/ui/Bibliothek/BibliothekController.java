@@ -55,7 +55,7 @@ public class BibliothekController {
 					b = feldwertezuObjektSpeichern();
 					JOptionPane.showMessageDialog(null, "Bibliotheksstammdaten erfasst");
 					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
-					normdatenService.aktualisiereBibliothek(b);
+					normdatenService.aktualisierenBibliothek(b);
 				}
 			}
 		};
@@ -112,7 +112,7 @@ public class BibliothekController {
 	}
 
 	private void biblioitheksFelderFuellen() {
-		Bibliothek b = normdatenService.bibliothekAnzeigen(); // Bibliothek bestücken
+		Bibliothek b = normdatenService.anzeigenBibliothek(); // Bibliothek bestücken
 		bibliothekView.getNameT().setText(b.getName());
 		bibliothekView.getStrasseUndNrT().setText(b.getStrasseUndNr());
 		bibliothekView.getEmailT().setText(b.getEmail());

@@ -82,7 +82,7 @@ public class BenutzerController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				benutzerSuchobjekt = feldwertezuObjektSuchen();
-				benutzerL = benutzerService.sucheBenutzer(benutzerSuchobjekt);
+				benutzerL = benutzerService.suchenBenutzer(benutzerSuchobjekt);
 				tableModelBenutzer.setAndSortListe(benutzerL);
 			}
 		};
@@ -99,22 +99,22 @@ public class BenutzerController {
 		benutzerView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
 
 		// Speichern
-		ActionListener sichernButtonActionListener = new ActionListener() {
+		ActionListener speichernButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Benutzer b = new Benutzer();
 				if (inputValidierungSpeichern()) {
 					b = feldwertezuObjektSpeichern();
 					if (benutzerView.getPKT().getText().isEmpty()) {
-						nachArbeitSpeichern(benutzerService.sichereBenutzer(b));
+						nachArbeitSpeichern(benutzerService.speichernBenutzer(b));
 					} else {
-						nachArbeitSpeichern(benutzerService.aktualisiereBenutzer(b));
+						nachArbeitSpeichern(benutzerService.aktualisierenBenutzer(b));
 					}
 					felderLeeren();
 				}
 			}
 		};
-		benutzerView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
+		benutzerView.getButtonPanel().getButton3().addActionListener(speichernButtonActionListener);
 
 		// Schliessen
 		ActionListener schliessenButtonActionListener = new ActionListener() {
@@ -369,7 +369,7 @@ public class BenutzerController {
 		felderLeeren();
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			tableModelBenutzer.setAndSortListe(benutzerService.sucheBenutzer(benutzerSuchobjekt));
+			tableModelBenutzer.setAndSortListe(benutzerService.suchenBenutzer(benutzerSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
