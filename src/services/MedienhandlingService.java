@@ -3,13 +3,11 @@ package services;
 import java.util.List;
 import dao.BuchDAO;
 import dao.MedienStatusDAO;
-import domain.Benutzer;
 import domain.Buch;
-import domain.Medium;
 import domain.Status;
 
 /**
- * Bietet die Services zur Verwaltung der Medien an
+ * Bietet die Services zur Verwaltung der Medien an.
  * 
  * @version 0.1 16.10.2018
  * @author Ueli
@@ -18,7 +16,6 @@ import domain.Status;
 public class MedienhandlingService {
 	
 	public MedienhandlingService() {}
-	
 	
 	/**
 	 * Prueft, ob es sich beim Parameter um einen validen Barcode handelt

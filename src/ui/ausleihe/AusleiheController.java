@@ -2,6 +2,8 @@ package ui.ausleihe;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 import dao.AusleiheDAO;
 import dao.BenutzerDAO;
 import dao.BuchDAO;
@@ -23,8 +27,12 @@ import hilfsklassen.DateConverter;
 import hilfsklassen.TextComponentLimit;
 import models.TableModelAusleihe;
 import services.AusleiheService;
+import services.MedienhandlingService;
 import services.Verifikation;
+import services.VerifikationMitAusleihe;
 import ui.HauptController;
+import ui.rueckgabe.RueckgabeDialog;
+import ui.rueckgabe.RueckgabeDialogController;
 
 /**
  * Controller für die AusleiheView, der die Logik und die Ausleihaktionen der
@@ -37,15 +45,19 @@ import ui.HauptController;
 public class AusleiheController {
 	private AusleiheView ausleiheView;
 	private AusleiheService ausleiheService;
+	private MedienhandlingService medienHandlingService;
 	private List<Ausleihe> ausleiheL;
 	private TableModelAusleihe tableModelAusleihe;
 	private AusleiheDAO ausleiheDAO;
 	private HauptController hauptController;
+	private AusleiheController ausleiheController;
 
 	public AusleiheController(AusleiheView view, HauptController hauptController) {
 		ausleiheView = view;
 		this.hauptController = hauptController;
+		ausleiheController = this;
 		ausleiheService = new AusleiheService();
+		medienHandlingService = new MedienhandlingService();
 		ausleiheL = new ArrayList<>();
 		ausleiheDAO = new AusleiheDAO();
 		tableModelAusleihe = new TableModelAusleihe();
@@ -58,10 +70,20 @@ public class AusleiheController {
 
 	// Buttons
 	private void control() {
+		ausleiheView.getBarcodeT().addKeyListener(barcodeScanningKeyAdapter());
+		
 		ActionListener buchSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				findenBuch();
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						AusleiheBuchDialog ausleiheDialog = new AusleiheBuchDialog("Buch suchen");
+						new AusleiheBuchDialogController(ausleiheController, ausleiheDialog);
+						ausleiheDialog.setModal(true);
+						ausleiheDialog.setVisible(true);
+					}
+				});
 			}
 		};
 		ausleiheView.getSuchButtonBuch().addActionListener(buchSuchenButtonActionListener);
@@ -69,7 +91,7 @@ public class AusleiheController {
 		ActionListener benutzerSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				findenBenutzer();
+				suchenBenutzer();
 				Benutzer benutzer = new Benutzer();
 				BenutzerDAO benutzerDAO = new BenutzerDAO();
 				if (!ausleiheView.getBenutzerIDT().getText().equals("")) {
@@ -93,6 +115,10 @@ public class AusleiheController {
 					}
 				} else if (inputValidierungBuch(true) != true && inputValidierungBenutzer(true) != true) {
 					JOptionPane.showMessageDialog(null, "Bitte Buch und Benutzer eingeben.");
+				} else if (inputValidierungBuch(true) == true && inputValidierungBenutzer(true) != true) {
+					JOptionPane.showMessageDialog(null, "Bitte Benutzer eingeben.");
+				} else if (inputValidierungBuch(true) != true && inputValidierungBenutzer(true) == true) {
+					JOptionPane.showMessageDialog(null, "Bitte Buch eingeben.");
 				}
 			}
 		};
@@ -127,6 +153,26 @@ public class AusleiheController {
 		ausleiheView.getAusleiheTabelle().addMouseListener(doppelKlick);
 	}
 
+	private KeyAdapter barcodeScanningKeyAdapter() {
+
+		KeyAdapter barcodeScanningKeyListener = new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (inputValidierungBuch(true)) {
+						Buch b = new Buch();
+						b.setBarcodeNr(Integer.parseInt(ausleiheView.getBarcodeT().getText()));						
+						Buch resultat = medienHandlingService.suchenBuch(b).get(0);
+						suchenBuchMitId(resultat.getId());
+					}
+				}
+			}
+		};
+		return barcodeScanningKeyListener;
+	}
+	
+	
 	private boolean inputValidierungBuch(boolean ruhig) {
 		boolean keinInputFehler = true;
 		if ((ausleiheView.getBarcodeT().getText().isEmpty())) {
@@ -288,13 +334,13 @@ public class AusleiheController {
 		}
 	}
 
-	private void findenBuch() {
+	private void suchenBuch() {
 		if (inputValidierungBuch(false) == true) {
 			Buch buch = new Buch();
 			BuchDAO buchDAO = new BuchDAO();
 			try {
-				int wert = Integer.parseInt(ausleiheView.getBarcodeT().getText());
-				buch = buchDAO.findByBarcode(wert);
+				int barcodeWert = Integer.parseInt(ausleiheView.getBarcodeT().getText());
+				buch = buchDAO.findByBarcode(barcodeWert);
 				ausleiheView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
 				ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
 				ausleiheView.getBuchTitelT().setText(buch.getTitel());
@@ -317,8 +363,34 @@ public class AusleiheController {
 
 		}
 	}
+	
+	protected void suchenBuchMitId(int id) {
+			Buch buch = new Buch();
+			BuchDAO buchDAO = new BuchDAO();
+			try {
+				buch = buchDAO.findById(id);
+				ausleiheView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
+				ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
+				ausleiheView.getBuchTitelT().setText(buch.getTitel());
+				List<Autor> autoren = new ArrayList<>();
+				autoren = buch.getAutoren();
+				List<String> autorenListe = new ArrayList<>();
+				for (Autor autor : autoren) {
+					String nachname = autor.getName();
+					String vorname = autor.getVorname();
+					String autorname = nachname + ", " + vorname;
+					autorenListe.add(autorname);
+				}
+				ausleiheView.getAutorT().setText(String.join(", ", autorenListe));
+				ausleiheView.getBuchStatusT().setText(buch.getStatus().getBezeichnung());
+				ausleiheView.getNotizT().setText(buch.getBemerkung());
+			} catch (NullPointerException npe) {
+				felderLeerenBuch();
+				JOptionPane.showMessageDialog(null, "Kein Medium mit diesem Barcode vorhanden.");
+			}
+	}
 
-	private void findenBenutzer() {
+	private void suchenBenutzer() {
 		if (inputValidierungBenutzer(false) == true) {
 			Benutzer benutzer = new Benutzer();
 			BenutzerDAO benutzerDAO = new BenutzerDAO();
@@ -358,7 +430,6 @@ public class AusleiheController {
 		felderLeerenBenutzer();
 	}
 
-	// Felder leeren
 	private void felderLeerenBuch() {
 		ausleiheView.getBarcodeT().setText("");
 		ausleiheView.getPKTBuch().setText("");
