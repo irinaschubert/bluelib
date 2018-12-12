@@ -35,8 +35,8 @@ import ui.HauptController;
 import ui.renderer.AnredeRenderer;
 import ui.renderer.PlzRenderer;
 import ui.renderer.PlzSucheRenderer;
-import ui.status.StatusRenderer;
-import ui.status.StatusSucheRenderer;
+import ui.renderer.StatusRenderer;
+import ui.renderer.StatusSucheRenderer;
 
 /**
  * Controller für die Benutzer-View, der die Logik und die Benutzeraktionen der

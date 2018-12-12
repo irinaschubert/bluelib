@@ -28,10 +28,10 @@ import ui.renderer.AutorListCellRenderer;
 import ui.renderer.AutorRenderer;
 import ui.renderer.SchlagwortListCellRenderer;
 import ui.renderer.SchlagwortRenderer;
+import ui.renderer.StatusRenderer;
 import ui.renderer.VerlagRenderer;
 import ui.standardKomponenten.StandardButtonPanel;
 import ui.standardKomponenten.StandardTitelPanel;
-import ui.status.StatusRenderer;
 
 /**
  * Ermöglicht Buchsuche, Bearbeitung und Neuerfassung eines Buches

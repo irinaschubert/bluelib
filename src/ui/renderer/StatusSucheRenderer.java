@@ -1,4 +1,4 @@
-package ui.status;
+package ui.renderer;
 
 import java.awt.Component;
 
@@ -25,7 +25,7 @@ public class StatusSucheRenderer extends BasicComboBoxRenderer {
 		if (index == -1) {
 			Status status = (Status) value;
 			if (status == null) {
-				setText("-- alle --");
+				setText("-- Kein Status ausgewählt --");
 			} else {
 				setText("" + status.getBezeichnung());
 			}

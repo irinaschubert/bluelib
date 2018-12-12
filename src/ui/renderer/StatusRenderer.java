@@ -1,4 +1,4 @@
-package ui.status;
+package ui.renderer;
 
 import java.awt.Component;
 

@@ -26,7 +26,7 @@ public class PlzSucheRenderer extends BasicComboBoxRenderer {
 		if (index == -1) {
 			Ort ort = (Ort) value;
 			if (ort == null) {
-				setText("-- alle --");
+				setText("-- Kein Ort ausgewählt --");
 			} else {
 				setText("" + ort.getPlz() + " " + ort.getOrt());
 			}
