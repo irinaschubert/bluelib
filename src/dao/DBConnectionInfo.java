@@ -6,7 +6,7 @@ import java.io.*;
 
 /**
  * Liest die Verbindungsparameter aus einem Config-Files aus und bildet den
- * Connectionstring
+ * Connectionstring.
  * 
  * @version 0.1 16.10.2018
  * @author Ueli
@@ -47,52 +47,49 @@ public class DBConnectionInfo {
 		Properties prop = new Properties();
 		try {
 			// Name des Konfigurationsfiles
-						String fileName = "app.config";
-						String path;
-						if (isDevelopmentEnvironment()) {
-							// Ohne Pfadname wird das File nicht gefunden
-							path = Properties.class.getResource("/").getPath();
-						}
-						else {
-							File directory = new File("./config/");
-							path = directory.toString() + "/";
-							
-						}
-						
-						// Ohne Pfadname wird das File nicht gefunden
-						//String path = Properties.class.getResource("/").getPath();
-//						String path = "./../config/";
-//						File directory = new File("./config/");
-//						path = directory.toString();
-//						path = path + "/";
-//						System.out.println(directory.getCanonicalPath());
+			String fileName = "app.config";
+			String path;
+			// Der Pfadname wird dynamisch angepasst, abhangig davon, ob die Applikation aus
+			// einem Jar-File heraus gestartet wird.
+			if (isDevelopmentEnvironment()) {
+				// Ohne Pfadname wird das File nicht gefunden
+				path = Properties.class.getResource("/").getPath();
+			} else {
+				File directory = new File("./config/");
+				path = directory.toString() + "/";
 
-						InputStream in = new BufferedInputStream(new FileInputStream(path + fileName));
+			}
 
-						// Laden des Files
-						prop.load(in);
+			InputStream in = new BufferedInputStream(new FileInputStream(path + fileName));
 
-						// Lesen der werte
-						dbUser = prop.getProperty("dbUser");
-						dbpw = prop.getProperty("dbpw");
-						dataBase = prop.getProperty("dataBase");
-						dbServer = prop.getProperty("dbServer");
+			// Laden des Files
+			prop.load(in);
 
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				public boolean isDevelopmentEnvironment() {
-					Boolean isDev = false;
-					
-					String protocol = this.getClass().getResource("").getProtocol();
-					if(Objects.equals(protocol, "jar")){
-					   isDev = false;
-					} else if(Objects.equals(protocol, "file")) {
-					    isDev = true;
-					}
-					
-					return isDev;
-				}
+			// Lesen der werte
+			dbUser = prop.getProperty("dbUser");
+			dbpw = prop.getProperty("dbpw");
+			dataBase = prop.getProperty("dataBase");
+			dbServer = prop.getProperty("dbServer");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
+	 * @return false, falls die Applikation nicht aus einem Jar-File gestartet wird.
+	 */
+	public boolean isDevelopmentEnvironment() {
+		Boolean isDev = false;
+
+		String protocol = this.getClass().getResource("").getProtocol();
+		if (Objects.equals(protocol, "jar")) {
+			isDev = false;
+		} else if (Objects.equals(protocol, "file")) {
+			isDev = true;
+		}
+
+		return isDev;
+	}
 }
