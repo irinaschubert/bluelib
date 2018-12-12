@@ -53,11 +53,11 @@ public class MitarbeiterController {
 
 	}
 
-	// Definierten des Listeners für die Button-Klicks
+	// Button Klick ActionListener
 	private void control() {
-
+		
+		//Suche Button
 		ActionListener suchenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -70,14 +70,13 @@ public class MitarbeiterController {
 			}
 
 		};
-
-		// Zuweisen des Actionlisteners zum Suchen-Button
 		mitarbeiterView.getSuchButton().addActionListener(suchenButtonActionListener);
 
 		ActionListener neuButtonActionListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println();
 				suchFelderLeeren();
 				mitarbeiterView.getNeuAendernL().setText("Neuerfassung");
 			}
@@ -167,17 +166,26 @@ public class MitarbeiterController {
 		if (!mitarbeiterView.getMitarbeiterSucheT().getText().isEmpty()) {
 			m.setBenutzername(mitarbeiterView.getMitarbeiterSucheT().getText());
 		}
-		m.setAdmin(mitarbeiterView.getAktivSucheCbx().isSelected());
+		if (!mitarbeiterView.getNameSucheT().getText().isEmpty()) {
+			m.setName(mitarbeiterView.getNameSucheT().getText());
+		}
+
+		if (!mitarbeiterView.getVornameSucheT().getText().isEmpty()) {
+			m.setVorname(mitarbeiterView.getVornameSucheT().getText());
+		}
+		m.setAktiv(mitarbeiterView.getAktivSucheCbx().isSelected());
 		return m;
 	}
 
 	private void uebernehmen() {
 		Mitarbeiter m = new Mitarbeiter();
 		m = tableModelMitarbeiter.getGeklicktesObjekt(mitarbeiterView.getMitarbeiterTabelle().getSelectedRow());
-
 		mitarbeiterView.getPKT().setText(Integer.toString(m.getId()));
 		mitarbeiterView.getBenutzernameT().setText(m.getBenutzername());
+		mitarbeiterView.getNameT().setText(m.getName());
+		mitarbeiterView.getVornameT().setText(m.getVorname());
 		mitarbeiterView.getAktivCbx().setSelected(m.isAktiv());
+		mitarbeiterView.getAdminCbx().setSelected(m.isAdmin());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
