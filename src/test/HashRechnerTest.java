@@ -1,14 +1,12 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
-
+import org.junit.Test;
 import services.HashRechner;
 
-import org.junit.jupiter.api.Test;
 
-class HashRechnerTest {
+public class HashRechnerTest {
 
 	@Before
 	public void test2() {
@@ -16,7 +14,7 @@ class HashRechnerTest {
 	}
 
 	@Test
-	void test() {
+	public void test() {
 		String resultat;
 		String eingabe;
 		String md5;

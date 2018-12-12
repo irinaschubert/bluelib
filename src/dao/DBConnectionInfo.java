@@ -1,11 +1,12 @@
 package dao;
 
+import java.util.Objects;
 import java.util.Properties;
 import java.io.*;
 
 /**
  * Liest die Verbindungsparameter aus einem Config-Files aus und bildet den
- * Connectionstring
+ * Connectionstring.
  * 
  * @version 0.1 16.10.2018
  * @author Ueli
@@ -47,8 +48,17 @@ public class DBConnectionInfo {
 		try {
 			// Name des Konfigurationsfiles
 			String fileName = "app.config";
-			// Ohne Pfadname wird das File nicht gefunden
-			String path = Properties.class.getResource("/").getPath();
+			String path;
+			// Der Pfadname wird dynamisch angepasst, abhangig davon, ob die Applikation aus
+			// einem Jar-File heraus gestartet wird.
+			if (isDevelopmentEnvironment()) {
+				// Ohne Pfadname wird das File nicht gefunden
+				path = Properties.class.getResource("/").getPath();
+			} else {
+				File directory = new File("./config/");
+				path = directory.toString() + "/";
+
+			}
 
 			InputStream in = new BufferedInputStream(new FileInputStream(path + fileName));
 
@@ -64,5 +74,22 @@ public class DBConnectionInfo {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 
+	 * @return false, falls die Applikation nicht aus einem Jar-File gestartet wird.
+	 */
+	public boolean isDevelopmentEnvironment() {
+		Boolean isDev = false;
+
+		String protocol = this.getClass().getResource("").getProtocol();
+		if (Objects.equals(protocol, "jar")) {
+			isDev = false;
+		} else if (Objects.equals(protocol, "file")) {
+			isDev = true;
+		}
+
+		return isDev;
 	}
 }
