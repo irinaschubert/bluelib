@@ -544,6 +544,7 @@ public class BuchController {
 		buchView.getSachbuchR().setText("Sachbuch");
 		buchView.getSignaturL().setText("Signatur:*");
 		buchView.getBelletristikR().setSelected(true);
+		buchView.getSchlagwortL().setText("Schlagwort(e):*");
 		buchView.getZuweisenSchlagwortB().setText("zuweisen");
 		buchView.getEntferntenSchlagwortB().setText("entfernen");
 		buchView.getNotizL().setText("Notiz");
