@@ -19,6 +19,7 @@ import services.MedienhandlingService;
 import services.RueckgabeService;
 import services.Verifikation;
 import services.VerifikationMitAusleihe;
+import services.VerifikationMitBuch;
 import ui.HauptController;
 
 /**
@@ -62,25 +63,36 @@ public class RueckgabeController {
 		rueckgabeView.getButtonPanel().getButton1().addActionListener(ausleiheButtonActionListener());
 	}
 
+	/**
+	 * Der ActionListener steuert die Suche nach einem Buch. Wenn sich im Feld
+	 * 'Barcode' ein Eintrag befindet, wird dieser verarbeitet und danach gesucht.
+	 * Ist das Feld leer, wird der Suchdialog geöffnet.
+	 */
 	private ActionListener buchSuchenButtonActionListener() {
 
 		ActionListener buchSuchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						RueckgabeDialog rueckgabeDialog = new RueckgabeDialog("Buch suchen");
-						new RueckgabeDialogController(rueckgabeController, rueckgabeDialog);
-						rueckgabeDialog.setModal(true);
-						rueckgabeDialog.setVisible(true);
+				// Puefung, ob das Barcodefeld leer ist
+				if (!rueckgabeView.getBarcodeT().getText().isEmpty()) {
+					sucheNachBarcode();
+				} else {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							RueckgabeDialog rueckgabeDialog = new RueckgabeDialog("Buch suchen");
+							new RueckgabeDialogController(rueckgabeController, rueckgabeDialog);
+							rueckgabeDialog.setModal(true);
+							rueckgabeDialog.setVisible(true);
 
-					}
+						}
 
-				});
+					});
 
+				}
 			}
+
 		};
 
 		return buchSuchenButtonActionListener;
@@ -148,19 +160,42 @@ public class RueckgabeController {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if (inputValidierungSuchen()) {
-
-						Buch b = new Buch();
-						b.setBarcodeNr(Integer.parseInt(rueckgabeView.getBarcodeT().getText()));
-						Buch resultat = medienHandlingService.suchenBuch(b).get(0);
-						buchSuchenUndResultatAnzeigen(resultat.getId());
-					}
+					sucheNachBarcode();
 				}
 
 			}
 
 		};
 		return barcodeScanningKeyListener;
+	}
+
+	/**
+	 * 
+	 * @return die Barcodesuche war erfolgreich: true, die Barcodesuche war nicht
+	 *         erfolgreich: false
+	 */
+	private Boolean sucheNachBarcode() {
+		Boolean barcodeFeldPruefen = true;
+
+		Verifikation v = medienHandlingService.istBarcode(rueckgabeView.getBarcodeT().getText());
+		// Pruefen, ob ein valider Barcode erfasst wurde
+		if (v.isAktionErfolgreich()) {
+			VerifikationMitBuch vmb = medienHandlingService
+					.BarcodeZugeordnet(Integer.parseInt(rueckgabeView.getBarcodeT().getText()));
+			// Pruefen, ob zum Barcode ein Buch gefunden wurde
+			if (vmb.isAktionErfolgreich()) {
+				buchSuchenUndResultatAnzeigen(vmb.getBuch().getId());
+
+			} else {
+				JOptionPane.showMessageDialog(null, vmb.getNachricht());
+				barcodeFeldPruefen = false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, v.getNachricht());
+			barcodeFeldPruefen = false;
+		}
+
+		return barcodeFeldPruefen;
 	}
 
 	public void buchSuchenUndResultatAnzeigen(int id) {
@@ -181,7 +216,8 @@ public class RueckgabeController {
 			rueckgabeView.getBenutzerIDT().setText(Integer.toString(vma.getAusleihe().getBenutzer().getId()));
 			rueckgabeView.getBenutzerVornameT().setText(vma.getAusleihe().getBenutzer().getVorname());
 			rueckgabeView.getBenutzerNameT().setText(vma.getAusleihe().getBenutzer().getName());
-			rueckgabeView.getBenutzerStatusT().setText(vma.getAusleihe().getBenutzer().getBenutzerStatus().getBezeichnung());
+			rueckgabeView.getBenutzerStatusT()
+					.setText(vma.getAusleihe().getBenutzer().getBenutzerStatus().getBezeichnung());
 			rueckgabeView.getNotizT().setText(vma.getAusleihe().getMedium().getBemerkung());
 			rueckgabeView.getErfasstVonT().setText(ausleihe.getAusleiheMitarbeiterName());
 			rueckgabeView.getErfasstAmT().setText(DateConverter.convertJavaDateToString(ausleihe.getAusleiheDatum()));
@@ -190,36 +226,6 @@ public class RueckgabeController {
 			felderLeeren();
 
 		}
-	}
-
-	private boolean inputValidierungSuchen() {
-		boolean keinInputFehler = true;
-
-		if (!rueckgabeView.getBarcodeT().getText().isEmpty()) {
-			Verifikation v = medienHandlingService.istBarcode(rueckgabeView.getBarcodeT().getText());
-			if (!v.isAktionErfolgreich()) {
-				JOptionPane.showMessageDialog(null, v.getNachricht());
-				rueckgabeView.getBarcodeT().setText("");
-				keinInputFehler = false;
-			} else {
-				int barCode = Integer.parseInt(rueckgabeView.getBarcodeT().getText());
-
-				Verifikation vz = medienHandlingService.BarcodeZugeordnet(barCode);
-				if (!vz.isAktionErfolgreich()) {
-					JOptionPane.showMessageDialog(null, vz.getNachricht());
-					rueckgabeView.getBarcodeT().setText("");
-					keinInputFehler = false;
-				}
-			}
-
-			if (!keinInputFehler) {
-				felderLeeren();
-			}
-
-		}
-
-		return keinInputFehler;
-
 	}
 
 	// Felder leeren
@@ -266,7 +272,7 @@ public class RueckgabeController {
 		rueckgabeView.getNotizT().setEditable(true);
 		rueckgabeView.getErfasstVonT().setEditable(false);
 		rueckgabeView.getErfasstAmT().setEditable(false);
-		
+
 		TextComponentLimit.addTo(rueckgabeView.getNotizT(), 300);
 
 		rueckgabeView.getButtonPanel().getButton1().setText(ButtonNamen.AUSLEIHE.getName());
