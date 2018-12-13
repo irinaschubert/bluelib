@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
 import dao.BuchDAO;
 import dao.MedienStatusDAO;
@@ -45,21 +46,26 @@ public class MedienhandlingService {
 		return v;
 	}
 	
-	public Verifikation BarcodeZugeordnet(int barCode) {
+	public VerifikationMitBuch BarcodeZugeordnet(int barCode) {
 				
-			Verifikation v = new Verifikation();
-			v.setAktionErfolgreich(false);
+			VerifikationMitBuch vma = new VerifikationMitBuch();
+			vma.setAktionErfolgreich(false);
+			Buch b = new Buch();
+			b.setBarcodeNr(barCode);
 			BuchDAO buchDAO = new BuchDAO();
-			if (buchDAO.BarcodeZugeordnet(barCode)) {
-				v.setAktionErfolgreich(true);
-				v.setNachricht("Dieser Barcode ist bereits einem Medium zugeordnet.");
+			List<Buch> bL = new ArrayList<>();
+			bL =buchDAO.getSelektion(b);
+			if (bL.size() > 0) {
+				vma.setAktionErfolgreich(true);
+				vma.setNachricht("Dieser Barcode ist bereits einem Medium zugeordnet.");
+				vma.setBuch(bL.get(0));
 			}
 			else {
-				v.setAktionErfolgreich(false);
-				v.setNachricht("Dieser Barcode ist keinem Medium zugeordnet.");
+				vma.setAktionErfolgreich(false);
+				vma.setNachricht("Dieser Barcode ist keinem Medium zugeordnet.");
 				
 			}
-			return v;
+			return vma;
 		}	
 	
 	public Verifikation speichernBuch(Buch buch) {
