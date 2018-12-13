@@ -1,5 +1,8 @@
 package services;
 
+import dao.BenutzerDAO;
+import dao.MitarbeiterDAO;
+import domain.Benutzer;
 import domain.Mitarbeiter;
 
 /**
@@ -29,4 +32,9 @@ public class MitarbeiterService {
     	Verifikation v = new Verifikation();
 		return v;
     }
+    
+	public Mitarbeiter suchenMaMitBenutzerID(int id) {
+		System.out.println("my id"+id);
+		return new MitarbeiterDAO().findById(id);
+	}
 }

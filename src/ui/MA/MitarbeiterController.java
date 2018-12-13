@@ -20,6 +20,7 @@ import domain.Benutzer;
 import domain.Mitarbeiter;
 import hilfsklassen.ButtonNamen;
 import models.TableModelMitarbeiter;
+import services.MitarbeiterService;
 import services.NormdatenService;
 import services.Verifikation;
 import ui.HauptController;
@@ -40,6 +41,7 @@ import ui.MA.MitarbeiterController;
 public class MitarbeiterController {
 	private MitarbeiterView mitarbeiterView;
 	private NormdatenService normdatenService;
+	private MitarbeiterService mitarbeiterService;
 	private List<Mitarbeiter> mitarbeiterL;
 	private TableModelMitarbeiter tableModelMitarbeiter;
 	private Mitarbeiter mitarbeiterSuchobjekt;
@@ -89,7 +91,8 @@ public class MitarbeiterController {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						MitarbeiterBenutzerDialog mitarbeiterBenutzerDialog = new MitarbeiterBenutzerDialog("Benutzer suchen");
+						MitarbeiterBenutzerDialog mitarbeiterBenutzerDialog = new MitarbeiterBenutzerDialog(
+								"Benutzer suchen");
 						new MitarbeiterBenutzerDialogController(mitarbeiterController, mitarbeiterBenutzerDialog);
 						mitarbeiterBenutzerDialog.setModal(true);
 						mitarbeiterBenutzerDialog.setVisible(true);
@@ -215,16 +218,19 @@ public class MitarbeiterController {
 		mitarbeiterView.getNeuAendernL().setText("");
 
 	}
+
 	void pruefenUndUebernehmenBenutzerMitId(int id) {
 		Benutzer benutzer = new Benutzer();
-		System.out.println("doit 2");
+		
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-		//int ma;
+		
+		
+
 		try {
 			benutzer = benutzerDAO.findById(id);
-			//ma = mitarbeiterDAO.findIdByName(benutzer.getName(), benutzer.getVorname());
-			//System.out.println("maid ist: "+ma);
+			// mitarbeiterService.suchenBenutzerMitID(x);
+
 			mitarbeiterView.getPKT().setText(Integer.toString(benutzer.getId()));
 			mitarbeiterView.getNameT().setText(benutzer.getName());
 			mitarbeiterView.getVornameT().setText(benutzer.getVorname());

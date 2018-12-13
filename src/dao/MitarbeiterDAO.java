@@ -52,17 +52,16 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 	@Override
 	public List<Mitarbeiter> getSelektion(Mitarbeiter domainObject) {
 		ResultSet rs = null;
-		//Mitarbeiter m = null;
-		String sql = "SELECT " + "ma.benutzername, " + "ma.passwort, " + "ma.admin, " + "ma.aktiv, "
-				+ "p.id, " + "p.vorname, " + "p.nachname " + "FROM mitarbeiter ma "
+		// Mitarbeiter m = null;
+		String sql = "SELECT " + "ma.benutzername, " + "ma.passwort, " + "ma.admin, " + "ma.aktiv, " + "p.id, "
+				+ "p.vorname, " + "p.nachname " + "FROM mitarbeiter ma "
 				+ "INNER JOIN person p on p.mitarbeiter_id = ma.id ";
 
 		// Admin-Flag wird immer abgefragt, daher mit WHERE
 		sql = sql + ("WHERE aktiv = ? ");
-	
 
 		if (domainObject.getBenutzername() != null) {
-			
+
 			sql = sql + "AND benutzername";
 			sql = sql + (SQLHelfer.likePruefung(domainObject.getBenutzername()) ? " LIKE" : " =");
 			sql = sql + " ?";
@@ -83,17 +82,16 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			sql = sql + (SQLHelfer.likePruefung(domainObject.getName()) ? " LIKE" : " =");
 			sql = sql + " ?";
 		}
-		
 
 		try {
 			int pCounter = 1;
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
-			
-			//pstmt.setBoolean(pCounter++, domainObject.isAdmin());
+
+			// pstmt.setBoolean(pCounter++, domainObject.isAdmin());
 			pstmt.setBoolean(pCounter++, domainObject.isAktiv());
-			System.out.println("isaktiv? "+domainObject.isAktiv());
-			
+			System.out.println("isaktiv? " + domainObject.isAktiv());
+
 			if (domainObject.getBenutzername() != null) {
 				pstmt.setString(pCounter++, SQLHelfer.SternFragezeichenErsatz(domainObject.getBenutzername()));
 			}
@@ -105,13 +103,13 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			}
 			if (domainObject.getName() != null) {
 				pstmt.setString(pCounter++, SQLHelfer.SternFragezeichenErsatz(domainObject.getName()));
-			}				
+			}
 
 			rs = pstmt.executeQuery();
 			pCounter = 1;
 			while (rs.next()) {
 				Mitarbeiter m = new Mitarbeiter();
-				
+
 				m.setBenutzername(rs.getString(pCounter++));
 				m.setPasswort(rs.getString(pCounter++));
 				m.setAdmin(rs.getBoolean(pCounter++));
@@ -119,7 +117,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 				m.setId(rs.getInt(pCounter++));
 				m.setVorname(rs.getString(pCounter++));
 				m.setName(rs.getString(pCounter++));
-					
+
 				mitarbeiterListe.add(m);
 				pCounter = 1;
 			}
@@ -163,7 +161,6 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, id);
-
 			rs = pstmt.executeQuery();
 			pCounter = 1;
 			while (rs.next()) {
@@ -274,40 +271,8 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		}
 		return id;
 	}
+
 	
-	public int findMAIdByPersonName(String name, String vorname) {
-		ResultSet rs = null;
-		int id = 0;
-		String sql = "SELECT " + "id " + "FROM person " + "WHERE nachname = ? AND vorname = ?";
-		try {
-
-			conn = dbConnection.getDBConnection();
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, name);
-			pstmt.setString(2, vorname);
-
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				id = (rs.getInt(1));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception ex) {
-			}
-		}
-		return id;
-	}
 
 	@Override
 	public List<Mitarbeiter> findAll() {
