@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import domain.Anrede;
 import domain.Benutzer;
 import domain.Mitarbeiter;
+import domain.Schlagwort;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 import services.HashRechner;
@@ -33,8 +35,43 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 
 	@Override
 	public Mitarbeiter save(Mitarbeiter domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("save me");
+		ResultSet rs = null;
+		Mitarbeiter m = new Mitarbeiter();
+		int argCounter = 0;
+		String sql = "INSERT INTO " + "mitarbeiter " + "(benutzername, " + "passwort, "+ "admin, "+ "aktiv " + ") " + "VALUES " + "(?,?,?,?)";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			argCounter++;
+			pstmt.setString(argCounter, domainObject.getBenutzername());
+			argCounter++;
+			pstmt.setString(argCounter, domainObject.getPasswort());
+			argCounter++;
+			pstmt.setBoolean(argCounter, domainObject.isAdmin());
+			argCounter++;
+			pstmt.setBoolean(argCounter, domainObject.isAktiv());
+			pstmt.executeUpdate();
+			rs = pstmt.getGeneratedKeys();
+			if (rs != null && rs.next()) {
+				m = new MitarbeiterDAO().findById(rs.getInt(1));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+			}
+		}
+		return m;
 	}
 
 	@Override
@@ -90,7 +127,6 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 
 			// pstmt.setBoolean(pCounter++, domainObject.isAdmin());
 			pstmt.setBoolean(pCounter++, domainObject.isAktiv());
-			System.out.println("isaktiv? " + domainObject.isAktiv());
 
 			if (domainObject.getBenutzername() != null) {
 				pstmt.setString(pCounter++, SQLHelfer.SternFragezeichenErsatz(domainObject.getBenutzername()));
