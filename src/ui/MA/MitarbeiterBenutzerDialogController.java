@@ -89,7 +89,6 @@ public class MitarbeiterBenutzerDialogController {
 	public void auswahlZurueckgeben() {
 		TableModelBenutzer tableModelBenutzer = benutzerSuchController.getTableModelBenutzer();
 		int id = tableModelBenutzer.getGeklicktesObjekt(benutzerSuchView.getBenutzerTabelle().getSelectedRow()).getId();
-		System.out.println("doit 1");
 		mitarbeiterController.pruefenUndUebernehmenBenutzerMitId(id);
 	}
 }

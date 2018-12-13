@@ -20,6 +20,7 @@ import domain.Benutzer;
 import domain.Mitarbeiter;
 import hilfsklassen.ButtonNamen;
 import models.TableModelMitarbeiter;
+import services.MitarbeiterService;
 import services.NormdatenService;
 import services.Verifikation;
 import ui.HauptController;
@@ -40,6 +41,7 @@ import ui.MA.MitarbeiterController;
 public class MitarbeiterController {
 	private MitarbeiterView mitarbeiterView;
 	private NormdatenService normdatenService;
+	private MitarbeiterService mitarbeiterService;
 	private List<Mitarbeiter> mitarbeiterL;
 	private TableModelMitarbeiter tableModelMitarbeiter;
 	private Mitarbeiter mitarbeiterSuchobjekt;
@@ -85,11 +87,11 @@ public class MitarbeiterController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				suchFelderLeeren();
-				mitarbeiterView.getNeuAendernL().setText("Neuerfassung");
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						MitarbeiterBenutzerDialog mitarbeiterBenutzerDialog = new MitarbeiterBenutzerDialog("Benutzer suchen");
+						MitarbeiterBenutzerDialog mitarbeiterBenutzerDialog = new MitarbeiterBenutzerDialog(
+								"Benutzer suchen");
 						new MitarbeiterBenutzerDialogController(mitarbeiterController, mitarbeiterBenutzerDialog);
 						mitarbeiterBenutzerDialog.setModal(true);
 						mitarbeiterBenutzerDialog.setVisible(true);
@@ -111,10 +113,12 @@ public class MitarbeiterController {
 					m = feldwertezuObjektSpeichern();
 					// Prüfung, ob ein neuer Mitarbeiter erfasst wurde oder ein Mitarbeiter
 					// aktialisiert wird
-					if (mitarbeiterView.getPKT().getText().isEmpty()) {
-						nachAarbeitSpeichern(normdatenService.speichernMitarbeiter(m));
-					} else {
-						nachAarbeitSpeichern(normdatenService.aktualisierenMitarbeiter(m));
+					if (mitarbeiterView.getNeuAendernL().getText().equals("Bearbeiten")) {
+						System.out.println("aktuell machen");
+						nachAarbeitSpeichern(mitarbeiterService.aktualisierenMitarbeiter(m));
+					} else if (mitarbeiterView.getNeuAendernL().getText().equals("Neuerfassung")){
+						System.out.println("neu machen");
+						nachAarbeitSpeichern(mitarbeiterService.speichernMitarbeiter(m));
 					}
 				}
 
@@ -160,7 +164,8 @@ public class MitarbeiterController {
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
-		if (mitarbeiterView.getBenutzernameT().getText().isEmpty()) {
+		if (mitarbeiterView.getBenutzernameT().getText().isEmpty()
+				|| mitarbeiterView.getPasswortT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 			keinInputFehler = false;
 		}
@@ -174,6 +179,9 @@ public class MitarbeiterController {
 		}
 		m.setBenutzername(mitarbeiterView.getBenutzernameT().getText());
 		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
+		m.setAdmin(mitarbeiterView.getAdminCbx().isSelected());
+		m.setPasswort(mitarbeiterView.getPasswortT().getText());
+		System.out.println("gePW Hashed: " + m.getPasswort());
 		return m;
 	}
 
@@ -215,21 +223,21 @@ public class MitarbeiterController {
 		mitarbeiterView.getNeuAendernL().setText("");
 
 	}
+
 	void pruefenUndUebernehmenBenutzerMitId(int id) {
 		Benutzer benutzer = new Benutzer();
-		System.out.println("doit 2");
+		Mitarbeiter ma = new Mitarbeiter();
 		BenutzerDAO benutzerDAO = new BenutzerDAO();
-		MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
-		//int ma;
+		MitarbeiterDAO maDAO = new MitarbeiterDAO();
 		try {
 			benutzer = benutzerDAO.findById(id);
-			//ma = mitarbeiterDAO.findIdByName(benutzer.getName(), benutzer.getVorname());
-			//System.out.println("maid ist: "+ma);
+
 			mitarbeiterView.getPKT().setText(Integer.toString(benutzer.getId()));
 			mitarbeiterView.getNameT().setText(benutzer.getName());
 			mitarbeiterView.getVornameT().setText(benutzer.getVorname());
 			mitarbeiterView.getAktivCbx().setSelected(true);
-			mitarbeiterView.getBenutzernameT();
+			mitarbeiterView.getNeuAendernL().setText("Neuerfassung");
+
 			if (benutzer.getId() <= 0) {
 				mitarbeiterView.getPKT().setText("");
 				JOptionPane.showMessageDialog(null, "Ungültige ID.");
@@ -241,6 +249,30 @@ public class MitarbeiterController {
 		} catch (NumberFormatException e) {
 			mitarbeiterView.getPKT().setText("");
 			JOptionPane.showMessageDialog(null, "Ungültige ID.");
+		}
+
+		try {
+			ma = maDAO.findById(id);
+			mitarbeiterView.getBenutzernameT().setText(ma.getBenutzername());
+			mitarbeiterView.getNeuAendernL().setText("Bearbeiten");
+		} catch (NullPointerException npe) {
+			mitarbeiterView.getBenutzernameT().setText("");
+		} catch (NumberFormatException e) {
+			mitarbeiterView.getBenutzernameT().setText("");
+		}
+	}
+	
+	private void neuBearbeitenFelderLeeren() {
+
+		// Felder leeren
+		for (JComponent t : mitarbeiterView.getComponentsNeuBearbeiten().values()) {
+			if (t instanceof JTextField) {
+				((JTextField) t).setText("");
+			}
+			if (t instanceof JCheckBox) {
+				((JCheckBox) t).setSelected(false);
+			}
+
 		}
 	}
 

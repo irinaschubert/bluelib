@@ -1,6 +1,11 @@
 package services;
 
+import dao.BenutzerDAO;
+import dao.MitarbeiterDAO;
+import dao.SchlagwortDAO;
+import domain.Benutzer;
 import domain.Mitarbeiter;
+import domain.Schlagwort;
 
 /**
  * @version 0.1 16.10.2018
@@ -19,14 +24,35 @@ public class MitarbeiterService {
     	boolean yes = true;
     	return yes;
     }
-    
-    public Verifikation mitarbeiterErfassen(Mitarbeiter mitarbeiter) {
-    	Verifikation v = new Verifikation();
+     
+    public Verifikation aktualisierenMitarbeiter(Mitarbeiter mitarbeiter) {
+		Verifikation v = new Verifikation();
+		if (new MitarbeiterDAO().update(mitarbeiter) != null) {
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Das Mitarbeiter " + mitarbeiter.getBenutzername() + " wurde aktualisiert.");
+		} else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Das Mitarbeiter " + mitarbeiter.getBenutzername() + " konnte nicht aktualisiert werden.");
+		}
 		return v;
-    }
+	}
     
-    public Verifikation mitarbeiterBearbeiten(Mitarbeiter mitarbeiter) {
-    	Verifikation v = new Verifikation();
+    public Verifikation speichernMitarbeiter(Mitarbeiter mitarbeiter) {
+    	
+		Verifikation v = new Verifikation();
+		System.out.println("Benutername1111: "+mitarbeiter.getBenutzername());
+		if (new MitarbeiterDAO().save(mitarbeiter) != null) {
+			System.out.println("Benutername2222: "+mitarbeiter.getBenutzername());
+			v.setAktionErfolgreich(true);
+			v.setNachricht("Der Mitarbeiter " + mitarbeiter.getBenutzername() + " wurde gespeichert.");
+		} else {
+			v.setAktionErfolgreich(false);
+			v.setNachricht("Der Mitarbeiter " + mitarbeiter.getBenutzername() + " konnte nicht gespeichert werden.");
+		}
 		return v;
-    }
+	}
+    
+    public Mitarbeiter suchenBenutzerMitID(int id) {
+		return new MitarbeiterDAO().findById(id);
+	}
 }
