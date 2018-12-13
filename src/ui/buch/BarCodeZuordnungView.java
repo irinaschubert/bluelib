@@ -29,7 +29,7 @@ public class BarCodeZuordnungView extends JDialog {
 		super.setTitle(titel);
 		getContentPane().add(frameAufbauen());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(300, 100);
+		setSize(300, 150);
 
 	}
 

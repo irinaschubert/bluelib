@@ -270,6 +270,7 @@ public class BuchController {
 						BarCodeZuordnungController barCodeZuordnungController = new BarCodeZuordnungController(
 								barCodeZuordnungView, buchController);
 						barCodeZuordnungView.setModal(true);
+						barCodeZuordnungView.setSize(300, 130);
 						barCodeZuordnungView.setLocationRelativeTo(buchView);
 						barCodeZuordnungView.setVisible(true);
 
