@@ -80,7 +80,31 @@ public class BibliothekDAO implements DAOInterface<Bibliothek> {
 
 	@Override
 	public boolean delete(Bibliothek domainObject) {
-		return false;
+		ResultSet rs = null;
+		boolean geloescht = false;
+		String sql = "DELETE FROM stammdaten WHERE id = 1";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			int i = pstmt.executeUpdate();
+			if (i > 0) {
+				geloescht = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return geloescht;
 	}
 
 	@Override
