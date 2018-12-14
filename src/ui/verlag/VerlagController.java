@@ -278,7 +278,7 @@ public class VerlagController {
 		verlagView.getNameSucheL().setText("Name:");
 		verlagView.getGruendungsDatumSucheL().setText("Gründungsdatum:");
 		verlagView.getEndDatumSucheL().setText("Enddatum:");
-		verlagView.getGeloeschtSucheL().setText("inkl. geloeschte:");
+		verlagView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		verlagView.getSuchButton().setText("Suchen");
 		verlagView.getPKT().setEditable(false);
 		TextComponentLimit.addTo(verlagView.getNameT(), 50);
