@@ -53,6 +53,7 @@ public class MitarbeiterController {
 		this.hauptController = hauptController;
 		mitarbeiterController = this;
 		normdatenService = new NormdatenService();
+		mitarbeiterService = new MitarbeiterService();
 		mitarbeiterL = new ArrayList<>();
 		tableModelMitarbeiter = new TableModelMitarbeiter();
 		tableModelMitarbeiter.setAndSortListe(mitarbeiterL);

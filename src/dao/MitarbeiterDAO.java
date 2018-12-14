@@ -39,7 +39,8 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		ResultSet rs = null;
 		Mitarbeiter m = new Mitarbeiter();
 		int argCounter = 0;
-		String sql = "INSERT INTO " + "mitarbeiter " + "(benutzername, " + "passwort, "+ "admin, "+ "aktiv " + ") " + "VALUES " + "(?,?,?,?)";
+		String sql = "INSERT INTO " + "mitarbeiter " + "(benutzername, " + "passwort, " + "admin, " + "aktiv " + ") "
+				+ "VALUES " + "(?,?,?,?)";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -53,10 +54,6 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			pstmt.setBoolean(argCounter, domainObject.isAktiv());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
-			if (rs != null && rs.next()) {
-				m = new MitarbeiterDAO().findById(rs.getInt(1));
-			}
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -279,21 +276,16 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		int id = 0;
 		String sql = "SELECT " + "id " + "FROM person " + "WHERE nachname = ? AND vorname = ?";
 		try {
-
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setString(1, name);
 			pstmt.setString(2, vorname);
-
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				id = (rs.getInt(1));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-
 		} finally {
 			try {
 				if (rs != null)
@@ -307,8 +299,6 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		}
 		return id;
 	}
-
-	
 
 	@Override
 	public List<Mitarbeiter> findAll() {

@@ -450,4 +450,30 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 		}
 		return benutzerListe;
 	}
+	
+	public boolean updateMitarbeiterID(int id, int ma_id) {
+		boolean geloescht = false;
+		String sql = "UPDATE person SET"
+				+ ", mitarbeiter_id = ?" 
+				+ " WHERE id = ?";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, ma_id);
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				geloescht = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				geloescht = false;
+			}
+		}
+		return geloescht;
+	}
 }
