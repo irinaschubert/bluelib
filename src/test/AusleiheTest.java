@@ -79,7 +79,7 @@ public class AusleiheTest {
 		a.setAusleiheMitarbeiterName("Testmitarbeiter");
 		a.setAusleiheDatum(DateConverter.convertStringToJavaDate("01.01.1990"));
 		assertTrue(as.speichernAusleihe(a).isAktionErfolgreich());
-		List<Ausleihe> ausleihen = as.sucheAusleihenProBenutzer(benutzer);
+		List<Ausleihe> ausleihen = as.suchenAusleihenProBenutzer(benutzer);
 		a = ausleihen.get(0);
 		System.out.println(a.getId());
 		assertEquals(a.getMedium().getId(), 1);
@@ -92,12 +92,12 @@ public class AusleiheTest {
 	@Test
 	public void suchenTest() {
 		ausleihenTest();
-		assertTrue(as.sucheAusleihenProBenutzer(benutzer).size() == 1);
+		assertTrue(as.suchenAusleihenProBenutzer(benutzer).size() == 1);
 	}
 
 	@After
 	public void tearDown() {
-		List<Ausleihe> ausleihen = as.sucheAusleihenProBenutzer(benutzer);
+		List<Ausleihe> ausleihen = as.suchenAusleihenProBenutzer(benutzer);
 		a = ausleihen.get(0);
 		ausleiheDAO.deleteByAusleihe(a);
 		benutzerDAO.delete(benutzer);

@@ -182,7 +182,7 @@ public class AusleiheController {
 						Benutzer b = new Benutzer();
 						b.setId(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
 						Benutzer resultat = benutzerService.suchenBenutzerMitID(b.getId());
-						ausleiheL = ausleiheService.sucheAusleihenProBenutzer(b);
+						ausleiheL = ausleiheService.suchenAusleihenProBenutzer(b);
 						tableModelAusleihe.setAndSortListe(ausleiheL);
 						pruefenUndUebernehmenBenutzerMitId(resultat.getId());
 					}
@@ -204,7 +204,7 @@ public class AusleiheController {
 			} else {
 				int barCode = Integer.parseInt(ausleiheView.getBarcodeT().getText());
 
-				Verifikation vz = medienHandlingService.BarcodeZugeordnet(barCode);
+				Verifikation vz = medienHandlingService.barcodeZugeordnet(barCode);
 				if (!vz.isAktionErfolgreich()) {
 					JOptionPane.showMessageDialog(null, vz.getNachricht());
 					ausleiheView.getBarcodeT().setText("");
@@ -441,7 +441,7 @@ public class AusleiheController {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			BenutzerDAO benutzerDAO = new BenutzerDAO();
 			Benutzer benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
-			tableModelAusleihe.setAndSortListe(ausleiheService.sucheAusleihenProBenutzer(benutzer));
+			tableModelAusleihe.setAndSortListe(ausleiheService.suchenAusleihenProBenutzer(benutzer));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}

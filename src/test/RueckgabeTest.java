@@ -56,7 +56,7 @@ public class RueckgabeTest {
 
 	@After
 	public void tearDown() {
-		List<Ausleihe> ausleihen = ausleiheService.sucheAusleihenProBenutzer(ausleihe.getBenutzer());
+		List<Ausleihe> ausleihen = ausleiheService.suchenAusleihenProBenutzer(ausleihe.getBenutzer());
 		Ausleihe a = ausleihen.get(0);
 		ausleiheDAO = new AusleiheDAO();
 		ausleiheDAO.deleteByAusleihe(a);

@@ -181,7 +181,7 @@ public class RueckgabeController {
 		// Pruefen, ob ein valider Barcode erfasst wurde
 		if (v.isAktionErfolgreich()) {
 			VerifikationMitBuch vmb = medienHandlingService
-					.BarcodeZugeordnet(Integer.parseInt(rueckgabeView.getBarcodeT().getText()));
+					.barcodeZugeordnet(Integer.parseInt(rueckgabeView.getBarcodeT().getText()));
 			// Pruefen, ob zum Barcode ein Buch gefunden wurde
 			if (vmb.isAktionErfolgreich()) {
 				buchSuchenUndResultatAnzeigen(vmb.getBuch().getId());
