@@ -19,6 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import ui.benutzer.FormularMitGridbaglayout;
+import ui.standardKomponenten.StandardButtonPanel;
 import ui.standardKomponenten.StandardTitelPanel;
 
 /**
@@ -37,7 +38,7 @@ public class AusleiheView extends JPanel {
 	private JPanel ausleihePanel;
 	private JPanel ausleiheInfoPanel;
 	private JPanel tabellenPanel;
-	private AusleiheButtonPanel buttonPanel;
+	private StandardButtonPanel buttonPanel;
 
 	private JLabel barcodeL;
 	private JLabel PKLBuch;
@@ -82,7 +83,7 @@ public class AusleiheView extends JPanel {
 	public AusleiheView(String panelTitel) {
 
 		new JLabel(panelTitel);
-		buttonPanel = new AusleiheButtonPanel();
+		buttonPanel = new StandardButtonPanel();
 		suchButtonBuch = new JButton();
 		suchButtonBenutzer = new JButton();
 		ausleiheSpeichernButton = new JButton();
@@ -244,11 +245,11 @@ public class AusleiheView extends JPanel {
 		ausleiheTabelle.getColumnModel().getColumn(3).setPreferredWidth(50); // Notiz
 	}
 
-	public AusleiheButtonPanel getButton() {
+	public StandardButtonPanel getButton() {
 		return this.buttonPanel;
 	}
 
-	public AusleiheButtonPanel getButtonPanel() {
+	public StandardButtonPanel getButtonPanel() {
 		return buttonPanel;
 	}
 
@@ -556,7 +557,7 @@ public class AusleiheView extends JPanel {
 		BREITE = bREITE;
 	}
 
-	public void setButtonPanel(AusleiheButtonPanel buttonPanel) {
+	public void setButtonPanel(StandardButtonPanel buttonPanel) {
 		this.buttonPanel = buttonPanel;
 	}
 
