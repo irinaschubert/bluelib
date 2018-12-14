@@ -174,6 +174,7 @@ public class MitarbeiterController {
 		m.setBenutzername(mitarbeiterView.getBenutzernameT().getText());
 		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
 		m.setAdmin(mitarbeiterView.getAdminCbx().isSelected());
+		//Muss noch gehased werden, dann kann Sysout auch gelöst werden
 		m.setPasswort(mitarbeiterView.getPasswortT().getText());
 		System.out.println("gePW Hashed: " + m.getPasswort());
 		return m;
