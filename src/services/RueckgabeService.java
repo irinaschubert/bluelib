@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import dao.AusleiheDAO;
-import dao.BenutzerDAO;
 import dao.BuchDAO;
 import domain.Ausleihe;
 import domain.Buch;
@@ -31,7 +30,6 @@ public class RueckgabeService {
 		BuchDAO buchDAO = new BuchDAO();
 		if (istAusgeliehen(id)) {
 			v.setAktionErfolgreich(true);
-			Ausleihe a = new Ausleihe();
 		AusleiheDAO ausleiheDAO = new AusleiheDAO();
 		v.setAusleihe(ausleiheDAO.findAusgeliehenesBuchById(id));
 			

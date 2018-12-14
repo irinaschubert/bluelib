@@ -2,14 +2,12 @@ package services;
 
 import java.util.List;
 
-import dao.AnredeDAO;
 import dao.AutorDAO;
 import dao.VerlagDAO;
 import dao.DezKlassifikationDAO;
 import dao.DezKlassifikationGrpeDAO;
 import dao.MitarbeiterDAO;
 import dao.SchlagwortDAO;
-import domain.Anrede;
 import domain.Autor;
 import domain.Verlag;
 import domain.DezKlassifikation;
@@ -28,10 +26,6 @@ import domain.Mitarbeiter;
 public class NormdatenService {
 
 	// findAll
-	public List<Anrede> alleAnreden() {
-		return new AnredeDAO().findAll();
-	}
-
 	public List<Autor> alleautoren() {
 		return new AutorDAO().findAll();
 	}

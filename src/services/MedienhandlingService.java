@@ -85,7 +85,7 @@ public class MedienhandlingService {
 		return v;
 	}
 	
-	public Verifikation buchBearbeiten(Buch buch) {
+	public Verifikation aktualisierenBuch(Buch buch) {
 		Verifikation v = new Verifikation();
 		Buch b = null;
 		BuchDAO buchDAO = new BuchDAO();

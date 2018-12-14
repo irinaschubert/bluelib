@@ -84,7 +84,7 @@ public class BuchAktualisierenTest {
 		buch.setSignatur(signatur);
 		buch.setStatus(status);
 
-		medienhandlingService.buchBearbeiten(buch);
+		medienhandlingService.aktualisierenBuch(buch);
 		List<Buch> bL = new ArrayList<>();
 		bL = medienhandlingService.suchenBuch(buch);
 		if (bL.size() > 0) {

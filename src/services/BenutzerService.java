@@ -1,13 +1,8 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import dao.AnredeDAO;
 import dao.BenutzerDAO;
-import dao.BuchDAO;
-import domain.Anrede;
-import domain.Ausleihe;
 import domain.Benutzer;
 
 /**

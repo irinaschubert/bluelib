@@ -1,10 +1,7 @@
 package services;
 
-import dao.BenutzerDAO;
 import dao.MitarbeiterDAO;
-import domain.Benutzer;
 import domain.Mitarbeiter;
-import domain.Schlagwort;
 
 /**
  * @version 0.1 16.10.2018
@@ -17,11 +14,6 @@ public class MitarbeiterService {
     public Verifikation darfEinloggen(String name, String pw) {
     	Verifikation v = new Verifikation();
 		return v;
-    }
-    
-    private boolean immerEinAdmin(Mitarbeiter mitarbeiter) {
-    	boolean yes = true;
-    	return yes;
     }
      
     public Verifikation aktualisierenMitarbeiter(Mitarbeiter mitarbeiter) {

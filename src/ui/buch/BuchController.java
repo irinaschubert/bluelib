@@ -95,7 +95,7 @@ public class BuchController {
 
 						nachAarbeitSpeichern(medienHandlingService.speichernBuch(b));
 					} else {
-						nachAarbeitSpeichern(medienHandlingService.buchBearbeiten(b));
+						nachAarbeitSpeichern(medienHandlingService.aktualisierenBuch(b));
 					}
 
 				}
