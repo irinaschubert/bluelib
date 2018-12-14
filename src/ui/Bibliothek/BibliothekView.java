@@ -3,48 +3,20 @@ package ui.Bibliothek;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
-import java.util.List;
-
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import domain.Ort;
 import ui.standardKomponenten.StandardButtonPanel;
 import ui.standardKomponenten.StandardTitelPanel;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.LinkedHashMap;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
 
 /**
  * Zeigt die Bibliotheksdaten. Die Ausleihdauer ist veränderbar.
@@ -60,13 +32,13 @@ public class BibliothekView extends JPanel {
 	private JPanel centerPanel;
 	private JLabel nameL;
 	private JLabel strasseUndNrL;
-	private JLabel ortL;
+	private JLabel plzOrtL;
 	private JLabel emailL;
 	private JLabel telL;
 	private JLabel leihfristL;
 	private JTextField nameT;
 	private JTextField strasseUndNrT;
-	private JTextField ortT;
+	private JComboBox<Ort> plzOrtCbx;
 	private JTextField emailT;
 	private JTextField telT;
 	private JTextField leihfristT;
@@ -102,7 +74,7 @@ public class BibliothekView extends JPanel {
 
 		componentTable.put(nameL = new JLabel(), nameT = new JTextField());
 		componentTable.put(strasseUndNrL = new JLabel(), strasseUndNrT = new JTextField());
-		componentTable.put(ortL = new JLabel(), ortT = new JTextField());
+		componentTable.put(plzOrtL = new JLabel(), plzOrtCbx = new JComboBox());
 		componentTable.put(emailL = new JLabel(), emailT = new JTextField());
 		componentTable.put(telL = new JLabel(), telT = new JTextField());
 		componentTable.put(leihfristL = new JLabel(), leihfristT = new JTextField());
@@ -159,11 +131,11 @@ public class BibliothekView extends JPanel {
 	}
 
 	public JLabel getOrtL() {
-		return ortL;
+		return plzOrtL;
 	}
 
-	public JTextField getOrtT() {
-		return ortT;
+	public JComboBox getPlzOrtCbx() {
+		return plzOrtCbx;
 	}
 
 	public JLabel getEmailL() {

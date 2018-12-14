@@ -9,12 +9,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.Adresse;
 import domain.Autor;
 import domain.Bibliothek;
+import domain.Ort;
 import hilfsklassen.DateConverter;
 import interfaces.DAOInterface;
 
 /**
+ * Stellt die CRUD- und weitere Operationen zum Verwalten des Bibliothekobjekts zur Verfügung.
+ * 
  * @version 0.1 28.10.2018
  * @author Mike
  *
@@ -39,16 +43,22 @@ public class BibliothekDAO implements DAOInterface<Bibliothek> {
 	public Bibliothek update(Bibliothek domainObject) {
 		ResultSet rs = null;
 		Bibliothek b = new Bibliothek();
-		String sql = "UPDATE stammdaten SET " + "name  = ? " + ",strasseUndNr  = ? " + ",email  = ? " + ",telefon = ?"
-				+ ",leihfrist = ? ";
+		String sql = "UPDATE stammdaten SET " 
+				+ "name  = ?" 
+				+ ", strasseUndNr  = ?" 
+				+ ", ort_id = ?"
+				+ ", email  = ?" 
+				+ ", telefon = ?"
+				+ ", leihfrist = ? ";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, domainObject.getName());
-			pstmt.setString(2, domainObject.getStrasseUndNr());
-			pstmt.setString(3, domainObject.getEmail());
-			pstmt.setString(4, domainObject.getTelefon());
-			pstmt.setInt(5, domainObject.getLeihfrist());
+			pstmt.setString(2, domainObject.getAdresse().getStrasse());
+			pstmt.setInt(3, domainObject.getAdresse().getOrt().getId());
+			pstmt.setString(4, domainObject.getEmail());
+			pstmt.setString(5, domainObject.getTelefon());
+			pstmt.setInt(6, domainObject.getLeihfrist());
 
 			int i = pstmt.executeUpdate();
 			if (i > 0) {
@@ -75,13 +85,11 @@ public class BibliothekDAO implements DAOInterface<Bibliothek> {
 
 	@Override
 	public boolean delete(Bibliothek domainObject) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public List<Bibliothek> getSelektion(Bibliothek domainObject) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -89,8 +97,16 @@ public class BibliothekDAO implements DAOInterface<Bibliothek> {
 	public Bibliothek findById(int id) {
 		Bibliothek b = new Bibliothek();
 		ResultSet rs = null;
-		String sql = "SELECT " + "id, " + "name, " + "strasseUndNr, " + "email, " + "telefon, " + "leihfrist "
-				+ "FROM stammdaten " + "WHERE id = ?";
+		String sql = "SELECT " 
+				+ "id, " 
+				+ "name, " 
+				+ "strasseUndNr, "
+				+ "ort_id, "
+				+ "email, " 
+				+ "telefon, " 
+				+ "leihfrist "
+				+ "FROM stammdaten " 
+				+ "WHERE id = ?";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -99,10 +115,15 @@ public class BibliothekDAO implements DAOInterface<Bibliothek> {
 			while (rs.next()) {
 				b.setId(rs.getInt(1));
 				b.setName(rs.getString(2));
-				b.setStrasseUndNr(rs.getString(3));
-				b.setEmail(rs.getString(4));
-				b.setTelefon(rs.getString(5));
-				b.setLeihfrist(rs.getInt(6));
+				int ortId = rs.getInt(4);
+				OrtDAO ortDAO = new OrtDAO();
+				Ort ort = ortDAO.findById(ortId);
+				String strasse = rs.getString(3);
+				Adresse adresse = new Adresse(strasse, ort);
+				b.setAdresse(adresse);
+				b.setEmail(rs.getString(5));
+				b.setTelefon(rs.getString(6));
+				b.setLeihfrist(rs.getInt(7));
 			}
 
 		} catch (SQLException e) {
@@ -115,7 +136,6 @@ public class BibliothekDAO implements DAOInterface<Bibliothek> {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
 		return b;
 	}

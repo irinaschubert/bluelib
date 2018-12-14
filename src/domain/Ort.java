@@ -18,21 +18,10 @@ public class Ort {
 		this.ort = "";
 	}
 
-	public Ort(int id) {
-		this.id = id;
-		this.plz = 0;
-		this.ort = "";
-	}
-
 	public Ort(int id, int plz, String ort) {
 		this.id = id;
 		this.plz = plz;
 		this.ort = ort;
-	}
-
-	public Ort(int id, int plz) {
-		this.plz = plz;
-		this.id = id;
 	}
 
 	public Ort(int id, String ort) {

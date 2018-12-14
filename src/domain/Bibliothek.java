@@ -1,8 +1,10 @@
 package domain;
 
 /**
+ * Die Klasse des Bibliothekobjekts.
+ * 
  * @version 0.1 16.10.2018
- * @author irina
+ * @author Mike
  *
  */
 public class Bibliothek{
@@ -12,7 +14,7 @@ public class Bibliothek{
 	private String email;
 	private String telefon;
 	private String oeffnungszeiten;
-	private String strasseUndNr;
+	private Adresse adresse;
 	private int leihfrist; // Anz. Tage
 	
 	public Bibliothek() {
@@ -59,14 +61,6 @@ public class Bibliothek{
 		this.oeffnungszeiten = oeffnungszeiten;
 	}
 
-	public String getStrasseUndNr() {
-		return strasseUndNr;
-	}
-
-	public void setStrasseUndNr(String strasseUndNr) {
-		this.strasseUndNr = strasseUndNr;
-	}
-
 	public int getLeihfrist() {
 		return leihfrist;
 	}
@@ -74,7 +68,12 @@ public class Bibliothek{
 	public void setLeihfrist(int leihfrist) {
 		this.leihfrist = leihfrist;
 	}
-	
-	
-	
+
+	public Adresse getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
+	}
 }
