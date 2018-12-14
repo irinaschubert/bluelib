@@ -58,7 +58,6 @@ public class BibliothekTest {
 
 	@After
 	public void tearDown() {
-		bibliothekDAO.delete(b);
 		b = null;
 	}
 }
