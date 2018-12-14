@@ -48,6 +48,7 @@ public class MitarbeiterView extends JPanel {
 	private JLabel PasswortL;
 	private JLabel aktivL;
 	private JLabel adminL;
+	private JLabel maIDL;
 	
 	private JLabel NameSucheL;
 	private JLabel VornameSucheL;
@@ -64,6 +65,7 @@ public class MitarbeiterView extends JPanel {
 	private JTextField VornameSucheT;
 	private JTextField BenutzernameT;
 	private JTextField BenutzernameSucheT;
+	private JTextField maIDT;
 
 	private JCheckBox aktivCbx;
 	private JCheckBox aktivSucheCbx;
@@ -71,8 +73,6 @@ public class MitarbeiterView extends JPanel {
 	private JButton suchButton;
 	private JTable MitarbeiterTabelle;
 
-	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
-	private LinkedHashMap<JLabel, JComponent> componentsNeuBearbeiten = new LinkedHashMap<>();
 	private static int HOEHE = 600;
 	private static int BREITE = 550;
 
@@ -133,6 +133,11 @@ public class MitarbeiterView extends JPanel {
 
 		adminL = new JLabel();
 		adminCbx = new JCheckBox();
+		
+		maIDL = new JLabel();
+		maIDT = new JTextField();
+		maIDL.setVisible(false);
+		maIDT.setVisible(false);
 
 		gridBagHelfer.labelSetzen(PKL, MitarbeiterNeuBearbeitenPanel, 0, 0);
 		gridBagHelfer.feldSetzen(PKT, MitarbeiterNeuBearbeitenPanel, 1, 0);
@@ -277,6 +282,22 @@ public class MitarbeiterView extends JPanel {
 	public JTextField getPasswortT() {
 		return PasswortT;
 	}
+	
+	public JTextField getMAIDT() {
+		return maIDT;
+	}
+
+	public JLabel getMAIDL() {
+		return maIDL;
+	}
+	
+	public void setMAIDL(JLabel maIDL) {
+		this.maIDL = maIDL;
+	}
+	
+	public void setMAIDT(JTextField maIDT) {
+		this.maIDT = maIDT;
+	}
 
 	public JTextField getPKT() {
 		return PKT;
@@ -288,10 +309,6 @@ public class MitarbeiterView extends JPanel {
 
 	public JTable getMitarbeiterTabelle() {
 		return MitarbeiterTabelle;
-	}
-
-	public LinkedHashMap<JLabel, JComponent> getComponentsNeuBearbeiten() {
-		return componentsNeuBearbeiten;
 	}
 
 	public JLabel getBenutzernameSucheL() {

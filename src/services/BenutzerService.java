@@ -98,5 +98,17 @@ public class BenutzerService {
 	public Benutzer suchenBenutzerById(int id) {
 		return new BenutzerDAO().findById(id);
 	}
-
+	
+	
+	public Verifikation updateMitarbeiterID(int id, int maid) {
+		Verifikation v = new Verifikation();
+		v.setAktionErfolgreich(false);
+		BenutzerDAO benutzerDAO = new BenutzerDAO();
+		if (benutzerDAO.updateMAID(id, maid)) {
+			v.setAktionErfolgreich(true);
+		} else {
+			v.setAktionErfolgreich(false);
+		}
+		return v;
+	}
 }
