@@ -10,6 +10,7 @@ import java.util.List;
 
 import domain.Anrede;
 import domain.Benutzer;
+import domain.Buch;
 import domain.Mitarbeiter;
 import domain.Schlagwort;
 import hilfsklassen.SQLHelfer;
@@ -35,9 +36,10 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 
 	@Override
 	public Mitarbeiter save(Mitarbeiter domainObject) {
-		System.out.println("save me");
+		boolean b;
 		ResultSet rs = null;
 		Mitarbeiter m = new Mitarbeiter();
+		int ma_id = 1;
 		int argCounter = 0;
 		String sql = "INSERT INTO " + "mitarbeiter " + "(benutzername, " + "passwort, " + "admin, " + "aktiv " + ") "
 				+ "VALUES " + "(?,?,?,?)";
@@ -54,6 +56,13 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			pstmt.setBoolean(argCounter, domainObject.isAktiv());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
+			if(rs != null && rs.next()){
+				ma_id = rs.getInt(1);
+			}
+			m.setMAId(ma_id);
+			m.setId(domainObject.getId());
+			
+			b = new BenutzerDAO().updateMAID(m.getId(), m.getMAId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,8 +81,39 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 	}
 
 	@Override
-	public Mitarbeiter update(Mitarbeiter domainObject) {
-		// TODO Auto-generated method stub
+	public Mitarbeiter update(Mitarbeiter domainObject) {/*
+		ResultSet rs = null;
+		Schlagwort s = new Schlagwort();
+		String sql = "UPDATE schlagwort SET "
+				+ "schlagwort = ? "
+				+ ",geloescht = ?"
+				+ " WHERE id = ?";
+			try {
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,domainObject.getSchlagwort());
+				pstmt.setBoolean(2, domainObject.getGeloescht());
+				pstmt.setInt(3,  domainObject.getId());
+				int i = pstmt.executeUpdate();
+				if (i>0) {
+					s = domainObject;
+				}
+				else {
+					s = null;
+				}
+								
+			}
+	  catch (SQLException e) {
+           e.printStackTrace();
+     } finally{
+         try{
+             if(rs != null) rs.close();
+             if(pstmt != null) pstmt.close();
+             if(conn != null) conn.close();
+         } catch(Exception ex){}
+     }
+			
+		return s;*/
 		return null;
 	}
 
@@ -272,6 +312,35 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 	}
 
 	public int findIdByName(String name, String vorname) {
+		ResultSet rs = null;
+		int id = 0;
+		String sql = "SELECT " + "id " + "FROM person " + "WHERE nachname = ? AND vorname = ?";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, vorname);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				id = (rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+			}
+		}
+		return id;
+	}
+	
+	public int findMAid(String name, String vorname) {
 		ResultSet rs = null;
 		int id = 0;
 		String sql = "SELECT " + "id " + "FROM person " + "WHERE nachname = ? AND vorname = ?";

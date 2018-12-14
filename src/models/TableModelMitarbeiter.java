@@ -17,7 +17,7 @@ public class TableModelMitarbeiter extends AbstractTableModel {
 
 	// Definition der Spaltennamen, wie sie in der Tabelle dargestellt werden
 	// sollen
-	private static final String[] COLUMN_NAMES = { "Name", "Vorname", "Benutzername", "Status" };
+	private static final String[] COLUMN_NAMES = { "Name", "Vorname", "Benutzername", "Aktiv", "Admin" };
 	private List<Mitarbeiter> mitarbeiterenListe;
 
 	public void setAndSortListe(List<Mitarbeiter> liste) {
@@ -79,6 +79,9 @@ public class TableModelMitarbeiter extends AbstractTableModel {
 			break;
 		case 3:
 			returnWert = (m.isAktiv() ? "x" : "");
+			break;
+		case 4:
+			returnWert = (m.isAdmin() ? "x" : "");
 			break;
 		}
 		return returnWert;

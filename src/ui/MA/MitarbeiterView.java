@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.LinkedHashMap;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -54,6 +55,7 @@ public class MitarbeiterView extends JPanel {
 	private JLabel VornameSucheL;
 	private JLabel BenutzernameSucheL;
 	private JLabel aktivSucheL;
+	private JLabel adminSucheL;
 	
 	private JLabel neuAendernL;
 
@@ -70,6 +72,7 @@ public class MitarbeiterView extends JPanel {
 	private JCheckBox aktivCbx;
 	private JCheckBox aktivSucheCbx;
 	private JCheckBox adminCbx;
+	private JCheckBox adminSucheCbx;
 	private JButton suchButton;
 	private JTable MitarbeiterTabelle;
 
@@ -192,6 +195,9 @@ public class MitarbeiterView extends JPanel {
 		aktivSucheL = new JLabel();
 		aktivSucheCbx = new JCheckBox();
 		
+		adminSucheL = new JLabel();
+		adminSucheCbx = new JCheckBox();
+		
 		suchButton = new JButton();
 		
 		gridBagHelfer.labelSetzen(NameSucheL, MitarbeiterSuchePanel, 0, 0);
@@ -202,6 +208,8 @@ public class MitarbeiterView extends JPanel {
 		gridBagHelfer.feldSetzenLang(BenutzernameSucheT, MitarbeiterSuchePanel, 1, 2);
 		gridBagHelfer.labelSetzen(aktivSucheL, MitarbeiterSuchePanel, 0, 3);
 		gridBagHelfer.feldSetzen(aktivSucheCbx, MitarbeiterSuchePanel, 1, 3);
+		//gridBagHelfer.labelSetzen(adminSucheL, MitarbeiterSuchePanel, 0, 4);
+		//gridBagHelfer.feldSetzen(adminSucheCbx, MitarbeiterSuchePanel, 1, 4);
 		
 		gridBagHelfer.labelSetzen(suchButton, MitarbeiterSuchePanel, 2, 3);
 		
@@ -221,6 +229,7 @@ public class MitarbeiterView extends JPanel {
 		MitarbeiterTabelle.getColumnModel().getColumn(1).setPreferredWidth(40); // Vorname (Person)
 		MitarbeiterTabelle.getColumnModel().getColumn(2).setPreferredWidth(40); // Mitarbeiter
 		MitarbeiterTabelle.getColumnModel().getColumn(3).setMaxWidth(50); // Aktiv
+		MitarbeiterTabelle.getColumnModel().getColumn(4).setMaxWidth(50); // Admin
 	}
 
 	public StandardButtonPanel getButton() {
@@ -385,6 +394,14 @@ public class MitarbeiterView extends JPanel {
 
 	public void setNeuAendernL(JLabel neuAendernL) {
 		this.neuAendernL = neuAendernL;
+	}
+
+	public JCheckBox getAdminSucheCbx() {
+		return adminSucheCbx;
+	}
+
+	public JLabel getAdminSucheL() {
+		return adminSucheL;
 	}
 
 }

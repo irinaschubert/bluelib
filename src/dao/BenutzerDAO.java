@@ -453,8 +453,8 @@ public class BenutzerDAO implements DAOInterface<Benutzer> {
 	
 	public boolean updateMAID(int id, int ma_id) {
 		boolean geloescht = false;
-		String sql = "UPDATE person SET"
-				+ ", mitarbeiter_id = ?" 
+		String sql = "UPDATE person SET "
+				+ "mitarbeiter_id = ?" 
 				+ " WHERE id = ?";
 		try {
 			conn = dbConnection.getDBConnection();

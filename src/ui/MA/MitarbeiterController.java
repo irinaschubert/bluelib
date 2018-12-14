@@ -63,6 +63,7 @@ public class MitarbeiterController {
 		view.getMitarbeiterTabelle().setModel(tableModelMitarbeiter);
 		view.spaltenBreiteSetzen();
 		mitarbeiterSuchobjekt = new Mitarbeiter();
+		mitarbeiterSuchobjekt.setAktiv(true);
 		initialisieren();
 		control();
 	}
@@ -116,12 +117,10 @@ public class MitarbeiterController {
 						System.out.println("aktuell machen");
 						nachAarbeitSpeichern(mitarbeiterService.aktualisierenMitarbeiter(m));
 					} else if (mitarbeiterView.getNeuAendernL().getText().equals("Neuerfassung")) {
-						System.out.println("neu machen");
-						System.out.println("Bei Person id:"+m.getId()+" und name:"+m.getName()+". Gelöscht wurde die mitarbeiter_id:"+m.getMAId());
-						if(benutzerService.updateMitarbeiterID(m.getId(),m.getMAId()) != null) {
-							
-							nachAarbeitSpeichern(mitarbeiterService.speichernMitarbeiter(m));
-						}	
+						nachAarbeitSpeichern(mitarbeiterService.speichernMitarbeiter(m));
+						System.out.println("Bei Person id:" + m.getId() + " und name:" + m.getName()
+								+ ". Gelöscht wurde die mitarbeiter_id:" + m.getMAId());
+						// benutzerService.updateMitarbeiterID(m.getId(),m.getMAId());
 					}
 				}
 			}
@@ -178,11 +177,6 @@ public class MitarbeiterController {
 		}
 		m.setName(mitarbeiterView.getNameT().getText());
 		m.setVorname(mitarbeiterView.getVornameT().getText());
-		------------------
-		//Da muss etas korrigiert werden -> sollte einfach die ID geben....
-		System.out.println(mitarbeiterView.getMAIDT().getText());
-		m.setMAId(Integer.parseInt(mitarbeiterView.getMAIDT().getText()));
-		------------------
 		m.setBenutzername(mitarbeiterView.getBenutzernameT().getText());
 		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
 		m.setAdmin(mitarbeiterView.getAdminCbx().isSelected());
@@ -204,6 +198,7 @@ public class MitarbeiterController {
 			m.setVorname(mitarbeiterView.getVornameSucheT().getText());
 		}
 		m.setAktiv(mitarbeiterView.getAktivSucheCbx().isSelected());
+		m.setAdmin(mitarbeiterView.getAdminSucheCbx().isSelected());
 		return m;
 	}
 
@@ -216,7 +211,7 @@ public class MitarbeiterController {
 		mitarbeiterView.getVornameT().setText(m.getVorname());
 		mitarbeiterView.getAktivCbx().setSelected(m.isAktiv());
 		mitarbeiterView.getAdminCbx().setSelected(m.isAdmin());
-		//mitarbeiterView.getMAIDT().setText(m.getMAIDT());
+		// mitarbeiterView.getMAIDT().setText(m.getMAIDT());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
@@ -259,6 +254,7 @@ public class MitarbeiterController {
 		try {
 			ma = maDAO.findById(id);
 			mitarbeiterView.getBenutzernameT().setText(ma.getBenutzername());
+			System.out.println("was ist id: " + ma.getMAId());
 			mitarbeiterView.getMAIDT().setText(Integer.toString(ma.getMAId()));
 			mitarbeiterView.getNeuAendernL().setText("Bearbeiten");
 		} catch (NullPointerException npe) {
@@ -294,6 +290,7 @@ public class MitarbeiterController {
 		mitarbeiterView.getVornameSucheL().setText("Vorname:");
 		mitarbeiterView.getBenutzernameSucheL().setText("Benutzername:");
 		mitarbeiterView.getAktivSucheL().setText("Aktiv:");
+		//mitarbeiterView.getAdminSucheL().setText("AdministratorIn:");
 		mitarbeiterView.getAktivSucheCbx().setSelected(true);
 		mitarbeiterView.getSuchButton().setText("Suchen");
 		mitarbeiterView.getPKT().setEditable(false);
