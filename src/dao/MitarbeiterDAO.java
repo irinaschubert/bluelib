@@ -10,8 +10,9 @@ import java.util.List;
 
 import domain.Anrede;
 import domain.Benutzer;
+import domain.Buch;
 import domain.Mitarbeiter;
-import domain.Schlagwort;
+import domain.Mitarbeiter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 import services.HashRechner;
@@ -35,11 +36,13 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 
 	@Override
 	public Mitarbeiter save(Mitarbeiter domainObject) {
-		System.out.println("save me");
+		boolean b;
 		ResultSet rs = null;
 		Mitarbeiter m = new Mitarbeiter();
+		int ma_id = 1;
 		int argCounter = 0;
-		String sql = "INSERT INTO " + "mitarbeiter " + "(benutzername, " + "passwort, "+ "admin, "+ "aktiv " + ") " + "VALUES " + "(?,?,?,?)";
+		String sql = "INSERT INTO " + "mitarbeiter " + "(benutzername, " + "passwort, " + "admin, " + "aktiv " + ") "
+				+ "VALUES " + "(?,?,?,?)";
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -53,10 +56,13 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			pstmt.setBoolean(argCounter, domainObject.isAktiv());
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
-			if (rs != null && rs.next()) {
-				m = new MitarbeiterDAO().findById(rs.getInt(1));
+			if(rs != null && rs.next()){
+				ma_id = rs.getInt(1);
 			}
-
+			m.setMAId(ma_id);
+			m.setId(domainObject.getId());
+			
+			b = new BenutzerDAO().updateMAID(m.getId(), m.getMAId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,8 +82,42 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 
 	@Override
 	public Mitarbeiter update(Mitarbeiter domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = null;
+		Mitarbeiter m = new Mitarbeiter();
+		String sql = "UPDATE mitarbeiter SET "
+				+ "benutzername = ? "
+				+ ",passwort = ?"
+				+ ",aktiv = ?"
+				+ ",admin = ?"
+				+ " WHERE id = ?";
+			try {
+				conn = dbConnection.getDBConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,domainObject.getBenutzername());
+				pstmt.setString(2,domainObject.getPasswort());
+				pstmt.setBoolean(3, domainObject.isAktiv());
+				pstmt.setBoolean(4, domainObject.isAdmin());
+				pstmt.setInt(5,  domainObject.getId());
+				int i = pstmt.executeUpdate();
+				if (i>0) {
+					m = domainObject;
+				}
+				else {
+					m = null;
+				}
+								
+			}
+	  catch (SQLException e) {
+           e.printStackTrace();
+     } finally{
+         try{
+             if(rs != null) rs.close();
+             if(pstmt != null) pstmt.close();
+             if(conn != null) conn.close();
+         } catch(Exception ex){}
+     }
+			
+		return m;
 	}
 
 	@Override
@@ -279,21 +319,16 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		int id = 0;
 		String sql = "SELECT " + "id " + "FROM person " + "WHERE nachname = ? AND vorname = ?";
 		try {
-
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setString(1, name);
 			pstmt.setString(2, vorname);
-
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				id = (rs.getInt(1));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-
 		} finally {
 			try {
 				if (rs != null)
@@ -307,8 +342,35 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		}
 		return id;
 	}
-
 	
+	public int findMAid(String name, String vorname) {
+		ResultSet rs = null;
+		int id = 0;
+		String sql = "SELECT " + "id " + "FROM person " + "WHERE nachname = ? AND vorname = ?";
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, vorname);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				id = (rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception ex) {
+			}
+		}
+		return id;
+	}
 
 	@Override
 	public List<Mitarbeiter> findAll() {

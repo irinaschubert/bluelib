@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.LinkedHashMap;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -48,11 +49,13 @@ public class MitarbeiterView extends JPanel {
 	private JLabel PasswortL;
 	private JLabel aktivL;
 	private JLabel adminL;
+	private JLabel maIDL;
 	
 	private JLabel NameSucheL;
 	private JLabel VornameSucheL;
 	private JLabel BenutzernameSucheL;
 	private JLabel aktivSucheL;
+	private JLabel adminSucheL;
 	
 	private JLabel neuAendernL;
 
@@ -64,15 +67,15 @@ public class MitarbeiterView extends JPanel {
 	private JTextField VornameSucheT;
 	private JTextField BenutzernameT;
 	private JTextField BenutzernameSucheT;
+	private JTextField maIDT;
 
 	private JCheckBox aktivCbx;
 	private JCheckBox aktivSucheCbx;
 	private JCheckBox adminCbx;
+	private JCheckBox adminSucheCbx;
 	private JButton suchButton;
 	private JTable MitarbeiterTabelle;
 
-	private LinkedHashMap<JLabel, JComponent> componentsSuche = new LinkedHashMap<>();
-	private LinkedHashMap<JLabel, JComponent> componentsNeuBearbeiten = new LinkedHashMap<>();
 	private static int HOEHE = 600;
 	private static int BREITE = 550;
 
@@ -133,6 +136,11 @@ public class MitarbeiterView extends JPanel {
 
 		adminL = new JLabel();
 		adminCbx = new JCheckBox();
+		
+		maIDL = new JLabel();
+		maIDT = new JTextField();
+		maIDL.setVisible(false);
+		maIDT.setVisible(false);
 
 		gridBagHelfer.labelSetzen(PKL, MitarbeiterNeuBearbeitenPanel, 0, 0);
 		gridBagHelfer.feldSetzen(PKT, MitarbeiterNeuBearbeitenPanel, 1, 0);
@@ -187,6 +195,9 @@ public class MitarbeiterView extends JPanel {
 		aktivSucheL = new JLabel();
 		aktivSucheCbx = new JCheckBox();
 		
+		adminSucheL = new JLabel();
+		adminSucheCbx = new JCheckBox();
+		
 		suchButton = new JButton();
 		
 		gridBagHelfer.labelSetzen(NameSucheL, MitarbeiterSuchePanel, 0, 0);
@@ -197,6 +208,8 @@ public class MitarbeiterView extends JPanel {
 		gridBagHelfer.feldSetzenLang(BenutzernameSucheT, MitarbeiterSuchePanel, 1, 2);
 		gridBagHelfer.labelSetzen(aktivSucheL, MitarbeiterSuchePanel, 0, 3);
 		gridBagHelfer.feldSetzen(aktivSucheCbx, MitarbeiterSuchePanel, 1, 3);
+		//gridBagHelfer.labelSetzen(adminSucheL, MitarbeiterSuchePanel, 0, 4);
+		//gridBagHelfer.feldSetzen(adminSucheCbx, MitarbeiterSuchePanel, 1, 4);
 		
 		gridBagHelfer.labelSetzen(suchButton, MitarbeiterSuchePanel, 2, 3);
 		
@@ -216,6 +229,7 @@ public class MitarbeiterView extends JPanel {
 		MitarbeiterTabelle.getColumnModel().getColumn(1).setPreferredWidth(40); // Vorname (Person)
 		MitarbeiterTabelle.getColumnModel().getColumn(2).setPreferredWidth(40); // Mitarbeiter
 		MitarbeiterTabelle.getColumnModel().getColumn(3).setMaxWidth(50); // Aktiv
+		MitarbeiterTabelle.getColumnModel().getColumn(4).setMaxWidth(50); // Admin
 	}
 
 	public StandardButtonPanel getButton() {
@@ -277,6 +291,22 @@ public class MitarbeiterView extends JPanel {
 	public JTextField getPasswortT() {
 		return PasswortT;
 	}
+	
+	public JTextField getMAIDT() {
+		return maIDT;
+	}
+
+	public JLabel getMAIDL() {
+		return maIDL;
+	}
+	
+	public void setMAIDL(JLabel maIDL) {
+		this.maIDL = maIDL;
+	}
+	
+	public void setMAIDT(JTextField maIDT) {
+		this.maIDT = maIDT;
+	}
 
 	public JTextField getPKT() {
 		return PKT;
@@ -288,10 +318,6 @@ public class MitarbeiterView extends JPanel {
 
 	public JTable getMitarbeiterTabelle() {
 		return MitarbeiterTabelle;
-	}
-
-	public LinkedHashMap<JLabel, JComponent> getComponentsNeuBearbeiten() {
-		return componentsNeuBearbeiten;
 	}
 
 	public JLabel getBenutzernameSucheL() {
@@ -368,6 +394,14 @@ public class MitarbeiterView extends JPanel {
 
 	public void setNeuAendernL(JLabel neuAendernL) {
 		this.neuAendernL = neuAendernL;
+	}
+
+	public JCheckBox getAdminSucheCbx() {
+		return adminSucheCbx;
+	}
+
+	public JLabel getAdminSucheL() {
+		return adminSucheL;
 	}
 
 }

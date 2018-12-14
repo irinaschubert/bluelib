@@ -1,7 +1,14 @@
 package services;
 
+
+import dao.BenutzerDAO;
+import dao.BuchDAO;
 import dao.MitarbeiterDAO;
+import domain.Benutzer;
+import domain.Buch;
 import domain.Mitarbeiter;
+import domain.Schlagwort;
+import ui.MA.MitarbeiterView;
 
 /**
  * @version 0.1 16.10.2018
@@ -28,12 +35,12 @@ public class MitarbeiterService {
 		return v;
 	}
     
-    public Verifikation speichernMitarbeiter(Mitarbeiter mitarbeiter) {
-    	
+    public Verifikation speichernMitarbeiter(Mitarbeiter mitarbeiter) { 	
 		Verifikation v = new Verifikation();
-		System.out.println("Benutername1111: "+mitarbeiter.getBenutzername());
-		if (new MitarbeiterDAO().save(mitarbeiter) != null) {
-			System.out.println("Benutername2222: "+mitarbeiter.getBenutzername());
+		Mitarbeiter m = null;
+		MitarbeiterDAO madao = new MitarbeiterDAO();
+		m = madao.save(mitarbeiter);
+		if (m != null) {
 			v.setAktionErfolgreich(true);
 			v.setNachricht("Der Mitarbeiter " + mitarbeiter.getBenutzername() + " wurde gespeichert.");
 		} else {

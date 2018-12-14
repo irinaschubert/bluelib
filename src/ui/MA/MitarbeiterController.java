@@ -20,6 +20,7 @@ import domain.Benutzer;
 import domain.Mitarbeiter;
 import hilfsklassen.ButtonNamen;
 import models.TableModelMitarbeiter;
+import services.BenutzerService;
 import services.MitarbeiterService;
 import services.NormdatenService;
 import services.Verifikation;
@@ -41,6 +42,7 @@ import ui.MA.MitarbeiterController;
 public class MitarbeiterController {
 	private MitarbeiterView mitarbeiterView;
 	private NormdatenService normdatenService;
+	private BenutzerService benutzerService;
 	private MitarbeiterService mitarbeiterService;
 	private List<Mitarbeiter> mitarbeiterL;
 	private TableModelMitarbeiter tableModelMitarbeiter;
@@ -53,12 +55,15 @@ public class MitarbeiterController {
 		this.hauptController = hauptController;
 		mitarbeiterController = this;
 		normdatenService = new NormdatenService();
+		mitarbeiterService = new MitarbeiterService();
+		benutzerService = new BenutzerService();
 		mitarbeiterL = new ArrayList<>();
 		tableModelMitarbeiter = new TableModelMitarbeiter();
 		tableModelMitarbeiter.setAndSortListe(mitarbeiterL);
 		view.getMitarbeiterTabelle().setModel(tableModelMitarbeiter);
 		view.spaltenBreiteSetzen();
 		mitarbeiterSuchobjekt = new Mitarbeiter();
+		mitarbeiterSuchobjekt.setAktiv(true);
 		initialisieren();
 		control();
 	}
@@ -83,10 +88,8 @@ public class MitarbeiterController {
 		mitarbeiterView.getSuchButton().addActionListener(suchenButtonActionListener);
 
 		ActionListener neuButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				suchFelderLeeren();
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -100,30 +103,21 @@ public class MitarbeiterController {
 			}
 
 		};
-
-		// Zuweisen des Actionlisteners zum Neu-Button
 		mitarbeiterView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
 
 		ActionListener sichernButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Mitarbeiter m = new Mitarbeiter();
 				if (inputValidierungSpeichern()) {
 					m = feldwertezuObjektSpeichern();
-					// Prüfung, ob ein neuer Mitarbeiter erfasst wurde oder ein Mitarbeiter
-					// aktialisiert wird
 					if (mitarbeiterView.getNeuAendernL().getText().equals("Bearbeiten")) {
-						System.out.println("aktuell machen");
 						nachAarbeitSpeichern(mitarbeiterService.aktualisierenMitarbeiter(m));
-					} else if (mitarbeiterView.getNeuAendernL().getText().equals("Neuerfassung")){
-						System.out.println("neu machen");
+					} else if (mitarbeiterView.getNeuAendernL().getText().equals("Neuerfassung")) {
 						nachAarbeitSpeichern(mitarbeiterService.speichernMitarbeiter(m));
 					}
 				}
-
 			}
-
 		};
 
 		// Zuweisen des Actionlisteners zum Sichern-Button
@@ -150,10 +144,8 @@ public class MitarbeiterController {
 				}
 			}
 		};
-
 		// Zuweisen des Mouselisteners zur Tabelle
 		mitarbeiterView.getMitarbeiterTabelle().addMouseListener(doppelKlick);
-
 	}
 
 	private boolean inputValidierungSuchen() {
@@ -177,6 +169,8 @@ public class MitarbeiterController {
 		if (!mitarbeiterView.getPKT().getText().isEmpty()) {
 			m.setId(Integer.parseInt(mitarbeiterView.getPKT().getText()));
 		}
+		m.setName(mitarbeiterView.getNameT().getText());
+		m.setVorname(mitarbeiterView.getVornameT().getText());
 		m.setBenutzername(mitarbeiterView.getBenutzernameT().getText());
 		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
 		m.setAdmin(mitarbeiterView.getAdminCbx().isSelected());
@@ -198,6 +192,7 @@ public class MitarbeiterController {
 			m.setVorname(mitarbeiterView.getVornameSucheT().getText());
 		}
 		m.setAktiv(mitarbeiterView.getAktivSucheCbx().isSelected());
+		m.setAdmin(mitarbeiterView.getAdminSucheCbx().isSelected());
 		return m;
 	}
 
@@ -210,6 +205,7 @@ public class MitarbeiterController {
 		mitarbeiterView.getVornameT().setText(m.getVorname());
 		mitarbeiterView.getAktivCbx().setSelected(m.isAktiv());
 		mitarbeiterView.getAdminCbx().setSelected(m.isAdmin());
+		// mitarbeiterView.getMAIDT().setText(m.getMAIDT());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
@@ -219,9 +215,7 @@ public class MitarbeiterController {
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
-		suchFelderLeeren();
-		mitarbeiterView.getNeuAendernL().setText("");
-
+		neuBearbeitenFelderLeeren();
 	}
 
 	void pruefenUndUebernehmenBenutzerMitId(int id) {
@@ -254,6 +248,7 @@ public class MitarbeiterController {
 		try {
 			ma = maDAO.findById(id);
 			mitarbeiterView.getBenutzernameT().setText(ma.getBenutzername());
+			mitarbeiterView.getMAIDT().setText(Integer.toString(ma.getMAId()));
 			mitarbeiterView.getNeuAendernL().setText("Bearbeiten");
 		} catch (NullPointerException npe) {
 			mitarbeiterView.getBenutzernameT().setText("");
@@ -261,31 +256,17 @@ public class MitarbeiterController {
 			mitarbeiterView.getBenutzernameT().setText("");
 		}
 	}
-	
+
+	// Bearbeiten Felder leeren
 	private void neuBearbeitenFelderLeeren() {
-
-		// Felder leeren
-		for (JComponent t : mitarbeiterView.getComponentsNeuBearbeiten().values()) {
-			if (t instanceof JTextField) {
-				((JTextField) t).setText("");
-			}
-			if (t instanceof JCheckBox) {
-				((JCheckBox) t).setSelected(false);
-			}
-
-		}
-	}
-
-	private void suchFelderLeeren() {
-		// Felder leeren
-		for (JComponent t : mitarbeiterView.getComponentsNeuBearbeiten().values()) {
-			if (t instanceof JTextField) {
-				((JTextField) t).setText("");
-			}
-			if (t instanceof JCheckBox) {
-				((JCheckBox) t).setSelected(false);
-			}
-		}
+		mitarbeiterView.getPKT().setText("");
+		mitarbeiterView.getBenutzernameT().setText("");
+		mitarbeiterView.getNameT().setText("");
+		mitarbeiterView.getVornameT().setText("");
+		mitarbeiterView.getPasswortT().setText("");
+		mitarbeiterView.getAktivCbx().setSelected(true);
+		mitarbeiterView.getAdminCbx().setSelected(false);
+		mitarbeiterView.getNeuAendernL().setText("");
 	}
 
 	public void initialisieren() {
@@ -302,6 +283,7 @@ public class MitarbeiterController {
 		mitarbeiterView.getVornameSucheL().setText("Vorname:");
 		mitarbeiterView.getBenutzernameSucheL().setText("Benutzername:");
 		mitarbeiterView.getAktivSucheL().setText("Aktiv:");
+		//mitarbeiterView.getAdminSucheL().setText("AdministratorIn:");
 		mitarbeiterView.getAktivSucheCbx().setSelected(true);
 		mitarbeiterView.getSuchButton().setText("Suchen");
 		mitarbeiterView.getPKT().setEditable(false);
