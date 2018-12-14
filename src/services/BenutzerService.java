@@ -34,7 +34,6 @@ public class BenutzerService {
 		v.setAktionErfolgreich(true);
 		try 
         { 
-            // checking valid integer using parseInt() method 
             Integer.parseInt(id); 
         }  
         catch (NumberFormatException e)  
@@ -60,12 +59,6 @@ public class BenutzerService {
 		}
 		return v;
 	}
-
-	public Verifikation darfAusleihen(Benutzer benutzer) {
-		Verifikation v = new Verifikation();
-		return v;
-	}
-
 
 	public Verifikation speichernBenutzer(Benutzer benutzer) {
 		Verifikation v = new Verifikation();

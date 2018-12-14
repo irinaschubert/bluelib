@@ -11,7 +11,6 @@ package domain;
 public class Benutzer extends Person {
 
 	private Status benutzerStatus;
-	private int maid;
 
 	// Benutzer wird mit Status "aktiv" (=1) initialisiert
 	public Benutzer() {

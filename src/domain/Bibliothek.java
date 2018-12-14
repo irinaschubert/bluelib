@@ -13,7 +13,6 @@ public class Bibliothek{
 	private String name;
 	private String email;
 	private String telefon;
-	private String oeffnungszeiten;
 	private Adresse adresse;
 	private int leihfrist; // Anz. Tage
 	
@@ -51,14 +50,6 @@ public class Bibliothek{
 
 	public void setTelefon(String telefon) {
 		this.telefon = telefon;
-	}
-
-	public String getOeffnungszeiten() {
-		return oeffnungszeiten;
-	}
-
-	public void setOeffnungszeiten(String oeffnungszeiten) {
-		this.oeffnungszeiten = oeffnungszeiten;
 	}
 
 	public int getLeihfrist() {
