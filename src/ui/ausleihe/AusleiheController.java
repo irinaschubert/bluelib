@@ -496,8 +496,8 @@ public class AusleiheController {
 		ausleiheView.getErfasstAmL().setText("Erfasst am:");
 		ausleiheView.getErfasstVonL().setText("Erfasst von:");
 
-		ausleiheView.getSuchButtonBenutzer().setText("Suchen");
-		ausleiheView.getSuchButtonBuch().setText("Suchen");
+		ausleiheView.getSuchButtonBenutzer().setText("Suche öffnen...");
+		ausleiheView.getSuchButtonBuch().setText("Suche öffnen...");
 		ausleiheView.getAusleiheSpeichernButton().setText("Ausleihe speichern");
 		ausleiheView.getPKTBuch().setEditable(false);
 		ausleiheView.getBarcodeT().setEditable(true);
