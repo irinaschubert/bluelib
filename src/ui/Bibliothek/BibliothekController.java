@@ -15,11 +15,10 @@ import ui.HauptController;
 import ui.renderer.PlzRenderer;
 
 /**
- * 
- * Controller für die die Stammdaten der Bibliothek
+ * Controller für die die Stammdaten der Bibliothek.
  * 
  * @version 2.0 31.10.2018
- * @author mike
+ * @author Mike
  *
  */
 
@@ -40,7 +39,6 @@ public class BibliothekController {
 
 	private void control() {
 		ActionListener sichernBibliothekActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Bibliothek b = new Bibliothek();
@@ -55,12 +53,10 @@ public class BibliothekController {
 		bibliothekView.getButtonPanel().getButton3().addActionListener(sichernBibliothekActionListener);
 
 		ActionListener schliessenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				hauptController.panelEntfernen();
 			}
-
 		};
 		bibliothekView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 		
@@ -77,20 +73,18 @@ public class BibliothekController {
 			}
 		};
 		bibliothekView.getPlzOrtCbx().addActionListener(plzCbxListener);
-
 	}
 
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (bibliothekView.getNameT().getText().isEmpty() || (bibliothekView.getLeihfristT().getText().isEmpty())) {
-			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
+			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen.");
 			keinInputFehler = false;
 		}
 		try {
 			Integer.parseInt(bibliothekView.getLeihfristT().getText());
 		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Üngültige Leihfrist. Bitte eine Zahl zwischen 0 und 365 eingeben");
-			// e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ungültige Leihfrist. Die Leihfrist muss zwischen 0 und 365 Tagen liegen.");
 			keinInputFehler = false;
 			return keinInputFehler;
 		} finally {
@@ -98,9 +92,7 @@ public class BibliothekController {
 		}
 		if (Integer.parseInt(bibliothekView.getLeihfristT().getText()) < 0
 				|| Integer.parseInt(bibliothekView.getLeihfristT().getText()) > 365) {
-			// System.out.println(Integer.parseInt(bibliothekView.getLeihfristT().getText())
-			// >= 0);
-			JOptionPane.showMessageDialog(null, "Üngültige Leihfrist. Die Leihfrist kann von 0 bis 365 Tagen sein");
+			JOptionPane.showMessageDialog(null, "Ungültige Leihfrist. Die Leihfrist muss zwischen 0 und 365 Tagen liegen.");
 			keinInputFehler = false;
 		}
 		return keinInputFehler;
@@ -119,14 +111,13 @@ public class BibliothekController {
 	}
 
 	private void biblioitheksFelderFuellen() {
-		Bibliothek b = bibliothekService.suchenBibliothek(); // Bibliothek bestücken
+		Bibliothek b = bibliothekService.suchenBibliothek();
 		bibliothekView.getNameT().setText(b.getName());
 		bibliothekView.getStrasseUndNrT().setText(b.getAdresse().getStrasse());
 		bibliothekView.getPlzOrtCbx().setSelectedIndex(b.getAdresse().getOrt().getId());
 		bibliothekView.getEmailT().setText(b.getEmail());
 		bibliothekView.getTelT().setText(b.getTelefon());
 		bibliothekView.getLeihfristT().setText(String.valueOf(b.getLeihfrist()));
-
 	}
 
 	public void initialisieren() {
@@ -138,7 +129,6 @@ public class BibliothekController {
 		}
 		bibliothekView.getPlzOrtCbx().setMaximumRowCount(10);
 		bibliothekView.getPlzOrtCbx().setSelectedIndex(0);
-		
 		bibliothekView.getNameL().setText("Name der Bibliothek:*");
 		bibliothekView.getStrasseUndNrL().setText("Strasse & Nr.:");
 		bibliothekView.getOrtL().setText("PLZ und Ort:");
@@ -154,7 +144,6 @@ public class BibliothekController {
 		bibliothekView.getButtonPanel().getButton2().setVisible(false);
 		bibliothekView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
 		bibliothekView.getButtonPanel().getButton4().setText(ButtonNamen.ABBRECHEN.getName());
-
 		biblioitheksFelderFuellen();
 	}
 }

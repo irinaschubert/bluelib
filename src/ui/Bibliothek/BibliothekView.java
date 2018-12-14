@@ -165,5 +165,4 @@ public class BibliothekView extends JPanel {
 	public void schliessen() {
 		frame.dispose();
 	}
-
 }

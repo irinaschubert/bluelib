@@ -12,7 +12,6 @@ import domain.Bibliothek;
  */
 
 public class BibliothekService {
-
 	public Verifikation aktualisierenBibliothek(Bibliothek bibliothek) {
 		Verifikation v = new Verifikation();
 		if (new BibliothekDAO().update(bibliothek) != null) {
