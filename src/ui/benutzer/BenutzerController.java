@@ -14,11 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import dao.AnredeDAO;
-import dao.BenutzerDAO;
-import dao.MitarbeiterDAO;
-import dao.OrtDAO;
-import dao.StatusDAO;
 import domain.Adresse;
 import domain.Anrede;
 import domain.Benutzer;
@@ -29,7 +24,11 @@ import hilfsklassen.ButtonNamen;
 import hilfsklassen.DateConverter;
 import hilfsklassen.TextComponentLimit;
 import models.TableModelBenutzer;
+import services.AnredeService;
 import services.BenutzerService;
+import services.MitarbeiterService;
+import services.OrtService;
+import services.StatusService;
 import services.Verifikation;
 import ui.HauptController;
 import ui.renderer.AnredeRenderer;
@@ -53,9 +52,10 @@ public class BenutzerController {
 	private List<Benutzer> benutzerL;
 	private TableModelBenutzer tableModelBenutzer;
 	private Benutzer benutzerSuchobjekt;
-	private OrtDAO ortDao;
-	private StatusDAO statusDao;
-	private AnredeDAO anredeDao;
+	private OrtService ortService;
+	private AnredeService anredeService;
+	private StatusService statusService;
+	private MitarbeiterService mitarbeiterService;
 	private HauptController hauptController;
 
 	public BenutzerController(BenutzerView view, HauptController hauptController) {
@@ -63,9 +63,10 @@ public class BenutzerController {
 		this.hauptController = hauptController;
 		benutzerService = new BenutzerService();
 		benutzerL = new ArrayList<>();
-		ortDao = new OrtDAO();
-		statusDao = new StatusDAO();
-		anredeDao = new AnredeDAO();
+		ortService = new OrtService();
+		anredeService = new AnredeService();
+		statusService = new StatusService();
+		mitarbeiterService = new MitarbeiterService();
 		tableModelBenutzer = new TableModelBenutzer();
 		tableModelBenutzer.setAndSortListe(benutzerL);
 		view.getBenutzerTabelle().setModel(tableModelBenutzer);
@@ -142,12 +143,11 @@ public class BenutzerController {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<Ort> c = (JComboBox<Ort>) e.getSource();
 				int ortId = c.getSelectedIndex();
-				OrtDAO ortDAO = new OrtDAO();
-				Ort ortFromDao = ortDAO.findById(ortId);
+				Ort ortFromService = ortService.suchenOrtById(ortId);
 				Ort ort = new Ort();
-				ort.setId(ortFromDao.getId());
-				ort.setPlz(ortFromDao.getPlz());
-				ort.setOrt(ortFromDao.getOrt());
+				ort.setId(ortFromService.getId());
+				ort.setPlz(ortFromService.getPlz());
+				ort.setOrt(ortFromService.getOrt());
 			}
 		};
 		benutzerView.getPlzOrtSucheCbx().addActionListener(plzCbxSucheListener);
@@ -157,12 +157,11 @@ public class BenutzerController {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<Ort> c = (JComboBox<Ort>) e.getSource();
 				int ortId = c.getSelectedIndex();
-				OrtDAO ortDAO = new OrtDAO();
-				Ort ortFromDao = ortDAO.findById(ortId);
+				Ort ortFromService = ortService.suchenOrtById(ortId);
 				Ort ort = new Ort();
-				ort.setId(ortFromDao.getId());
-				ort.setPlz(ortFromDao.getPlz());
-				ort.setOrt(ortFromDao.getOrt());
+				ort.setId(ortFromService.getId());
+				ort.setPlz(ortFromService.getPlz());
+				ort.setOrt(ortFromService.getOrt());
 			}
 		};
 		benutzerView.getPlzOrtCbx().addActionListener(plzCbxListener);
@@ -264,13 +263,12 @@ public class BenutzerController {
 			String name = nachname + " " + vorname;
 			b.setErfassungMitarbeiterName(name);
 		} else {
-			MitarbeiterDAO mitarbeiterDAO = new MitarbeiterDAO();
 			b.setErfassungMitarbeiterName(benutzerView.getErfasstVonT().getText());
 			String nameVorname = benutzerView.getErfasstVonT().getText();
 			String[] splitName = nameVorname.split(" ");
 			String name = splitName[0];
 			String vorname = splitName[1];
-			int erfassungMitarbeiterId = mitarbeiterDAO.findIdByName(name, vorname);
+			int erfassungMitarbeiterId = mitarbeiterService.suchenMitarbeiterIdByName(name, vorname);
 			b.setErfassungMitarbeiterId(erfassungMitarbeiterId);
 		}
 		if (!benutzerView.getErfasstAmT().getText().isEmpty() || !benutzerView.getErfasstAmT().getText().equals("")) {
@@ -295,13 +293,12 @@ public class BenutzerController {
 		}
 		if (benutzerView.getPlzOrtSucheCbx().getSelectedIndex() != -1) {
 			Ort plzSelected = (Ort) benutzerView.getPlzOrtSucheCbx().getSelectedItem();
-			OrtDAO ortDAO = new OrtDAO();
-			Ort ortFromDao = ortDAO.findById(plzSelected.getId());
+			Ort ortFromService = ortService.suchenOrtById(plzSelected.getId());
 			Ort ort = new Ort();
-			ort.setId(ortFromDao.getId());
-			ort.setPlz(ortFromDao.getPlz());
-			ort.setOrt(ortFromDao.getOrt());
-			Adresse adresse = new Adresse(ortFromDao);
+			ort.setId(ortFromService.getId());
+			ort.setPlz(ortFromService.getPlz());
+			ort.setOrt(ortFromService.getOrt());
+			Adresse adresse = new Adresse(ortFromService);
 			b.setAdresse(adresse);
 		}
 		if (!benutzerView.getStrasseNrSucheT().getText().isEmpty()) {
@@ -317,9 +314,8 @@ public class BenutzerController {
 	private void uebernehmen() {
 		felderLeeren();
 		Benutzer benutzer = new Benutzer();
-		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		benutzer = tableModelBenutzer.getGeklicktesObjekt(benutzerView.getBenutzerTabelle().getSelectedRow());
-		benutzer = benutzerDAO.findById(benutzer.getId());
+		benutzer = benutzerService.suchenBenutzerById(benutzer.getId());
 		benutzerView.getPKT().setText(Integer.toString(benutzer.getId()));
 		benutzerView.getNachnameT().setText(benutzer.getName());
 		benutzerView.getVornameT().setText(benutzer.getVorname());
@@ -423,7 +419,7 @@ public class BenutzerController {
 		TextComponentLimit.addTo(benutzerView.getStrasseNrSucheT(), 50);
 		StatusRenderer statusR = new StatusRenderer();
 		benutzerView.getStatusCbx().setRenderer(statusR);
-		for (Status s : statusDao.findAll()) {
+		for (Status s : statusService.suchenAlleStatus()) {
 			benutzerView.getStatusCbx().addItem(s);
 		}
 		benutzerView.getStatusCbx().setSelectedIndex(0);
@@ -431,7 +427,7 @@ public class BenutzerController {
 		StatusSucheRenderer statusSucheR = new StatusSucheRenderer();
 		benutzerView.getStatusSucheCbx().setRenderer(statusSucheR);
 		benutzerView.getStatusSucheCbx().addItem(null);
-		for (Status s : statusDao.findAll()) {
+		for (Status s : statusService.suchenAlleStatus()) {
 			benutzerView.getStatusSucheCbx().addItem(s);
 		}
 		benutzerView.getStatusSucheCbx().setSelectedIndex(0);
@@ -439,7 +435,7 @@ public class BenutzerController {
 		PlzRenderer plzR = new PlzRenderer();
 		benutzerView.getPlzOrtCbx().setRenderer(plzR);
 		benutzerView.getPlzOrtCbx().addItem(null);
-		for (Ort o : ortDao.findAll()) {
+		for (Ort o : ortService.suchenAlleOrte()) {
 			benutzerView.getPlzOrtCbx().addItem(o);
 		}
 		benutzerView.getPlzOrtCbx().setMaximumRowCount(10);
@@ -449,7 +445,7 @@ public class BenutzerController {
 		benutzerView.getPlzOrtSucheCbx().setRenderer(plzSucheR);
 		benutzerView.getPlzOrtSucheCbx().addItem(null);
 		// benutzerView.getPlzOrtSucheCbx().setEditable(true);
-		for (Ort o : ortDao.findAll()) {
+		for (Ort o : ortService.suchenAlleOrte()) {
 			benutzerView.getPlzOrtSucheCbx().addItem(o);
 		}
 		benutzerView.getPlzOrtSucheCbx().setMaximumRowCount(10);
@@ -457,7 +453,7 @@ public class BenutzerController {
 
 		AnredeRenderer anredeR = new AnredeRenderer();
 		benutzerView.getAnredeCbx().setRenderer(anredeR);
-		for (Anrede a : anredeDao.findAll()) {
+		for (Anrede a : anredeService.suchenAlleAnreden()) {
 			benutzerView.getAnredeCbx().addItem(a);
 		}
 		benutzerView.getAnredeCbx().setSelectedIndex(0);

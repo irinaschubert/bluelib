@@ -77,7 +77,7 @@ public class BarCodeZuordnungController {
 			r = false;
 		} else {
 			int barCode = Integer.parseInt(barCodeZuordnungView.getBarCodeT().getText());
-			v = medienhandlingService.BarcodeZugeordnet(barCode);
+			v = medienhandlingService.barcodeZugeordnet(barCode);
 			if (v.isAktionErfolgreich()) {
 				JOptionPane.showMessageDialog(null, v.getNachricht());
 				r = false;

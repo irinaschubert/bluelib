@@ -46,7 +46,7 @@ public class MedienhandlingService {
 		return v;
 	}
 	
-	public VerifikationMitBuch BarcodeZugeordnet(int barCode) {
+	public VerifikationMitBuch barcodeZugeordnet(int barCode) {
 				
 			VerifikationMitBuch vma = new VerifikationMitBuch();
 			vma.setAktionErfolgreich(false);
@@ -104,6 +104,10 @@ public class MedienhandlingService {
 	
 	public List<Buch> suchenBuch(Buch buch) {
 		return new BuchDAO().getSelektion(buch);
+	}
+	
+	public Buch suchenBuchById(int id) {
+		return new BuchDAO().findById(id);
 	}
 	
 	public List<Status> alleMedienStati(){

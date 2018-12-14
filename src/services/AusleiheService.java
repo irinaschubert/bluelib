@@ -30,8 +30,16 @@ public class AusleiheService {
 		}
 		return v;
 	}
+	
+	public Ausleihe suchenAusleiheById(int id) {
+		return new AusleiheDAO().findById(id);
+	}
+	
+	public List<Ausleihe> suchenAlleAusleihen() {
+		return new AusleiheDAO().findAll();
+	}
 
-	public List<Ausleihe> sucheAusleihenProBenutzer(Benutzer benutzer) {
+	public List<Ausleihe> suchenAusleihenProBenutzer(Benutzer benutzer) {
 		return new AusleiheDAO().getSelektionByBenutzer(benutzer);
 	}
 }

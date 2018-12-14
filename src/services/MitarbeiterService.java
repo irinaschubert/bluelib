@@ -52,7 +52,15 @@ public class MitarbeiterService {
 
 	}
     
-    public Mitarbeiter suchenBenutzerMitID(int id) {
+    public String suchenNameVornameById(int id) {
+		return new MitarbeiterDAO().findNameVornameById(id);
+	}
+    
+    public Mitarbeiter suchenMitarbeiterById(int id) {
 		return new MitarbeiterDAO().findById(id);
+	}
+    
+    public int suchenMitarbeiterIdByName(String name, String vorname) {
+		return new MitarbeiterDAO().findIdByName(name, vorname);
 	}
 }

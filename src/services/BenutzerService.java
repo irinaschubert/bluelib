@@ -95,7 +95,7 @@ public class BenutzerService {
 		return new BenutzerDAO().getSelektion(benutzer);
 	}
 	
-	public Benutzer suchenBenutzerMitID(int id) {
+	public Benutzer suchenBenutzerById(int id) {
 		return new BenutzerDAO().findById(id);
 	}
 

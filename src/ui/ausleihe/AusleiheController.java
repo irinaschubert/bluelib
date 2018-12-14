@@ -13,10 +13,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import dao.AusleiheDAO;
-import dao.BenutzerDAO;
-import dao.BuchDAO;
-import dao.MitarbeiterDAO;
 import domain.Ausleihe;
 import domain.Autor;
 import domain.Benutzer;
@@ -29,6 +25,7 @@ import models.TableModelAusleihe;
 import services.AusleiheService;
 import services.BenutzerService;
 import services.MedienhandlingService;
+import services.MitarbeiterService;
 import services.Verifikation;
 import ui.HauptController;
 
@@ -44,11 +41,11 @@ import ui.HauptController;
 public class AusleiheController {
 	private AusleiheView ausleiheView;
 	private AusleiheService ausleiheService;
-	private MedienhandlingService medienHandlingService;
+	private MedienhandlingService medienhandlingService;
 	private BenutzerService benutzerService;
+	private MitarbeiterService mitarbeiterService;
 	private List<Ausleihe> ausleiheL;
 	private TableModelAusleihe tableModelAusleihe;
-	private AusleiheDAO ausleiheDAO;
 	private HauptController hauptController;
 	private AusleiheController ausleiheController;
 
@@ -57,10 +54,10 @@ public class AusleiheController {
 		this.hauptController = hauptController;
 		ausleiheController = this;
 		ausleiheService = new AusleiheService();
-		medienHandlingService = new MedienhandlingService();
+		medienhandlingService = new MedienhandlingService();
 		benutzerService = new BenutzerService();
+		mitarbeiterService = new MitarbeiterService();
 		ausleiheL = new ArrayList<>();
-		ausleiheDAO = new AusleiheDAO();
 		tableModelAusleihe = new TableModelAusleihe();
 		tableModelAusleihe.setAndSortListe(ausleiheL);
 		view.getAusleiheTabelle().setModel(tableModelAusleihe);
@@ -164,7 +161,7 @@ public class AusleiheController {
 					if (inputValidierungBuchSuchen()) {
 						Buch b = new Buch();
 						b.setBarcodeNr(Integer.parseInt(ausleiheView.getBarcodeT().getText()));						
-						Buch resultat = medienHandlingService.suchenBuch(b).get(0);
+						Buch resultat = medienhandlingService.suchenBuch(b).get(0);
 						suchenBuchMitId(resultat.getId());
 					}
 				}
@@ -181,8 +178,8 @@ public class AusleiheController {
 					if (inputValidierungBenutzerSuchen()) {
 						Benutzer b = new Benutzer();
 						b.setId(Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText()));
-						Benutzer resultat = benutzerService.suchenBenutzerMitID(b.getId());
-						ausleiheL = ausleiheService.sucheAusleihenProBenutzer(b);
+						Benutzer resultat = benutzerService.suchenBenutzerById(b.getId());
+						ausleiheL = ausleiheService.suchenAusleihenProBenutzer(b);
 						tableModelAusleihe.setAndSortListe(ausleiheL);
 						pruefenUndUebernehmenBenutzerMitId(resultat.getId());
 					}
@@ -196,7 +193,7 @@ public class AusleiheController {
 	private boolean inputValidierungBuchSuchen() {
 		boolean keinInputFehler = true;
 		if (!ausleiheView.getBarcodeT().getText().isEmpty() || ausleiheView.getBarcodeT().getText().equals("")) {
-			Verifikation v = medienHandlingService.istBarcode(ausleiheView.getBarcodeT().getText());
+			Verifikation v = medienhandlingService.istBarcode(ausleiheView.getBarcodeT().getText());
 			if (!v.isAktionErfolgreich()) {
 				JOptionPane.showMessageDialog(null, v.getNachricht());
 				ausleiheView.getBarcodeT().setText("");
@@ -204,7 +201,7 @@ public class AusleiheController {
 			} else {
 				int barCode = Integer.parseInt(ausleiheView.getBarcodeT().getText());
 
-				Verifikation vz = medienHandlingService.BarcodeZugeordnet(barCode);
+				Verifikation vz = medienhandlingService.barcodeZugeordnet(barCode);
 				if (!vz.isAktionErfolgreich()) {
 					JOptionPane.showMessageDialog(null, vz.getNachricht());
 					ausleiheView.getBarcodeT().setText("");
@@ -263,10 +260,9 @@ public class AusleiheController {
 
 
 	private boolean validierungBuch() {
-		BuchDAO buchDAO = new BuchDAO();
 		try {
 			int id = Integer.parseInt(ausleiheView.getPKTBuch().getText());
-			Buch buch = buchDAO.findById(id);
+			Buch buch = medienhandlingService.suchenBuchById(id);
 			int statusId = buch.getStatus().getId();
 			// Status = 2: gesperrt, Status = 3: gelöscht
 			if (statusId == 2 || statusId == 3) {
@@ -282,10 +278,9 @@ public class AusleiheController {
 	}
 	
 	private boolean validierungBenutzer() {
-		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		try {
 			int id = Integer.parseInt(ausleiheView.getBenutzerIDT().getText());
-			Benutzer benutzer = benutzerDAO.findById(id);
+			Benutzer benutzer = benutzerService.suchenBenutzerById(id);
 			int statusId = benutzer.getBenutzerStatus().getId();
 			// Status = 2: gesperrt, Status = 3: gelscht
 			if (statusId == 2 || statusId == 3) {
@@ -303,13 +298,10 @@ public class AusleiheController {
 
 
 	private boolean validierungAusleihe() {
-		ArrayList<Ausleihe> ausleihen = new ArrayList<>();
-		BenutzerDAO benutzerDAO = new BenutzerDAO();
-		BuchDAO buchDAO = new BuchDAO();
-		Buch buch = buchDAO.findById(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
-		Benutzer benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
-		AusleiheDAO ausleiheDAO = new AusleiheDAO();
-		ausleihen = ausleiheDAO.findAll();
+		List<Ausleihe> ausleihen = new ArrayList<>();
+		Buch buch = medienhandlingService.suchenBuchById(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
+		Benutzer benutzer = benutzerService.suchenBenutzerById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
+		ausleihen = ausleiheService.suchenAlleAusleihen();
 		for (Ausleihe a : ausleihen) {
 			if (a.getBenutzer().getId() == benutzer.getId() && a.getMedium().getId() == buch.getId()
 					&& a.getRueckgabeDatum() == null) {
@@ -326,10 +318,8 @@ public class AusleiheController {
 
 	private Ausleihe feldwerteZuObjektSpeichern() {
 		Ausleihe a = new Ausleihe();
-		BenutzerDAO benutzerDAO = new BenutzerDAO();
-		BuchDAO buchDAO = new BuchDAO();
-		Buch buch = buchDAO.findById(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
-		Benutzer benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
+		Buch buch = medienhandlingService.suchenBuchById(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
+		Benutzer benutzer = benutzerService.suchenBenutzerById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
 		a.setMedium(buch);
 		a.setBenutzer(benutzer);
 		if (!ausleiheView.getNotizT().getText().isEmpty()) {
@@ -350,7 +340,7 @@ public class AusleiheController {
 		felderLeerenBenutzer();
 		Ausleihe a = new Ausleihe();
 		a = tableModelAusleihe.getGeklicktesObjekt(ausleiheView.getAusleiheTabelle().getSelectedRow());
-		a = ausleiheDAO.findById(a.getId());
+		a = ausleiheService.suchenAusleiheById(a.getId());
 		Buch buch = (Buch) a.getMedium();
 		Benutzer benutzer = a.getBenutzer();
 		ausleiheView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
@@ -373,8 +363,7 @@ public class AusleiheController {
 		ausleiheView.getBenutzerVornameT().setText(benutzer.getVorname());
 		ausleiheView.getBenutzerStatusT().setText(benutzer.getBenutzerStatus().getBezeichnung());
 		int id = a.getAusleiheMitarbeiterID();
-		MitarbeiterDAO maDAO = new MitarbeiterDAO();
-		String name = maDAO.findNameVornameById(id);
+		String name = mitarbeiterService.suchenNameVornameById(id);
 		if (name != null) {
 			ausleiheView.getErfasstVonT().setText(name);
 		} else {
@@ -389,9 +378,8 @@ public class AusleiheController {
 	
 	protected void suchenBuchMitId(int id) {
 		Buch buch = new Buch();
-		BuchDAO buchDAO = new BuchDAO();
 		try {
-			buch = buchDAO.findById(id);
+			buch = medienhandlingService.suchenBuchById(id);
 			ausleiheView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
 			ausleiheView.getPKTBuch().setText(Integer.toString(buch.getId()));
 			ausleiheView.getBuchTitelT().setText(buch.getTitel());
@@ -415,9 +403,8 @@ public class AusleiheController {
 
 	void pruefenUndUebernehmenBenutzerMitId(int id) {
 		Benutzer benutzer = new Benutzer();
-		BenutzerDAO benutzerDAO = new BenutzerDAO();
 		try {
-			benutzer = benutzerDAO.findById(id);
+			benutzer = benutzerService.suchenBenutzerById(id);
 			ausleiheView.getBenutzerIDT().setText(Integer.toString(benutzer.getId()));
 			ausleiheView.getBenutzerNameT().setText(benutzer.getName());
 			ausleiheView.getBenutzerVornameT().setText(benutzer.getVorname());
@@ -439,9 +426,8 @@ public class AusleiheController {
 	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			BenutzerDAO benutzerDAO = new BenutzerDAO();
-			Benutzer benutzer = benutzerDAO.findById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
-			tableModelAusleihe.setAndSortListe(ausleiheService.sucheAusleihenProBenutzer(benutzer));
+			Benutzer benutzer = benutzerService.suchenBenutzerById(Integer.parseInt(ausleiheView.getBenutzerIDT().getText()));
+			tableModelAusleihe.setAndSortListe(ausleiheService.suchenAusleihenProBenutzer(benutzer));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
