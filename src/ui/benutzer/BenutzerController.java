@@ -188,39 +188,13 @@ public class BenutzerController {
 				return keinInputFehler = false;
 			}
 		}
-		if (benutzerView.getNachnameT().getText().length() > 30) {
-			JOptionPane.showMessageDialog(null, "Der Nachname ist zu lang.");
-			benutzerView.getNachnameT().setText(benutzerView.getNachnameT().getText().substring(0, 30));
-			return keinInputFehler = false;
-		}
-		if (benutzerView.getVornameT().getText().length() > 30) {
-			JOptionPane.showMessageDialog(null, "Der Vorname ist zu lang.");
-			benutzerView.getVornameT().setText(benutzerView.getVornameT().getText().substring(0, 30));
-			return keinInputFehler = false;
-		}
-		if (benutzerView.getStrasseNrT().getText().length() > 50) {
-			JOptionPane.showMessageDialog(null, "Die Strasse/Nr. ist zu lang.");
-			benutzerView.getStrasseNrT().setText(benutzerView.getStrasseNrT().getText().substring(0, 50));
-			return keinInputFehler = false;
-		}
-		if (benutzerView.getTelT().getText().length() > 30) {
-			JOptionPane.showMessageDialog(null, "Die Telefonnummer ist zu lang.");
-			benutzerView.getTelT().setText(benutzerView.getTelT().getText().substring(0, 30));
-			return keinInputFehler = false;
-		}
-		if (benutzerView.getMailT().getText().length() > 50) {
-			JOptionPane.showMessageDialog(null, "Die E-Mailadresse ist zu lang.");
-			benutzerView.getMailT().setText(benutzerView.getMailT().getText().substring(0, 50));
-			return keinInputFehler = false;
-		}
-		if (benutzerView.getBemerkungT().getText().length() > 300) {
-			JOptionPane.showMessageDialog(null, "Die Bemerkung ist zu lang.");
-			benutzerView.getBemerkungT().setText(benutzerView.getBemerkungT().getText().substring(0, 300));
-			return keinInputFehler = false;
-		}
 		return keinInputFehler;
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Neuerfassung/Bearbeitung.
+	* @return Benutzer-Objekt mit Werten aus der Neuerfassung/Bearbeitung
+	*/
 	private Benutzer feldwertezuObjektSpeichern() {
 		Benutzer b = new Benutzer();
 		if (!benutzerView.getPKT().getText().isEmpty()) {
@@ -286,6 +260,10 @@ public class BenutzerController {
 		return b;
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
+	* @return Benutzer-Objekt mit Werten aus der Suche
+	*/
 	private Benutzer feldwertezuObjektSuchen() {
 		Benutzer b = new Benutzer();
 		if (!benutzerView.getPKSucheT().getText().isEmpty()) {
@@ -317,6 +295,10 @@ public class BenutzerController {
 		return b;
 	}
 
+	/**
+	* Uebernimmt sämtliche Werte des Verlagobjekts in die Bearbeitungs-View, wenn auf einen Listeneintrag
+	* ein Doppelklick ausgeführt wird.
+	*/
 	private void uebernehmen() {
 		felderLeeren();
 		Benutzer benutzer = new Benutzer();

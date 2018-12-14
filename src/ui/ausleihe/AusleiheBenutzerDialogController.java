@@ -89,6 +89,6 @@ public class AusleiheBenutzerDialogController {
 	public void auswahlZurueckgeben() {
 		TableModelBenutzer tableModelBenutzer = benutzerSuchController.getTableModelBenutzer();
 		int id = tableModelBenutzer.getGeklicktesObjekt(benutzerSuchView.getBenutzerTabelle().getSelectedRow()).getId();
-		ausleiheController.pruefenUndUebernehmenBenutzerMitId(id);
+		ausleiheController.suchenBenutzerMitId(id);
 	}
 }

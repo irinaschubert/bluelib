@@ -67,7 +67,7 @@ public class AusleiheController {
 	}
 
 	/**
-	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	* Weist den Buttons ActionListeners zu und definiert Mouse- und KeyListeners.
 	*/
 	private void control() {
 		ausleiheView.getBarcodeT().addKeyListener(barcodeScanningKeyAdapter());
@@ -183,7 +183,7 @@ public class AusleiheController {
 						Benutzer resultat = benutzerService.suchenBenutzerById(b.getId());
 						ausleiheL = ausleiheService.suchenAusleihenProBenutzer(b);
 						tableModelAusleihe.setAndSortListe(ausleiheL);
-						pruefenUndUebernehmenBenutzerMitId(resultat.getId());
+						suchenBenutzerMitId(resultat.getId());
 					}
 
 				}
@@ -192,6 +192,10 @@ public class AusleiheController {
 		return enterKeyListener;
 	}
 	
+	/**
+	* Validiert den Input im Eingabefeld für das Buch (Barcode)
+	* @return true: wenn der Barcode gültig und einem Buch zugeordnet ist, false: wenn Barcode nicht gültig oder keinem Buch zugeordnet ist
+	*/
 	private boolean inputValidierungBuchSuchen() {
 		boolean keinInputFehler = true;
 		if (!ausleiheView.getBarcodeT().getText().isEmpty() || ausleiheView.getBarcodeT().getText().equals("")) {
@@ -216,6 +220,10 @@ public class AusleiheController {
 		return keinInputFehler;
 	}
 
+	/**
+	* Validiert den Input im Eingabefeld für Benutzer (Benutzer-ID)
+	* @return true: wenn die ID gültig und einem Benutzer zugeordnet ist, false: wenn ID nicht gültig oder keinem Benutzer zugeordnet ist
+	*/
 	private boolean inputValidierungBenutzerSuchen() {
 		boolean keinInputFehler = true;
 		if (!ausleiheView.getBenutzerEingabeT().getText().isEmpty() || ausleiheView.getBenutzerEingabeT().getText().equals("")) {
@@ -226,7 +234,6 @@ public class AusleiheController {
 				keinInputFehler = false;
 			}else {
 				int id = Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
-
 				Verifikation vz = benutzerService.idZugeordnet(id);
 				if (!vz.isAktionErfolgreich()) {
 					JOptionPane.showMessageDialog(null, vz.getNachricht());
@@ -239,27 +246,12 @@ public class AusleiheController {
 			}
 		}
 		return keinInputFehler;
-		
-		
-		/*boolean keinInputFehler = true;
-		if (ausleiheView.getBenutzerEingabeT().getText().isEmpty()) {
-			if (ruhig != true) {
-				JOptionPane.showMessageDialog(null, "Bitte einen Benutzer eingeben.");
-			}
-			return keinInputFehler = false;
-		}
-		try {
-			Integer.parseInt(ausleiheView.getBenutzerEingabeT().getText());
-		} catch (NumberFormatException e) {
-			if (ruhig != true) {
-				JOptionPane.showMessageDialog(null, "Ungültige ID");
-			}
-			keinInputFehler = false;
-		}
-		return keinInputFehler;*/
 	}
 
-
+	/**
+	* Validiert das Buch
+	* @return true: wenn das Buch ausgeliehen werden darf, false: wenn das Buch nicht ausgeliehen werden darf
+	*/
 	private boolean validierungBuch() {
 		try {
 			int id = Integer.parseInt(ausleiheView.getPKTBuch().getText());
@@ -278,6 +270,10 @@ public class AusleiheController {
 		}
 	}
 	
+	/**
+	* Validiert den Benutzer
+	* @return true: wenn der Benutzer ausleihen darf, false: wenn der Benutzer nicht ausleihen darf
+	*/
 	private boolean validierungBenutzer() {
 		try {
 			int id = Integer.parseInt(ausleiheView.getBenutzerIDT().getText());
@@ -297,7 +293,10 @@ public class AusleiheController {
 	}
 
 
-
+	/**
+	* Validiert die Ausleihe
+	* @return true: wenn das Medium noch frei ist, false: wenn das Medium bereits ausgeliehen ist
+	*/
 	private boolean validierungAusleihe() {
 		List<Ausleihe> ausleihen = new ArrayList<>();
 		Buch buch = medienhandlingService.suchenBuchById(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
@@ -317,6 +316,10 @@ public class AusleiheController {
 		return true;
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten in den Bereichen Buch und Benutzer.
+	* @return Ausleihe-Objekt mit Werten aus den Bereichen Buch und Benutzer
+	*/
 	private Ausleihe feldwerteZuObjektSpeichern() {
 		Ausleihe a = new Ausleihe();
 		Buch buch = medienhandlingService.suchenBuchById(Integer.parseInt(ausleiheView.getPKTBuch().getText()));
@@ -336,6 +339,10 @@ public class AusleiheController {
 		return a;
 	}
 
+	/**
+	* Uebernimmt sämtliche Werte des Ausleiheobjekts in die Buch- bzw. Benutzer-View, wenn auf einen Listeneintrag
+	* ein Doppelklick ausgeführt wird.
+	*/
 	private void uebernehmen() {
 		felderLeerenBuch();
 		felderLeerenBenutzer();
@@ -377,6 +384,10 @@ public class AusleiheController {
 		}
 	}
 	
+	/**
+	* Prueft Eingabe und sucht das Buch-Objekt und fuellt die Felder anhand der eingegebenen ID im Bereich Buch-View
+	* @param Buch-ID
+	*/
 	protected void suchenBuchMitId(int id) {
 		Buch buch = new Buch();
 		try {
@@ -402,7 +413,11 @@ public class AusleiheController {
 		}
 	}
 
-	void pruefenUndUebernehmenBenutzerMitId(int id) {
+	/**
+	* Prueft Eingabe und sucht das Benutzer-Objekt und fuellt die Felder anhand der eingegebenen ID im Bereich Benutzer-View
+	* @param Benutzer-ID
+	*/
+	protected void suchenBenutzerMitId(int id) {
 		Benutzer benutzer = new Benutzer();
 		try {
 			benutzer = benutzerService.suchenBenutzerById(id);
@@ -424,7 +439,9 @@ public class AusleiheController {
 		}
 	}
 	
-	
+	/**
+	* Setzt die Liste neu und leert die Eingabefelder nach dem Speichern.
+	*/
 	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
