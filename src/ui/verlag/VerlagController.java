@@ -53,7 +53,9 @@ public class VerlagController {
 		control();
 	}
 
-	// Buttons
+	/**
+	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	*/
 	private void control() {
 		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
@@ -115,6 +117,10 @@ public class VerlagController {
 		verlagView.getVerlagTabelle().addMouseListener(doppelKlick);
 	}
 
+	/**
+	* Prueft die Feldwerte auf korrekte Daten im Bereich Suchen.
+	* @return true: wenn alles korrekt, false: wenn ein falsches Datum eingegeben wurde
+	*/
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
 		if (!verlagView.getGruendungsDatumSucheT().getText().isEmpty()) {
@@ -134,6 +140,10 @@ public class VerlagController {
 		return keinInputFehler;
 	}
 
+	/**
+	* Prueft die Feldwerte auf obligatorische Eingaben und korrekte Daten im Bereich Neuerfassung/Bearbeitung.
+	* @return true: wenn alles korrekt, false: wenn nicht alle Pflichtfelder ausgefüllt oder ein falsches Datum eingegeben wurde
+	*/
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (verlagView.getNameT().getText().isEmpty() || (verlagView.getNameT().getText().isEmpty())) {
@@ -157,6 +167,10 @@ public class VerlagController {
 		return keinInputFehler;
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Neuerfassung/Bearbeitung.
+	* @return Verlag-Objekt mit Werten aus der Neuerfassung/Bearbeitung
+	*/
 	private Verlag feldwertezuObjektSpeichern() {
 		Verlag v = new Verlag();
 		if (!verlagView.getPKT().getText().isEmpty()) {
@@ -178,6 +192,10 @@ public class VerlagController {
 		return v;
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
+	* @return Verlag-Objekt mit Werten aus der Suche
+	*/
 	private Verlag feldwertezuObjektSuchen() {
 		Verlag v = new Verlag();
 		if (!verlagView.getNameSucheT().getText().isEmpty()) {
@@ -198,12 +216,11 @@ public class VerlagController {
 	}
 	
 	/**
-	 * Sucht die Verlage. Falls das Flag zur Inkludierung der gelöschten Verlage gesetzt ist, 
-	 * muessen zwei Suchen ausgeführt werden: 1x geloescht = false und 1x geloescht = true. Die Resultate der 2. Suche
-	 * muessen iterativ dem Tablemodel uebergeben wrden. 
-	 */
+	* Sucht die Verlage. Falls das Flag zur Inkludierung der geloeschten Verlage gesetzt ist, 
+	* muessen zwei Suchen ausgefuehrt werden: 1x geloescht = false und 1x geloescht = true. Die Resultate der 2. Suche
+	* muessen iterativ dem Tablemodel uebergeben wrden.
+	*/
 	private void sucheAusfuehren() {
-	
 		verlagSuchobjekt = feldwertezuObjektSuchen();
 		verlagL = normdatenService.suchenVerlag(verlagSuchobjekt);
 		tableModelVerlag.setAndSortListe(verlagL);
@@ -215,9 +232,12 @@ public class VerlagController {
 			}
 			verlagSuchobjekt.setGeloescht(false);
 		}
-		
 	}
 
+	/**
+	* Uebernimmt sämtliche Werte des Verlagobjekts in die Bearbeitungs-View, wenn auf einen Listeneintrag
+	* ein Doppelklick ausgeführt wird.
+	*/
 	private void uebernehmen() {
 		Verlag verlag = new Verlag();
 		verlag = tableModelVerlag.getGeklicktesObjekt(verlagView.getVerlagTabelle().getSelectedRow());
@@ -228,18 +248,20 @@ public class VerlagController {
 			verlagView.getGruendungsDatumT()
 					.setText(DateConverter.convertJavaDateToString(verlag.getGruendungsDatum()));
 		}
-
 		if (verlag.getEndDatum() != null) {
 			verlagView.getEndDatumT().setText(DateConverter.convertJavaDateToString(verlag.getEndDatum()));
 		}
 		verlagView.getGeloeschtCbx().setSelected(verlag.getGeloescht());
 	}
 
+	/**
+	* Setzt die Liste neu und leert die Eingabefelder im Bereich Suche 
+	* nach dem Speichern.
+	*/
 	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			sucheAusfuehren();
-//			tableModelVerlag.setAndSortListe(normdatenService.sucheVerlag(verlagSuchobjekt));
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
@@ -247,6 +269,9 @@ public class VerlagController {
 		verlagView.getNeuAendernL().setText("");
 	}
 
+	/**
+	* Leert saemtliche Eingabefelder im Bereich Suchen.
+	*/
 	private void suchFelderLeeren() {
 		for (JComponent t : verlagView.getComponentsSuche().values()) {
 			if (t instanceof JTextField) {
@@ -258,6 +283,9 @@ public class VerlagController {
 		}
 	}
 
+	/**
+	* Leert saemtliche Eingabefelder im Bereich Neuerfassung/Bearbeitung.
+	*/
 	private void erfassungFelderLeeren() {
 		for (JComponent t : verlagView.getComponentsNeuBearbeiten().values()) {
 			if (t instanceof JTextField) {
@@ -269,6 +297,10 @@ public class VerlagController {
 		}
 	}
 
+	/**
+	* Setzt Werte für die Labels, fügt den Eingabefeldern Limiten fuer die Anzahl Zeichen zu,
+	* definiert die verwendeten Buttons aus dem ButtonPanel.
+	*/
 	public void initialisieren() {
 		verlagView.getPKL().setText("Nr:");
 		verlagView.getNameL().setText("Name:*");
@@ -278,7 +310,7 @@ public class VerlagController {
 		verlagView.getNameSucheL().setText("Name:");
 		verlagView.getGruendungsDatumSucheL().setText("Gründungsdatum:");
 		verlagView.getEndDatumSucheL().setText("Enddatum:");
-		verlagView.getGeloeschtSucheL().setText("inkl. geloeschte:");
+		verlagView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		verlagView.getSuchButton().setText("Suchen");
 		verlagView.getPKT().setEditable(false);
 		TextComponentLimit.addTo(verlagView.getNameT(), 50);

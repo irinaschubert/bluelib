@@ -76,7 +76,9 @@ public class BenutzerController {
 		control();
 	}
 
-	// Buttons
+	/**
+	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	*/
 	private void control() {
 		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
@@ -167,6 +169,10 @@ public class BenutzerController {
 		benutzerView.getPlzOrtCbx().addActionListener(plzCbxListener);
 	}
 
+	/**
+	* Prueft die Feldwerte auf Pflichtwerte und korrekte Daten im Bereich Neuerfassung/Bearbeitung.
+	* @return true: wenn alles korrekt, false: wenn ein falsches Datum eingegeben wurde
+	*/
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (benutzerView.getNachnameT().getText().isEmpty() || (benutzerView.getVornameT().getText().isEmpty())
@@ -361,6 +367,10 @@ public class BenutzerController {
 		}
 	}
 
+	/**
+	* Setzt die Liste neu und leert die Eingabefelder im Bereich Suche 
+	* nach dem Speichern.
+	*/
 	private void nachArbeitSpeichern(Verifikation v) {
 		felderLeeren();
 		if (v.isAktionErfolgreich()) {
@@ -372,6 +382,9 @@ public class BenutzerController {
 		benutzerView.getNeuAendernL().setText("");
 	}
 
+	/**
+	* Leert saemtliche Eingabefelder.
+	*/
 	private void felderLeeren() {
 		benutzerView.getBemerkungT().setText("");
 		for (Component t : benutzerView.getBenutzerNeuBearbeitenPanel().getComponents()) {
@@ -384,6 +397,10 @@ public class BenutzerController {
 		}
 	}
 
+	/**
+	* Setzt Werte für die Labels, fügt den Eingabefeldern Limiten fuer die Anzahl Zeichen zu,
+	* definiert die verwendeten Buttons aus dem ButtonPanel.
+	*/
 	public void initialisieren() {
 		benutzerView.getPKL().setText("Benutzer-ID:");
 		benutzerView.getNachnameL().setText("Nachname:*");

@@ -66,7 +66,9 @@ public class AusleiheController {
 		control();
 	}
 
-	// Buttons
+	/**
+	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	*/
 	private void control() {
 		ausleiheView.getBarcodeT().addKeyListener(barcodeScanningKeyAdapter());
 		ausleiheView.getBenutzerEingabeT().addKeyListener(enterKeyAdapter());
@@ -200,7 +202,6 @@ public class AusleiheController {
 				keinInputFehler = false;
 			} else {
 				int barCode = Integer.parseInt(ausleiheView.getBarcodeT().getText());
-
 				Verifikation vz = medienhandlingService.barcodeZugeordnet(barCode);
 				if (!vz.isAktionErfolgreich()) {
 					JOptionPane.showMessageDialog(null, vz.getNachricht());
@@ -423,6 +424,7 @@ public class AusleiheController {
 		}
 	}
 	
+	
 	private void nachArbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
@@ -435,6 +437,9 @@ public class AusleiheController {
 		felderLeerenBenutzer();
 	}
 
+	/**
+	* Leert saemtliche Eingabefelder im Bereich Buch.
+	*/
 	private void felderLeerenBuch() {
 		ausleiheView.getBarcodeT().setText("");
 		ausleiheView.getPKTBuch().setText("");
@@ -444,6 +449,9 @@ public class AusleiheController {
 		ausleiheView.getNotizT().setText("");
 	}
 
+	/**
+	* Leert saemtliche Eingabefelder im Bereich Benutzer.
+	*/
 	private void felderLeerenBenutzer() {
 		ausleiheView.getBenutzerEingabeT().setText("");
 		ausleiheView.getBenutzerIDT().setText("");
@@ -452,6 +460,10 @@ public class AusleiheController {
 		ausleiheView.getBenutzerVornameT().setText("");
 	}
 
+	/**
+	* Setzt Werte für die Labels, fügt den Eingabefeldern Limiten fuer die Anzahl Zeichen zu,
+	* definiert die verwendeten Buttons aus dem ButtonPanel.
+	*/
 	public void initialisieren() {
 		ausleiheView.getPKLBuch().setText("ID:");
 		ausleiheView.getBarcodeL().setText("Barcode:");
