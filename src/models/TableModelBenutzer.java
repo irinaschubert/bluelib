@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-import dao.BenutzerDAO;
 import domain.Adresse;
 import domain.Benutzer;
 import domain.Ort;
@@ -70,8 +69,7 @@ public class TableModelBenutzer extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		BenutzerDAO benutzerDAO = new BenutzerDAO();
-		Benutzer b = benutzerDAO.findById(benutzerListe.get(rowIndex).getId());
+		Benutzer b = benutzerListe.get(rowIndex);
 		Object returnWert = new Object();
 
 		switch (columnIndex) {
