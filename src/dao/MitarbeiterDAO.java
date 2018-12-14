@@ -12,7 +12,7 @@ import domain.Anrede;
 import domain.Benutzer;
 import domain.Buch;
 import domain.Mitarbeiter;
-import domain.Schlagwort;
+import domain.Mitarbeiter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
 import services.HashRechner;
@@ -81,25 +81,29 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 	}
 
 	@Override
-	public Mitarbeiter update(Mitarbeiter domainObject) {/*
+	public Mitarbeiter update(Mitarbeiter domainObject) {
 		ResultSet rs = null;
-		Schlagwort s = new Schlagwort();
-		String sql = "UPDATE schlagwort SET "
-				+ "schlagwort = ? "
-				+ ",geloescht = ?"
+		Mitarbeiter m = new Mitarbeiter();
+		String sql = "UPDATE mitarbeiter SET "
+				+ "benutzername = ? "
+				+ ",passwort = ?"
+				+ ",aktiv = ?"
+				+ ",admin = ?"
 				+ " WHERE id = ?";
 			try {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1,domainObject.getSchlagwort());
-				pstmt.setBoolean(2, domainObject.getGeloescht());
-				pstmt.setInt(3,  domainObject.getId());
+				pstmt.setString(1,domainObject.getBenutzername());
+				pstmt.setString(2,domainObject.getPasswort());
+				pstmt.setBoolean(3, domainObject.isAktiv());
+				pstmt.setBoolean(4, domainObject.isAdmin());
+				pstmt.setInt(5,  domainObject.getId());
 				int i = pstmt.executeUpdate();
 				if (i>0) {
-					s = domainObject;
+					m = domainObject;
 				}
 				else {
-					s = null;
+					m = null;
 				}
 								
 			}
@@ -113,8 +117,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
          } catch(Exception ex){}
      }
 			
-		return s;*/
-		return null;
+		return m;
 	}
 
 	@Override

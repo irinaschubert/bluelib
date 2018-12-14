@@ -111,16 +111,10 @@ public class MitarbeiterController {
 				Mitarbeiter m = new Mitarbeiter();
 				if (inputValidierungSpeichern()) {
 					m = feldwertezuObjektSpeichern();
-					// Prüfung, ob ein neuer Mitarbeiter erfasst wurde oder ein Mitarbeiter
-					// aktialisiert wird
 					if (mitarbeiterView.getNeuAendernL().getText().equals("Bearbeiten")) {
-						System.out.println("aktuell machen");
 						nachAarbeitSpeichern(mitarbeiterService.aktualisierenMitarbeiter(m));
 					} else if (mitarbeiterView.getNeuAendernL().getText().equals("Neuerfassung")) {
 						nachAarbeitSpeichern(mitarbeiterService.speichernMitarbeiter(m));
-						System.out.println("Bei Person id:" + m.getId() + " und name:" + m.getName()
-								+ ". Gelöscht wurde die mitarbeiter_id:" + m.getMAId());
-						// benutzerService.updateMitarbeiterID(m.getId(),m.getMAId());
 					}
 				}
 			}
@@ -254,7 +248,6 @@ public class MitarbeiterController {
 		try {
 			ma = maDAO.findById(id);
 			mitarbeiterView.getBenutzernameT().setText(ma.getBenutzername());
-			System.out.println("was ist id: " + ma.getMAId());
 			mitarbeiterView.getMAIDT().setText(Integer.toString(ma.getMAId()));
 			mitarbeiterView.getNeuAendernL().setText("Bearbeiten");
 		} catch (NullPointerException npe) {
