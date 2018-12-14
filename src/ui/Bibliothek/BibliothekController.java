@@ -25,7 +25,7 @@ import ui.HauptController;
  * 
  * Controller für die die Stammdaten der Bibliothek
  * 
- * @version 1.0 31.10.2018
+ * @version 2.0 31.10.2018
  * @author mike
  *
  */
@@ -33,14 +33,12 @@ import ui.HauptController;
 public class BibliothekController {
 	private BibliothekView bibliothekView;
 	private NormdatenService normdatenService;
-	private Bibliothek bibliothekSuchobjekt;
 	private HauptController hauptController;
 
 	public BibliothekController(BibliothekView view, HauptController hauptController) {
 		bibliothekView = view;
 		this.hauptController = hauptController;
 		normdatenService = new NormdatenService();
-		bibliothekSuchobjekt = new Bibliothek();
 		initialisieren();
 		control();
 	}
