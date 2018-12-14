@@ -1,19 +1,14 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import domain.Adresse;
-import domain.Autor;
 import domain.Bibliothek;
 import domain.Ort;
-import hilfsklassen.DateConverter;
 import interfaces.DAOInterface;
 
 /**

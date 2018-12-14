@@ -2,29 +2,15 @@ package ui.Bibliothek;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-
 import domain.Adresse;
-import domain.Autor;
 import domain.Bibliothek;
 import domain.Ort;
-import domain.Verlag;
 import hilfsklassen.ButtonNamen;
-import hilfsklassen.DateConverter;
 import hilfsklassen.TextComponentLimit;
-import models.TableModelVerlag;
-import services.NormdatenService;
+import services.BibliothekService;
 import services.OrtService;
-import services.Verifikation;
 import ui.HauptController;
 import ui.renderer.PlzRenderer;
 
@@ -39,14 +25,14 @@ import ui.renderer.PlzRenderer;
 
 public class BibliothekController {
 	private BibliothekView bibliothekView;
-	private NormdatenService normdatenService;
+	private BibliothekService bibliothekService;
 	private OrtService ortService;
 	private HauptController hauptController;
 
 	public BibliothekController(BibliothekView view, HauptController hauptController) {
 		bibliothekView = view;
 		this.hauptController = hauptController;
-		normdatenService = new NormdatenService();
+		bibliothekService = new BibliothekService();
 		ortService = new OrtService();
 		initialisieren();
 		control();
@@ -62,7 +48,7 @@ public class BibliothekController {
 					b = feldwertezuObjektSpeichern();
 					JOptionPane.showMessageDialog(null, "Bibliotheksstammdaten erfasst");
 					// Prüfung, ob ein neuer Autor erfasst wurde oder ein Autor aktialisiert wird
-					normdatenService.aktualisierenBibliothek(b);
+					bibliothekService.aktualisierenBibliothek(b);
 				}
 			}
 		};
@@ -133,7 +119,7 @@ public class BibliothekController {
 	}
 
 	private void biblioitheksFelderFuellen() {
-		Bibliothek b = normdatenService.anzeigenBibliothek(); // Bibliothek bestücken
+		Bibliothek b = bibliothekService.suchenBibliothek(); // Bibliothek bestücken
 		bibliothekView.getNameT().setText(b.getName());
 		bibliothekView.getStrasseUndNrT().setText(b.getAdresse().getStrasse());
 		bibliothekView.getPlzOrtCbx().setSelectedIndex(b.getAdresse().getOrt().getId());

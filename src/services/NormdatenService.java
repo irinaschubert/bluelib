@@ -5,7 +5,6 @@ import java.util.List;
 import dao.AnredeDAO;
 import dao.AutorDAO;
 import dao.VerlagDAO;
-import dao.BibliothekDAO;
 import dao.DezKlassifikationDAO;
 import dao.DezKlassifikationGrpeDAO;
 import dao.MitarbeiterDAO;
@@ -13,7 +12,6 @@ import dao.SchlagwortDAO;
 import domain.Anrede;
 import domain.Autor;
 import domain.Verlag;
-import domain.Bibliothek;
 import domain.DezKlassifikation;
 import domain.DezKlassifikationGrpe;
 import domain.Schlagwort;
@@ -136,18 +134,6 @@ public class NormdatenService {
 		return v;
 	}
 
-	public Verifikation aktualisierenBibliothek(Bibliothek bibliothek) {
-		Verifikation v = new Verifikation();
-		if (new BibliothekDAO().update(bibliothek) != null) {
-			v.setAktionErfolgreich(true);
-			v.setNachricht("Die Bibliothek " + bibliothek.getName() + " wurde aktualisiert.");
-		} else {
-			v.setAktionErfolgreich(false);
-			v.setNachricht("Die Bibliothek " + bibliothek.getName() + " konnte nicht aktualisiert werden.");
-		}
-		return v;
-	}
-
 	public Verifikation aktualisierenSchlagwort(Schlagwort schlagwort) {
 		Verifikation v = new Verifikation();
 		if (new SchlagwortDAO().update(schlagwort) != null) {
@@ -183,10 +169,6 @@ public class NormdatenService {
 
 	public List<Mitarbeiter> suchenMitarbeiter(Mitarbeiter mitarbeiter) {
 		return new MitarbeiterDAO().getSelektion(mitarbeiter);
-	}
-
-	public Bibliothek anzeigenBibliothek() {
-		return new BibliothekDAO().findById(1);
 	}
 
 	public List<Schlagwort> suchenSchlagwort(Schlagwort schlagwort) {
