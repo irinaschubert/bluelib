@@ -206,6 +206,7 @@ public class MitarbeiterController {
 		mitarbeiterView.getVornameT().setText(m.getVorname());
 		mitarbeiterView.getAktivCbx().setSelected(m.isAktiv());
 		mitarbeiterView.getAdminCbx().setSelected(m.isAdmin());
+		//löschen
 		// mitarbeiterView.getMAIDT().setText(m.getMAIDT());
 	}
 
