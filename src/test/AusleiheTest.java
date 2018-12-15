@@ -73,6 +73,7 @@ public class AusleiheTest {
 		System.out.println("benutzer: " + benutzer.getId());
 		// Buch initialisieren
 		buch.setId(1);
+		buch.setBemerkung("Testbemerkung");
 		a.setMedium(buch);
 		a.setBenutzer(benutzer);
 		a.setAusleiheMitarbeiterID(1);
@@ -83,6 +84,7 @@ public class AusleiheTest {
 		a = ausleihen.get(0);
 		System.out.println(a.getId());
 		assertEquals(a.getMedium().getId(), 1);
+		assertEquals(a.getMedium().getBemerkung(), "Testbemerkung");
 		assertEquals(a.getBenutzer().getId(), benutzer.getId());
 		assertEquals(a.getAusleiheDatum(), DateConverter.convertStringToJavaDate("01.01.1990"));
 		assertEquals(a.getRueckgabeDatum(), null);
