@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import domain.Schlagwort;
 import domain.Verlag;
 import hilfsklassen.ButtonNamen;
+import hilfsklassen.TextComponentLimit;
 import models.TableModelSchlagwort;
 import services.NormdatenService;
 import services.Verifikation;
@@ -56,6 +57,15 @@ public class SchlagwortController {
 
 	// Definierten des Listeners für die Button-Klicks
 	private void control() {
+		schlagwortView.getSuchButton().addActionListener(suchenButtonActionListener());
+		schlagwortView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener());
+		schlagwortView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener());
+		schlagwortView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener());
+		schlagwortView.getSchlagwortTabelle().addMouseListener(doppelKlick());
+
+	}
+
+	private ActionListener suchenButtonActionListener() {
 
 		ActionListener suchenButtonActionListener = new ActionListener() {
 
@@ -69,9 +79,10 @@ public class SchlagwortController {
 			}
 
 		};
+		return suchenButtonActionListener;
+	}
 
-		// Zuweisen des Actionlisteners zum Suchen-Button
-		schlagwortView.getSuchButton().addActionListener(suchenButtonActionListener);
+	private ActionListener neuButtonActionListener() {
 
 		ActionListener neuButtonActionListener = new ActionListener() {
 
@@ -83,8 +94,10 @@ public class SchlagwortController {
 
 		};
 
-		// Zuweisen des Actionlisteners zum Neu-Button
-		schlagwortView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
+		return neuButtonActionListener;
+	}
+
+	public ActionListener sichernButtonActionListener() {
 
 		ActionListener sichernButtonActionListener = new ActionListener() {
 
@@ -106,8 +119,10 @@ public class SchlagwortController {
 
 		};
 
-		// Zuweisen des Actionlisteners zum Sichern-Button
-		schlagwortView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
+		return sichernButtonActionListener;
+	}
+
+	public ActionListener schliessenButtonActionListener() {
 
 		ActionListener schliessenButtonActionListener = new ActionListener() {
 
@@ -118,8 +133,10 @@ public class SchlagwortController {
 
 		};
 
-		// Zuweisen des Actionlisteners zum Schliessen-Button
-		schlagwortView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
+		return schliessenButtonActionListener;
+	}
+
+	private MouseListener doppelKlick() {
 
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
@@ -131,9 +148,7 @@ public class SchlagwortController {
 			}
 		};
 
-		// Zuweisen des Mouselisteners zur Tabelle
-		schlagwortView.getSchlagwortTabelle().addMouseListener(doppelKlick);
-
+		return doppelKlick;
 	}
 
 	private boolean inputValidierungSuchen() {
@@ -183,26 +198,27 @@ public class SchlagwortController {
 	}
 
 	/**
-	 * Sucht die Schlagworte. Falls das Flag zur Inkludierung der geloeschten Schlagworte gesetzt ist, 
-	 * muessen zwei Suchen ausgeführt werden: 1x geloescht = false und 1x geloescht = true. Die Resultate der 2. Suche
-	 * muessen iterativ dem Tablemodel uebergeben wrden. 
+	 * Sucht die Schlagworte. Falls das Flag zur Inkludierung der geloeschten
+	 * Schlagworte gesetzt ist, muessen zwei Suchen ausgeführt werden: 1x geloescht
+	 * = false und 1x geloescht = true. Die Resultate der 2. Suche muessen iterativ
+	 * dem Tablemodel uebergeben wrden.
 	 */
 	private void sucheAusfuehren() {
-	
+
 		schlagwortSuchobjekt = feldwertezuObjektSuchen();
 		schlagwortL = normdatenService.suchenSchlagwort(schlagwortSuchobjekt);
 		tableModelSchlagwort.setAndSortListe(schlagwortL);
 		if (schlagwortView.getGeloeschtSucheCbx().isSelected()) {
 			schlagwortSuchobjekt.setGeloescht(true);
 			schlagwortL = normdatenService.suchenSchlagwort(schlagwortSuchobjekt);
-			for (Schlagwort a: schlagwortL) {
+			for (Schlagwort a : schlagwortL) {
 				tableModelSchlagwort.schlagwortHinzufuegen(a);
 			}
 			schlagwortSuchobjekt.setGeloescht(false);
 		}
-		
+
 	}
-	
+
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
@@ -233,7 +249,7 @@ public class SchlagwortController {
 		schlagwortView.getPKL().setText("Nr:");
 		schlagwortView.getSchlagwortL().setText("Schlagwort:*");
 		schlagwortView.getGeloescht().setText("Löschvormerkung:");
-		//
+		TextComponentLimit.addTo(schlagwortView.getSchlagwortT(), 30);
 		schlagwortView.getSchlagwortSucheL().setText("Schlagwort:");
 		schlagwortView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		schlagwortView.getSuchButton().setText("Suchen");
