@@ -12,7 +12,6 @@ import domain.Ausleihe;
 import domain.Buch;
 import domain.EingeloggterMA;
 import hilfsklassen.ButtonNamen;
-import hilfsklassen.DateConverter;
 import hilfsklassen.TextComponentLimit;
 import models.TableModelRueckgabe;
 import services.MedienhandlingService;

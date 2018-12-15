@@ -23,6 +23,7 @@ import hilfsklassen.IntHelfer;
 import hilfsklassen.TextComponentLimit;
 import models.ComboBoxModelAutor;
 import models.ComboBoxModelSchlagwort;
+import models.ComboBoxModelStatus;
 import models.ComboBoxModelVerlag;
 import models.TableModelBuch;
 import services.MedienhandlingService;
@@ -48,6 +49,7 @@ public class BuchController {
 	private NormdatenService normdatenService;
 	private HauptController hauptController;
 	private ComboBoxModelVerlag comboBoxModelVerlag;
+	private ComboBoxModelStatus comboBoxModelStatus;
 	BuchController buchController;
 	BuchSuchController buchSuchController;
 
@@ -446,6 +448,7 @@ public class BuchController {
 		buchView.getBarcodeT().setText(Integer.toString(buch.getBarcodeNr()));
 		buchView.getTitelT().setText(buch.getTitel());
 		buchView.getVerlagCbx().setSelectedIndex(comboBoxModelVerlag.getPositionVerlag(buch.getVerlag()));
+		buchView.getStatusCbx().setSelectedIndex(comboBoxModelStatus.getPositionStatus(buch.getStatus()));
 		buchView.repaint();
 		buchView.getAuflageT().setText(buch.getAuflage());
 		buchView.getAnzahlSeitenT().setText(Integer.toString(buch.getAnzahlSeiten()));
@@ -501,6 +504,7 @@ public class BuchController {
 		buchView.getAuflageT().setText("");
 		buchView.getAnzahlSeitenT().setText("");
 		buchView.getAutorCbx().setSelectedIndex(-1);
+		buchView.getStatusCbx().setSelectedIndex(0);
 		((DefaultListModel) buchView.getAutorList().getModel()).removeAllElements();
 		buchView.getSchlagwortCbx().setSelectedIndex(-1);
 		((DefaultListModel) buchView.getSchlagwortList().getModel()).removeAllElements();
@@ -552,7 +556,9 @@ public class BuchController {
 		buchView.getAutorCbx().setModel(new ComboBoxModelAutor(normdatenService.alleautoren()));
 		comboBoxModelVerlag = new ComboBoxModelVerlag(normdatenService.alleVerlage());
 		buchView.getVerlagCbx().setModel(comboBoxModelVerlag);
-		buchView.getStatusCbx().setModel(new DefaultComboBoxModel(medienHandlingService.alleMedienStati().toArray()));
+		comboBoxModelStatus = new ComboBoxModelStatus(medienHandlingService.alleMedienStati());
+		buchView.getStatusCbx().setModel(comboBoxModelStatus);
+		buchView.getStatusCbx().setSelectedIndex(0);
 		buchView.getAutorList().setModel(new DefaultListModel());
 		ComboBoxModelSchlagwort comboBoxModelSchlagwort = new ComboBoxModelSchlagwort(
 				normdatenService.alleSchlagworte());
