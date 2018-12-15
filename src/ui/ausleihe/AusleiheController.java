@@ -328,6 +328,8 @@ public class AusleiheController {
 		a.setBenutzer(benutzer);
 		if (!ausleiheView.getNotizT().getText().isEmpty()) {
 			buch.setBemerkung(ausleiheView.getNotizT().getText());
+		}else {
+			buch.setBemerkung("");
 		}
 		a.setAusleiheMitarbeiterID(EingeloggterMA.getInstance().getMitarbeiter().getId());
 		String nachname = EingeloggterMA.getInstance().getMitarbeiter().getName();

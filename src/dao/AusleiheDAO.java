@@ -98,12 +98,13 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		
 		argCounter = 0;
 		String sql2 = " UPDATE medium SET bemerkung="
-				+ (domainObject.getMedium().getBemerkung() != null ? "?" : "")
+				+ (domainObject.getMedium().getBemerkung() != null  ? "?" : "")
 				+ " WHERE id = " 
 				+ domainObject.getMedium().getId() ;
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt2 = conn.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
+			System.out.println("content: " + domainObject.getMedium().getBemerkung());
 			if (domainObject.getMedium().getBemerkung() != "" || !domainObject.getMedium().getBemerkung().isEmpty()) {
 				argCounter++;
 				pstmt2.setString(argCounter, domainObject.getMedium().getBemerkung());
