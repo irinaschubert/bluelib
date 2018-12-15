@@ -26,6 +26,7 @@ import domain.Verlag;
 import ui.benutzer.FormularMitGridbaglayout;
 import ui.renderer.AutorListCellRenderer;
 import ui.renderer.AutorRenderer;
+import ui.renderer.MedienStatusRenderer;
 import ui.renderer.SchlagwortListCellRenderer;
 import ui.renderer.SchlagwortRenderer;
 import ui.renderer.StatusRenderer;
@@ -203,7 +204,7 @@ public class BuchView extends JPanel {
 
 		statusL = new JLabel();
 		statusCbx = new JComboBox<>();
-		statusCbx.setRenderer(new StatusRenderer());
+		statusCbx.setRenderer(new MedienStatusRenderer());
 		statusCbx.setPreferredSize(new Dimension(60, 25));
 
 		autorL = new JLabel();
