@@ -183,8 +183,7 @@ public class RueckgabeController {
 			rueckgabeView.getBenutzerNameT().setText(vma.getAusleihe().getBenutzer().getName());
 			rueckgabeView.getBenutzerStatusT().setText(vma.getAusleihe().getBenutzer().getBenutzerStatus().getBezeichnung());
 			rueckgabeView.getNotizT().setText(vma.getAusleihe().getMedium().getBemerkung());
-			rueckgabeView.getErfasstVonT().setText(ausleihe.getAusleiheMitarbeiterName());
-			rueckgabeView.getErfasstAmT().setText(DateConverter.convertJavaDateToString(ausleihe.getAusleiheDatum()));
+
 		} else {
 			JOptionPane.showMessageDialog(null, vma.getNachricht());
 			felderLeeren();
