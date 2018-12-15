@@ -77,8 +77,8 @@ public class BenutzerController {
 	}
 
 	/**
-	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
-	*/
+	 * Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	 */
 	private void control() {
 		// Suchen
 		ActionListener suchenButtonActionListener = new ActionListener() {
@@ -170,9 +170,12 @@ public class BenutzerController {
 	}
 
 	/**
-	* Prueft die Feldwerte auf Pflichtwerte und korrekte Daten im Bereich Neuerfassung/Bearbeitung.
-	* @return true: wenn alles korrekt, false: wenn ein falsches Datum eingegeben wurde
-	*/
+	 * Prueft die Feldwerte auf Pflichtwerte und korrekte Daten im Bereich
+	 * Neuerfassung/Bearbeitung.
+	 * 
+	 * @return true: wenn alles korrekt, false: wenn ein falsches Datum eingegeben
+	 *         wurde
+	 */
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (benutzerView.getNachnameT().getText().isEmpty() || (benutzerView.getVornameT().getText().isEmpty())
@@ -192,9 +195,11 @@ public class BenutzerController {
 	}
 
 	/**
-	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Neuerfassung/Bearbeitung.
-	* @return Benutzer-Objekt mit Werten aus der Neuerfassung/Bearbeitung
-	*/
+	 * Kreiert ein Objekt aus den eingegebenen Werten im Bereich
+	 * Neuerfassung/Bearbeitung.
+	 * 
+	 * @return Benutzer-Objekt mit Werten aus der Neuerfassung/Bearbeitung
+	 */
 	private Benutzer feldwertezuObjektSpeichern() {
 		Benutzer b = new Benutzer();
 		if (!benutzerView.getPKT().getText().isEmpty()) {
@@ -261,9 +266,10 @@ public class BenutzerController {
 	}
 
 	/**
-	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
-	* @return Benutzer-Objekt mit Werten aus der Suche
-	*/
+	 * Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
+	 * 
+	 * @return Benutzer-Objekt mit Werten aus der Suche
+	 */
 	private Benutzer feldwertezuObjektSuchen() {
 		Benutzer b = new Benutzer();
 		if (!benutzerView.getPKSucheT().getText().isEmpty()) {
@@ -296,9 +302,9 @@ public class BenutzerController {
 	}
 
 	/**
-	* Uebernimmt sämtliche Werte des Verlagobjekts in die Bearbeitungs-View, wenn auf einen Listeneintrag
-	* ein Doppelklick ausgeführt wird.
-	*/
+	 * Uebernimmt sämtliche Werte des Verlagobjekts in die Bearbeitungs-View, wenn
+	 * auf einen Listeneintrag ein Doppelklick ausgeführt wird.
+	 */
 	private void uebernehmen() {
 		felderLeeren();
 		Benutzer benutzer = new Benutzer();
@@ -350,11 +356,11 @@ public class BenutzerController {
 	}
 
 	/**
-	* Setzt die Liste neu und leert die Eingabefelder im Bereich Suche 
-	* nach dem Speichern.
-	*/
+	 * Setzt die Liste neu und leert die Eingabefelder im Bereich Suche nach dem
+	 * Speichern.
+	 */
 	private void nachArbeitSpeichern(Verifikation v) {
-		felderLeeren();
+
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 			tableModelBenutzer.setAndSortListe(benutzerService.suchenBenutzer(benutzerSuchobjekt));
@@ -362,11 +368,12 @@ public class BenutzerController {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
 		benutzerView.getNeuAendernL().setText("");
+		felderLeeren();
 	}
 
 	/**
-	* Leert saemtliche Eingabefelder.
-	*/
+	 * Leert saemtliche Eingabefelder.
+	 */
 	private void felderLeeren() {
 		benutzerView.getBemerkungT().setText("");
 		for (Component t : benutzerView.getBenutzerNeuBearbeitenPanel().getComponents()) {
@@ -380,9 +387,9 @@ public class BenutzerController {
 	}
 
 	/**
-	* Setzt Werte für die Labels, fügt den Eingabefeldern Limiten fuer die Anzahl Zeichen zu,
-	* definiert die verwendeten Buttons aus dem ButtonPanel.
-	*/
+	 * Setzt Werte für die Labels, fügt den Eingabefeldern Limiten fuer die Anzahl
+	 * Zeichen zu, definiert die verwendeten Buttons aus dem ButtonPanel.
+	 */
 	public void initialisieren() {
 		benutzerView.getPKL().setText("Benutzer-ID:");
 		benutzerView.getNachnameL().setText("Nachname:*");

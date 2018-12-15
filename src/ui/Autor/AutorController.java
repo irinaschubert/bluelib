@@ -151,7 +151,8 @@ public class AutorController {
 
 	/**
 	 * 
-	 * @return Input der Suchfelder valide: true, Input der Suchfelder nicht valide = false
+	 * @return Input der Suchfelder valide: true, Input der Suchfelder nicht valide
+	 *         = false
 	 */
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
@@ -201,7 +202,8 @@ public class AutorController {
 
 	/**
 	 * 
-	 * @return Autor-Objekt, gefuellt mit den Werten aus den Feldwerten in Neu/Bearbeiten
+	 * @return Autor-Objekt, gefuellt mit den Werten aus den Feldwerten in
+	 *         Neu/Bearbeiten
 	 */
 	private Autor feldwertezuObjektSpeichern() {
 		Autor a = new Autor();
@@ -245,7 +247,8 @@ public class AutorController {
 	}
 
 	/**
-	 * Uebernahme der Werte des selektierten Objektes in der Tabelle zu den Feldern in Neu/Bearbeiten
+	 * Uebernahme der Werte des selektierten Objektes in der Tabelle zu den Feldern
+	 * in Neu/Bearbeiten
 	 */
 	private void uebernehmen() {
 		Autor autor = new Autor();
@@ -267,32 +270,33 @@ public class AutorController {
 	}
 
 	/**
-	 * Sucht die Autoren. Falls das Flag zur Inkludierung der gelöschten Autoren gesetzt ist, 
-	 * muessen zwei Suchen ausgeführt werden: 1x geloescht = false und 1x geloescht = true. Die Resultate der 2. Suche
-	 * muessen iterativ dem Tablemodel uebergeben wrden. 
+	 * Sucht die Autoren. Falls das Flag zur Inkludierung der gelöschten Autoren
+	 * gesetzt ist, muessen zwei Suchen ausgeführt werden: 1x geloescht = false und
+	 * 1x geloescht = true. Die Resultate der 2. Suche muessen iterativ dem
+	 * Tablemodel uebergeben wrden.
 	 */
 	private void sucheAusfuehren() {
-	
+
 		autorSuchobjekt = feldwertezuObjektSuchen();
 		autorL = normdatenService.suchenAutor(autorSuchobjekt);
 		tableModelAutor.setAndSortListe(autorL);
 		if (autorView.getGeloeschtSucheCbx().isSelected()) {
 			autorSuchobjekt.setGeloescht(true);
 			autorL = normdatenService.suchenAutor(autorSuchobjekt);
-			for (Autor a: autorL) {
+			for (Autor a : autorL) {
 				tableModelAutor.autorHinzufuegen(a);
 			}
 			autorSuchobjekt.setGeloescht(false);
 		}
-		
+
 	}
-	
+
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			if (!autorView.getPKT().getText().isEmpty()) {
+
 			sucheAusfuehren();
-			}
+
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
