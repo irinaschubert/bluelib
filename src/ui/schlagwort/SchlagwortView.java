@@ -1,4 +1,4 @@
-package ui.Schlagwort;
+package ui.schlagwort;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
