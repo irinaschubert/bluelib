@@ -73,8 +73,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 				argCounter++;
 				pstmt.setInt(argCounter, domainObject.getRueckgabeMitarbeiterID());
 			}
-			
-			System.out.println(pstmt);
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			if (rs != null && rs.next()) {
@@ -94,8 +92,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 				ex.printStackTrace();
 			}
 		}
-		
-		
 		argCounter = 0;
 		String sql2 = " UPDATE medium SET bemerkung="
 				+ (domainObject.getMedium().getBemerkung() != null  ? "?" : "")
@@ -104,7 +100,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt2 = conn.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
-			System.out.println("content: " + domainObject.getMedium().getBemerkung());
 			if (domainObject.getMedium().getBemerkung() != "" || !domainObject.getMedium().getBemerkung().isEmpty()) {
 				argCounter++;
 				pstmt2.setString(argCounter, domainObject.getMedium().getBemerkung());
@@ -113,7 +108,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 				argCounter++;
 				pstmt2.setString(argCounter, "");
 			}
-			System.out.println(pstmt2);
 			pstmt2.executeUpdate();
 			
 		} catch (SQLException e) {
