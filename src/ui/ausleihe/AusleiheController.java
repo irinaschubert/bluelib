@@ -453,7 +453,6 @@ public class AusleiheController {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
 		felderLeerenBuch();
-		felderLeerenBenutzer();
 	}
 
 	/**
