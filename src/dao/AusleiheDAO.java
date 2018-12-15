@@ -65,7 +65,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 				argCounter++;
 				pstmt.setInt(argCounter, domainObject.getRueckgabeMitarbeiterID());
 			}
-			System.out.println(pstmt);
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			if (rs != null && rs.next()) {

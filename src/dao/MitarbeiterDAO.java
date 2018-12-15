@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Anrede;
-import domain.Benutzer;
-import domain.Buch;
-import domain.Mitarbeiter;
 import domain.Mitarbeiter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
