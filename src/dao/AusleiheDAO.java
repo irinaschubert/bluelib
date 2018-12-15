@@ -25,6 +25,7 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 	private DBConnection dbConnection = null;
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
+	private PreparedStatement pstmt2 = null;
 	private List<Ausleihe> ausleiheListe = null;
 
 	public AusleiheDAO() {
@@ -37,15 +38,22 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 		ResultSet rs = null;
 		Ausleihe a = null;
 		int argCounter = 0;
-		String sql = "INSERT INTO " 
+		String sql = " INSERT INTO " 
 				+ "ausleihe " 
 				+ "(person_id," 
 				+ " medium_id," 
 				+ " von"
-				+ (domainObject.getRueckgabeDatum() != null ? ", retour" : "") + ", erfasser_person_id"
-				+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ", retour_person_id" : "") + ") " + "VALUES "
-				+ "(?, ?, ?" + (domainObject.getRueckgabeDatum() != null ? ",? " : "") + ", ?"
-				+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ",? " : "") + ")";
+				+ (domainObject.getRueckgabeDatum() != null ? ", retour" : "") 
+				+ ", erfasser_person_id"
+				+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ", retour_person_id" : "") 
+				+ ") " 
+				+ "VALUES "
+				+ "(?, ?, ?" 
+				+ (domainObject.getRueckgabeDatum() != null ? ",? " : "") 
+				+ ", ?"
+				+ (domainObject.getRueckgabeMitarbeiterID() > 0 ? ",? " : "") 
+				+ ")";
+				
 		try {
 			conn = dbConnection.getDBConnection();
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -65,6 +73,8 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 				argCounter++;
 				pstmt.setInt(argCounter, domainObject.getRueckgabeMitarbeiterID());
 			}
+			
+			System.out.println(pstmt);
 			pstmt.executeUpdate();
 			rs = pstmt.getGeneratedKeys();
 			if (rs != null && rs.next()) {
@@ -78,12 +88,46 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
+				//if (conn != null)
+				//	conn.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		
+		argCounter = 0;
+		String sql2 = " UPDATE medium SET bemerkung="
+				+ (domainObject.getMedium().getBemerkung() != null ? "?" : "")
+				+ " WHERE id = " 
+				+ domainObject.getMedium().getId() ;
+		try {
+			conn = dbConnection.getDBConnection();
+			pstmt2 = conn.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
+			if (domainObject.getMedium().getBemerkung() != "" || !domainObject.getMedium().getBemerkung().isEmpty()) {
+				argCounter++;
+				pstmt2.setString(argCounter, domainObject.getMedium().getBemerkung());
+			}
+			else {
+				argCounter++;
+				pstmt2.setString(argCounter, "");
+			}
+			System.out.println(pstmt2);
+			pstmt2.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt2 != null)
+					pstmt2.close();
 				if (conn != null)
 					conn.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
+		
 		return a;
 	}
 
