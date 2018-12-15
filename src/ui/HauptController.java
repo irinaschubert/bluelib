@@ -7,8 +7,6 @@ import javax.swing.SwingUtilities;
 
 import domain.EingeloggterMA;
 import services.LoginService;
-import ui.Bibliothek.BibliothekController;
-import ui.Bibliothek.BibliothekView;
 import ui.MA.MitarbeiterController;
 import ui.MA.MitarbeiterView;
 import ui.ausleihe.AusleiheController;
@@ -17,6 +15,8 @@ import ui.autor.AutorController;
 import ui.autor.AutorView;
 import ui.benutzer.BenutzerController;
 import ui.benutzer.BenutzerView;
+import ui.bibliothek.BibliothekController;
+import ui.bibliothek.BibliothekView;
 import ui.buch.BuchController;
 import ui.buch.BuchView;
 import ui.login.LoginController;

@@ -1,4 +1,4 @@
-package ui.Bibliothek;
+package ui.bibliothek;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
