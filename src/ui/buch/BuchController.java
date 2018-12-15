@@ -481,10 +481,9 @@ public class BuchController {
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
-			// Falls das Buch bearbeitet wurde: Update der Suche
-			if (!buchView.getPKT().getText().isEmpty()) {
-				buchSuchController.buchSuchenUndResultatAnzeigen();
-			}
+
+			buchSuchController.buchSuchenUndResultatAnzeigen();
+
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}

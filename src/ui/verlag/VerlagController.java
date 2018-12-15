@@ -266,6 +266,7 @@ public class VerlagController {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
 		suchFelderLeeren();
+		erfassungFelderLeeren();
 		verlagView.getNeuAendernL().setText("");
 	}
 
