@@ -86,8 +86,6 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 					rs.close();
 				if (pstmt != null)
 					pstmt.close();
-				//if (conn != null)
-				//	conn.close();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -183,7 +181,7 @@ public class AusleiheDAO implements DAOInterface<Ausleihe> {
 				+ "medium_id, " 
 				+ "von " 
 				+ "FROM ausleihe ";
-		sql = sql + ("where person_id = ?");
+		sql = sql + ("where person_id = ? AND retour is null");
 		try {
 			int pCounter = 1;
 			conn = dbConnection.getDBConnection();
