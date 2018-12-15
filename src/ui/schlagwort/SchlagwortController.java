@@ -1,4 +1,4 @@
-package ui.Schlagwort;
+package ui.schlagwort;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

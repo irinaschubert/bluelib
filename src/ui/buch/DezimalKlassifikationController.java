@@ -36,11 +36,14 @@ public class DezimalKlassifikationController {
 	private void control() {
 		dezimalKlassifikationView.getDezKlassifikationGrpeCbx()
 				.addActionListener(dezKlassGruppenauswahlActionListener());
-		dezimalKlassifikationView.getUebernehmenB().addActionListener(uebernehmenActionListener());
+		dezimalKlassifikationView.getStandardButtonPanel().getButton1().addActionListener(uebernehmenActionListener());
 	}
 
 	private void initialisieren() {
-		dezimalKlassifikationView.getUebernehmenB().setText("Übernehmen");
+		dezimalKlassifikationView.getStandardButtonPanel().getButton1().setText("Übernehmen");
+		dezimalKlassifikationView.getStandardButtonPanel().getButton2().setVisible(false);
+		dezimalKlassifikationView.getStandardButtonPanel().getButton3().setVisible(false);
+		dezimalKlassifikationView.getStandardButtonPanel().getButton4().setVisible(false);
 		dezimalKlassifikationView.getDezKlasseGrpeL().setText("Gruppe Dezimalklassifikation: ");
 		dezimalKlassifikationView.getDezKlasseL().setText("Dezimalklassifikation: ");
 		dezimalKlassifikationView.getDezKlassifikationGrpeCbx()
