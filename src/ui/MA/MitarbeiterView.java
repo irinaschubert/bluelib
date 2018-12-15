@@ -18,6 +18,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -63,7 +64,7 @@ public class MitarbeiterView extends JPanel {
 	private JTextField NameT;
 	private JTextField NameSucheT;
 	private JTextField VornameT;
-	private JTextField PasswortT;
+	private JPasswordField PasswortT;
 	private JTextField VornameSucheT;
 	private JTextField BenutzernameT;
 	private JTextField BenutzernameSucheT;
@@ -132,7 +133,7 @@ public class MitarbeiterView extends JPanel {
 		BenutzernameT = new JTextField(10);
 
 		PasswortL = new JLabel();
-		PasswortT = new JTextField();
+		PasswortT = new JPasswordField();
 
 		adminL = new JLabel();
 		adminCbx = new JCheckBox();
@@ -283,13 +284,17 @@ public class MitarbeiterView extends JPanel {
 	public JTextField getBenutzernameT() {
 		return BenutzernameT;
 	}
-
+	
 	public JLabel getPasswortL() {
 		return PasswortL;
 	}
 
-	public JTextField getPasswortT() {
+	public JPasswordField getPasswortT() {
 		return PasswortT;
+	}
+	
+	public void setPasswortT(JPasswordField PasswortT) {
+		this.PasswortT = PasswortT;
 	}
 	
 	public JTextField getMAIDT() {
