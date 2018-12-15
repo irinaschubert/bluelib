@@ -181,7 +181,8 @@ public class RueckgabeController {
 			rueckgabeView.getBenutzerIDT().setText(Integer.toString(vma.getAusleihe().getBenutzer().getId()));
 			rueckgabeView.getBenutzerVornameT().setText(vma.getAusleihe().getBenutzer().getVorname());
 			rueckgabeView.getBenutzerNameT().setText(vma.getAusleihe().getBenutzer().getName());
-			rueckgabeView.getBenutzerStatusT().setText(vma.getAusleihe().getBenutzer().getBenutzerStatus().getBezeichnung());
+			rueckgabeView.getBenutzerStatusT()
+					.setText(vma.getAusleihe().getBenutzer().getBenutzerStatus().getBezeichnung());
 			rueckgabeView.getNotizT().setText(vma.getAusleihe().getMedium().getBemerkung());
 
 		} else {
@@ -265,7 +266,7 @@ public class RueckgabeController {
 		rueckgabeView.getNotizT().setEditable(true);
 		rueckgabeView.getErfasstVonT().setEditable(false);
 		rueckgabeView.getErfasstAmT().setEditable(false);
-		
+
 		TextComponentLimit.addTo(rueckgabeView.getNotizT(), 300);
 
 		rueckgabeView.getButtonPanel().getButton1().setText(ButtonNamen.AUSLEIHE.getName());
