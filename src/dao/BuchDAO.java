@@ -332,24 +332,21 @@ public class BuchDAO implements DAOInterface<Buch> {
 			// Nicht in DB vorhandene Schlagworte hinzufügen
 			for (Schlagwort s : domainObject.getSchlagwoerter()) {
 				Boolean enthalten = false;
-				for  (int i : schlagwortListe) {				
+				for (int i : schlagwortListe) {
 					if (s.getId() == i) {
 						enthalten = true;
 					}
-					
-					if (enthalten == false) {
-						sql = "INSERT INTO mediumschlagwort "
-								+ "(medium_id, "
-								+ "schlagwort_id) "
-								+ "VALUES "
-								+ "( ?, ?)";
-						pstmt = conn.prepareStatement(sql);
-						argCounter = 1;
-						pstmt.setInt(argCounter++,domainObject.getId());
-						pstmt.setInt(argCounter++,s.getId());
-						pstmt.executeUpdate();								
-					}
-				}	
+				}
+
+				if (enthalten == false) {
+					sql = "INSERT INTO mediumschlagwort " + "(medium_id, " + "schlagwort_id) " + "VALUES " + "( ?, ?)";
+					pstmt = conn.prepareStatement(sql);
+					argCounter = 1;
+					pstmt.setInt(argCounter++, domainObject.getId());
+					pstmt.setInt(argCounter++, s.getId());
+					pstmt.executeUpdate();
+
+				}
 
 			}
 
