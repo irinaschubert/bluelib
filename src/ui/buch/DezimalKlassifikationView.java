@@ -1,5 +1,6 @@
 package ui.buch;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -12,9 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import domain.DezKlassifikation;
 import domain.DezKlassifikationGrpe;
+import javafx.scene.layout.Border;
 import ui.benutzer.FormularMitGridbaglayout;
 import ui.renderer.DezKlassGrpeRenderer;
 import ui.renderer.DezKlassRenderer;
+import ui.standardKomponenten.StandardButtonPanel;
 
 /**
  * 
@@ -30,13 +33,13 @@ public class DezimalKlassifikationView extends JDialog {
 	private JComboBox<DezKlassifikation> dezKlassifikationCbx;
 	private JLabel dezKlasseGrpeL;
 	private JLabel dezKlasseL;
-	private JButton uebernehmenB;
+	StandardButtonPanel standardButtonPanel;
 
 	public DezimalKlassifikationView(String titel) {
 		super.setTitle(titel);
 		getContentPane().add(frameAufbauen());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(900, 150);
+		setSize(900, 185);
 
 	}
 
@@ -48,22 +51,25 @@ public class DezimalKlassifikationView extends JDialog {
 		dezKlassifikationCbx.setRenderer(new DezKlassRenderer());
 		dezKlassifikationGrpeCbx = new JComboBox<>();
 		dezKlassifikationGrpeCbx.setRenderer(new DezKlassGrpeRenderer());
-
-		uebernehmenB = new JButton();
-
-		JPanel panel = new JPanel();
+		
+		standardButtonPanel = new StandardButtonPanel();
+		
+		JPanel panel = new JPanel(new BorderLayout());
+				
+		JPanel innerPanel = new JPanel();
 		FormularMitGridbaglayout formularHelfer = new FormularMitGridbaglayout();
-		panel.setLayout(new GridBagLayout());
+		innerPanel.setLayout(new GridBagLayout());
 
-		formularHelfer.addLabel(dezKlasseGrpeL, panel);
-		formularHelfer.addLastField(dezKlassifikationGrpeCbx, panel);
+		formularHelfer.addLabel(dezKlasseGrpeL, innerPanel);
+		formularHelfer.addLastField(dezKlassifikationGrpeCbx, innerPanel);
 
-		formularHelfer.addLabel(dezKlasseL, panel);
-		formularHelfer.addLastField(dezKlassifikationCbx, panel);
+		formularHelfer.addLabel(dezKlasseL, innerPanel);
+		formularHelfer.addLastField(dezKlassifikationCbx, innerPanel);
 
-		formularHelfer.addLabel(uebernehmenB, panel);
-
-		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		innerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		
+		panel.add(innerPanel, BorderLayout.CENTER);
+		panel.add(standardButtonPanel, BorderLayout.SOUTH);
 
 		return panel;
 
@@ -113,12 +119,12 @@ public class DezimalKlassifikationView extends JDialog {
 		this.dezKlasseL = dezKlasseL;
 	}
 
-	public JButton getUebernehmenB() {
-		return uebernehmenB;
+	public StandardButtonPanel getStandardButtonPanel() {
+		return standardButtonPanel;
 	}
 
-	public void setUebernehmenB(JButton uebernehmenB) {
-		this.uebernehmenB = uebernehmenB;
+	public void setStandardButtonPanel(StandardButtonPanel standardButtonPanel) {
+		this.standardButtonPanel = standardButtonPanel;
 	}
 
 }

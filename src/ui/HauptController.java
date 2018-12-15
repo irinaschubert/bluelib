@@ -7,16 +7,14 @@ import javax.swing.SwingUtilities;
 
 import domain.EingeloggterMA;
 import services.LoginService;
-import ui.Autor.AutorController;
-import ui.Autor.AutorView;
 import ui.Bibliothek.BibliothekController;
 import ui.Bibliothek.BibliothekView;
 import ui.MA.MitarbeiterController;
 import ui.MA.MitarbeiterView;
-import ui.Schlagwort.SchlagwortController;
-import ui.Schlagwort.SchlagwortView;
 import ui.ausleihe.AusleiheController;
 import ui.ausleihe.AusleiheView;
+import ui.autor.AutorController;
+import ui.autor.AutorView;
 import ui.benutzer.BenutzerController;
 import ui.benutzer.BenutzerView;
 import ui.buch.BuchController;
@@ -25,6 +23,8 @@ import ui.login.LoginController;
 import ui.login.LoginView;
 import ui.rueckgabe.RueckgabeController;
 import ui.rueckgabe.RueckgabeView;
+import ui.schlagwort.SchlagwortController;
+import ui.schlagwort.SchlagwortView;
 import ui.verlag.VerlagController;
 import ui.verlag.VerlagView;
 

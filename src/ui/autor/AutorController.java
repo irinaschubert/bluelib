@@ -1,4 +1,4 @@
-package ui.Autor;
+package ui.autor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
