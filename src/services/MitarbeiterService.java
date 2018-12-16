@@ -8,7 +8,7 @@ import domain.Benutzer;
 import domain.Buch;
 import domain.Mitarbeiter;
 import domain.Schlagwort;
-import ui.MA.MitarbeiterView;
+import ui.ma.MitarbeiterView;
 
 /**
  * @version 0.1 16.10.2018
