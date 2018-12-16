@@ -54,8 +54,9 @@ public class SchlagwortController {
 		control();
 
 	}
-
-	// Definierten des Listeners für die Button-Klicks
+	/**
+	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	*/
 	private void control() {
 		schlagwortView.getSuchButton().addActionListener(suchenButtonActionListener());
 		schlagwortView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener());
@@ -65,79 +66,62 @@ public class SchlagwortController {
 
 	}
 
+	// Suchen
 	private ActionListener suchenButtonActionListener() {
-
 		ActionListener suchenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				if (inputValidierungSuchen()) {
 					sucheAusfuehren();
 				}
-
 			}
-
 		};
 		return suchenButtonActionListener;
 	}
 
 	private ActionListener neuButtonActionListener() {
-
 		ActionListener neuButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				suchFelderLeeren();
 				schlagwortView.getNeuAendernL().setText("Neuerfassung");
 			}
-
 		};
-
 		return neuButtonActionListener;
 	}
-
+	
+	// Speichern
 	public ActionListener sichernButtonActionListener() {
-
 		ActionListener sichernButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Schlagwort s = new Schlagwort();
 				if (inputValidierungSpeichern()) {
 					s = feldwertezuObjektSpeichern();
-					// Prüfung, ob ein neuer Schlagwort erfasst wurde oder ein Schlagwort
-					// aktialisiert wird
 					if (schlagwortView.getPKT().getText().isEmpty()) {
 						nachAarbeitSpeichern(normdatenService.speichernSchlagwort(s));
 					} else {
 						nachAarbeitSpeichern(normdatenService.aktualisierenSchlagwort(s));
 					}
 				}
-
 			}
-
 		};
-
 		return sichernButtonActionListener;
 	}
-
+	
+	// Schliessen
 	public ActionListener schliessenButtonActionListener() {
-
 		ActionListener schliessenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				hauptController.panelEntfernen();
 			}
-
 		};
-
 		return schliessenButtonActionListener;
 	}
 
+	// Doppelklick = Werte übernehmen
 	private MouseListener doppelKlick() {
-
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -151,23 +135,33 @@ public class SchlagwortController {
 		return doppelKlick;
 	}
 
+	/**
+	* Prueft die Feldwerte auf korrekte Daten im Bereich Suchen.
+	* @return true: wenn alles korrekt, false: wenn ein falsches Datum eingegeben wurde
+	*/
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
-		// To do
 		return keinInputFehler;
 	}
-
+	
+	/**
+	* Prueft die Feldwerte auf obligatorische Eingaben und korrekte Daten im Bereich Neuerfassung/Bearbeitung.
+	* @return true: wenn alles korrekt, false: wenn nicht alle Pflichtfelder ausgefüllt oder ein falsches Datum eingegeben wurde
+	*/
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (schlagwortView.getSchlagwortT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 			keinInputFehler = false;
 		}
-
 		return keinInputFehler;
-
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
+	* @return Schlagwort-Objekt mit Werten aus der Suche
+	*/
+>>>>>>> refs/remotes/origin/feature_ma
 	private Schlagwort feldwertezuObjektSpeichern() {
 		Schlagwort s = new Schlagwort();
 		if (!schlagwortView.getPKT().getText().isEmpty()) {

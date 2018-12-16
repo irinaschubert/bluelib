@@ -157,7 +157,7 @@ public class MitarbeiterController {
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (mitarbeiterView.getBenutzernameT().getText().isEmpty()
-				|| mitarbeiterView.getPasswortT().getText().isEmpty()) {
+				|| mitarbeiterView.getPasswortT().getPassword().length == 0) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 			keinInputFehler = false;
 		}
@@ -175,7 +175,6 @@ public class MitarbeiterController {
 		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
 		m.setAdmin(mitarbeiterView.getAdminCbx().isSelected());
 		m.setPasswort(mitarbeiterView.getPasswortT().getText());
-		System.out.println("gePW Hashed: " + m.getPasswort());
 		return m;
 	}
 
@@ -205,7 +204,6 @@ public class MitarbeiterController {
 		mitarbeiterView.getVornameT().setText(m.getVorname());
 		mitarbeiterView.getAktivCbx().setSelected(m.isAktiv());
 		mitarbeiterView.getAdminCbx().setSelected(m.isAdmin());
-		// mitarbeiterView.getMAIDT().setText(m.getMAIDT());
 	}
 
 	private void nachAarbeitSpeichern(Verifikation v) {
