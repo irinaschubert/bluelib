@@ -174,7 +174,6 @@ public class MitarbeiterController {
 		m.setBenutzername(mitarbeiterView.getBenutzernameT().getText());
 		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
 		m.setAdmin(mitarbeiterView.getAdminCbx().isSelected());
-		//Anschauen
 		m.setPasswort(mitarbeiterView.getPasswortT().getText());
 		return m;
 	}
