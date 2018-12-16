@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Anrede;
+import domain.Autor;
 import domain.Mitarbeiter;
 import hilfsklassen.SQLHelfer;
 import interfaces.DAOInterface;
@@ -117,11 +118,42 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		return m;
 	}
 
+	/**
+	 * @return Bei Erfolg: true, bei Misserfolg: false
+	 */
 	@Override
 	public boolean delete(Mitarbeiter domainObject) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		
+	
+				ResultSet rs = null;
+				boolean geloescht = false;
+				String sql = "DELETE FROM "
+						+ "mitarbeiter "
+						+ "WHERE id = ?";
+					try {
+						
+						conn = dbConnection.getDBConnection();
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setInt(1, domainObject.getMAId());
+						int i = pstmt.executeUpdate();
+						if (i>0) {
+							geloescht = true;
+						}
+										
+					}
+			  catch (SQLException e) {
+		           e.printStackTrace();
+		     } finally{
+		         try{
+		             if(rs != null) rs.close();
+		             if(pstmt != null) pstmt.close();
+		             if(conn != null) conn.close();
+		         } catch(Exception ex){}
+		     }
+					
+				return geloescht;
+		}
+	
 
 	@Override
 	public List<Mitarbeiter> getSelektion(Mitarbeiter domainObject) {
