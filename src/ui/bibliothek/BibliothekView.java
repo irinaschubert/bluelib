@@ -21,7 +21,7 @@ import javax.swing.JComboBox;
 /**
  * Zeigt die Bibliotheksdaten. Die Ausleihdauer ist veränderbar.
  * 
- * @version 1.0 3.10.2018
+ * @version 3.0 16.12.2018
  * @author Mike
  *
  */

@@ -34,7 +34,7 @@ import ui.ma.MitarbeiterController;
  * Controller für die Mitarbeiter-View, der die Logik und die Benutzeraktionen
  * der View steuert und der View die Models übergibt
  * 
- * @version 1.0 15.11.2018
+ * @version 3.0 15.12.2018
  * @author Mike
  *
  */
@@ -68,10 +68,11 @@ public class MitarbeiterController {
 		control();
 	}
 
-	// Button Klick ActionListener
+	/**
+	 * Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	 */
 	private void control() {
-
-		// Suche Button
+		// Suche
 		ActionListener suchenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -81,12 +82,11 @@ public class MitarbeiterController {
 					mitarbeiterL = normdatenService.suchenMitarbeiter(mitarbeiterSuchobjekt);
 					tableModelMitarbeiter.setAndSortListe(mitarbeiterL);
 				}
-
 			}
-
 		};
 		mitarbeiterView.getSuchButton().addActionListener(suchenButtonActionListener);
 
+		// Neu
 		ActionListener neuButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -105,6 +105,7 @@ public class MitarbeiterController {
 		};
 		mitarbeiterView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
 
+		//Speichern
 		ActionListener sichernButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -119,22 +120,18 @@ public class MitarbeiterController {
 				}
 			}
 		};
-
-		// Zuweisen des Actionlisteners zum Sichern-Button
 		mitarbeiterView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
 
+		// Schliessen
 		ActionListener schliessenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				hauptController.panelEntfernen();
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Schliessen-Button
 		mitarbeiterView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
 
+		// Doppelklick = Werte übernehmen
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -144,16 +141,22 @@ public class MitarbeiterController {
 				}
 			}
 		};
-		// Zuweisen des Mouselisteners zur Tabelle
 		mitarbeiterView.getMitarbeiterTabelle().addMouseListener(doppelKlick);
 	}
 
+	/**
+	 * Prueft die Feldwerte auf korrekte Daten im Bereich Suchen.
+	 * @return true: wenn alles korrekt, false: Ist für die Suche nicht gedacht, da es keine Eingabe eines Datums zu validieren gibt
+	 */
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
-		// To do
 		return keinInputFehler;
 	}
 
+	/**
+	* Prueft die Feldwerte auf obligatorische Eingaben und korrekte Daten im Bereich Neuerfassung/Bearbeitung.
+	* @return true: wenn alles korrekt, false: wenn nicht alle Pflichtfelder ausgefüllt wurden.
+	*/
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (mitarbeiterView.getBenutzernameT().getText().isEmpty()
@@ -163,7 +166,11 @@ public class MitarbeiterController {
 		}
 		return keinInputFehler;
 	}
-
+	
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Neuerfassung/Bearbeitung.
+	* @return Mitarbeiter-Objekt mit Werten aus der Neuerfassung/Bearbeitung
+	*/
 	private Mitarbeiter feldwertezuObjektSpeichern() {
 		Mitarbeiter m = new Mitarbeiter();
 		if (!mitarbeiterView.getPKT().getText().isEmpty()) {
@@ -178,6 +185,10 @@ public class MitarbeiterController {
 		return m;
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
+	* @return Schlagwort-Objekt mit Werten aus der Suche
+	*/
 	private Mitarbeiter feldwertezuObjektSuchen() {
 		Mitarbeiter m = new Mitarbeiter();
 		if (!mitarbeiterView.getMitarbeiterSucheT().getText().isEmpty()) {
@@ -195,6 +206,10 @@ public class MitarbeiterController {
 		return m;
 	}
 
+	/**
+	* Uebernimmt sämtliche Werte des Mitarbeiterobjekts in die Bearbeitungs-View, wenn auf einen Listeneintrag
+	* ein Doppelklick ausgeführt wird.
+	*/
 	private void uebernehmen() {
 		Mitarbeiter m = new Mitarbeiter();
 		m = tableModelMitarbeiter.getGeklicktesObjekt(mitarbeiterView.getMitarbeiterTabelle().getSelectedRow());
@@ -206,6 +221,10 @@ public class MitarbeiterController {
 		mitarbeiterView.getAdminCbx().setSelected(m.isAdmin());
 	}
 
+	/**
+	* Setzt die Liste neu und leert die Eingabefelder im Bereich Suche 
+	* nach dem Speichern.
+	*/
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
@@ -216,6 +235,10 @@ public class MitarbeiterController {
 		neuBearbeitenFelderLeeren();
 	}
 
+	/**
+	* Prueft Eingabe und sucht das Benutzer-Objekt und fuellt die Felder anhand der eingegebenen ID im Bereich Benutzer-View
+	* @param Benutzer-ID
+	*/
 	void pruefenUndUebernehmenBenutzerMitId(int id) {
 		Benutzer benutzer = new Benutzer();
 		Mitarbeiter ma = new Mitarbeiter();
@@ -255,7 +278,9 @@ public class MitarbeiterController {
 		}
 	}
 
-	// Bearbeiten Felder leeren
+	/**
+	* Leert saemtliche Eingabefelder im Bereich Mitarbeiter.
+	*/
 	private void neuBearbeitenFelderLeeren() {
 		mitarbeiterView.getPKT().setText("");
 		mitarbeiterView.getBenutzernameT().setText("");
@@ -267,6 +292,10 @@ public class MitarbeiterController {
 		mitarbeiterView.getNeuAendernL().setText("");
 	}
 
+	/**
+	* Setzt Werte für die Labels, fügt den Eingabefeldern Limiten fuer die Anzahl Zeichen zu,
+	* definiert die verwendeten Buttons aus dem ButtonPanel.
+	*/
 	public void initialisieren() {
 		mitarbeiterView.getPKL().setText("Nr:");
 		mitarbeiterView.getNameL().setText("Name:");
@@ -281,7 +310,6 @@ public class MitarbeiterController {
 		mitarbeiterView.getVornameSucheL().setText("Vorname:");
 		mitarbeiterView.getBenutzernameSucheL().setText("Benutzername:");
 		mitarbeiterView.getAktivSucheL().setText("Aktiv:");
-		//mitarbeiterView.getAdminSucheL().setText("AdministratorIn:");
 		mitarbeiterView.getAktivSucheCbx().setSelected(true);
 		mitarbeiterView.getSuchButton().setText("Suchen");
 		mitarbeiterView.getPKT().setEditable(false);

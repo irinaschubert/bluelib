@@ -17,7 +17,7 @@ import ui.renderer.PlzRenderer;
 /**
  * Controller für die die Stammdaten der Bibliothek.
  * 
- * @version 2.0 31.10.2018
+ * @version 2.0 16.12.2018
  * @author Mike
  *
  */
@@ -36,8 +36,12 @@ public class BibliothekController {
 		initialisieren();
 		control();
 	}
-
+	
+	/**
+	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	*/
 	private void control() {
+		// Speichern
 		ActionListener sichernBibliothekActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -52,6 +56,7 @@ public class BibliothekController {
 		};
 		bibliothekView.getButtonPanel().getButton3().addActionListener(sichernBibliothekActionListener);
 
+		// Schliessen
 		ActionListener schliessenButtonActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -75,6 +80,11 @@ public class BibliothekController {
 		bibliothekView.getPlzOrtCbx().addActionListener(plzCbxListener);
 	}
 
+	/**
+	* Prueft die Feldwerte auf obligatorische Eingaben und korrekte Daten im Bereich Neuerfassung/Bearbeitung.
+	* @return true: wenn alles korrekt, false: wenn nicht alle Pflichtfelder ausgefüllt oder ein falsches Datum eingegeben wurde. 
+	* 				Die Leihfrist muss zwischen 0 und 365 Tagen sein.
+	*/
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (bibliothekView.getNameT().getText().isEmpty() || (bibliothekView.getLeihfristT().getText().isEmpty())) {
@@ -98,6 +108,10 @@ public class BibliothekController {
 		return keinInputFehler;
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Neuerfassung/Bearbeitung.
+	* @return Stammdaten-Objekt mit Werten aus der Neuerfassung/Bearbeitung
+	*/
 	private Bibliothek feldwertezuObjektSpeichern() {
 		Bibliothek b = new Bibliothek();
 		b.setId(1); // Es soll nur ein Objekt geben
@@ -110,6 +124,9 @@ public class BibliothekController {
 		return b;
 	}
 
+	/**
+	* Befüllt die Felder mit den Initialen Werten
+	*/
 	private void biblioitheksFelderFuellen() {
 		Bibliothek b = bibliothekService.suchenBibliothek();
 		bibliothekView.getNameT().setText(b.getName());
@@ -120,6 +137,10 @@ public class BibliothekController {
 		bibliothekView.getLeihfristT().setText(String.valueOf(b.getLeihfrist()));
 	}
 
+	/**
+	* Setzt Werte für die Labels, fügt den Eingabefeldern Limiten fuer die Anzahl Zeichen zu,
+	* definiert die verwendeten Buttons aus dem ButtonPanel.
+	*/
 	public void initialisieren() {
 		PlzRenderer plzR = new PlzRenderer();
 		bibliothekView.getPlzOrtCbx().setRenderer(plzR);
