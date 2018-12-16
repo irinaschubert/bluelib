@@ -161,7 +161,6 @@ public class SchlagwortController {
 	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
 	* @return Schlagwort-Objekt mit Werten aus der Suche
 	*/
->>>>>>> refs/remotes/origin/feature_ma
 	private Schlagwort feldwertezuObjektSpeichern() {
 		Schlagwort s = new Schlagwort();
 		if (!schlagwortView.getPKT().getText().isEmpty()) {
