@@ -1,18 +1,12 @@
 package services;
 
 
-import dao.BenutzerDAO;
-import dao.BuchDAO;
 import dao.MitarbeiterDAO;
-import domain.Benutzer;
-import domain.Buch;
 import domain.Mitarbeiter;
-import domain.Schlagwort;
-import ui.ma.MitarbeiterView;
 
 /**
- * @version 0.1 16.10.2018
- * @author irina
+ * @version 2 16.12.2018
+ * @author Mike
  *
  */
 public class MitarbeiterService {

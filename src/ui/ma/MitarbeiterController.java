@@ -8,14 +8,9 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import dao.BenutzerDAO;
-import dao.MitarbeiterDAO;
 import domain.Benutzer;
 import domain.Mitarbeiter;
 import hilfsklassen.ButtonNamen;
@@ -242,11 +237,8 @@ public class MitarbeiterController {
 	void pruefenUndUebernehmenBenutzerMitId(int id) {
 		Benutzer benutzer = new Benutzer();
 		Mitarbeiter ma = new Mitarbeiter();
-		BenutzerDAO benutzerDAO = new BenutzerDAO();
-		MitarbeiterDAO maDAO = new MitarbeiterDAO();
-
 		try {
-			benutzer = benutzerDAO.findById(id);
+			benutzer = benutzerService.suchenBenutzerById(id);
 			mitarbeiterView.getPKT().setText(Integer.toString(benutzer.getId()));
 			mitarbeiterView.getNameT().setText(benutzer.getName());
 			mitarbeiterView.getVornameT().setText(benutzer.getVorname());
@@ -257,7 +249,6 @@ public class MitarbeiterController {
 				mitarbeiterView.getPKT().setText("");
 				JOptionPane.showMessageDialog(null, "Ungültige ID.");
 			}
-
 		} catch (NullPointerException npe) {
 			mitarbeiterView.getPKT().setText("");
 			JOptionPane.showMessageDialog(null, "Kein Benutzer mit dieser ID vorhanden.");
@@ -265,9 +256,8 @@ public class MitarbeiterController {
 			mitarbeiterView.getPKT().setText("");
 			JOptionPane.showMessageDialog(null, "Ungültige ID.");
 		}
-
 		try {
-			ma = maDAO.findById(id);
+			ma = mitarbeiterService.suchenMitarbeiterById(id);
 			mitarbeiterView.getBenutzernameT().setText(ma.getBenutzername());
 			mitarbeiterView.getMAIDT().setText(Integer.toString(ma.getMAId()));
 			mitarbeiterView.getNeuAendernL().setText("Bearbeiten");
