@@ -30,8 +30,8 @@ import ui.standardKomponenten.StandardTitelPanel;
 /**
  * Zeigt alle Schlagworte an und ermoeglicht die Erfassung neuer Schlagworte
  * 
- * @version 1.0 24.10.2018
- * @author Schmutz
+ * @version 3.0 16.12.2018
+ * @author Mike
  *
  */
 public class SchlagwortView extends JPanel {
@@ -143,7 +143,6 @@ public class SchlagwortView extends JPanel {
 		schlagwortNeuBearbeitenPanel.add(inputPanel, BorderLayout.CENTER);
 
 		return rahmenSetzen("Neu / Bearbeiten", schlagwortNeuBearbeitenPanel);
-
 	}
 
 	private JPanel createTabellenPanel() {

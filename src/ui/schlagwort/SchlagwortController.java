@@ -54,9 +54,10 @@ public class SchlagwortController {
 		control();
 
 	}
+
 	/**
-	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
-	*/
+	 * Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	 */
 	private void control() {
 		schlagwortView.getSuchButton().addActionListener(suchenButtonActionListener());
 		schlagwortView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener());
@@ -89,7 +90,7 @@ public class SchlagwortController {
 		};
 		return neuButtonActionListener;
 	}
-	
+
 	// Speichern
 	public ActionListener sichernButtonActionListener() {
 		ActionListener sichernButtonActionListener = new ActionListener() {
@@ -108,7 +109,7 @@ public class SchlagwortController {
 		};
 		return sichernButtonActionListener;
 	}
-	
+
 	// Schliessen
 	public ActionListener schliessenButtonActionListener() {
 		ActionListener schliessenButtonActionListener = new ActionListener() {
@@ -131,23 +132,23 @@ public class SchlagwortController {
 				}
 			}
 		};
-
 		return doppelKlick;
 	}
 
 	/**
-	* Prueft die Feldwerte auf korrekte Daten im Bereich Suchen.
-	* @return true: wenn alles korrekt, false: wenn ein falsches Datum eingegeben wurde
-	*/
+	 * Prueft die Feldwerte auf korrekte Daten im Bereich Suchen.
+	 * @return true: wenn alles korrekt, false: Ist für die Suche nicht gedacht, da es keine Eingabe eines Datums zu validieren gibt
+	 */
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
 		return keinInputFehler;
 	}
-	
+
 	/**
-	* Prueft die Feldwerte auf obligatorische Eingaben und korrekte Daten im Bereich Neuerfassung/Bearbeitung.
-	* @return true: wenn alles korrekt, false: wenn nicht alle Pflichtfelder ausgefüllt oder ein falsches Datum eingegeben wurde
-	*/
+	 * Prueft die Feldwerte auf obligatorische Eingaben und korrekte Daten im
+	 * Bereich Neuerfassung/Bearbeitung.
+	 * @return true: wenn alles korrekt, false: wenn nicht alle Pflichtfelder ausgefüllt
+	 */
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (schlagwortView.getSchlagwortT().getText().isEmpty()) {
@@ -158,9 +159,9 @@ public class SchlagwortController {
 	}
 
 	/**
-	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
-	* @return Schlagwort-Objekt mit Werten aus der Suche
-	*/
+	 * Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
+	 * @return Schlagwort-Objekt mit Werten aus der Suche
+	 */
 	private Schlagwort feldwertezuObjektSpeichern() {
 		Schlagwort s = new Schlagwort();
 		if (!schlagwortView.getPKT().getText().isEmpty()) {
@@ -170,23 +171,28 @@ public class SchlagwortController {
 		s.setGeloescht(schlagwortView.getGeloeschtCbx().isSelected());
 		return s;
 	}
-
+	
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Neuerfassung/Bearbeitung.
+	* @return Schlagwort-Objekt mit Werten aus der Neuerfassung/Bearbeitung
+	*/
 	private Schlagwort feldwertezuObjektSuchen() {
 		Schlagwort s = new Schlagwort();
 		if (!schlagwortView.getSchlagwortSucheT().getText().isEmpty()) {
 			s.setSchlagwort(schlagwortView.getSchlagwortSucheT().getText());
 		}
-
 		return s;
 	}
-
+	
+	/**
+	* Uebernimmt sämtliche Werte des Schlagwortgobjekts in die Bearbeitungs-View, wenn auf einen Listeneintrag
+	* ein Doppelklick ausgeführt wird.
+	*/
 	private void uebernehmen() {
 		Schlagwort s = new Schlagwort();
 		s = tableModelSchlagwort.getGeklicktesObjekt(schlagwortView.getSchlagwortTabelle().getSelectedRow());
-
 		schlagwortView.getPKT().setText(Integer.toString(s.getId()));
 		schlagwortView.getSchlagwortT().setText(s.getSchlagwort());
-
 		schlagwortView.getGeloeschtCbx().setSelected(s.getGeloescht());
 	}
 
@@ -209,9 +215,12 @@ public class SchlagwortController {
 			}
 			schlagwortSuchobjekt.setGeloescht(false);
 		}
-
 	}
 
+	/**
+	* Setzt die Liste neu und leert die Eingabefelder im Bereich Suche 
+	* nach dem Speichern.
+	*/
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
@@ -223,7 +232,10 @@ public class SchlagwortController {
 		schlagwortView.getNeuAendernL().setText("");
 
 	}
-
+	
+	/**
+	* Leert saemtliche Eingabefelder im Bereich Suchen.
+	*/
 	private void suchFelderLeeren() {
 		// Felder leeren
 		for (JComponent t : schlagwortView.getComponentsNeuBearbeiten().values()) {
@@ -233,12 +245,14 @@ public class SchlagwortController {
 			if (t instanceof JCheckBox) {
 				((JCheckBox) t).setSelected(false);
 			}
-
 		}
 	}
 
+	/**
+	* Setzt Werte für die Labels, fügt den Eingabefeldern Limiten fuer die Anzahl Zeichen zu,
+	* definiert die verwendeten Buttons aus dem ButtonPanel.
+	*/
 	public void initialisieren() {
-
 		schlagwortView.getPKL().setText("Nr:");
 		schlagwortView.getSchlagwortL().setText("Schlagwort:*");
 		schlagwortView.getGeloescht().setText("Löschvormerkung:");
@@ -251,6 +265,5 @@ public class SchlagwortController {
 		schlagwortView.getButtonPanel().getButton2().setVisible(false);
 		schlagwortView.getButtonPanel().getButton3().setText(ButtonNamen.SICHERN.getName());
 		schlagwortView.getButtonPanel().getButton4().setText(ButtonNamen.SCHLIESSEN.getName());
-
 	}
 }
