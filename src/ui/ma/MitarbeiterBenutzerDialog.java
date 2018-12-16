@@ -13,7 +13,7 @@ import ui.standardKomponenten.StandardTitelPanel;
  * Verwendet die BenutzerSuchView
  * 
  * @version 1.0 2018-12-08
- * @author Irina
+ * @author Mike
  *
  */
 
