@@ -61,6 +61,7 @@ public class RueckgabeTest {
 		ausleiheDAO = new AusleiheDAO();
 		ausleiheDAO.deleteByAusleihe(a);
 		testDomaenenObjekte.loeschenDummyBenutzer();
+		testDomaenenObjekte.loeschenDummyBuch();
 	}
 
 }
