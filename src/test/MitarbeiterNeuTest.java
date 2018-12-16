@@ -47,6 +47,7 @@ public class MitarbeiterNeuTest {
 	public void neuTest() {
 		n.speichernMitarbeiter(m);
 		List<Mitarbeiter> Mitarbeiter = n.suchenMitarbeiter(m);
+		m = Mitarbeiter.get(0);
 		assertTrue(Mitarbeiter.size() > 0);
 	}
 

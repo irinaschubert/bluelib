@@ -123,23 +123,19 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 	 */
 	@Override
 	public boolean delete(Mitarbeiter domainObject) {
-		
-	
 				ResultSet rs = null;
 				boolean geloescht = false;
 				String sql = "DELETE FROM "
 						+ "mitarbeiter "
 						+ "WHERE id = ?";
-					try {
-						
+					try {			
 						conn = dbConnection.getDBConnection();
 						pstmt = conn.prepareStatement(sql);
 						pstmt.setInt(1, domainObject.getMAId());
 						int i = pstmt.executeUpdate();
 						if (i>0) {
 							geloescht = true;
-						}
-										
+						}									
 					}
 			  catch (SQLException e) {
 		           e.printStackTrace();
