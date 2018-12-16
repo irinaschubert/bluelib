@@ -177,6 +177,7 @@ public class MitarbeiterController {
 		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
 		m.setAdmin(mitarbeiterView.getAdminCbx().isSelected());
 		m.setPasswort(mitarbeiterView.getPasswortT().getText());
+		m.setMAId(Integer.parseInt(mitarbeiterView.getMAIDT().getText()));
 		return m;
 	}
 
@@ -214,6 +215,7 @@ public class MitarbeiterController {
 		mitarbeiterView.getVornameT().setText(m.getVorname());
 		mitarbeiterView.getAktivCbx().setSelected(m.isAktiv());
 		mitarbeiterView.getAdminCbx().setSelected(m.isAdmin());
+		mitarbeiterView.getMAIDT().setText(Integer.toString(m.getMAId()));
 	}
 
 	/**

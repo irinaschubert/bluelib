@@ -94,7 +94,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 				pstmt.setString(2,HashRechner.hashBerechnen(domainObject.getPasswort()));
 				pstmt.setBoolean(3, domainObject.isAktiv());
 				pstmt.setBoolean(4, domainObject.isAdmin());
-				pstmt.setInt(5,  domainObject.getId());
+				pstmt.setInt(5,  domainObject.getMAId());
 				int i = pstmt.executeUpdate();
 				if (i>0) {
 					m = domainObject;
@@ -128,7 +128,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 		ResultSet rs = null;
 		// Mitarbeiter m = null;
 		String sql = "SELECT " + "ma.benutzername, " + "ma.passwort, " + "ma.admin, " + "ma.aktiv, " + "p.id, "
-				+ "p.vorname, " + "p.nachname " + "FROM mitarbeiter ma "
+				+ "p.vorname, " + "p.nachname, "+ "ma.id " + "FROM mitarbeiter ma "
 				+ "INNER JOIN person p on p.mitarbeiter_id = ma.id ";
 
 		// Admin-Flag wird immer abgefragt, daher mit WHERE
@@ -190,7 +190,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 				m.setId(rs.getInt(pCounter++));
 				m.setVorname(rs.getString(pCounter++));
 				m.setName(rs.getString(pCounter++));
-
+				m.setMAId(rs.getInt(pCounter++));
 				mitarbeiterListe.add(m);
 				pCounter = 1;
 			}
