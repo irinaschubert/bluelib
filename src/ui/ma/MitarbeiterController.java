@@ -1,4 +1,4 @@
-package ui.MA;
+package ui.ma;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,9 +25,9 @@ import services.MitarbeiterService;
 import services.NormdatenService;
 import services.Verifikation;
 import ui.HauptController;
-import ui.MA.MitarbeiterBenutzerDialog;
-import ui.MA.MitarbeiterBenutzerDialogController;
-import ui.MA.MitarbeiterController;
+import ui.ma.MitarbeiterBenutzerDialog;
+import ui.ma.MitarbeiterBenutzerDialogController;
+import ui.ma.MitarbeiterController;
 
 /**
  * 
