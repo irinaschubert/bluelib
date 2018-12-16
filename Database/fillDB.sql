@@ -38,13 +38,15 @@ VALUES
 	(2, 'Ueli', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
 	(3,'Irina', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
 	(4,'Tamara', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1),
-	(5,'Fritz', 'e2fc714c4727ee9395f324cd2e7f331f', 0, 0);
+	(5,'Fritz', 'e2fc714c4727ee9395f324cd2e7f331f', 0, 0),
+    (6,'Severin', 'e2fc714c4727ee9395f324cd2e7f331f', 1, 1);
 COMMIT;
 -- -----------------
 -- Data for Person
 -- -----------------
 -- Admin 
 START TRANSACTION;
+USE bluelib;
 INSERT INTO person (id, vorname, nachname, anrede_id, strasseUndNr, ort_id, geburtstag, telefon, email, erfassungsdatum, person_id, statusPers_id, mitarbeiter_id, Bemerkung) 
 VALUES 
 	(1, 'Michael', 'Trösch',1,'abcstrasse 1',1, '1980-11-10','0791234567', 'a.a@a.a', '2018-11-17',1,1,1,'admin 1'),
@@ -55,15 +57,16 @@ VALUES
     (6, 'Fritz', 'Holz' ,1,'derandereweg 18', 1,'1920-3-15','0791030348', 'e.e@f.f', '2018-11-18',1,1,5,'aktiver benutzer, inaktiver mitarbeiter'),
     (7, 'Gritli', 'Hansens' ,2,'einanderestrase 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,1,null,'nur User, kein mitarbeiter'),
     
-    (8, 'a', 'aa' ,2,'sdfa',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,1,null,'user1'),
-    (9, 'b', 'bb' ,2,'fgd2 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,2,null,'user2'),
-    (10, 'c', 'cc' ,2,'einan4',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,2,null,'user3'),
-    (11, 'd', 'dd' ,2,'fdsf4 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 4'),
-    (12, 'e', 'ee' ,2,'fdsf 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 5'),
-    (13, 'f', 'ff' ,1,'sfsdfd 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 6'),
-    (14, 'g', 'gg' ,1,'dfsf 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',2,2,null,'user 7'),
-    (15, 'h', 'hh' ,1,'ddf 44',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',3,1,null,'user 8'),
-    (16, 'i', 'ii' ,1,'einanderestr323',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',4,1,null,'user 9');    
+    (8, 'Dartan', 'Rubik' ,2,'sdfa',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,1,null,'user1'),
+    (9, 'Ana', 'Huber' ,2,'fgd2 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,2,null,'user2'),
+    (10, 'Walter', 'Schmid' ,2,'einan4',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,2,null,'user3'),
+    (11, 'Lisa', 'Mayer' ,2,'fdsf4 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 4'),
+    (12, 'Sophie', 'Hofamnn' ,2,'fdsf 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 5'),
+    (13, 'Alain', 'Richter' ,1,'sfsdfd 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',1,3,null,'user 6'),
+    (14, 'Nele', 'Scholz' ,1,'dfsf 35',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',2,2,null,'user 7'),
+    (15, 'David', 'Krüger' ,1,'ddf 44',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',3,1,null,'user 8'),
+    (16, 'Luis', 'Neumann' ,1,'einanderestr323',1, '1850-8-15','0791044178', 'z.z@f.f', '2018-11-18',4,1,null,'user 9'),
+    (17, 'Severin', 'Küpfer' ,1,'seineStrasse',1, '1980-8-15','0791033378', 'severin.kuepfer@ffhs.ch', '2018-11-18',1,1,6,'Severins Test User');
 COMMIT;
 
 -- ---------------------------------------------------------------------------------
@@ -84,17 +87,17 @@ USE bluelib;
 INSERT INTO verlag (name,gruendungsdatum, enddatum, geloescht) VALUES 
 	('d-punkt', '1995-1-31', '2018-10-10',0), 
 	('Reclam', '1828-1-10',null,0), 
-	('a', '1985-1-01',null,0),
-    ('b', '1985-1-02',null,0),
-    ('c', '1985-1-03',null,0),
-    ('d', '1985-1-04',null,0),
-    ('e', '1985-1-05',null,0),
-    ('f', '1985-1-06',null,0),
-    ('g', '1985-1-07',null,1),
-    ('h', '1985-1-08',null,1),
-    ('i', '1985-1-09',null,1),
-    ('j', '1985-1-10',null,1),
-    ('k', '1985-1-11',null,1);
+	('orellfüssli', '1990-1-01',null,0),
+    ('ACABUS Verlag', '1990-2-02',null,0),
+    ('Ammann Verlag', '1981-3-01','2010-6-01',0),
+    ('Deutscher Apotheker Verlag', '1950-4-12','1960-4-12',0),
+    ('Bundes-Verlag', '1861-7-13',null,0),
+    ('Verlag Dashöfer', '1985-1-06',null,0),
+    ('DSZ-Verlag', '1985-1-07',null,1),
+    ('Enke Verlag', '1953-1-08',null,1),
+    ('Ergon-Verlag', '1975-1-09',null,1),
+    ('Festa Verlag', '1985-1-10',null,1),
+    ('Kindler Verlag', '1985-1-11',null,1);
 COMMIT;
 -- ----------------------
 -- Data for medium
@@ -111,7 +114,7 @@ COMMIT;
 -- ---------------------
 START TRANSACTION;
 USE bluelib;
-INSERT INTO schlagwort (schlagwort, geloescht) VALUES ('a',1), ('b',1), ('c',0), ('d',0);
+INSERT INTO schlagwort (schlagwort, geloescht) VALUES ('Humor',0), ('Kinder- und Jugendliteratur',1), ('Science Fiction',0), ('Horror',0), ('Roman',0), ('Sachbuch',0),('Biografie',1);
 COMMIT;
 -- ---------------------
 -- Data for MediumSchlagwort
@@ -129,16 +132,16 @@ INSERT INTO autor (vorname, nachname, geburtsdatum, todesdatum, geloescht) VALUE
 	('Friedrich', 'Schiller', '1759-11-10', '1805-5-09',0),
 	('Klaus', 'Pohl', '1960-1-01', null,0),
     ('Jean-Francois', 'Mallet', '1967-1-19', null,0),
-	('a', 'aa', '1960-1-01', null,0),
-    ('b', 'bb', '1960-1-02', null,0),
-    ('c', 'cc', '1960-1-03', null,0),
-    ('d', 'dd', '1960-1-04', null,0),
-    ('e', 'ee', '1960-1-05', null,0),
-    ('f', 'ff', '1960-1-06', null,1),
-    ('g', 'gg', '1960-1-07', null,1),
-    ('h', 'hh', '1960-1-08', null,0),
-    ('i', 'ii', '1960-1-09', null,0),
-    ('j', 'jj', '1960-1-10', null,0);
+	('Rosa', 'Chacel', '1960-1-01', null,0),
+    ('Tom', 'Clancy', '1947-1-02', null,0),
+    ('Carlo', 'Collodi', '1826-1-03', '1890-1-03',0),
+    ('Frank', 'Cottrell Boyce', '1961-1-04', null,0),
+    ('Claudio', 'Magris', '1993-1-05', null,0),
+    ('Anne', 'Michaels', '1985-1-06', null,1),
+    ('Blaise', 'Pascal', '1623-1-07', '1662-1-07',1),
+    ('Claude', 'Ponti', '1948-1-08', null,0),
+    ('James', 'Purdy', '1914-1-09', '2009-1-09',0),
+    ('Giuseppe', 'Ungaretti', '1888-1-10', '1970-1-10',0);
 COMMIT;
 -- ---------------
 -- Data for buch
@@ -178,8 +181,7 @@ INSERT INTO ausleihe (person_id, medium_id, von, retour, erfasser_person_id, ret
     (8,2,CURDATE(),null,3,null),
     (9,3,'2018-5-10',null,3,null),
     (10,2,'2018-8-1','2018-11-15',4,10),
-    (10,1,'2018-8-1','2018-11-15',1,11),
-    (10,3,'2018-8-1',null,2,null);
+    (10,1,'2018-8-1','2018-11-15',1,11);
 COMMIT;
 
 /*

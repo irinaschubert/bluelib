@@ -91,7 +91,7 @@ public class BenutzerView extends JPanel {
 	private JButton suchButton;
 	private JTable benutzerTabelle;
 	private LinkedHashMap<JLabel, JComponent> componentsNeuAktualisieren = new LinkedHashMap<>();
-	private static int HOEHE = 950;
+	private static int HOEHE = 900;
 	private static int BREITE = 750;
 
 	public BenutzerView(String panelTitel) {

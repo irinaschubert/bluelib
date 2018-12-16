@@ -49,7 +49,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 			argCounter++;
 			pstmt.setString(argCounter, domainObject.getBenutzername());
 			argCounter++;
-			pstmt.setString(argCounter, domainObject.getPasswort());
+			pstmt.setString(argCounter, HashRechner.hashBerechnen(domainObject.getPasswort()));
 			argCounter++;
 			pstmt.setBoolean(argCounter, domainObject.isAdmin());
 			argCounter++;
@@ -94,7 +94,7 @@ public class MitarbeiterDAO implements DAOInterface<Mitarbeiter> {
 				conn = dbConnection.getDBConnection();
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1,domainObject.getBenutzername());
-				pstmt.setString(2,domainObject.getPasswort());
+				pstmt.setString(2,HashRechner.hashBerechnen(domainObject.getPasswort()));
 				pstmt.setBoolean(3, domainObject.isAktiv());
 				pstmt.setBoolean(4, domainObject.isAdmin());
 				pstmt.setInt(5,  domainObject.getId());

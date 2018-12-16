@@ -290,11 +290,14 @@ public class AutorController {
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
+			if (!autorView.getPKT().getText().isEmpty()) {
 			sucheAusfuehren();
+			}
 		} else {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
 		}
 		neuBearbeitenFelderLeeren();
+		suchFelderLeeren();
 		autorView.getNeuAendernL().setText("");
 
 	}

@@ -13,8 +13,8 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import domain.Schlagwort;
-import domain.Verlag;
 import hilfsklassen.ButtonNamen;
+import hilfsklassen.TextComponentLimit;
 import models.TableModelSchlagwort;
 import services.NormdatenService;
 import services.Verifikation;
@@ -53,74 +53,74 @@ public class SchlagwortController {
 		control();
 
 	}
-
-	// Definierten des Listeners für die Button-Klicks
+	/**
+	* Weist den Buttons ActionListeners zu und definiert MouseListeners.
+	*/
 	private void control() {
+		schlagwortView.getSuchButton().addActionListener(suchenButtonActionListener());
+		schlagwortView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener());
+		schlagwortView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener());
+		schlagwortView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener());
+		schlagwortView.getSchlagwortTabelle().addMouseListener(doppelKlick());
 
+	}
+
+	// Suchen
+	private ActionListener suchenButtonActionListener() {
 		ActionListener suchenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				if (inputValidierungSuchen()) {
 					sucheAusfuehren();
 				}
-
 			}
-
 		};
+		return suchenButtonActionListener;
+	}
 
-		// Zuweisen des Actionlisteners zum Suchen-Button
-		schlagwortView.getSuchButton().addActionListener(suchenButtonActionListener);
-
+	private ActionListener neuButtonActionListener() {
 		ActionListener neuButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				suchFelderLeeren();
 				schlagwortView.getNeuAendernL().setText("Neuerfassung");
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Neu-Button
-		schlagwortView.getButtonPanel().getButton1().addActionListener(neuButtonActionListener);
-
+		return neuButtonActionListener;
+	}
+	
+	// Speichern
+	public ActionListener sichernButtonActionListener() {
 		ActionListener sichernButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Schlagwort s = new Schlagwort();
 				if (inputValidierungSpeichern()) {
 					s = feldwertezuObjektSpeichern();
-					// Prüfung, ob ein neuer Schlagwort erfasst wurde oder ein Schlagwort
-					// aktialisiert wird
 					if (schlagwortView.getPKT().getText().isEmpty()) {
 						nachAarbeitSpeichern(normdatenService.speichernSchlagwort(s));
 					} else {
 						nachAarbeitSpeichern(normdatenService.aktualisierenSchlagwort(s));
 					}
 				}
-
 			}
-
 		};
-
-		// Zuweisen des Actionlisteners zum Sichern-Button
-		schlagwortView.getButtonPanel().getButton3().addActionListener(sichernButtonActionListener);
-
+		return sichernButtonActionListener;
+	}
+	
+	// Schliessen
+	public ActionListener schliessenButtonActionListener() {
 		ActionListener schliessenButtonActionListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				hauptController.panelEntfernen();
 			}
-
 		};
+		return schliessenButtonActionListener;
+	}
 
-		// Zuweisen des Actionlisteners zum Schliessen-Button
-		schlagwortView.getButtonPanel().getButton4().addActionListener(schliessenButtonActionListener);
-
+	// Doppelklick = Werte übernehmen
+	private MouseListener doppelKlick() {
 		MouseListener doppelKlick = new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -131,28 +131,35 @@ public class SchlagwortController {
 			}
 		};
 
-		// Zuweisen des Mouselisteners zur Tabelle
-		schlagwortView.getSchlagwortTabelle().addMouseListener(doppelKlick);
-
+		return doppelKlick;
 	}
 
+	/**
+	* Prueft die Feldwerte auf korrekte Daten im Bereich Suchen.
+	* @return true: wenn alles korrekt, false: wenn ein falsches Datum eingegeben wurde
+	*/
 	private boolean inputValidierungSuchen() {
 		boolean keinInputFehler = true;
-		// To do
 		return keinInputFehler;
 	}
-
+	
+	/**
+	* Prueft die Feldwerte auf obligatorische Eingaben und korrekte Daten im Bereich Neuerfassung/Bearbeitung.
+	* @return true: wenn alles korrekt, false: wenn nicht alle Pflichtfelder ausgefüllt oder ein falsches Datum eingegeben wurde
+	*/
 	private boolean inputValidierungSpeichern() {
 		boolean keinInputFehler = true;
 		if (schlagwortView.getSchlagwortT().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflichtfelder erfassen");
 			keinInputFehler = false;
 		}
-
 		return keinInputFehler;
-
 	}
 
+	/**
+	* Kreiert ein Objekt aus den eingegebenen Werten im Bereich Suchen.
+	* @return Schlagwort-Objekt mit Werten aus der Suche
+	*/
 	private Schlagwort feldwertezuObjektSpeichern() {
 		Schlagwort s = new Schlagwort();
 		if (!schlagwortView.getPKT().getText().isEmpty()) {
@@ -183,26 +190,27 @@ public class SchlagwortController {
 	}
 
 	/**
-	 * Sucht die Schlagworte. Falls das Flag zur Inkludierung der geloeschten Schlagworte gesetzt ist, 
-	 * muessen zwei Suchen ausgeführt werden: 1x geloescht = false und 1x geloescht = true. Die Resultate der 2. Suche
-	 * muessen iterativ dem Tablemodel uebergeben wrden. 
+	 * Sucht die Schlagworte. Falls das Flag zur Inkludierung der geloeschten
+	 * Schlagworte gesetzt ist, muessen zwei Suchen ausgeführt werden: 1x geloescht
+	 * = false und 1x geloescht = true. Die Resultate der 2. Suche muessen iterativ
+	 * dem Tablemodel uebergeben wrden.
 	 */
 	private void sucheAusfuehren() {
-	
+
 		schlagwortSuchobjekt = feldwertezuObjektSuchen();
 		schlagwortL = normdatenService.suchenSchlagwort(schlagwortSuchobjekt);
 		tableModelSchlagwort.setAndSortListe(schlagwortL);
 		if (schlagwortView.getGeloeschtSucheCbx().isSelected()) {
 			schlagwortSuchobjekt.setGeloescht(true);
 			schlagwortL = normdatenService.suchenSchlagwort(schlagwortSuchobjekt);
-			for (Schlagwort a: schlagwortL) {
+			for (Schlagwort a : schlagwortL) {
 				tableModelSchlagwort.schlagwortHinzufuegen(a);
 			}
 			schlagwortSuchobjekt.setGeloescht(false);
 		}
-		
+
 	}
-	
+
 	private void nachAarbeitSpeichern(Verifikation v) {
 		if (v.isAktionErfolgreich()) {
 			JOptionPane.showMessageDialog(null, v.getNachricht());
@@ -233,7 +241,7 @@ public class SchlagwortController {
 		schlagwortView.getPKL().setText("Nr:");
 		schlagwortView.getSchlagwortL().setText("Schlagwort:*");
 		schlagwortView.getGeloescht().setText("Löschvormerkung:");
-		//
+		TextComponentLimit.addTo(schlagwortView.getSchlagwortT(), 30);
 		schlagwortView.getSchlagwortSucheL().setText("Schlagwort:");
 		schlagwortView.getGeloeschtSucheL().setText("inkl. gelöschte:");
 		schlagwortView.getSuchButton().setText("Suchen");
