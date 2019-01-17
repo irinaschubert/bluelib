@@ -177,7 +177,9 @@ public class MitarbeiterController {
 		m.setAktiv(mitarbeiterView.getAktivCbx().isSelected());
 		m.setAdmin(mitarbeiterView.getAdminCbx().isSelected());
 		m.setPasswort(mitarbeiterView.getPasswortT().getText());
+		if (!mitarbeiterView.getMAIDT().getText().isEmpty()) {
 		m.setMAId(Integer.parseInt(mitarbeiterView.getMAIDT().getText()));
+		}
 		return m;
 	}
 
